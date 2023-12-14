@@ -36,8 +36,8 @@ dependencies:
   flutter_advanced_switch: ^3.0.1
   scan: ^1.6.0
   image_picker: ^0.8.4+1
-  camera: ^0.9.2+2
-  speech_to_text: ^5.6.1
+  camera: ^0.10.5+7
+  speech_to_text: ^6.5.1
   fl_chart: 0.40.0
   vertical_barchart: ^2.0.0+2
   barcode_widget: ^2.0.1
