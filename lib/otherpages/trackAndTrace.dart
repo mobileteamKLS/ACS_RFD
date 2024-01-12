@@ -12,7 +12,7 @@ import 'package:luxair/widgets/common.dart';
 import 'package:luxair/widgets/headerclipper.dart';
 import 'package:luxair/widgets/qrscan.dart';
 import 'package:luxair/widgets/speech_recognition.dart';
-
+import 'package:intl/intl.dart';
 import '../constants.dart';
 import '../global.dart';
 
@@ -24,17 +24,19 @@ class TrackAndTrace extends StatefulWidget {
 }
 
 class _TrackAndTraceState extends State<TrackAndTrace> {
-  String scannedCodeReceived = "";
+  TextEditingController dateInput = TextEditingController();
+  String scannedCodeReceived = "", selectedSlotDate = "";
   bool useMobileLayout = false;
   int modeSelected = 0;
   int trackingSelected = 0; //, modeSelected1 = 0;
   int trackingType = 0;
+  String dropdownValue = 'Select';
 
   //  List<CodexPass> passList = [];
   // List<FilterArray> _filterArray = [];
   bool isLoading = false;
   bool isSearched = false;
-  bool checked = false;
+  bool isImport = false;
   TextEditingController txtVTNO = new TextEditingController();
   final _controllerModeType = ValueNotifier<bool>(false);
   List<VehicleToken> vehicleToeknListToBind = [];
@@ -169,34 +171,35 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
 
   @override
   void initState() {
+    dateInput.text = "";
     // if (modeSelected == 0) vehicleToeknListToBind = vehicleToeknListExport;
     // if (modeSelected == 1) vehicleToeknListToBind = vehicleToeknListImport;
 
     // if (vehicleToeknListExport.isNotEmpty)
     //   vehicleToeknListToBind = vehicleToeknListExport;
     //
-    // _controllerModeType.addListener(() {
-    //   setState(() {
-    //     //scannedCodeReceived = "";
-    //
-    //     print("value chnaged heere");
-    //     txtVTNO.text = "";
-    //     if (_controllerModeType.value) {
-    //       print("_controllerModeType.value chnaged to import");
-    //
-    //       checked = true;
-    //       getVehicleToeknList(3); //Import
-    //       modeSelected = 1;
-    //       vehicleToeknListToBind = vehicleToeknListImport;
-    //     } else {
-    //       print("_controllerModeType.value chnaged to export");
-    //       checked = false;
-    //       modeSelected = 0;
-    //       getVehicleToeknList(4); //Export
-    //       vehicleToeknListToBind = vehicleToeknListExport;
-    //     }
-    //   });
-    // });
+    _controllerModeType.addListener(() {
+      setState(() {
+        // //scannedCodeReceived = "";
+        //
+        // print("value chnaged heere");
+        // txtVTNO.text = "";
+        if (_controllerModeType.value) {
+          print("_controllerModeType.value chnaged to import");
+
+          isImport = true;
+          // getVehicleToeknList(3); //Import
+          // modeSelected = 1;
+          // vehicleToeknListToBind = vehicleToeknListImport;
+        } else {
+          print("_controllerModeType.value chnaged to export");
+          isImport = false;
+          // modeSelected = 0;
+          // getVehicleToeknList(4); //Export
+          // vehicleToeknListToBind = vehicleToeknListExport;
+        }
+      });
+    });
     //
     // if (modeSelected == 1) {
     //   getVehicleToeknList(3); //Import
@@ -468,7 +471,7 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                 ? Expanded(
                     flex: 0,
                     child: Container(
-                      height: 235,
+                      height: 350,
                       child: Padding(
                         padding: const EdgeInsets.only(
                             top: 0.0, bottom: 10.0, left: 10.0),
@@ -476,6 +479,28 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width / 4,
+                                  child: Text("Mode",
+                                      style: mobileHeaderFontStyle),
+                                ),
+                                AdvancedSwitch(
+                                  activeColor: Color(0xFF11249F),
+                                  inactiveColor: Color(0xFF11249F),
+                                  activeChild: Text('Import',
+                                      style: mobileTextFontStyleWhite),
+                                  inactiveChild: Text('Export',
+                                      style: mobileTextFontStyleWhite),
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.5,
+                                  height: 35,
+                                  controller: _controllerModeType,
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 20),
                             Padding(
                               padding: const EdgeInsets.only(left: 8.0),
                               child: ToggleSwitch(
@@ -514,7 +539,9 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                     color: Colors.white,
                                   )
                                 ],
-                                labels: [' AWB ', ' Vehicle ', ' EGM'],
+                                labels: isImport
+                                    ? [' AWB ', ' Vehicle ', ' IGM']
+                                    : [' AWB ', ' Vehicle ', ' EGM'],
                                 icons: [
                                   FontAwesomeIcons.box,
                                   FontAwesomeIcons.truckMoving,
@@ -524,255 +551,431 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                   setState(() {
                                     trackingType = index!;
                                   });
-
                                 },
                               ),
                             ),
-                            // ToggleSwitch(
-                            //   minWidth: useMobileLayout
-                            //       ? MediaQuery.of(context).size.width / 2
-                            //       : MediaQuery.of(context).size.width / 4.5,
-                            //   //  width: useMobileLayout ?  MediaQuery.of(context).size.width / 1.4: MediaQuery.of(context).size.width / 2.2,
-                            //   minHeight: 45.0,
-                            //   initialLabelIndex: trackingSelected,
-                            //   cornerRadius: 20.0,
-                            //   activeFgColor: Colors.white,
-                            //   inactiveBgColor: Colors.grey,
-                            //   inactiveFgColor: Colors.white,
-                            //   totalSwitches: 3,
-                            //   customTextStyles: [
-                            //     TextStyle(
-                            //       fontSize: 24,
-                            //       fontWeight: FontWeight.normal,
-                            //       color: Colors.white,
-                            //     ),
-                            //     TextStyle(
-                            //       fontSize: 24,
-                            //       fontWeight: FontWeight.normal,
-                            //       color: Colors.white,
-                            //     )
-                            //   ],
-                            //   labels: ['Drop-off ', ' Pick-up',' Pick-up',],
-                            //   icons: [
-                            //     Icons.south,
-                            //     Icons.north,
-                            //   ],
-                            //   iconSize: 22.0,
-                            //   activeBgColors: [
-                            //     // [Colors.blueAccent, Colors.blue],
-                            //     // [Colors.blueAccent, Colors.blue],
-                            //
-                            //     [Color(0xFF1220BC), Color(0xFF3540E8)],
-                            //     [Color(0xFF1220BC), Color(0xFF3540E8)],
-                            //     [Color(0xFF1220BC), Color(0xFF3540E8)],
-                            //   ],
-                            //   animate:
-                            //   true, // with just animate set to true, default curve = Curves.easeIn
-                            //   curve: Curves
-                            //       .bounceInOut, // animate must be set to true when using custom curve
-                            //   onToggle: (index) {
-                            //     print('switched to: $index');
-                            //
-                            //     setState(() {
-                            //       //selectedText = "";
-                            //       trackingSelected = index!;
-                            //       // if (index == 1)
-                            //       //   isPremium = true;
-                            //       // else
-                            //       //   isPremium = false;
-                            //     });
-                            //   },
-                            // ),
-
-                            SizedBox(height: 20),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width / 4,
-                                  child: Text("Mode",
-                                      style: mobileHeaderFontStyle),
-                                ),
-                                AdvancedSwitch(
-                                  activeColor: Color(0xFF11249F),
-                                  inactiveColor: Color(0xFF11249F),
-                                  activeChild: Text('Import',
-                                      style: mobileTextFontStyleWhite),
-                                  inactiveChild: Text('Export',
-                                      style: mobileTextFontStyleWhite),
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.5,
-                                  height: 35,
-                                  controller: _controllerModeType,
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 5),
+                            SizedBox(height: 10),
                             trackingType == 0
-                                ? Row(children: [
-                                    SizedBox(
-                                      width: MediaQuery.of(context).size.width /
-                                          4.3,
-                                      child: Text("MAWB No.",
-                                          style: mobileHeaderFontStyle),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 8.0),
-                                      child: SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                7.0, // hard coding child width
-                                        child: Container(
-                                          height: 40,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              2.4,
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                              color:
-                                                  Colors.grey.withOpacity(0.5),
-                                              width: 1.0,
+                                ? isImport
+                                    ? Column(
+                                        children: [
+                                          Row(children: [
+                                            SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  4.3,
+                                              child: Text("MAWB No.",
+                                                  style: mobileHeaderFontStyle),
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(4.0),
-                                          ),
-                                          child: TextField(
-                                              onChanged: (value) =>
-                                                  _runFilter(value),
-                                              // controller: txtVTNO,
-                                              keyboardType: TextInputType.text,
-                                              textCapitalization:
-                                                  TextCapitalization.characters,
-                                              textAlign: TextAlign.right,
-                                              decoration: InputDecoration(
-                                                border: InputBorder.none,
-                                                hintText: "Prefix",
-                                                hintStyle: TextStyle(
-                                                    color: Colors.grey),
-                                                contentPadding:
-                                                    EdgeInsets.symmetric(
-                                                        vertical: 8,
-                                                        horizontal: 8),
-                                                isDense: true,
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 8.0),
+                                              child: SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    7.0, // hard coding child width
+                                                child: Container(
+                                                  height: 40,
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      2.4,
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                      color: Colors.grey
+                                                          .withOpacity(0.5),
+                                                      width: 1.0,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            4.0),
+                                                  ),
+                                                  child: TextField(
+                                                      onChanged: (value) =>
+                                                          _runFilter(value),
+                                                      // controller: txtVTNO,
+                                                      keyboardType:
+                                                          TextInputType.text,
+                                                      textCapitalization:
+                                                          TextCapitalization
+                                                              .characters,
+                                                      textAlign:
+                                                          TextAlign.right,
+                                                      decoration:
+                                                          InputDecoration(
+                                                        border:
+                                                            InputBorder.none,
+                                                        hintText: "Prefix",
+                                                        hintStyle: TextStyle(
+                                                            color: Colors.grey),
+                                                        contentPadding:
+                                                            EdgeInsets
+                                                                .symmetric(
+                                                                    vertical: 8,
+                                                                    horizontal:
+                                                                        8),
+                                                        isDense: true,
+                                                      ),
+                                                      style:
+                                                          mobileTextFontStyle),
+                                                ),
                                               ),
-                                              style: mobileTextFontStyle),
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                3.5, // hard coding child width
-                                        child: Container(
-                                          height: 40,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              2.4,
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                              color:
-                                                  Colors.grey.withOpacity(0.5),
-                                              width: 1.0,
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(4.0),
-                                          ),
-                                          child: TextField(
-                                              onChanged: (value) =>
-                                                  _runFilter(value),
-                                              controller: txtVTNO,
-                                              textAlign: TextAlign.right,
-                                              keyboardType: TextInputType.text,
-                                              textCapitalization:
-                                                  TextCapitalization.characters,
-                                              decoration: InputDecoration(
-                                                border: InputBorder.none,
-                                                hintText: "MAWB No.",
-                                                hintStyle: TextStyle(
-                                                    color: Colors.grey),
-                                                contentPadding:
-                                                    EdgeInsets.symmetric(
-                                                        vertical: 8,
-                                                        horizontal: 8),
-                                                isDense: true,
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    3.5, // hard coding child width
+                                                child: Container(
+                                                  height: 40,
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      2.4,
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                      color: Colors.grey
+                                                          .withOpacity(0.5),
+                                                      width: 1.0,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            4.0),
+                                                  ),
+                                                  child: TextField(
+                                                      onChanged: (value) =>
+                                                          _runFilter(value),
+                                                      controller: txtVTNO,
+                                                      textAlign:
+                                                          TextAlign.right,
+                                                      keyboardType:
+                                                          TextInputType.text,
+                                                      textCapitalization:
+                                                          TextCapitalization
+                                                              .characters,
+                                                      decoration:
+                                                          InputDecoration(
+                                                        border:
+                                                            InputBorder.none,
+                                                        hintText: "MAWB No.",
+                                                        hintStyle: TextStyle(
+                                                            color: Colors.grey),
+                                                        contentPadding:
+                                                            EdgeInsets
+                                                                .symmetric(
+                                                                    vertical: 8,
+                                                                    horizontal:
+                                                                        8),
+                                                        isDense: true,
+                                                      ),
+                                                      style:
+                                                          mobileTextFontStyle),
+                                                ),
                                               ),
-                                              style: mobileTextFontStyle),
-                                        ),
-                                      ),
-                                    ),
-                                    GestureDetector(
-                                        child: ScanContainerButton(),
-                                        onTap: () async {
-                                          var scannedCode =
-                                              await Navigator.of(context)
-                                                  .push(MaterialPageRoute(
-                                            builder: (context) =>
-                                                const QRViewExample(),
-                                          ));
-                                          print("code returned from app");
-                                          print(scannedCode);
-                                          if (scannedCode == null)
-                                            setState(() {
-                                              scannedCodeReceived = "";
-                                            });
-                                          if (scannedCode == "")
-                                            setState(() {
-                                              scannedCodeReceived = "";
-                                            });
-                                          if (scannedCode != null) {
-                                            if (scannedCode != "") {
-                                              print("code returned from app =" +
-                                                  scannedCode);
-                                              setState(() {
-                                                scannedCodeReceived =
-                                                    scannedCode;
-                                                txtVTNO.text =
-                                                    scannedCodeReceived;
-                                                _runFilter(scannedCodeReceived);
-                                              });
-                                              // await getShipmentDetails(scannedCode);
-                                            }
-                                          }
-                                        }),
-                                    SizedBox(width: 5),
-                                    GestureDetector(
-                                      child: GallaryScanContainerButton(),
-                                      onTap: () async {
-                                        final ImagePicker _picker =
-                                            ImagePicker();
-                                        final XFile? image =
-                                            await _picker.pickImage(
-                                                source: ImageSource
-                                                    .gallery); // Pick an image
-                                        if (image == null)
-                                          return;
-                                        else {
-                                          String? str =
-                                              await Scan.parse(image.path);
-                                          if (str != null) {
-                                            setState(() {
-                                              scannedCodeReceived = str;
-                                              txtVTNO.text =
-                                                  scannedCodeReceived;
-                                              _runFilter(scannedCodeReceived);
-                                            });
-                                          }
-                                        }
-                                      },
-                                    )
-                                  ])
-                                : trackingType == 1
-                                    ? Row(children: [
+                                            ),
+                                            GestureDetector(
+                                                child: ScanContainerButton(),
+                                                onTap: () async {
+                                                  var scannedCode =
+                                                      await Navigator.of(
+                                                              context)
+                                                          .push(
+                                                              MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const QRViewExample(),
+                                                  ));
+                                                  print(
+                                                      "code returned from app");
+                                                  print(scannedCode);
+                                                  if (scannedCode == null)
+                                                    setState(() {
+                                                      scannedCodeReceived = "";
+                                                    });
+                                                  if (scannedCode == "")
+                                                    setState(() {
+                                                      scannedCodeReceived = "";
+                                                    });
+                                                  if (scannedCode != null) {
+                                                    if (scannedCode != "") {
+                                                      print(
+                                                          "code returned from app =" +
+                                                              scannedCode);
+                                                      setState(() {
+                                                        scannedCodeReceived =
+                                                            scannedCode;
+                                                        txtVTNO.text =
+                                                            scannedCodeReceived;
+                                                        _runFilter(
+                                                            scannedCodeReceived);
+                                                      });
+                                                      // await getShipmentDetails(scannedCode);
+                                                    }
+                                                  }
+                                                }),
+                                            SizedBox(width: 5),
+                                            GestureDetector(
+                                              child:
+                                                  GallaryScanContainerButton(),
+                                              onTap: () async {
+                                                final ImagePicker _picker =
+                                                    ImagePicker();
+                                                final XFile? image =
+                                                    await _picker.pickImage(
+                                                        source: ImageSource
+                                                            .gallery); // Pick an image
+                                                if (image == null)
+                                                  return;
+                                                else {
+                                                  String? str =
+                                                      await Scan.parse(
+                                                          image.path);
+                                                  if (str != null) {
+                                                    setState(() {
+                                                      scannedCodeReceived = str;
+                                                      txtVTNO.text =
+                                                          scannedCodeReceived;
+                                                      _runFilter(
+                                                          scannedCodeReceived);
+                                                    });
+                                                  }
+                                                }
+                                              },
+                                            )
+                                          ]),
+                                          Row(children: [
+                                            SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  4.2,
+                                              child: Text("HAWB No.(Opt)",
+                                                  style: mobileHeaderFontStyle),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    2.25, // hard coding child width
+                                                child: Container(
+                                                  height: 48,
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      2.4,
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                      color: Colors.grey
+                                                          .withOpacity(0.5),
+                                                      width: 1.0,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            4.0),
+                                                  ),
+                                                  // child: TextField(
+                                                  //     onChanged: (value) =>
+                                                  //         _runFilter(value),
+                                                  //     controller: dateInput,
+                                                  //     keyboardType:
+                                                  //     TextInputType
+                                                  //         .text,
+                                                  //     textAlign:
+                                                  //     TextAlign.right,
+                                                  //     textCapitalization:
+                                                  //     TextCapitalization
+                                                  //         .characters,
+                                                  //     decoration:
+                                                  //     InputDecoration(
+                                                  //       border: InputBorder
+                                                  //           .none,
+                                                  //       hintText:
+                                                  //       "Select Date",
+                                                  //       hintStyle: TextStyle(
+                                                  //           color: Colors
+                                                  //               .grey),
+                                                  //       contentPadding:
+                                                  //       EdgeInsets
+                                                  //           .symmetric(
+                                                  //           vertical:
+                                                  //           8,
+                                                  //           horizontal:
+                                                  //           8),
+                                                  //       isDense: true,
+                                                  //     ),
+                                                  //     style:
+                                                  //     mobileTextFontStyle),
+                                                  child:
+                                                      DropdownButtonHideUnderline(
+                                                    child: Container(
+                                                      constraints:
+                                                          BoxConstraints(
+                                                              minHeight: 50),
+                                                      decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                            color: Colors.grey,
+                                                            width: 0.2),
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    5)),
+                                                        color: Colors.white,
+                                                      ),
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal: 10),
+                                                      child: DropdownButton(
+                                                        value: dropdownValue,
+                                                        onChanged:
+                                                            (String? newValue) {
+                                                          setState(() {
+                                                            dropdownValue =
+                                                                newValue!;
+                                                          });
+                                                        },
+                                                        items: [
+                                                          "Select",
+                                                          "Two",
+                                                          "Three"
+                                                        ]
+                                                            .map((String
+                                                                    value) =>
+                                                                DropdownMenuItem(
+                                                                  value: value,
+                                                                  child: Column(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    children: [
+                                                                      Text(
+                                                                        value,
+                                                                        style:
+                                                                            TextStyle(
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight:
+                                                                              FontWeight.normal,
+                                                                          color:
+                                                                              Colors.black,
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ))
+                                                            .toList(),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  //     DropdownButtonFormField(
+                                                  //   isDense: true,
+                                                  //   decoration: InputDecoration(
+                                                  //       border:
+                                                  //           InputBorder.none),
+                                                  //   value: dropdownValue,
+                                                  //   onChanged:
+                                                  //       (String? newValue) {
+                                                  //     setState(() {
+                                                  //       dropdownValue =
+                                                  //           newValue!;
+                                                  //     });
+                                                  //   },
+                                                  //   items: <String>[
+                                                  //     'Select',
+                                                  //     'Cat',
+                                                  //     'Tiger',
+                                                  //     'Lion'
+                                                  //   ].map<
+                                                  //           DropdownMenuItem<
+                                                  //               String>>(
+                                                  //       (String value) {
+                                                  //     return DropdownMenuItem<
+                                                  //         String>(
+                                                  //       value: value,
+                                                  //       child: Text(
+                                                  //         value,
+                                                  //         style: TextStyle(
+                                                  //           fontSize: 14,
+                                                  //           fontWeight:
+                                                  //               FontWeight
+                                                  //                   .normal,
+                                                  //           color: Colors.black,
+                                                  //         ),
+                                                  //       ),
+                                                  //     );
+                                                  //   }).toList(),
+                                                  // ),
+                                                ),
+                                              ),
+                                            ),
+                                          ]),
+                                        ],
+                                      )
+                                    : Row(children: [
                                         SizedBox(
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width /
-                                              4.2,
-                                          child: Text("SB No.",
+                                              4.3,
+                                          child: Text("MAWB No.",
                                               style: mobileHeaderFontStyle),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 8.0),
+                                          child: SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                7.0, // hard coding child width
+                                            child: Container(
+                                              height: 40,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2.4,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: Colors.grey
+                                                      .withOpacity(0.5),
+                                                  width: 1.0,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(4.0),
+                                              ),
+                                              child: TextField(
+                                                  onChanged: (value) =>
+                                                      _runFilter(value),
+                                                  // controller: txtVTNO,
+                                                  keyboardType:
+                                                      TextInputType.text,
+                                                  textCapitalization:
+                                                      TextCapitalization
+                                                          .characters,
+                                                  textAlign: TextAlign.right,
+                                                  decoration: InputDecoration(
+                                                    border: InputBorder.none,
+                                                    hintText: "Prefix",
+                                                    hintStyle: TextStyle(
+                                                        color: Colors.grey),
+                                                    contentPadding:
+                                                        EdgeInsets.symmetric(
+                                                            vertical: 8,
+                                                            horizontal: 8),
+                                                    isDense: true,
+                                                  ),
+                                                  style: mobileTextFontStyle),
+                                            ),
+                                          ),
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
@@ -780,7 +983,7 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width /
-                                                2.4, // hard coding child width
+                                                3.5, // hard coding child width
                                             child: Container(
                                               height: 40,
                                               width: MediaQuery.of(context)
@@ -800,16 +1003,15 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                                   onChanged: (value) =>
                                                       _runFilter(value),
                                                   controller: txtVTNO,
+                                                  textAlign: TextAlign.right,
                                                   keyboardType:
                                                       TextInputType.text,
-                                                  textAlign: TextAlign.right,
                                                   textCapitalization:
                                                       TextCapitalization
                                                           .characters,
                                                   decoration: InputDecoration(
                                                     border: InputBorder.none,
-                                                    hintText: "Enter Shipping Bill No.",
-
+                                                    hintText: "MAWB No.",
                                                     hintStyle: TextStyle(
                                                         color: Colors.grey),
                                                     contentPadding:
@@ -886,6 +1088,592 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                           },
                                         )
                                       ])
+                                : trackingType == 1
+                                    ? isImport
+                                        ? Column(
+                                            children: [
+                                              Row(children: [
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      4.2,
+                                                  child: Text("BoE No.",
+                                                      style:
+                                                          mobileHeaderFontStyle),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: SizedBox(
+                                                    width: MediaQuery.of(
+                                                                context)
+                                                            .size
+                                                            .width /
+                                                        2.4, // hard coding child width
+                                                    child: Container(
+                                                      height: 40,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.4,
+                                                      decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                          color: Colors.grey
+                                                              .withOpacity(0.5),
+                                                          width: 1.0,
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(4.0),
+                                                      ),
+                                                      child: TextField(
+                                                          onChanged: (value) =>
+                                                              _runFilter(value),
+                                                          controller: txtVTNO,
+                                                          keyboardType:
+                                                              TextInputType
+                                                                  .text,
+                                                          textAlign:
+                                                              TextAlign.right,
+                                                          textCapitalization:
+                                                              TextCapitalization
+                                                                  .characters,
+                                                          decoration:
+                                                              InputDecoration(
+                                                            border: InputBorder
+                                                                .none,
+                                                            hintText:
+                                                                "Enter BoE No.",
+                                                            hintStyle: TextStyle(
+                                                                color: Colors
+                                                                    .grey),
+                                                            contentPadding:
+                                                                EdgeInsets
+                                                                    .symmetric(
+                                                                        vertical:
+                                                                            8,
+                                                                        horizontal:
+                                                                            8),
+                                                            isDense: true,
+                                                          ),
+                                                          style:
+                                                              mobileTextFontStyle),
+                                                    ),
+                                                  ),
+                                                ),
+                                                GestureDetector(
+                                                    child:
+                                                        ScanContainerButton(),
+                                                    onTap: () async {
+                                                      var scannedCode =
+                                                          await Navigator.of(
+                                                                  context)
+                                                              .push(
+                                                                  MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            const QRViewExample(),
+                                                      ));
+                                                      print(
+                                                          "code returned from app");
+                                                      print(scannedCode);
+                                                      if (scannedCode == null)
+                                                        setState(() {
+                                                          scannedCodeReceived =
+                                                              "";
+                                                        });
+                                                      if (scannedCode == "")
+                                                        setState(() {
+                                                          scannedCodeReceived =
+                                                              "";
+                                                        });
+                                                      if (scannedCode != null) {
+                                                        if (scannedCode != "") {
+                                                          print(
+                                                              "code returned from app =" +
+                                                                  scannedCode);
+                                                          setState(() {
+                                                            scannedCodeReceived =
+                                                                scannedCode;
+                                                            txtVTNO.text =
+                                                                scannedCodeReceived;
+                                                            _runFilter(
+                                                                scannedCodeReceived);
+                                                          });
+                                                          // await getShipmentDetails(scannedCode);
+                                                        }
+                                                      }
+                                                    }),
+                                                SizedBox(width: 5),
+                                                GestureDetector(
+                                                  child:
+                                                      GallaryScanContainerButton(),
+                                                  onTap: () async {
+                                                    final ImagePicker _picker =
+                                                        ImagePicker();
+                                                    final XFile? image =
+                                                        await _picker.pickImage(
+                                                            source: ImageSource
+                                                                .gallery); // Pick an image
+                                                    if (image == null)
+                                                      return;
+                                                    else {
+                                                      String? str =
+                                                          await Scan.parse(
+                                                              image.path);
+                                                      if (str != null) {
+                                                        setState(() {
+                                                          scannedCodeReceived =
+                                                              str;
+                                                          txtVTNO.text =
+                                                              scannedCodeReceived;
+                                                          _runFilter(
+                                                              scannedCodeReceived);
+                                                        });
+                                                      }
+                                                    }
+                                                  },
+                                                )
+                                              ]),
+                                              Row(children: [
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      4.2,
+                                                  child: Text("Date",
+                                                      style:
+                                                          mobileHeaderFontStyle),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: SizedBox(
+                                                    width: MediaQuery.of(
+                                                                context)
+                                                            .size
+                                                            .width /
+                                                        2.4, // hard coding child width
+                                                    child: Container(
+                                                      height: 40,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.4,
+                                                      decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                          color: Colors.grey
+                                                              .withOpacity(0.5),
+                                                          width: 1.0,
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(4.0),
+                                                      ),
+                                                      child: TextField(
+                                                          onChanged: (value) =>
+                                                              _runFilter(value),
+                                                          controller: dateInput,
+                                                          keyboardType:
+                                                              TextInputType
+                                                                  .text,
+                                                          textAlign:
+                                                              TextAlign.right,
+                                                          textCapitalization:
+                                                              TextCapitalization
+                                                                  .characters,
+                                                          decoration:
+                                                              InputDecoration(
+                                                            border: InputBorder
+                                                                .none,
+                                                            hintText:
+                                                                "Select Date",
+                                                            hintStyle: TextStyle(
+                                                                color: Colors
+                                                                    .grey),
+                                                            contentPadding:
+                                                                EdgeInsets
+                                                                    .symmetric(
+                                                                        vertical:
+                                                                            8,
+                                                                        horizontal:
+                                                                            8),
+                                                            isDense: true,
+                                                          ),
+                                                          style:
+                                                              mobileTextFontStyle),
+                                                    ),
+                                                  ),
+                                                ),
+                                                GestureDetector(
+                                                  child:
+                                                      DatePickerContainerButton(),
+                                                  onTap: () async {
+                                                    DateTime? pickedDate =
+                                                        await showDatePicker(
+                                                            context: context,
+                                                            initialDate:
+                                                                DateTime.now(),
+                                                            firstDate:
+                                                                DateTime.now(),
+                                                            lastDate:
+                                                                DateTime(2100),
+                                                            builder: (context,
+                                                                child) {
+                                                              return Theme(
+                                                                data: Theme.of(
+                                                                        context)
+                                                                    .copyWith(
+                                                                  colorScheme:
+                                                                      ColorScheme
+                                                                          .light(
+                                                                    primary: Color(
+                                                                        0xFF1220BC),
+                                                                    // <-- SEE HERE
+                                                                    onPrimary:
+                                                                        Colors
+                                                                            .white,
+                                                                    // <-- SEE HERE
+                                                                    onSurface:
+                                                                        Color(
+                                                                            0xFF3540E8), // <-- SEE HERE
+                                                                  ),
+                                                                  textButtonTheme:
+                                                                      TextButtonThemeData(
+                                                                    style: TextButton
+                                                                        .styleFrom(
+                                                                      foregroundColor:
+                                                                          Color(
+                                                                              0xFF3540E8), // button text color
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                child: child!,
+                                                              );
+                                                            });
+
+                                                    if (pickedDate != null) {
+                                                      print(
+                                                          pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                                                      String formattedDate =
+                                                          DateFormat(
+                                                                  'yyyy-MM-dd')
+                                                              .format(
+                                                                  pickedDate);
+
+                                                      print(
+                                                          formattedDate); //formatted date output using intl package =>  2021-03-16
+                                                      setState(() {
+                                                        selectedSlotDate =
+                                                            DateFormat(
+                                                                    'dd MMM yyyy')
+                                                                .format(
+                                                                    pickedDate);
+                                                        dateInput.text =
+                                                            formattedDate; //set output date to TextField value.
+
+                                                        // getSlotsList(); // refesh slots
+                                                      });
+                                                    }
+                                                  },
+                                                )
+                                              ]),
+                                            ],
+                                          )
+                                        : Column(
+                                            children: [
+                                              Row(children: [
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      4.2,
+                                                  child: Text("SB No.",
+                                                      style:
+                                                          mobileHeaderFontStyle),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: SizedBox(
+                                                    width: MediaQuery.of(
+                                                                context)
+                                                            .size
+                                                            .width /
+                                                        2.4, // hard coding child width
+                                                    child: Container(
+                                                      height: 40,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.4,
+                                                      decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                          color: Colors.grey
+                                                              .withOpacity(0.5),
+                                                          width: 1.0,
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(4.0),
+                                                      ),
+                                                      child: TextField(
+                                                          onChanged: (value) =>
+                                                              _runFilter(value),
+                                                          controller: txtVTNO,
+                                                          keyboardType:
+                                                              TextInputType
+                                                                  .text,
+                                                          textAlign:
+                                                              TextAlign.right,
+                                                          textCapitalization:
+                                                              TextCapitalization
+                                                                  .characters,
+                                                          decoration:
+                                                              InputDecoration(
+                                                            border: InputBorder
+                                                                .none,
+                                                            hintText:
+                                                                "Enter Shipping Bill No.",
+                                                            hintStyle: TextStyle(
+                                                                color: Colors
+                                                                    .grey),
+                                                            contentPadding:
+                                                                EdgeInsets
+                                                                    .symmetric(
+                                                                        vertical:
+                                                                            8,
+                                                                        horizontal:
+                                                                            8),
+                                                            isDense: true,
+                                                          ),
+                                                          style:
+                                                              mobileTextFontStyle),
+                                                    ),
+                                                  ),
+                                                ),
+                                                GestureDetector(
+                                                    child:
+                                                        ScanContainerButton(),
+                                                    onTap: () async {
+                                                      var scannedCode =
+                                                          await Navigator.of(
+                                                                  context)
+                                                              .push(
+                                                                  MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            const QRViewExample(),
+                                                      ));
+                                                      print(
+                                                          "code returned from app");
+                                                      print(scannedCode);
+                                                      if (scannedCode == null)
+                                                        setState(() {
+                                                          scannedCodeReceived =
+                                                              "";
+                                                        });
+                                                      if (scannedCode == "")
+                                                        setState(() {
+                                                          scannedCodeReceived =
+                                                              "";
+                                                        });
+                                                      if (scannedCode != null) {
+                                                        if (scannedCode != "") {
+                                                          print(
+                                                              "code returned from app =" +
+                                                                  scannedCode);
+                                                          setState(() {
+                                                            scannedCodeReceived =
+                                                                scannedCode;
+                                                            txtVTNO.text =
+                                                                scannedCodeReceived;
+                                                            _runFilter(
+                                                                scannedCodeReceived);
+                                                          });
+                                                          // await getShipmentDetails(scannedCode);
+                                                        }
+                                                      }
+                                                    }),
+                                                SizedBox(width: 5),
+                                                GestureDetector(
+                                                  child:
+                                                      GallaryScanContainerButton(),
+                                                  onTap: () async {
+                                                    final ImagePicker _picker =
+                                                        ImagePicker();
+                                                    final XFile? image =
+                                                        await _picker.pickImage(
+                                                            source: ImageSource
+                                                                .gallery); // Pick an image
+                                                    if (image == null)
+                                                      return;
+                                                    else {
+                                                      String? str =
+                                                          await Scan.parse(
+                                                              image.path);
+                                                      if (str != null) {
+                                                        setState(() {
+                                                          scannedCodeReceived =
+                                                              str;
+                                                          txtVTNO.text =
+                                                              scannedCodeReceived;
+                                                          _runFilter(
+                                                              scannedCodeReceived);
+                                                        });
+                                                      }
+                                                    }
+                                                  },
+                                                )
+                                              ]),
+                                              Row(children: [
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      4.2,
+                                                  child: Text("Date",
+                                                      style:
+                                                          mobileHeaderFontStyle),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: SizedBox(
+                                                    width: MediaQuery.of(
+                                                                context)
+                                                            .size
+                                                            .width /
+                                                        2.4, // hard coding child width
+                                                    child: Container(
+                                                      height: 40,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.4,
+                                                      decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                          color: Colors.grey
+                                                              .withOpacity(0.5),
+                                                          width: 1.0,
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(4.0),
+                                                      ),
+                                                      child: TextField(
+                                                          onChanged: (value) =>
+                                                              _runFilter(value),
+                                                          controller: dateInput,
+                                                          keyboardType:
+                                                              TextInputType
+                                                                  .text,
+                                                          textAlign:
+                                                              TextAlign.right,
+                                                          textCapitalization:
+                                                              TextCapitalization
+                                                                  .characters,
+                                                          decoration:
+                                                              InputDecoration(
+                                                            border: InputBorder
+                                                                .none,
+                                                            hintText:
+                                                                "Select Date",
+                                                            hintStyle: TextStyle(
+                                                                color: Colors
+                                                                    .grey),
+                                                            contentPadding:
+                                                                EdgeInsets
+                                                                    .symmetric(
+                                                                        vertical:
+                                                                            8,
+                                                                        horizontal:
+                                                                            8),
+                                                            isDense: true,
+                                                          ),
+                                                          style:
+                                                              mobileTextFontStyle),
+                                                    ),
+                                                  ),
+                                                ),
+                                                GestureDetector(
+                                                  child:
+                                                      DatePickerContainerButton(),
+                                                  onTap: () async {
+                                                    DateTime? pickedDate =
+                                                        await showDatePicker(
+                                                            context: context,
+                                                            initialDate:
+                                                                DateTime.now(),
+                                                            firstDate:
+                                                                DateTime.now(),
+                                                            lastDate:
+                                                                DateTime(2100),
+                                                            builder: (context,
+                                                                child) {
+                                                              return Theme(
+                                                                data: Theme.of(
+                                                                        context)
+                                                                    .copyWith(
+                                                                  colorScheme:
+                                                                      ColorScheme
+                                                                          .light(
+                                                                    primary: Color(
+                                                                        0xFF1220BC),
+                                                                    // <-- SEE HERE
+                                                                    onPrimary:
+                                                                        Colors
+                                                                            .white,
+                                                                    // <-- SEE HERE
+                                                                    onSurface:
+                                                                        Color(
+                                                                            0xFF3540E8), // <-- SEE HERE
+                                                                  ),
+                                                                  textButtonTheme:
+                                                                      TextButtonThemeData(
+                                                                    style: TextButton
+                                                                        .styleFrom(
+                                                                      foregroundColor:
+                                                                          Color(
+                                                                              0xFF3540E8), // button text color
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                child: child!,
+                                                              );
+                                                            });
+
+                                                    if (pickedDate != null) {
+                                                      print(
+                                                          pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                                                      String formattedDate =
+                                                          DateFormat(
+                                                                  'yyyy-MM-dd')
+                                                              .format(
+                                                                  pickedDate);
+
+                                                      print(
+                                                          formattedDate); //formatted date output using intl package =>  2021-03-16
+                                                      setState(() {
+                                                        selectedSlotDate =
+                                                            DateFormat(
+                                                                    'dd MMM yyyy')
+                                                                .format(
+                                                                    pickedDate);
+                                                        dateInput.text =
+                                                            formattedDate; //set output date to TextField value.
+
+                                                        // getSlotsList(); // refesh slots
+                                                      });
+                                                    }
+                                                  },
+                                                )
+                                              ]),
+                                            ],
+                                          )
                                     : Row(children: [
                                         SizedBox(
                                           width: MediaQuery.of(context)
@@ -1054,7 +1842,6 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                           },
                                         )
                                       ]),
-
                             SizedBox(
                               height: 5,
                             ),
@@ -1533,7 +2320,7 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => TruckYardCheckInDetails(
-                        isExport: checked ? false : true,
+                        isExport: isImport ? false : true,
                         selectedVtDetails: _dl)),
               );
               print(returnVal.toString());
