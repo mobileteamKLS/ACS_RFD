@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:luxair/otherpages/bookedslotslist.dart';
 import 'package:luxair/otherpages/slotlist.dart';
+import 'package:luxair/otherpages/trackAndTrace.dart';
 import 'package:luxair/otherpages/viewslotbooking.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +26,8 @@ import 'package:luxair/otherpages/vehicletokenlist.dart';
 import 'package:luxair/otherpages/warehouseacclist.dart';
 import 'package:luxair/widgets/customdialogue.dart';
 import 'package:luxair/widgets/headers.dart';
+import '../constants.dart';
+import '../otherpages/documentupload.dart';
 import 'homescreen.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
@@ -314,7 +318,7 @@ class _DashboardsState extends State<Dashboards> {
                                           //         : 50,
                                           //     child: DropdownButtonFormField(
                                           //       // itemHeight: 230.0,
-
+                                          //
                                           //       decoration: InputDecoration(
                                           //         contentPadding:
                                           //             EdgeInsets.fromLTRB(
@@ -340,7 +344,7 @@ class _DashboardsState extends State<Dashboards> {
                                           //       isDense: true,
                                           //       //isExpanded: true,
                                           //       dropdownColor: Colors.white,
-
+                                          //
                                           //       menuMaxHeight:
                                           //           MediaQuery.of(context)
                                           //                   .size
@@ -349,13 +353,13 @@ class _DashboardsState extends State<Dashboards> {
                                           //       hint: Text("---- Select ----",
                                           //           style:
                                           //               iPadYellowTextFontStyleBold),
-
+                                          //
                                           //       // isExpanded: true,
                                           //       //underline: SizedBox(),
                                           //       //icon: SvgPicture.asset("assets/icons/dropdown.svg"),
                                           //       //  if (selectedTerminalID !=0)
                                           //       value: selectedTerminalID,
-
+                                          //
                                           //       // items: [
                                           //       //   'AdminGHA',
                                           //       //   'Bldg_151',
@@ -381,7 +385,7 @@ class _DashboardsState extends State<Dashboards> {
                                           //       //   );
                                           //       // }).toList(),
                                           //       // onChanged: (value) {},
-
+                                          //
                                           //       items: terminalsList
                                           //           .map((terminal) {
                                           //         return DropdownMenuItem(
@@ -795,6 +799,27 @@ class _DashboardsState extends State<Dashboards> {
                       BookedSlotsList(),
                       useMobileLayout),
 
+                if (isTrucker || isTruckerFF)
+                  DashboardBlocks(
+                      Color(0xFFa8c0ff),
+                      Color(0xFF4364F7),
+                      Icons.not_listed_location_outlined,
+                      "Track &",
+                      "Trace",
+                      TrackAndTrace(),
+                      useMobileLayout),
+
+                if (isTrucker || isTruckerFF)
+                  DashboardBlocks(
+                      Color(0xFFa8c0ff),
+                      Color(0xFF4364F7),
+                      // FontAwesomeIcons.fileUpload,
+                      Icons.file_upload,
+                      "Document",
+                      "Upload",
+                      DocumentUpload(),
+                      useMobileLayout),
+
                 if (isTPS)
                   DashboardBlocks(
                       Color(0xFFff9472),
@@ -822,6 +847,87 @@ class _DashboardsState extends State<Dashboards> {
                 //     "Help",
                 //     Help(),
                 //     useMobileLayout),
+                if (isCB)
+                  DashboardBlocks(
+                      Color(0xFFff9472),
+                      Color(0xFFf2709c),
+                      Icons.local_shipping,
+                      "Create",
+                      "Shipment",
+                      TrackAndTrace(),
+                      useMobileLayout),
+                if (isCB)
+                  DashboardBlocks(
+                      Color(0xFFff9472),
+                      Color(0xFFf2709c),
+                      Icons.local_shipping,
+                      "",
+                      "Tacking",
+                      TrackAndTrace(),
+                      useMobileLayout),
+                if (isCB)
+                  DashboardBlocks(
+                      Color(0xFFa8c0ff),
+                      Color(0xFF4364F7),
+                      Icons.maps_home_work,
+                      "VIEW",
+                      "SB",
+                      TrackAndTrace(),
+                      useMobileLayout),
+                if (isCB)
+                  DashboardBlocks(
+                      Color(0xFFa8c0ff),
+                      Color(0xFF4364F7),
+                      Icons.receipt_long,
+                      "SB",
+                      "ASI",
+                      TrackAndTrace(),
+                      useMobileLayout),
+                if (isCB)
+                  DashboardBlocks(
+                      Color(0xFFff9472),
+                      Color(0xFFf2709c),
+                      Icons.local_shipping,
+                      "Upload",
+                      "Document",
+                      DockOut(),
+                      useMobileLayout),
+                if (isCB)
+                  DashboardBlocks(
+                      Color(0xFFff9472),
+                      Color(0xFFf2709c),
+                      Icons.live_tv,
+                      "Pay",
+                      "TSP",
+                      LiveDockStatus(),
+                      useMobileLayout),
+                if (isCB)
+                  DashboardBlocks(
+                      Color(0xFFa8c0ff),
+                      Color(0xFF4364F7),
+                      Icons.live_tv,
+                      "Generate &",
+                      "View VT",
+                      LiveDockStatus(),
+                      useMobileLayout),
+                if (isAirline)
+                  DashboardBlocks(
+                      Color(0xFFa8c0ff),
+                      Color(0xFF4364F7),
+                      Icons.live_tv,
+                      "",
+                      "Carting Order",
+                      LiveDockStatus(),
+                      useMobileLayout),
+                if (isAirline)
+                  DashboardBlocks(
+                      Color(0xFFa8c0ff),
+                      Color(0xFF4364F7),
+                      Icons.live_tv,
+                      "",
+                      "Delivery Order",
+                      LiveDockStatus(),
+                      useMobileLayout),
                 DashboardBlocks(
                     Color(0xFF9CECFB),
                     Color(0xFF0052D4),
