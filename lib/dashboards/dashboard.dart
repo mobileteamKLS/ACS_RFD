@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:luxair/otherpages/bookedslotslist.dart';
 import 'package:luxair/otherpages/slotlist.dart';
-import 'package:luxair/otherpages/trackAndTrace.dart';
+import 'package:luxair/otherpages/trackAndTraceOld.dart';
 import 'package:luxair/otherpages/viewslotbooking.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +28,7 @@ import 'package:luxair/widgets/customdialogue.dart';
 import 'package:luxair/widgets/headers.dart';
 import '../constants.dart';
 import '../otherpages/documentupload.dart';
+import '../otherpages/trackAndTrace.dart';
 import 'homescreen.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
@@ -817,7 +818,7 @@ class _DashboardsState extends State<Dashboards> {
                       Icons.file_upload,
                       "Document",
                       "Upload",
-                      DocumentUpload(),
+                      TrackAndTraceOld(),
                       useMobileLayout),
 
                 if (isTPS)
@@ -854,7 +855,7 @@ class _DashboardsState extends State<Dashboards> {
                       Icons.local_shipping,
                       "Create",
                       "Shipment",
-                      TrackAndTrace(),
+                      TrackAndTraceOld(),
                       useMobileLayout),
                 if (isCB)
                   DashboardBlocks(
@@ -863,7 +864,7 @@ class _DashboardsState extends State<Dashboards> {
                       Icons.local_shipping,
                       "",
                       "Tacking",
-                      TrackAndTrace(),
+                      TrackAndTraceOld(),
                       useMobileLayout),
                 if (isCB)
                   DashboardBlocks(
@@ -872,7 +873,7 @@ class _DashboardsState extends State<Dashboards> {
                       Icons.maps_home_work,
                       "VIEW",
                       "SB",
-                      TrackAndTrace(),
+                      TrackAndTraceOld(),
                       useMobileLayout),
                 if (isCB)
                   DashboardBlocks(
@@ -881,7 +882,7 @@ class _DashboardsState extends State<Dashboards> {
                       Icons.receipt_long,
                       "SB",
                       "ASI",
-                      TrackAndTrace(),
+                      TrackAndTraceOld(),
                       useMobileLayout),
                 if (isCB)
                   DashboardBlocks(

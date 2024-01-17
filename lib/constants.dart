@@ -6,6 +6,12 @@ const mobileHeaderFontStyle = TextStyle(
   color: Color(0xFF11249F),
 );
 
+const mobileTimeLineHeaderFontStyle = TextStyle(
+  fontSize: 16,
+  fontWeight: FontWeight.normal,
+  color: Color(0xFF11249F),
+);
+
 const mobileHeaderFontStyleBold = TextStyle(
   fontSize: 18,
   fontWeight: FontWeight.bold,
@@ -281,6 +287,7 @@ class Settings {
 
   static const String ACSServiceURL =
       "https://acsdemoservice.kalelogistics.com/srvMobile.asmx"; //YVRA UAT Server
+  //"https://acsdemo.upliftindia.com/ACS_GMR_UAT_HHT_Services/srvMobile.asmx";
   static const String ACSServiceImageURL =
       'https://acsdemoservice.kalelogistics.com/';
   static const String loginUrl =
@@ -397,5 +404,7 @@ class Settings {
         "/GetBookedSlotList", // get list of booked slots export
     "BookedSlotsListImport":
         "/GetImportBookedSlotList", // get list of booked slots import
+    "TrackAndTrace":
+    "/ACS_Exp_TrackandTrace",
   };
 }

@@ -645,7 +645,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
                                             }),
                                         SizedBox(width: 5),
                                         GestureDetector(
-                                          child: GallaryScanContainerButton(),
+                                          child: GalleryScanContainerButton(),
                                           onTap: () async {
                                             final ImagePicker _picker =
                                                 ImagePicker();
@@ -970,7 +970,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
                                         }),
                                     SizedBox(width: 5),
                                     GestureDetector(
-                                      child: GallaryScanContainerButton(),
+                                      child: GalleryScanContainerButton(),
                                       onTap: () async {
                                         final ImagePicker _picker =
                                             ImagePicker();

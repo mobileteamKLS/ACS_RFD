@@ -54,7 +54,7 @@ class ScanContainerButton extends StatelessWidget {
   }
 }
 
-class GallaryScanContainerButton extends StatelessWidget {
+class GalleryScanContainerButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -73,6 +73,56 @@ class GallaryScanContainerButton extends StatelessWidget {
       ),
       child: Icon(
         Icons.collections,
+        color: Colors.white,
+        size: MediaQuery.of(context).size.width / 16, //32,
+      ),
+    );
+  }
+}
+class SearchContainerButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: MediaQuery.of(context).size.width / 9.5, // 65.0,
+      width: MediaQuery.of(context).size.width / 9.5, //65.0,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        gradient: LinearGradient(
+          begin: Alignment.center,
+          end: Alignment.topCenter,
+          colors: [
+            Color(0xFF1220BC),
+            Color(0xFF3540E8),
+          ],
+        ),
+      ),
+      child: Icon(
+        Icons.search,
+        color: Colors.white,
+        size: MediaQuery.of(context).size.width / 16, //32,
+      ),
+    );
+  }
+}
+class DeleteScanContainerButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: MediaQuery.of(context).size.width / 9.5, // 65.0,
+      width: MediaQuery.of(context).size.width / 9.5, //65.0,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        gradient: LinearGradient(
+          begin: Alignment.center,
+          end: Alignment.topCenter,
+          colors: [
+            Color(0xFF1220BC),
+            Color(0xFF3540E8),
+          ],
+        ),
+      ),
+      child: Icon(
+        Icons.delete,
         color: Colors.white,
         size: MediaQuery.of(context).size.width / 16, //32,
       ),
