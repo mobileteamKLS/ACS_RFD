@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:flutter_advanced_switch/flutter_advanced_switch.dart';
 import 'package:luxair/otherpages/bookedslotslist.dart';
+import 'package:luxair/otherpages/ShippingBillASI.dart';
 import 'package:luxair/otherpages/slotlist.dart';
 import 'package:luxair/otherpages/TrackAndTrace.dart';
 import 'package:luxair/otherpages/viewslotbooking.dart';
@@ -25,6 +27,8 @@ import 'package:luxair/otherpages/vehicletokenlist.dart';
 import 'package:luxair/otherpages/warehouseacclist.dart';
 import 'package:luxair/widgets/customdialogue.dart';
 import 'package:luxair/widgets/headers.dart';
+import 'package:toggle_switch/toggle_switch.dart';
+import '../constants.dart';
 import 'homescreen.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
@@ -38,6 +42,9 @@ class Dashboards extends StatefulWidget {
 class _DashboardsState extends State<Dashboards> {
   var printDate = ""; //DateFormat('dd-MMM-yyyy hh:mm').format(DateTime.now());
   bool useMobileLayout = false;
+  int modeSelected = 0;
+  bool isImport = false;
+  final _controllerModeType = ValueNotifier<bool>(false);
   late Timer _timer;
 
   @override
@@ -46,6 +53,29 @@ class _DashboardsState extends State<Dashboards> {
     // Timer.periodic(Duration(seconds:1), (Timer t)=>getCurrentDateTime());
     _timer = new Timer.periodic(
         Duration(seconds: 1), (Timer timer) => getCurrentDateTime());
+
+    _controllerModeType.addListener(() {
+      setState(() {
+        // //scannedCodeReceived = "";
+        //
+        // print("value chnaged heere");
+        // txtVTNO.text = "";
+        if (_controllerModeType.value) {
+          print("_controllerModeType.value chnaged to import");
+
+          isImport = true;
+          // getVehicleToeknList(3); //Import
+          // modeSelected = 1;
+          // vehicleToeknListToBind = vehicleToeknListImport;
+        } else {
+          print("_controllerModeType.value chnaged to export");
+          isImport = false;
+          // modeSelected = 0;
+          // getVehicleToeknList(4); //Export
+          // vehicleToeknListToBind = vehicleToeknListExport;
+        }
+      });
+    });
     super.initState();
   }
 
@@ -67,6 +97,7 @@ class _DashboardsState extends State<Dashboards> {
     useMobileLayout = smallestDimension < 600;
     return Scaffold(
         body: Container(
+
       height: MediaQuery.of(context).size.height,
       // decoration: BoxDecoration(
       //   image: DecorationImage(
@@ -699,6 +730,191 @@ class _DashboardsState extends State<Dashboards> {
               ),
             ]),
             SizedBox(height: useMobileLayout ? 0 : 24),
+            useMobileLayout
+                ? Expanded(
+              flex: 0,
+              child: Container(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      top: 0.0, bottom: 0.0, left:40.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width /5,
+                            child: Text("Mode",
+                                style: mobileHeaderFontStyle)
+                          ),
+                          AdvancedSwitch(
+                    activeColor: Color(0xFF11249F),
+                            inactiveColor: Color(0xFF11249F),
+                            activeChild: Text('Import',
+                                style: mobileTextFontStyleWhite),
+                            inactiveChild: Text('Export',
+                                style: mobileTextFontStyleWhite),
+                            width:
+                            MediaQuery.of(context).size.width / 2.5,
+                            height: 35,
+                            controller: _controllerModeType,
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 20),
+
+
+                    ],
+                  ),
+                ),
+              ),
+            )
+                : Expanded(
+              flex: 0,
+              child: Container(
+                child: Padding(
+                    padding: const EdgeInsets.only(
+                        top: 10.0, bottom: 10.0, left: 16.0),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Column(
+                                mainAxisAlignment:
+                                MainAxisAlignment.start,
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width: MediaQuery.of(context)
+                                        .size
+                                        .width /
+                                        2.45,
+                                    child: Text(
+                                      " Mode",
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.normal,
+                                        color: Color(0xFF11249F),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: SizedBox(
+                                      width: MediaQuery.of(context)
+                                          .size
+                                          .width /
+                                          2.50,
+                                      child: ToggleSwitch(
+                                        minWidth: 146,
+                                        minHeight: 65.0,
+                                        initialLabelIndex: modeSelected,
+                                        cornerRadius: 20.0,
+                                        activeFgColor: Colors.white,
+                                        inactiveBgColor: Colors.grey,
+                                        inactiveFgColor: Colors.white,
+                                        totalSwitches: 2,
+                                        customTextStyles: [
+                                          TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.normal,
+                                            color: Colors.white,
+                                          ),
+                                          TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.normal,
+                                            color: Colors.white,
+                                          )
+                                        ],
+                                        labels: ['Exports ', ' Imports'],
+                                        icons: [
+                                          Icons.north,
+                                          Icons.south,
+                                        ],
+                                        iconSize: 22.0,
+                                        activeBgColors: [
+                                          // [Colors.blueAccent, Colors.blue],
+                                          // [Colors.blueAccent, Colors.blue],
+                                          [
+                                            Color(0xFF1220BC),
+                                            Color(0xFF3540E8)
+                                          ],
+                                          [
+                                            Color(0xFF1220BC),
+                                            Color(0xFF3540E8)
+                                          ],
+                                        ],
+                                        animate: true,
+                                        // with just animate set to true, default curve = Curves.easeIn
+                                        curve: Curves.bounceInOut,
+                                        // animate must be set to true when using custom curve
+                                        onToggle: (index) {
+                                          print('switched to: $index');
+
+
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              //SizedBox(width: 10),
+
+                              SizedBox(width: 8),
+                              // Padding(
+                              //   padding: const EdgeInsets.only(top: 16.0),
+                              //   child: ElevatedButton(
+                              //     style: ElevatedButton.styleFrom(
+                              //       elevation: 4.0,
+                              //       shape: RoundedRectangleBorder(
+                              //           borderRadius:
+                              //               BorderRadius.circular(
+                              //                   10.0)), //
+                              //       padding: const EdgeInsets.all(0.0),
+                              //     ),
+                              //     child: Container(
+                              //       height: 65.0,
+                              //       width: 65.0,
+                              //       decoration: BoxDecoration(
+                              //         borderRadius:
+                              //             BorderRadius.circular(10),
+                              //         gradient: LinearGradient(
+                              //           begin: Alignment.topRight,
+                              //           end: Alignment.bottomLeft,
+                              //           colors: [
+                              //             Color(0xFF1220BC),
+                              //             Color(0xFF3540E8),
+                              //           ],
+                              //         ),
+                              //       ),
+                              //       child: Icon(
+                              //         Icons.search,
+                              //         size: 32,
+                              //       ),
+                              //     ),
+                              //     onPressed: () {
+                              //       setState(() {
+                              //         isSearched = true;
+                              //         _runFilter(txtVTNO.text);
+                              //       });
+                              //     },
+                              //   ),
+                              // ),
+
+
+                            ],
+                          ),
+                          SizedBox(height: 10),
+                        ])),
+              ),
+            ),
+
             Wrap(
               alignment: WrapAlignment.start,
               crossAxisAlignment: WrapCrossAlignment.start,
@@ -835,31 +1051,52 @@ class _DashboardsState extends State<Dashboards> {
                       "Shipment",
                       TrackAndTrace(),
                       useMobileLayout),
+
+
+                if (isCB &&  isImport == false)
+                  DashboardBlocks(
+                      Color(0xFFa8c0ff),
+                      Color(0xFF4364F7),
+                      Icons.receipt_long,
+                      "",
+                      "ASI",
+                      ShippingBillASI(),
+                      useMobileLayout),
+                if (isCB && isImport == false)
+                  DashboardBlocks(
+                      Color(0xFFff9472),
+                      Color(0xFFf2709c),
+                      Icons.local_shipping,
+                      "Add ITN",
+                      "Number",
+                      TrackAndTrace(),
+                      useMobileLayout),
+                if (isCB && isImport == true)
+                  DashboardBlocks(
+                      Color(0xFFa8c0ff),
+                      Color(0xFF4364F7),
+                      Icons.local_shipping,
+                      "Import Service",
+                      "Fees",
+                      TrackAndTrace(),
+                      useMobileLayout),
                 if (isCB)
                   DashboardBlocks(
                       Color(0xFFff9472),
                       Color(0xFFf2709c),
                       Icons.local_shipping,
                       "",
-                      "Tacking",
-                      TrackAndTrace(),
+                      "e-Docket",
+                      DockOut(),
                       useMobileLayout),
+
                 if (isCB)
                   DashboardBlocks(
                       Color(0xFFa8c0ff),
                       Color(0xFF4364F7),
-                      Icons.maps_home_work,
-                      "VIEW",
-                      "SB",
-                      TrackAndTrace(),
-                      useMobileLayout),
-                if (isCB)
-                  DashboardBlocks(
-                      Color(0xFFa8c0ff),
-                      Color(0xFF4364F7),
-                      Icons.receipt_long,
-                      "SB",
-                      "ASI",
+                      Icons.local_shipping,
+                      "Assign Trucking",
+                      "Company",
                       TrackAndTrace(),
                       useMobileLayout),
                 if (isCB)
@@ -867,27 +1104,9 @@ class _DashboardsState extends State<Dashboards> {
                       Color(0xFFff9472),
                       Color(0xFFf2709c),
                       Icons.local_shipping,
-                      "Upload",
-                      "Document",
-                      DockOut(),
-                      useMobileLayout),
-                if (isCB)
-                  DashboardBlocks(
-                      Color(0xFFff9472),
-                      Color(0xFFf2709c),
-                      Icons.live_tv,
-                      "Pay",
-                      "TSP",
-                      LiveDockStatus(),
-                      useMobileLayout),
-                if (isCB)
-                  DashboardBlocks(
-                      Color(0xFFa8c0ff),
-                      Color(0xFF4364F7),
-                      Icons.live_tv,
-                      "Generate &",
-                      "View VT",
-                      LiveDockStatus(),
+                      "",
+                      "Tracking",
+                      TrackAndTrace(),
                       useMobileLayout),
                 if (isAirline)
                   DashboardBlocks(
@@ -907,6 +1126,7 @@ class _DashboardsState extends State<Dashboards> {
                       "Delivery Order",
                       LiveDockStatus(),
                       useMobileLayout),
+                if (isTPS)
                 DashboardBlocks(
                     Color(0xFF9CECFB),
                     Color(0xFF0052D4),

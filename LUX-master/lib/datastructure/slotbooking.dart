@@ -85,11 +85,11 @@ class SlotDetail {
       FromTime: json['FromTime'] == null ? "" : json['FromTime'],
       ToTime: json['ToTime'] == null ? "" : json['ToTime'],
       AllocatedDocks:
-          json['AllocatedDocks'] == null ? 0 : json['AllocatedDocks'],
+      json['AllocatedDocks'] == null ? 0 : json['AllocatedDocks'],
       BookedSlots: json['BookedSlots'] == null ? 0 : json['BookedSlots'],
       Custodian: json['Custodian'] == null ? 0 : json['Custodian'],
       SlotAvailability:
-          json['SlotAvailability'] == null ? "" : json['SlotAvailability'],
+      json['SlotAvailability'] == null ? "" : json['SlotAvailability'],
       Terminal: json['Terminal'] == null ? "" : json['Terminal'],
       SlotType: json['SlotType'] == null ? "" : json['SlotType'],
     );
@@ -207,18 +207,18 @@ class AWBDetail {
       ExecutionOn: json['ExecutionOn'] == null ? "" : json['ExecutionOn'],
       CreatedDate: json['CreatedDate'] == null ? "" : json['CreatedDate'],
       OrganizationId:
-          json['OrganizationId'] == null ? 0 : json['OrganizationId'],
+      json['OrganizationId'] == null ? 0 : json['OrganizationId'],
       PiecesCount: json['PiecesCount'] == null ? 0 : json['PiecesCount'],
       Custodian: json['Custodian'] == null ? "" : json['Custodian'],
       Weight: json['Weight'] == null ? 0 : json['Weight'],
       WeightUnitID: json['WeightUnitID'] == null ? "" : json['WeightUnitID'],
       OrgName: json['OrgName'] == null ? "" : json['OrgName'],
       ORIGINAirportId:
-          json['ORIGINAirportId'] == null ? 0 : json['ORIGINAirportId'],
+      json['ORIGINAirportId'] == null ? 0 : json['ORIGINAirportId'],
       ORIGINAIRPORTNAME:
-          json['ORIGINAIRPORTNAME'] == null ? "" : json['ORIGINAIRPORTNAME'],
+      json['ORIGINAIRPORTNAME'] == null ? "" : json['ORIGINAIRPORTNAME'],
       ORIGINAIRPORTCODE:
-          json['ORIGINAIRPORTCODE'] == null ? "" : json['ORIGINAIRPORTCODE'],
+      json['ORIGINAIRPORTCODE'] == null ? "" : json['ORIGINAIRPORTCODE'],
       DESTINATIONAIRPORTID: json['DESTINATIONAIRPORTID'] == null
           ? 0
           : json['DESTINATIONAIRPORTID'],
@@ -232,25 +232,25 @@ class AWBDetail {
       IsConsol: json['IsConsol'] == null
           ? false
           : json['IsConsol'].toString() == "true"
-              ? true
-              : false,
+          ? true
+          : false,
       TruckerID: json['TruckerID'] == null ? "" : json['TruckerID'],
       TruckerName: json['TruckerName'] == null ? "" : json['TruckerName'],
       GHA: json['GHA'] == null ? "" : json['GHA'],
       FreightForwarder:
-          json['FreightForwarder'] == null ? "" : json['FreightForwarder'],
+      json['FreightForwarder'] == null ? "" : json['FreightForwarder'],
       ChargableWeight:
-          json['ChargableWeight'] == null ? 0 : json['ChargableWeight'],
+      json['ChargableWeight'] == null ? 0 : json['ChargableWeight'],
       FlightNo: json['FlightNo'] == null ? "" : json['FlightNo'],
       FlightDate: json['FlightDate'] == null ? "" : json['FlightDate'],
       SlotBookingStatus:
-          json['SlotBookingStatus'] == null ? "" : json['SlotBookingStatus'],
+      json['SlotBookingStatus'] == null ? "" : json['SlotBookingStatus'],
       GrossWeight: json['GrossWeight'] == null ? 0 : json['GrossWeight'],
       orgType: json['orgType'] == null ? "" : json['orgType'],
       AllocatedPieces:
-          json['AllocatedPieces'] == null ? 0 : json['AllocatedPieces'],
+      json['AllocatedPieces'] == null ? 0 : json['AllocatedPieces'],
       AllocatedGrosswt:
-          json['AllocatedGrosswt'] == null ? 0 : json['AllocatedGrosswt'],
+      json['AllocatedGrosswt'] == null ? 0 : json['AllocatedGrosswt'],
       SlotStatus: json['SlotStatus'] == null ? "" : json['SlotStatus'],
       selected: false,
       enabled: true,
@@ -391,42 +391,42 @@ class AWBDetailImport {
       HAWBNumber: json['HAWBNumber'] == null ? "" : json['HAWBNumber'],
       GHA: json['GHA'] == null ? "" : json['GHA'],
       FreightForwarder:
-          json['FreightForwarder'] == null ? "" : json['FreightForwarder'],
+      json['FreightForwarder'] == null ? "" : json['FreightForwarder'],
       AWBPcs: json['AWBPcs'] == null ? 0 : json['AWBPcs'],
       GrWt: json['GrWt'] == null ? 0 : json['GrWt'],
       Rcvdpcs: json['Rcvdpcs'] == null ? 0 : json['Rcvdpcs'],
       RcvdGrWt: json['RcvdGrWt'] == null ? 0 : json['RcvdGrWt'],
       RcvdChrgWt: json['RcvdChrgWt'] == null ? 0 : json['RcvdChrgWt'],
       VehicleTokenNo1:
-          json['VehicleTokenNo1'] == null ? "" : json['VehicleTokenNo1'],
+      json['VehicleTokenNo1'] == null ? "" : json['VehicleTokenNo1'],
       VehicleTokenNo:
-          json['VehicleTokenNo'] == null ? "" : json['VehicleTokenNo'],
+      json['VehicleTokenNo'] == null ? "" : json['VehicleTokenNo'],
       DOID: json['DOID'] == null ? 0 : json['DOID'],
       HAWBId: json['HAWBId'] == null ? 0 : json['HAWBId'],
       AIRLINE_MAWB: json['AIRLINE_MAWB'] == null ? "" : json['AIRLINE_MAWB'],
       TruckerName: json['TruckerName'] == null ? "" : json['TruckerName'],
       TruckerBranchId:
-          json['TruckerBranchId'] == null ? 0 : json['TruckerBranchId'],
+      json['TruckerBranchId'] == null ? 0 : json['TruckerBranchId'],
       AirlinePrefix: json['AirlinePrefix'] == null ? "" : json['AirlinePrefix'],
       ShipmentType: json['ShipmentType'] == null ? "" : json['ShipmentType'],
       BookSlotStatus:
-          json['BookSlotStatus'] == null ? "" : json['BookSlotStatus'],
+      json['BookSlotStatus'] == null ? "" : json['BookSlotStatus'],
       SlotStatus: json['SlotStatus'] == null ? "" : json['SlotStatus'],
       CreatedDate: json['CreatedDate'] == null ? "" : json['CreatedDate'],
       CustodianID: json['CustodianID'] == null ? 0 : json['CustodianID'],
       WeightUnitId: json['WeightUnitId'] == null ? "" : json['WeightUnitId'],
       VTNO: json['VTNO'] == null ? "" : json['VTNO'],
       AllocatedPieces:
-          json['AllocatedPieces'] == null ? 0 : json['AllocatedPieces'],
+      json['AllocatedPieces'] == null ? 0 : json['AllocatedPieces'],
       VTIndex: json['VTIndex'] == null ? 0 : json['VTIndex'],
       BreakDownStatus:
-          json['BreakDownStatus'] == null ? "" : json['BreakDownStatus'],
+      json['BreakDownStatus'] == null ? "" : json['BreakDownStatus'],
       PaymentStatus: json['PaymentStatus'] == null ? "" : json['PaymentStatus'],
       DocAcceptanceStatus: json['DocAcceptanceStatus'] == null
           ? ""
           : json['DocAcceptanceStatus'],
       ErrorCodeStatus:
-          json['ErrorCodeStatus'] == null ? "" : json['ErrorCodeStatus'],
+      json['ErrorCodeStatus'] == null ? "" : json['ErrorCodeStatus'],
       RequestID: json['RequestID'] == null ? "" : json['RequestID'],
       CrossLevel: json['CrossLevel'] == null ? "" : json['CrossLevel'],
       selected: false,
@@ -538,7 +538,7 @@ class BookedAWBDetail {
       AirlinePrefix: json['AirlinePrefix'] == null ? "" : json['AirlinePrefix'],
       MAWBNumber: json['MAWBNumber'] == null ? "" : json['MAWBNumber'],
       OrganizationId:
-          json['OrganizationId'] == null ? "" : json['OrganizationId'],
+      json['OrganizationId'] == null ? "" : json['OrganizationId'],
       Custodian: json['Custodian'] == null ? "" : json['Custodian'],
       Weight: json['Weight'] == null ? "" : json['Weight'],
       WeightUnitID: json['WeightUnitID'] == null ? "" : json['WeightUnitID'],
@@ -548,12 +548,12 @@ class BookedAWBDetail {
       TruckerName: json['TruckerName'] == null ? "" : json['TruckerName'],
       GHA: json['GHA'] == null ? "" : json['GHA'],
       FreightForwarder:
-          json['FreightForwarder'] == null ? "" : json['FreightForwarder'],
+      json['FreightForwarder'] == null ? "" : json['FreightForwarder'],
       GrossWeight: json['GrossWeight'] == null ? "" : json['GrossWeight'],
       AllocatedPieces:
-          json['AllocatedPieces'] == null ? "" : json['AllocatedPieces'],
+      json['AllocatedPieces'] == null ? "" : json['AllocatedPieces'],
       AllocatedGrosswt:
-          json['AllocatedGrosswt'] == null ? "" : json['AllocatedGrosswt'],
+      json['AllocatedGrosswt'] == null ? "" : json['AllocatedGrosswt'],
       SlotStatus: json['SlotStatus'] == null ? "" : json['SlotStatus'],
       CreatedDate: json['CreatedDate'] == null
           ? DateTime.now()
@@ -696,7 +696,7 @@ class BookedAWBDetailImport {
         HAWBNumber: json['HAWBNumber'] == null ? "" : json['HAWBNumber'],
         GHA: json['GHA'] == null ? "" : json['GHA'],
         FreightForwarder:
-            json['FreightForwarder'] == null ? "" : json['FreightForwarder'],
+        json['FreightForwarder'] == null ? "" : json['FreightForwarder'],
         AWBPcs: json['AWBPcs'] == null ? 0 : json['AWBPcs'],
         GrWt: json['GrWt'] == null ? 0 : json['GrWt'],
         Rcvdpcs: json['Rcvdpcs'] == null ? 0 : json['Rcvdpcs'],
@@ -704,24 +704,24 @@ class BookedAWBDetailImport {
         RcvdChrgWt: json['RcvdChrgWt'] == null ? 0 : json['RcvdChrgWt'],
         DONoCreate: json['DONoCreate'] == null ? "" : json['DONoCreate'],
         CustomReleaseNo:
-            json['CustomReleaseNo'] == null ? "" : json['CustomReleaseNo'],
+        json['CustomReleaseNo'] == null ? "" : json['CustomReleaseNo'],
         Payment: json['Payment'] == null ? "" : json['Payment'],
         Commodity: json['Commodity'] == null ? "" : json['Commodity'],
         VehicleTokenNo1:
-            json['VehicleTokenNo1'] == null ? "" : json['VehicleTokenNo1'],
+        json['VehicleTokenNo1'] == null ? "" : json['VehicleTokenNo1'],
         VehicleTokenNo:
-            json['VehicleTokenNo'] == null ? "" : json['VehicleTokenNo'],
+        json['VehicleTokenNo'] == null ? "" : json['VehicleTokenNo'],
         DOID: json['DOID'] == null ? 0 : json['DOID'],
         HAWBId: json['HAWBId'] == null ? 0 : json['HAWBId'],
         AIRLINE_MAWB: json['AIRLINE_MAWB'] == null ? "" : json['AIRLINE_MAWB'],
         TruckerName: json['TruckerName'] == null ? "" : json['TruckerName'],
         TruckerBranchId:
-            json['TruckerBranchId'] == null ? "" : json['TruckerBranchId'],
+        json['TruckerBranchId'] == null ? "" : json['TruckerBranchId'],
         AirlinePrefix:
-            json['AirlinePrefix'] == null ? "" : json['AirlinePrefix'],
+        json['AirlinePrefix'] == null ? "" : json['AirlinePrefix'],
         ShipmentType: json['ShipmentType'] == null ? "" : json['ShipmentType'],
         BookSlotStatus:
-            json['BookSlotStatus'] == null ? "" : json['BookSlotStatus'],
+        json['BookSlotStatus'] == null ? "" : json['BookSlotStatus'],
         SlotStatus: json['SlotStatus'] == null ? "" : json['SlotStatus'],
         CreatedDate: json['CreatedDate'] == null ? "" : json['CreatedDate'],
         CustodianID: json['CustodianID'] == null ? "" : json['CustodianID'],
@@ -729,26 +729,26 @@ class BookedAWBDetailImport {
         IsDeleted: json['IsDeleted'] == null
             ? false
             : json['IsDeleted'].toString() == "true"
-                ? true
-                : false,
+            ? true
+            : false,
         OriginAirportCode:
-            json['OriginAirportCode'] == null ? "" : json['OriginAirportCode'],
+        json['OriginAirportCode'] == null ? "" : json['OriginAirportCode'],
         VTNO: json['VTNO'] == null ? "" : json['VTNO'],
         AllocatedPieces:
-            json['AllocatedPieces'] == null ? 0 : json['AllocatedPieces'],
+        json['AllocatedPieces'] == null ? 0 : json['AllocatedPieces'],
         VTIndex: json['VTIndex'] == null ? 0 : json['VTIndex'],
         Remarks: json['Remarks'] == null ? "" : json['Remarks'],
         BreakDownStatus:
-            json['BreakDownStatus'] == null ? "" : json['BreakDownStatus'],
+        json['BreakDownStatus'] == null ? "" : json['BreakDownStatus'],
         PaymentStatus:
-            json['PaymentStatus'] == null ? "" : json['PaymentStatus'],
+        json['PaymentStatus'] == null ? "" : json['PaymentStatus'],
         PAYMENTREMARKS:
-            json['PAYMENTREMARKS'] == null ? "" : json['PAYMENTREMARKS'],
+        json['PAYMENTREMARKS'] == null ? "" : json['PAYMENTREMARKS'],
         DocAcceptanceStatus: json['DocAcceptanceStatus'] == null
             ? ""
             : json['DocAcceptanceStatus'],
         ErrorCodeStatus:
-            json['ErrorCodeStatus'] == null ? "" : json['ErrorCodeStatus'],
+        json['ErrorCodeStatus'] == null ? "" : json['ErrorCodeStatus'],
         RequestID: json['RequestID'] == null ? "" : json['RequestID'],
         CrossLevel: json['CrossLevel'] == null ? "" : json['CrossLevel'],
         SlotTime: json['SlotTime'] == null ? "" : json['SlotTime']);

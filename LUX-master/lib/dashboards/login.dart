@@ -29,7 +29,7 @@ class _LoginPageState extends State<LoginPage> {
   bool showPassword = false;
   bool useMobileLayout = false;
   static List<UserDetails> userDetails = [];
-  static final userCred = {'pUserID': "", "pPassword": ""};
+  static final userCred = {'pUserID': "", "pPassword": "", "pDeviceNumber": ""};
   static List<UserOrganizationDetails> userOrganizationsList = [];
   static List<WarehouseTerminals> userTerminallist = [];
   static List<LableDisplay> lblDisplay = [];
@@ -793,6 +793,8 @@ class _LoginPageState extends State<LoginPage> {
       print("This is new function");
       userCred['pUserID'] = userNameController.text;
       userCred['pPassword'] = passWordController.text;
+      userCred['pDeviceNumber'] = "";
+
 
       setState(() {
         isLoading = true;
@@ -849,12 +851,12 @@ class _LoginPageState extends State<LoginPage> {
               resp1.map((e1) => e1["OrganizationTypeId"]).toSet().toList();
           print(namesList1.length);
 
-          if (namesList1.contains(10)) isCB = true;
+          if (namesList1.contains(10)) isGHA = true;
 
           if (namesList1.contains(3) && namesList1.contains(5))
-            isTruckerFF = true;
+            isCB = true;
 
-          if (namesList1.contains(3)) isTruckerFF = true;
+          if (namesList1.contains(3)) isCB = true;
 
           if (namesList1.contains(25)) isTPS = true;
 

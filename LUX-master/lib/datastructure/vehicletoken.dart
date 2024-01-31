@@ -8,6 +8,7 @@ class VehicleToken {
 
   final String Mode;
   final String VTDate;
+  final String MAWBNumber;
   final String TruckTypeName;
   final String EMAILID;
   final String DRIVERMOBILENO;
@@ -32,6 +33,7 @@ class VehicleToken {
     required this.VEHICLENO,
     required this.Mode,
     required this.VTDate,
+    required this.MAWBNumber,
     required this.TruckTypeName,
     required this.EMAILID,
     required this.DRIVERMOBILENO,
@@ -63,6 +65,7 @@ class VehicleToken {
       VEHICLENO: json['VEHICLENO'] == null ? "" : json['VEHICLENO'],
       Mode: json['Mode'] == null ? "" : json['Mode'],
       VTDate: json['VTDate'] == null ? "" : json['VTDate'],
+      MAWBNumber: json['MAWBNumber'] == null ? "" : json['MAWBNumber'],
       TruckTypeName: json['TruckTypeName'] == null ? "" : json['TruckTypeName'],
       EMAILID: json['EMAILID'] == null ? "" : json['EMAILID'],
       DRIVERMOBILENO:
@@ -113,6 +116,7 @@ class VehicleToken {
 
     map["Mode"] = Mode;
     map["VTDate"] = VTDate;
+    map["MAWBNumber"] = MAWBNumber;
     map["TruckTypeName"] = TruckTypeName;
     map["EMAILID"] = EMAILID;
     map["DRIVERMOBILENO"] = DRIVERMOBILENO;
@@ -222,6 +226,7 @@ class DockInOutVT {
   final String VTNo;
   final String VTDate;
   final String VEHICLENO;
+  final String MAWBNumber;
   final String TruckTypeName;
   final String DRIVERNAME;
   final String EMAILID;
@@ -247,6 +252,7 @@ class DockInOutVT {
     required this.VTNo,
     required this.VTDate,
     required this.VEHICLENO,
+    required this.MAWBNumber,
     required this.TruckTypeName,
     required this.DRIVERNAME,
     required this.EMAILID,
@@ -273,6 +279,7 @@ class DockInOutVT {
       Mode: json['Mode'] == null ? "" : json['Mode'],
       VTNo: json['VTNo'] == null ? "" : json['VTNo'],
       VTDate: json['VTDate'] == null ? "" : json['VTDate'],
+      MAWBNumber: json['MAWBNumber'] == null ? "" : json['MAWBNumber'],
       VEHICLENO: json['VEHICLENO'] == null ? "" : json['VEHICLENO'],
       TruckTypeName: json['TruckTypeName'] == null ? "" : json['TruckTypeName'],
       DRIVERNAME: json['DRIVERNAME'] == null ? "" : json['DRIVERNAME'],
@@ -328,6 +335,7 @@ class DockInOutVT {
     map["VTNo"] = VTNo;
     map["VTDate"] = VTDate;
     map["VEHICLENO"] = VEHICLENO;
+    map["MAWBNumber"] = MAWBNumber;
     map["TruckTypeName"] = TruckTypeName;
     map["DRIVERNAME"] = DRIVERNAME;
     map["EMAILID"] = EMAILID;

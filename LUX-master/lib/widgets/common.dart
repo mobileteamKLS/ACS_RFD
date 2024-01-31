@@ -222,6 +222,83 @@ showAlertDialog(context, buttonText, titleText, msgText) {
   );
 }
 
+
+class SearchContainerButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: MediaQuery.of(context).size.width / 9.5, // 65.0,
+      width: MediaQuery.of(context).size.width / 9.5, //65.0,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        gradient: LinearGradient(
+          begin: Alignment.center,
+          end: Alignment.topCenter,
+          colors: [
+            Color(0xFF1220BC),
+            Color(0xFF3540E8),
+          ],
+        ),
+      ),
+      child: Icon(
+        Icons.search,
+        color: Colors.white,
+        size: MediaQuery.of(context).size.width / 16, //32,
+      ),
+    );
+  }
+}
+
+class DeleteScanContainerButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: MediaQuery.of(context).size.width / 9.5, // 65.0,
+      width: MediaQuery.of(context).size.width / 9.5, //65.0,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        gradient: LinearGradient(
+          begin: Alignment.center,
+          end: Alignment.topCenter,
+          colors: [
+            Color(0xFF1220BC),
+            Color(0xFF3540E8),
+          ],
+        ),
+      ),
+      child: Icon(
+        Icons.delete,
+        color: Colors.white,
+        size: MediaQuery.of(context).size.width / 16, //32,
+      ),
+    );
+  }
+}
+class DatePickerContainerButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: MediaQuery.of(context).size.width / 9.5, // 65.0,
+      width: MediaQuery.of(context).size.width / 9.5, //65.0,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        gradient: LinearGradient(
+          begin: Alignment.center,
+          end: Alignment.topCenter,
+          colors: [
+            Color(0xFF1220BC),
+            Color(0xFF3540E8),
+          ],
+        ),
+      ),
+      child: Icon(
+        Icons.calendar_month_rounded,
+        color: Colors.white,
+        size: MediaQuery.of(context).size.width / 16, //32,
+      ),
+    );
+  }
+}
 Future<bool> sendSMS(mobileNumber, vtNo, driverName) async {
   bool isSent = false;
   //https://platform.clickatell.com/messages/http/send?apiKey=gS7BfRrtS2yMXtOHkRLAAg==&to=
@@ -337,3 +414,5 @@ Future<String> determinePosition() async {
   //return await Geolocator.getCurrentPosition();
   return locationMsg;
 }
+
+
