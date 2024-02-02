@@ -821,8 +821,8 @@ class _LoginPageState extends State<LoginPage> {
           isTrucker = false;
           isTruckerFF = false;
           isTPS = false;
-          isCB = false;
-          isAirline = false;
+          // isCB = false;
+          // isAirline = false;
 
           showLoadingDialog(context, true);
           // print(json.decode(response.body)['d']);
@@ -849,7 +849,7 @@ class _LoginPageState extends State<LoginPage> {
               resp1.map((e1) => e1["OrganizationTypeId"]).toSet().toList();
           print(namesList1.length);
 
-          if (namesList1.contains(10)) isCB = true;
+          if (namesList1.contains(10)) isGHA = true;
 
           if (namesList1.contains(3) && namesList1.contains(5))
             isTruckerFF = true;
@@ -861,7 +861,7 @@ class _LoginPageState extends State<LoginPage> {
           if (namesList1.contains(5) && !namesList1.contains(3))
             isTrucker = true;
 
-          if (namesList1.contains(4)) isAirline = true;
+          // if (namesList1.contains(4)) isAirline = true;
 
           var organizationTypes = namesList1.join(', ');
           print(organizationTypes.toString());

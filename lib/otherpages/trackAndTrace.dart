@@ -206,7 +206,7 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                               activeFgColor: Colors.white,
                               inactiveBgColor: Colors.grey,
                               inactiveFgColor: Colors.white,
-                              totalSwitches: 3,
+                              totalSwitches: 2,
                               animate: true,
                               curve: Curves.bounceInOut,
                               customTextStyles: [
@@ -227,8 +227,8 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                 )
                               ],
                               labels: isImport
-                                  ? [' AWB ', ' Vehicle ', ' IGM']
-                                  : [' AWB ', ' Vehicle ', ' EGM'],
+                                  ? [' AWB ', ' Vehicle ']
+                                  : [' AWB ', ' Vehicle '],
                               icons: [
                                 FontAwesomeIcons.box,
                                 FontAwesomeIcons.truckMoving,
@@ -1355,7 +1355,6 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
               : Expanded(
                   flex: 0,
                   child: Container(
-                    height: 135,
                     child: Padding(
                         padding: const EdgeInsets.only(
                             top: 10.0, bottom: 10.0, left: 16.0),
@@ -1391,9 +1390,9 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width /
-                                              2.50,
+                                              2.8,
                                           child: ToggleSwitch(
-                                            minWidth: 146,
+                                            minWidth: 160,
                                             minHeight: 65.0,
                                             initialLabelIndex: modeSelected,
                                             cornerRadius: 20.0,
@@ -1440,7 +1439,101 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
 
                                               setState(() {
                                                 //selectedText = "";
-                                                // modeSelected = index!;
+                                                modeSelected = index!;
+                                                if (index == 1) {
+                                                  isImport = true;
+                                                  // getVehicleToeknList(
+                                                  //     3); //Import
+                                                  // vehicleToeknListToBind =
+                                                  //     vehicleToeknListImport;
+                                                } else {
+                                                  isImport = false;
+                                                  // getVehicleToeknList(
+                                                  //     4); //Export
+                                                  // vehicleToeknListToBind =
+                                                  //     vehicleToeknListExport;
+                                                }
+                                              });
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2.45,
+                                        child: Text(
+                                          " Tracking Type",
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.normal,
+                                            color: Color(0xFF11249F),
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              2.8,
+                                          child: ToggleSwitch(
+                                            minWidth: 160,
+                                            minHeight: 65.0,
+                                            initialLabelIndex: trackingType,
+                                            cornerRadius: 20.0,
+                                            activeFgColor: Colors.white,
+                                            inactiveBgColor: Colors.grey,
+                                            inactiveFgColor: Colors.white,
+                                            totalSwitches: 2,
+                                            customTextStyles: [
+                                              TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.normal,
+                                                color: Colors.white,
+                                              ),
+                                              TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.normal,
+                                                color: Colors.white,
+                                              )
+                                            ],
+                                            labels: [' AWB ', '  Vehicle'],
+                                            icons: [
+                                              FontAwesomeIcons.box,
+                                              FontAwesomeIcons.truckMoving,
+                                            ],
+                                            iconSize: 22.0,
+                                            activeBgColors: [
+                                              // [Colors.blueAccent, Colors.blue],
+                                              // [Colors.blueAccent, Colors.blue],
+                                              [
+                                                Color(0xFF1220BC),
+                                                Color(0xFF3540E8)
+                                              ],
+                                              [
+                                                Color(0xFF1220BC),
+                                                Color(0xFF3540E8)
+                                              ],
+                                            ],
+                                            animate: true,
+                                            // with just animate set to true, default curve = Curves.easeIn
+                                            curve: Curves.bounceInOut,
+                                            // animate must be set to true when using custom curve
+                                            onToggle: (index) {
+                                              print('switched to: $index');
+
+                                              setState(() {
+                                                //selectedText = "";
+                                                trackingType = index!;
                                                 // if (index == 1) {
                                                 //   getVehicleToeknList(
                                                 //       3); //Import
@@ -1459,188 +1552,1180 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                       ),
                                     ],
                                   ),
-                                  //SizedBox(width: 10),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                3.11,
-                                        child: Text(
-                                          " Search VT No.",
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.normal,
-                                            color: Color(0xFF11249F),
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              3.2, // hard coding child width
-                                          child: Container(
-                                            height: 60,
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                3.2,
-                                            decoration: BoxDecoration(
-                                              border: Border.all(
-                                                color: Colors.grey
-                                                    .withOpacity(0.5),
-                                                width: 1.0,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(4.0),
-                                            ),
-                                            child: TextField(
-                                              // onChanged: (value) =>
-                                              //     _runFilter(value),
-                                              // controller: txtVTNO,
-                                              keyboardType: TextInputType.text,
-                                              textCapitalization:
-                                                  TextCapitalization.characters,
-                                              decoration: InputDecoration(
-                                                border: InputBorder.none,
-                                                hintText: "Search VT No.",
-                                                hintStyle: TextStyle(
-                                                    color: Colors.grey),
-                                                contentPadding:
-                                                    EdgeInsets.symmetric(
-                                                        vertical: 8,
-                                                        horizontal: 8),
-                                                isDense: true,
-                                              ),
-                                              style: TextStyle(
-                                                fontSize: 24.0,
-                                                color: Colors.black,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
                                   SizedBox(width: 8),
-                                  // Padding(
-                                  //   padding: const EdgeInsets.only(top: 16.0),
-                                  //   child: ElevatedButton(
-                                  //     style: ElevatedButton.styleFrom(
-                                  //       elevation: 4.0,
-                                  //       shape: RoundedRectangleBorder(
-                                  //           borderRadius:
-                                  //               BorderRadius.circular(
-                                  //                   10.0)), //
-                                  //       padding: const EdgeInsets.all(0.0),
-                                  //     ),
-                                  //     child: Container(
-                                  //       height: 65.0,
-                                  //       width: 65.0,
-                                  //       decoration: BoxDecoration(
-                                  //         borderRadius:
-                                  //             BorderRadius.circular(10),
-                                  //         gradient: LinearGradient(
-                                  //           begin: Alignment.topRight,
-                                  //           end: Alignment.bottomLeft,
-                                  //           colors: [
-                                  //             Color(0xFF1220BC),
-                                  //             Color(0xFF3540E8),
-                                  //           ],
-                                  //         ),
-                                  //       ),
-                                  //       child: Icon(
-                                  //         Icons.search,
-                                  //         size: 32,
-                                  //       ),
-                                  //     ),
-                                  //     onPressed: () {
-                                  //       setState(() {
-                                  //         isSearched = true;
-                                  //         _runFilter(txtVTNO.text);
-                                  //       });
-                                  //     },
-                                  //   ),
-                                  // ),
-
-                                  // Padding(
-                                  //   padding:
-                                  //   const EdgeInsets.only(bottom: 8.0),
-                                  //   child: GestureDetector(
-                                  //       child: ScanContainerButtonIpad(),
-                                  //       onTap: () async {
-                                  //         var scannedCode =
-                                  //         await Navigator.of(context)
-                                  //             .push(MaterialPageRoute(
-                                  //           builder: (context) =>
-                                  //           const QRViewExample(),
-                                  //         ));
-                                  //         print("code returned from app");
-                                  //         print(scannedCode);
-                                  //         if (scannedCode == null)
-                                  //           setState(() {
-                                  //             scannedCodeReceived = "";
-                                  //           });
-                                  //         if (scannedCode == "")
-                                  //           setState(() {
-                                  //             scannedCodeReceived = "";
-                                  //           });
-                                  //         if (scannedCode != null) {
-                                  //           if (scannedCode != "") {
-                                  //             print(
-                                  //                 "code returned from app =" +
-                                  //                     scannedCode);
-                                  //             setState(() {
-                                  //               scannedCodeReceived =
-                                  //                   scannedCode;
-                                  //               txtVTNO.text =
-                                  //                   scannedCodeReceived;
-                                  //               _runFilter(
-                                  //                   scannedCodeReceived);
-                                  //             });
-                                  //             // await getShipmentDetails(scannedCode);
-                                  //           }
-                                  //         }
-                                  //       }),
-                                  // ),
-                                  // SizedBox(width: 5),
-                                  // Padding(
-                                  //   padding:
-                                  //   const EdgeInsets.only(bottom: 8.0),
-                                  //   child: GestureDetector(
-                                  //     child: GallaryScanContainerButtonIpad(),
-                                  //     onTap: () async {
-                                  //       final ImagePicker _picker =
-                                  //       ImagePicker();
-                                  //       final XFile? image =
-                                  //       await _picker.pickImage(
-                                  //           source: ImageSource
-                                  //               .gallery); // Pick an image
-                                  //       if (image == null)
-                                  //         return;
-                                  //       else {
-                                  //         String? str =
-                                  //         await Scan.parse(image.path);
-                                  //         if (str != null) {
-                                  //           setState(() {
-                                  //             scannedCodeReceived = str;
-                                  //             txtVTNO.text =
-                                  //                 scannedCodeReceived;
-                                  //             _runFilter(scannedCodeReceived);
-                                  //           });
-                                  //         }
-                                  //       }
-                                  //     },
-                                  //   ),
-                                  // )
                                 ],
                               ),
+                              trackingType == 0
+                                  ? isImport
+                                      ? Column(
+                                          children: [
+                                            Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      2.45,
+                                                  child: Text(
+                                                    " MAWB No.",
+                                                    style: TextStyle(
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      color: Color(0xFF11249F),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: SizedBox(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width /
+                                                            8.8,
+                                                        // hard coding child width
+                                                        child: Container(
+                                                          height: 60,
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              8.8,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            border: Border.all(
+                                                              color: Colors.grey
+                                                                  .withOpacity(
+                                                                      0.5),
+                                                              width: 1.0,
+                                                            ),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        4.0),
+                                                          ),
+                                                          child: TextField(
+                                                            textAlign: TextAlign.right,
+
+                                                            keyboardType:
+                                                                TextInputType
+                                                                    .text,
+                                                            textCapitalization:
+                                                                TextCapitalization
+                                                                    .characters,
+                                                            decoration:
+                                                                InputDecoration(
+
+                                                              border:
+                                                                  InputBorder
+                                                                      .none,
+                                                              hintText:
+                                                                  "Prefix",
+                                                              hintStyle: TextStyle(
+                                                                  color: Colors
+                                                                      .grey),
+                                                              contentPadding:
+                                                                  EdgeInsets.symmetric(
+                                                                      vertical:
+                                                                          8,
+                                                                      horizontal:
+                                                                          8),
+                                                              isDense: true,
+                                                            ),
+                                                            style: TextStyle(
+                                                              fontSize: 24.0,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: SizedBox(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width /
+                                                            4.6,
+                                                        // hard coding child width
+                                                        child: Container(
+                                                          height: 60,
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              4.8,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            border: Border.all(
+                                                              color: Colors.grey
+                                                                  .withOpacity(
+                                                                      0.5),
+                                                              width: 1.0,
+                                                            ),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        4.0),
+                                                          ),
+                                                          child: TextField(
+                                                            textAlign: TextAlign.right,
+                                                            keyboardType:
+                                                                TextInputType
+                                                                    .number,
+
+                                                            decoration:
+                                                                InputDecoration(
+
+                                                              border:
+                                                                  InputBorder
+                                                                      .none,
+                                                              hintText:
+                                                                  "MAWB No.",
+                                                              hintStyle: TextStyle(
+                                                                  color: Colors
+                                                                      .grey),
+                                                              contentPadding:
+                                                                  EdgeInsets.symmetric(
+                                                                      vertical:
+                                                                          8,
+                                                                      horizontal:
+                                                                          8),
+                                                              isDense: true,
+                                                            ),
+                                                            style: TextStyle(
+
+                                                              fontSize: 24.0,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(width: 8),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              bottom: 8.0),
+                                                      child: GestureDetector(
+                                                          child:
+                                                              SearchContainerButtonIpad(),
+                                                          onTap: () async {
+                                                            getTrackAndTraceDetails(
+                                                                1); //export
+                                                          }),
+                                                    ),
+                                                    SizedBox(width: 5),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              bottom: 8.0),
+                                                      child: GestureDetector(
+                                                          child:
+                                                              DeleteScanContainerButtonIpad(),
+                                                          onTap: () async {
+                                                            getTrackAndTraceDetails(
+                                                                1); //export
+                                                          }),
+                                                    )
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                            SizedBox(width: 8),
+                                            Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      2.45,
+                                                  child: Text(
+                                                    " HAWB No. (Opt)",
+                                                    style: TextStyle(
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      color: Color(0xFF11249F),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: SizedBox(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width /
+                                                            2.9, // hard coding child width
+                                                        child: Container(
+                                                          height: 60,
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              2.9,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            border: Border.all(
+                                                              color: Colors.grey
+                                                                  .withOpacity(
+                                                                      0.5),
+                                                              width: 1.0,
+                                                            ),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        4.0),
+                                                          ),
+                                                          child:
+                                                              DropdownButtonHideUnderline(
+                                                            child: Container(
+                                                              constraints:
+                                                                  BoxConstraints(
+                                                                      minHeight:
+                                                                          50),
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                border: Border.all(
+                                                                    color: Colors
+                                                                        .grey,
+                                                                    width: 0.2),
+                                                                borderRadius: BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
+                                                                            5)),
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
+                                                                      horizontal:
+                                                                          10),
+                                                              child:
+                                                                  DropdownButton(
+                                                                value:
+                                                                    dropdownValue,
+                                                                onChanged: (String?
+                                                                    newValue) {
+                                                                  setState(() {
+                                                                    dropdownValue =
+                                                                        newValue!;
+                                                                  });
+                                                                },
+                                                                items: [
+                                                                  "Select",
+                                                                  "Two",
+                                                                  "Three"
+                                                                ]
+                                                                    .map((String
+                                                                            value) =>
+                                                                        DropdownMenuItem(
+                                                                          value:
+                                                                              value,
+                                                                          child:
+                                                                              Column(
+                                                                            mainAxisAlignment:
+                                                                                MainAxisAlignment.center,
+                                                                            crossAxisAlignment:
+                                                                                CrossAxisAlignment.start,
+                                                                            children: [
+                                                                              Text(
+                                                                                value,
+                                                                                style: TextStyle(
+                                                                                  fontSize: 14,
+                                                                                  fontWeight: FontWeight.normal,
+                                                                                  color: Colors.black,
+                                                                                ),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        ))
+                                                                    .toList(),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(width: 8),
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                            SizedBox(width: 8),
+                                          ],
+                                        )
+                                      : Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2.45,
+                                              child: Text(
+                                                " MAWB No.",
+                                                style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.normal,
+                                                  color: Color(0xFF11249F),
+                                                ),
+                                              ),
+                                            ),
+                                            Row(
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: SizedBox(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            8.8,
+                                                    // hard coding child width
+                                                    child: Container(
+                                                      height: 60,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              8.8,
+                                                      decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                          color: Colors.grey
+                                                              .withOpacity(0.5),
+                                                          width: 1.0,
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(4.0),
+                                                      ),
+                                                      child: TextField(
+                                                        keyboardType:
+                                                            TextInputType.text,
+                                                        textCapitalization:
+                                                            TextCapitalization
+                                                                .characters,
+                                                        decoration:
+                                                            InputDecoration(
+                                                          border:
+                                                              InputBorder.none,
+                                                          hintText:
+                                                              "Search VT No.",
+                                                          hintStyle: TextStyle(
+                                                              color:
+                                                                  Colors.grey),
+                                                          contentPadding:
+                                                              EdgeInsets
+                                                                  .symmetric(
+                                                                      vertical:
+                                                                          8,
+                                                                      horizontal:
+                                                                          8),
+                                                          isDense: true,
+                                                        ),
+                                                        style: TextStyle(
+                                                          fontSize: 24.0,
+                                                          color: Colors.black,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: SizedBox(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            4.6,
+                                                    // hard coding child width
+                                                    child: Container(
+                                                      height: 60,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              4.8,
+                                                      decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                          color: Colors.grey
+                                                              .withOpacity(0.5),
+                                                          width: 1.0,
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(4.0),
+                                                      ),
+                                                      child: TextField(
+                                                        keyboardType:
+                                                            TextInputType.text,
+                                                        textCapitalization:
+                                                            TextCapitalization
+                                                                .characters,
+                                                        decoration:
+                                                            InputDecoration(
+                                                          border:
+                                                              InputBorder.none,
+                                                          hintText:
+                                                              "Search VT No.",
+                                                          hintStyle: TextStyle(
+                                                              color:
+                                                                  Colors.grey),
+                                                          contentPadding:
+                                                              EdgeInsets
+                                                                  .symmetric(
+                                                                      vertical:
+                                                                          8,
+                                                                      horizontal:
+                                                                          8),
+                                                          isDense: true,
+                                                        ),
+                                                        style: TextStyle(
+                                                          fontSize: 24.0,
+                                                          color: Colors.black,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(width: 8),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          bottom: 8.0),
+                                                  child: GestureDetector(
+                                                      child:
+                                                          SearchContainerButtonIpad(),
+                                                      onTap: () async {
+                                                        getTrackAndTraceDetails(
+                                                            1); //export
+                                                      }),
+                                                ),
+                                                SizedBox(width: 5),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          bottom: 8.0),
+                                                  child: GestureDetector(
+                                                      child:
+                                                          DeleteScanContainerButtonIpad(),
+                                                      onTap: () async {
+                                                        getTrackAndTraceDetails(
+                                                            1); //export
+                                                      }),
+                                                )
+                                              ],
+                                            )
+                                          ],
+                                        )
+                                  : trackingType == 1
+                                      ? isImport
+                                          ? Column(
+                                              children: [
+                                                Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.45,
+                                                      child: Text(
+                                                        " BoE No.",
+                                                        style: TextStyle(
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          color:
+                                                              Color(0xFF11249F),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: SizedBox(
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width /
+                                                                2.9,
+                                                            // hard coding child width
+                                                            child: Container(
+                                                              height: 60,
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width /
+                                                                  2.9,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                border:
+                                                                    Border.all(
+                                                                  color: Colors
+                                                                      .grey
+                                                                      .withOpacity(
+                                                                          0.5),
+                                                                  width: 1.0,
+                                                                ),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            4.0),
+                                                              ),
+                                                              child: TextField(
+                                                                keyboardType:
+                                                                    TextInputType
+                                                                        .text,
+                                                                textCapitalization:
+                                                                    TextCapitalization
+                                                                        .characters,
+                                                                decoration:
+                                                                    InputDecoration(
+                                                                  border:
+                                                                      InputBorder
+                                                                          .none,
+                                                                  hintText:
+                                                                      "Search VT No.",
+                                                                  hintStyle: TextStyle(
+                                                                      color: Colors
+                                                                          .grey),
+                                                                  contentPadding:
+                                                                      EdgeInsets.symmetric(
+                                                                          vertical:
+                                                                              8,
+                                                                          horizontal:
+                                                                              8),
+                                                                  isDense: true,
+                                                                ),
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize:
+                                                                      24.0,
+                                                                  color: Colors
+                                                                      .black,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        SizedBox(width: 8),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  bottom: 8.0),
+                                                          child: GestureDetector(
+                                                              child: SearchContainerButtonIpad(),
+                                                              onTap: () async {
+                                                                getTrackAndTraceDetails(
+                                                                    1); //export
+                                                              }),
+                                                        ),
+                                                        SizedBox(width: 5),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  bottom: 8.0),
+                                                          child: GestureDetector(
+                                                              child: DeleteScanContainerButtonIpad(),
+                                                              onTap: () async {
+                                                                getTrackAndTraceDetails(
+                                                                    1); //export
+                                                              }),
+                                                        )
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                                SizedBox(width: 8),
+                                                Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.45,
+                                                      child: Text(
+                                                        " Date",
+                                                        style: TextStyle(
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          color:
+                                                              Color(0xFF11249F),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: SizedBox(
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width /
+                                                                2.9, // hard coding child width
+                                                            child: Container(
+                                                              height: 60,
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width /
+                                                                  2.9,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                border:
+                                                                    Border.all(
+                                                                  color: Colors
+                                                                      .grey
+                                                                      .withOpacity(
+                                                                          0.5),
+                                                                  width: 1.0,
+                                                                ),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            4.0),
+                                                              ),
+                                                              child: TextField(
+                                                                keyboardType:
+                                                                    TextInputType
+                                                                        .text,
+                                                                textCapitalization:
+                                                                    TextCapitalization
+                                                                        .characters,
+                                                                decoration:
+                                                                    InputDecoration(
+                                                                  border:
+                                                                      InputBorder
+                                                                          .none,
+                                                                  hintText:
+                                                                      "Search VT No.",
+                                                                  hintStyle: TextStyle(
+                                                                      color: Colors
+                                                                          .grey),
+                                                                  contentPadding:
+                                                                      EdgeInsets.symmetric(
+                                                                          vertical:
+                                                                              8,
+                                                                          horizontal:
+                                                                              8),
+                                                                  isDense: true,
+                                                                ),
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize:
+                                                                      24.0,
+                                                                  color: Colors
+                                                                      .black,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        SizedBox(width: 8),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  bottom: 8.0),
+                                                          child: GestureDetector(
+                                                              child: SearchContainerButtonIpad(),
+                                                              onTap: () async {
+                                                                getTrackAndTraceDetails(
+                                                                    1); //export
+                                                              }),
+                                                        ),
+                                                        SizedBox(width: 5),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  bottom: 8.0),
+                                                          child: GestureDetector(
+                                                              child: DeleteScanContainerButtonIpad(),
+                                                              onTap: () async {
+                                                                getTrackAndTraceDetails(
+                                                                    1); //export
+                                                              }),
+                                                        )
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                                SizedBox(width: 8),
+                                              ],
+                                            )
+                                          : Column(
+                                              children: [
+                                                Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.45,
+                                                      child: Text(
+                                                        " SB No.",
+                                                        style: TextStyle(
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          color:
+                                                              Color(0xFF11249F),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: SizedBox(
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width /
+                                                                2.9,
+                                                            // hard coding child width
+                                                            child: Container(
+                                                              height: 60,
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width /
+                                                                  2.9,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                border:
+                                                                    Border.all(
+                                                                  color: Colors
+                                                                      .grey
+                                                                      .withOpacity(
+                                                                          0.5),
+                                                                  width: 1.0,
+                                                                ),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            4.0),
+                                                              ),
+                                                              child: TextField(
+                                                                keyboardType:
+                                                                    TextInputType
+                                                                        .text,
+                                                                textCapitalization:
+                                                                    TextCapitalization
+                                                                        .characters,
+                                                                decoration:
+                                                                    InputDecoration(
+                                                                  border:
+                                                                      InputBorder
+                                                                          .none,
+                                                                  hintText:
+                                                                      "Search VT No.",
+                                                                  hintStyle: TextStyle(
+                                                                      color: Colors
+                                                                          .grey),
+                                                                  contentPadding:
+                                                                      EdgeInsets.symmetric(
+                                                                          vertical:
+                                                                              8,
+                                                                          horizontal:
+                                                                              8),
+                                                                  isDense: true,
+                                                                ),
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize:
+                                                                      24.0,
+                                                                  color: Colors
+                                                                      .black,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        SizedBox(width: 8),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  bottom: 8.0),
+                                                          child: GestureDetector(
+                                                              child: SearchContainerButtonIpad(),
+                                                              onTap: () async {
+                                                                getTrackAndTraceDetails(
+                                                                    1); //export
+                                                              }),
+                                                        ),
+                                                        SizedBox(width: 5),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  bottom: 8.0),
+                                                          child: GestureDetector(
+                                                              child: DeleteScanContainerButtonIpad(),
+                                                              onTap: () async {
+                                                                getTrackAndTraceDetails(
+                                                                    1); //export
+                                                              }),
+                                                        )
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                                SizedBox(width: 8),
+                                                Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.45,
+                                                      child: Text(
+                                                        " Date",
+                                                        style: TextStyle(
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          color:
+                                                              Color(0xFF11249F),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: SizedBox(
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width /
+                                                                2.9, // hard coding child width
+                                                            child: Container(
+                                                              height: 60,
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width /
+                                                                  2.9,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                border:
+                                                                    Border.all(
+                                                                  color: Colors
+                                                                      .grey
+                                                                      .withOpacity(
+                                                                          0.5),
+                                                                  width: 1.0,
+                                                                ),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            4.0),
+                                                              ),
+                                                              child: TextField(
+                                                                keyboardType:
+                                                                    TextInputType
+                                                                        .text,
+                                                                textCapitalization:
+                                                                    TextCapitalization
+                                                                        .characters,
+                                                                decoration:
+                                                                    InputDecoration(
+                                                                  border:
+                                                                      InputBorder
+                                                                          .none,
+                                                                  hintText:
+                                                                      "Search VT No.",
+                                                                  hintStyle: TextStyle(
+                                                                      color: Colors
+                                                                          .grey),
+                                                                  contentPadding:
+                                                                      EdgeInsets.symmetric(
+                                                                          vertical:
+                                                                              8,
+                                                                          horizontal:
+                                                                              8),
+                                                                  isDense: true,
+                                                                ),
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize:
+                                                                      24.0,
+                                                                  color: Colors
+                                                                      .black,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        SizedBox(width: 8),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  bottom: 8.0),
+                                                          child: GestureDetector(
+                                                              child: SearchContainerButtonIpad(),
+                                                              onTap: () async {
+                                                                getTrackAndTraceDetails(
+                                                                    1); //export
+                                                              }),
+                                                        ),
+                                                        SizedBox(width: 5),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  bottom: 8.0),
+                                                          child: GestureDetector(
+                                                              child: DeleteScanContainerButtonIpad(),
+                                                              onTap: () async {
+                                                                getTrackAndTraceDetails(
+                                                                    1); //export
+                                                              }),
+                                                        )
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                                SizedBox(width: 8),
+                                              ],
+                                            )
+                                      : Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2.45,
+                                              child: Text(
+                                                "  No.",
+                                                style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.normal,
+                                                  color: Color(0xFF11249F),
+                                                ),
+                                              ),
+                                            ),
+                                            Row(
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: SizedBox(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            8.8,
+                                                    // hard coding child width
+                                                    child: Container(
+                                                      height: 60,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              8.8,
+                                                      decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                          color: Colors.grey
+                                                              .withOpacity(0.5),
+                                                          width: 1.0,
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(4.0),
+                                                      ),
+                                                      child: TextField(
+                                                        keyboardType:
+                                                            TextInputType.text,
+                                                        textCapitalization:
+                                                            TextCapitalization
+                                                                .characters,
+                                                        decoration:
+                                                            InputDecoration(
+                                                          border:
+                                                              InputBorder.none,
+                                                          hintText:
+                                                              "Search VT No.",
+                                                          hintStyle: TextStyle(
+                                                              color:
+                                                                  Colors.grey),
+                                                          contentPadding:
+                                                              EdgeInsets
+                                                                  .symmetric(
+                                                                      vertical:
+                                                                          8,
+                                                                      horizontal:
+                                                                          8),
+                                                          isDense: true,
+                                                        ),
+                                                        style: TextStyle(
+                                                          fontSize: 24.0,
+                                                          color: Colors.black,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: SizedBox(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            4.6,
+                                                    // hard coding child width
+                                                    child: Container(
+                                                      height: 60,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              4.8,
+                                                      decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                          color: Colors.grey
+                                                              .withOpacity(0.5),
+                                                          width: 1.0,
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(4.0),
+                                                      ),
+                                                      child: TextField(
+                                                        keyboardType:
+                                                            TextInputType.text,
+                                                        textCapitalization:
+                                                            TextCapitalization
+                                                                .characters,
+                                                        decoration:
+                                                            InputDecoration(
+                                                          border:
+                                                              InputBorder.none,
+                                                          hintText:
+                                                              "Search VT No.",
+                                                          hintStyle: TextStyle(
+                                                              color:
+                                                                  Colors.grey),
+                                                          contentPadding:
+                                                              EdgeInsets
+                                                                  .symmetric(
+                                                                      vertical:
+                                                                          8,
+                                                                      horizontal:
+                                                                          8),
+                                                          isDense: true,
+                                                        ),
+                                                        style: TextStyle(
+                                                          fontSize: 24.0,
+                                                          color: Colors.black,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(width: 8),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          bottom: 8.0),
+                                                  child: GestureDetector(
+                                                      child:
+                                                          SearchContainerButtonIpad(),
+                                                      onTap: () async {
+                                                        getTrackAndTraceDetails(
+                                                            1); //export
+                                                      }),
+                                                ),
+                                                SizedBox(width: 5),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          bottom: 8.0),
+                                                  child: GestureDetector(
+                                                      child:
+                                                          DeleteScanContainerButtonIpad(),
+                                                      onTap: () async {
+                                                        getTrackAndTraceDetails(
+                                                            1); //export
+                                                      }),
+                                                )
+                                              ],
+                                            )
+                                          ],
+                                        ),
                               SizedBox(height: 10),
                             ])),
                   ),
@@ -1651,1052 +2736,3224 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                       height: 100,
                       width: 100,
                       child: CircularProgressIndicator()))
-              : Expanded(
-                  child: SingleChildScrollView(
-                  child: Timeline(
-                    children: <Widget>[
-                      Container(
-                        height: 50,
-                        color: Colors.transparent,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 10.0),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.6,
-                                  child: Text(
-                                    " MAWB Creation",
-                                    style: mobileTimeLineHeaderFontStyle,
-                                  )),
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.6,
-                                  child: Text(
-                                      // _bookingDetails.length == 0
-                                      // ? ""
-                                      // : _bookingDetails[0]
-                                      // .CreatedOn
-                                      // .toString()
-                                      // .contains("1900")
-                                      // ? ""
-                                      // : getCustomFormattedDateTime(
-                                      // _bookingDetails[0].CreatedOn,
-                                      // 'dd-MM-yyyy HH:mm')
-                                      "15-01-2024 15:39")),
-                              // : _bookingDetails[0].CreatedOn)),
-                            ],
+              : trackingType == 0
+                  ? Expanded(
+                      child: SingleChildScrollView(
+                      child: Timeline(
+                        children: <Widget>[
+                          Container(
+                            height: 50,
+                            color: Colors.transparent,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10.0),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                        " MAWB Creation",
+                                        style: mobileTimeLineHeaderFontStyle,
+                                      )),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                          // _bookingDetails.length == 0
+                                          // ? ""
+                                          // : _bookingDetails[0]
+                                          // .CreatedOn
+                                          // .toString()
+                                          // .contains("1900")
+                                          // ? ""
+                                          // : getCustomFormattedDateTime(
+                                          // _bookingDetails[0].CreatedOn,
+                                          // 'dd-MM-yyyy HH:mm')
+                                          "15-01-2024 15:39")),
+                                  // : _bookingDetails[0].CreatedOn)),
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      Container(
-                        height: 50,
-                        color: Colors.transparent,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 10.0),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.6,
-                                  child: Text(
-                                    " MAWB ASI",
-                                    style: mobileTimeLineHeaderFontStyle,
-                                  )),
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.6,
-                                  child: Text(
-                                      // _bookingDetails.length == 0
-                                      // ? ""
-                                      // : _bookingDetails[0]
-                                      // .GateOutDate
-                                      // .toString()
-                                      // .contains("1900")
-                                      // ? ""
-                                      // : getCustomFormattedDateTime(
-                                      // _bookingDetails[0].GateOutDate,
-                                      // 'dd-MM-yyyy HH:mm')
-                                      "15-01-2024 15:39")),
-                              // : _bookingDetails[0].GateOutDate)),
-                            ],
+                          Container(
+                            height: 50,
+                            color: Colors.transparent,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10.0),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                        " MAWB ASI",
+                                        style: mobileTimeLineHeaderFontStyle,
+                                      )),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                          // _bookingDetails.length == 0
+                                          // ? ""
+                                          // : _bookingDetails[0]
+                                          // .GateOutDate
+                                          // .toString()
+                                          // .contains("1900")
+                                          // ? ""
+                                          // : getCustomFormattedDateTime(
+                                          // _bookingDetails[0].GateOutDate,
+                                          // 'dd-MM-yyyy HH:mm')
+                                          "15-01-2024 15:39")),
+                                  // : _bookingDetails[0].GateOutDate)),
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      Container(
-                        height: 50,
-                        color: Colors.transparent,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 10.0),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.6,
-                                  child: Text(
-                                    " e-AWB Submit",
-                                    style: mobileTimeLineHeaderFontStyle,
-                                  )),
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.6,
-                                  child: Text(
-                                      // _bookingDetails.length == 0
-                                      // ? ""
-                                      // : _bookingDetails[0]
-                                      // .ConfirmedOn
-                                      // .toString()
-                                      // .contains("1900")
-                                      // ? ""
-                                      // : getCustomFormattedDateTime(
-                                      // _bookingDetails[0].ConfirmedOn,
-                                      // 'dd-MM-yyyy HH:mm')
-                                      "15-01-2024 15:39")),
-                              // : _bookingDetails[0].ConfirmedOn)),
-                            ],
+                          Container(
+                            height: 50,
+                            color: Colors.transparent,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10.0),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                        " e-AWB Submit",
+                                        style: mobileTimeLineHeaderFontStyle,
+                                      )),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                          // _bookingDetails.length == 0
+                                          // ? ""
+                                          // : _bookingDetails[0]
+                                          // .ConfirmedOn
+                                          // .toString()
+                                          // .contains("1900")
+                                          // ? ""
+                                          // : getCustomFormattedDateTime(
+                                          // _bookingDetails[0].ConfirmedOn,
+                                          // 'dd-MM-yyyy HH:mm')
+                                          "15-01-2024 15:39")),
+                                  // : _bookingDetails[0].ConfirmedOn)),
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      Container(
-                        height: 50,
-                        color: Colors.transparent,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 10.0),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.6,
-                                  child: Text(
-                                    " Assign to Trucking Company",
-                                    style: mobileTimeLineHeaderFontStyle,
-                                  )),
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.6,
-                                  child: Text(
-                                      // _bookingDetails.length == 0
-                                      // ? ""
-                                      // : _bookingDetails[0]
-                                      // .PreGateDate
-                                      // .toString()
-                                      // .contains("1900")
-                                      // ? ""
-                                      // : getCustomFormattedDateTime(
-                                      // _bookingDetails[0].PreGateDate,
-                                      // 'dd-MM-yyyy HH:mm')
-                                      "15-01-2024 15:39")),
-                              // : _bookingDetails[0].ConfirmedOn)),
-                            ],
+                          Container(
+                            height: 50,
+                            color: Colors.transparent,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10.0),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                        " Assign to Trucking Company",
+                                        style: mobileTimeLineHeaderFontStyle,
+                                      )),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                          // _bookingDetails.length == 0
+                                          // ? ""
+                                          // : _bookingDetails[0]
+                                          // .PreGateDate
+                                          // .toString()
+                                          // .contains("1900")
+                                          // ? ""
+                                          // : getCustomFormattedDateTime(
+                                          // _bookingDetails[0].PreGateDate,
+                                          // 'dd-MM-yyyy HH:mm')
+                                          "15-01-2024 15:39")),
+                                  // : _bookingDetails[0].ConfirmedOn)),
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      Container(
-                        height: 50,
-                        color: Colors.transparent,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 10.0),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.6,
-                                  child: Text(
-                                    " Slot Status",
-                                    style: mobileTimeLineHeaderFontStyle,
-                                  )),
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.6,
-                                  child: Text(
-                                      // _bookingDetails.length == 0
-                                      // ? ""
-                                      // : _bookingDetails[0]
-                                      // .GateInDate
-                                      // .toString()
-                                      // .contains("1900")
-                                      // ? ""
-                                      // : getCustomFormattedDateTime(
-                                      // _bookingDetails[0].GateInDate,
-                                      // 'dd-MM-yyyy HH:mm')
-                                      "15-01-2024 15:39")),
-                              // : _bookingDetails[0].GateInDate)),
-                            ],
+                          Container(
+                            height: 50,
+                            color: Colors.transparent,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10.0),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                        " Slot Status",
+                                        style: mobileTimeLineHeaderFontStyle,
+                                      )),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                          // _bookingDetails.length == 0
+                                          // ? ""
+                                          // : _bookingDetails[0]
+                                          // .GateInDate
+                                          // .toString()
+                                          // .contains("1900")
+                                          // ? ""
+                                          // : getCustomFormattedDateTime(
+                                          // _bookingDetails[0].GateInDate,
+                                          // 'dd-MM-yyyy HH:mm')
+                                          "15-01-2024 15:39")),
+                                  // : _bookingDetails[0].GateInDate)),
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      Container(
-                        height: 50,
-                        color: Colors.transparent,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 10.0),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.6,
-                                  child: Text(
-                                    " Yard check-in",
-                                    style: mobileTimeLineHeaderFontStyle,
-                                  )),
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.6,
-                                  child: Text(
-                                      // _bookingDetails.length == 0
-                                      // ? ""
-                                      // : _bookingDetails[0]
-                                      // .ConfirmedOn
-                                      // .toString()
-                                      // .contains("1900")
-                                      // ? ""
-                                      // : getCustomFormattedDateTime(
-                                      // _bookingDetails[0].ConfirmedOn,
-                                      // 'dd-MM-yyyy HH:mm')
-                                      "15-01-2024 15:39")),
-                              // : _bookingDetails[0].ConfirmedOn)),
-                            ],
+                          Container(
+                            height: 50,
+                            color: Colors.transparent,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10.0),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                        " Yard check-in",
+                                        style: mobileTimeLineHeaderFontStyle,
+                                      )),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                          // _bookingDetails.length == 0
+                                          // ? ""
+                                          // : _bookingDetails[0]
+                                          // .ConfirmedOn
+                                          // .toString()
+                                          // .contains("1900")
+                                          // ? ""
+                                          // : getCustomFormattedDateTime(
+                                          // _bookingDetails[0].ConfirmedOn,
+                                          // 'dd-MM-yyyy HH:mm')
+                                          "15-01-2024 15:39")),
+                                  // : _bookingDetails[0].ConfirmedOn)),
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      Container(
-                        height: 50,
-                        color: Colors.transparent,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 10.0),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.6,
-                                  child: Text(
-                                    " Dock-in",
-                                    style: mobileTimeLineHeaderFontStyle,
-                                  )),
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.6,
-                                  child: Text(
-                                      // _bookingDetails.length == 0
-                                      // ? ""
-                                      // : _bookingDetails[0]
-                                      // .PreGateDate
-                                      // .toString()
-                                      // .contains("1900")
-                                      // ? ""
-                                      // : getCustomFormattedDateTime(
-                                      // _bookingDetails[0].PreGateDate,
-                                      // 'dd-MM-yyyy HH:mm')
-                                      "15-01-2024 15:39")),
-                              // : _bookingDetails[0].ConfirmedOn)),
-                            ],
+                          Container(
+                            height: 50,
+                            color: Colors.transparent,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10.0),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                        " Dock-in",
+                                        style: mobileTimeLineHeaderFontStyle,
+                                      )),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                          // _bookingDetails.length == 0
+                                          // ? ""
+                                          // : _bookingDetails[0]
+                                          // .PreGateDate
+                                          // .toString()
+                                          // .contains("1900")
+                                          // ? ""
+                                          // : getCustomFormattedDateTime(
+                                          // _bookingDetails[0].PreGateDate,
+                                          // 'dd-MM-yyyy HH:mm')
+                                          "15-01-2024 15:39")),
+                                  // : _bookingDetails[0].ConfirmedOn)),
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      Container(
-                        height: 50,
-                        color: Colors.transparent,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 10.0),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.6,
-                                  child: Text(
-                                    " Warehouse \n Acceptance",
-                                    style: mobileTimeLineHeaderFontStyle,
-                                  )),
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.6,
-                                  child: Text(
-                                      // _bookingDetails.length == 0
-                                      // ? ""
-                                      // : _bookingDetails[0]
-                                      // .GateInDate
-                                      // .toString()
-                                      // .contains("1900")
-                                      // ? ""
-                                      // : getCustomFormattedDateTime(
-                                      // _bookingDetails[0].GateInDate,
-                                      // 'dd-MM-yyyy HH:mm')
-                                      "15-01-2024 15:39")),
-                              // : _bookingDetails[0].GateInDate)),
-                            ],
+                          Container(
+                            height: 50,
+                            color: Colors.transparent,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10.0),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                        " Warehouse \n Acceptance",
+                                        style: mobileTimeLineHeaderFontStyle,
+                                      )),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                          // _bookingDetails.length == 0
+                                          // ? ""
+                                          // : _bookingDetails[0]
+                                          // .GateInDate
+                                          // .toString()
+                                          // .contains("1900")
+                                          // ? ""
+                                          // : getCustomFormattedDateTime(
+                                          // _bookingDetails[0].GateInDate,
+                                          // 'dd-MM-yyyy HH:mm')
+                                          "15-01-2024 15:39")),
+                                  // : _bookingDetails[0].GateInDate)),
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      Container(
-                        height: 50,
-                        color: Colors.transparent,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 10.0),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.6,
-                                  child: Text(
-                                    " Dock-out",
-                                    style: mobileTimeLineHeaderFontStyle,
-                                  )),
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.6,
-                                  child: Text(
-                                      // _bookingDetails.length == 0
-                                      // ? ""
-                                      // : _bookingDetails[0]
-                                      // .GateOutDate
-                                      // .toString()
-                                      // .contains("1900")
-                                      // ? ""
-                                      // : getCustomFormattedDateTime(
-                                      // _bookingDetails[0].GateOutDate,
-                                      // 'dd-MM-yyyy HH:mm')
-                                      "15-01-2024 15:39")),
-                              // : _bookingDetails[0].GateOutDate)),
-                            ],
+                          Container(
+                            height: 50,
+                            color: Colors.transparent,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10.0),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                        " Dock-out",
+                                        style: mobileTimeLineHeaderFontStyle,
+                                      )),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                          // _bookingDetails.length == 0
+                                          // ? ""
+                                          // : _bookingDetails[0]
+                                          // .GateOutDate
+                                          // .toString()
+                                          // .contains("1900")
+                                          // ? ""
+                                          // : getCustomFormattedDateTime(
+                                          // _bookingDetails[0].GateOutDate,
+                                          // 'dd-MM-yyyy HH:mm')
+                                          "15-01-2024 15:39")),
+                                  // : _bookingDetails[0].GateOutDate)),
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      Container(
-                        height: 50,
-                        color: Colors.transparent,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 10.0),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.6,
-                                  child: Text(
-                                    " Customs Release",
-                                    style: mobileTimeLineHeaderFontStyle,
-                                  )),
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.6,
-                                  child: Text(
-                                      // _bookingDetails.length == 0
-                                      // ? ""
-                                      // : _bookingDetails[0]
-                                      // .GateOutDate
-                                      // .toString()
-                                      // .contains("1900")
-                                      // ? ""
-                                      // : getCustomFormattedDateTime(
-                                      // _bookingDetails[0].GateOutDate,
-                                      // 'dd-MM-yyyy HH:mm')
-                                      "15-01-2024 15:39")),
-                              // : _bookingDetails[0].GateOutDate)),
-                            ],
+                          Container(
+                            height: 50,
+                            color: Colors.transparent,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10.0),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                        " Customs Release",
+                                        style: mobileTimeLineHeaderFontStyle,
+                                      )),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                          // _bookingDetails.length == 0
+                                          // ? ""
+                                          // : _bookingDetails[0]
+                                          // .GateOutDate
+                                          // .toString()
+                                          // .contains("1900")
+                                          // ? ""
+                                          // : getCustomFormattedDateTime(
+                                          // _bookingDetails[0].GateOutDate,
+                                          // 'dd-MM-yyyy HH:mm')
+                                          "15-01-2024 15:39")),
+                                  // : _bookingDetails[0].GateOutDate)),
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      Container(
-                        height: 50,
-                        color: Colors.transparent,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 10.0),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.6,
-                                  child: Text(
-                                    " DOC",
-                                    style: mobileTimeLineHeaderFontStyle,
-                                  )),
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.6,
-                                  child: Text(
-                                      // _bookingDetails.length == 0
-                                      // ? ""
-                                      // : _bookingDetails[0]
-                                      // .GateOutDate
-                                      // .toString()
-                                      // .contains("1900")
-                                      // ? ""
-                                      // : getCustomFormattedDateTime(
-                                      // _bookingDetails[0].GateOutDate,
-                                      // 'dd-MM-yyyy HH:mm')
-                                      "15-01-2024 15:39")),
-                              // : _bookingDetails[0].GateOutDate)),
-                            ],
+                          Container(
+                            height: 50,
+                            color: Colors.transparent,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10.0),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                        " DOC",
+                                        style: mobileTimeLineHeaderFontStyle,
+                                      )),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                          // _bookingDetails.length == 0
+                                          // ? ""
+                                          // : _bookingDetails[0]
+                                          // .GateOutDate
+                                          // .toString()
+                                          // .contains("1900")
+                                          // ? ""
+                                          // : getCustomFormattedDateTime(
+                                          // _bookingDetails[0].GateOutDate,
+                                          // 'dd-MM-yyyy HH:mm')
+                                          "15-01-2024 15:39")),
+                                  // : _bookingDetails[0].GateOutDate)),
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      Container(
-                        height: 50,
-                        color: Colors.transparent,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 10.0),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.6,
-                                  child: Text(
-                                    " RCS",
-                                    style: mobileTimeLineHeaderFontStyle,
-                                  )),
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.6,
-                                  child: Text(
-                                      // _bookingDetails.length == 0
-                                      // ? ""
-                                      // : _bookingDetails[0]
-                                      // .GateOutDate
-                                      // .toString()
-                                      // .contains("1900")
-                                      // ? ""
-                                      // : getCustomFormattedDateTime(
-                                      // _bookingDetails[0].GateOutDate,
-                                      // 'dd-MM-yyyy HH:mm')
-                                      "15-01-2024 15:39")),
-                              // : _bookingDetails[0].GateOutDate)),
-                            ],
+                          Container(
+                            height: 50,
+                            color: Colors.transparent,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10.0),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                        " RCS",
+                                        style: mobileTimeLineHeaderFontStyle,
+                                      )),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                          // _bookingDetails.length == 0
+                                          // ? ""
+                                          // : _bookingDetails[0]
+                                          // .GateOutDate
+                                          // .toString()
+                                          // .contains("1900")
+                                          // ? ""
+                                          // : getCustomFormattedDateTime(
+                                          // _bookingDetails[0].GateOutDate,
+                                          // 'dd-MM-yyyy HH:mm')
+                                          "15-01-2024 15:39")),
+                                  // : _bookingDetails[0].GateOutDate)),
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      Container(
-                        height: 50,
-                        color: Colors.transparent,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 10.0),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.6,
-                                  child: Text(
-                                    " SCR",
-                                    style: mobileTimeLineHeaderFontStyle,
-                                  )),
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.6,
-                                  child: Text(
-                                      // _bookingDetails.length == 0
-                                      // ? ""
-                                      // : _bookingDetails[0]
-                                      // .GateOutDate
-                                      // .toString()
-                                      // .contains("1900")
-                                      // ? ""
-                                      // : getCustomFormattedDateTime(
-                                      // _bookingDetails[0].GateOutDate,
-                                      // 'dd-MM-yyyy HH:mm')
-                                      "15-01-2024 15:39")),
-                              // : _bookingDetails[0].GateOutDate)),
-                            ],
+                          Container(
+                            height: 50,
+                            color: Colors.transparent,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10.0),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                        " SCR",
+                                        style: mobileTimeLineHeaderFontStyle,
+                                      )),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                          // _bookingDetails.length == 0
+                                          // ? ""
+                                          // : _bookingDetails[0]
+                                          // .GateOutDate
+                                          // .toString()
+                                          // .contains("1900")
+                                          // ? ""
+                                          // : getCustomFormattedDateTime(
+                                          // _bookingDetails[0].GateOutDate,
+                                          // 'dd-MM-yyyy HH:mm')
+                                          "15-01-2024 15:39")),
+                                  // : _bookingDetails[0].GateOutDate)),
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      Container(
-                        height: 50,
-                        color: Colors.transparent,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 10.0),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.6,
-                                  child: Text(
-                                    " Flight Dep.",
-                                    style: mobileTimeLineHeaderFontStyle,
-                                  )),
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.6,
-                                  child: Text(
-                                      // _bookingDetails.length == 0
-                                      // ? ""
-                                      // : _bookingDetails[0]
-                                      // .GateOutDate
-                                      // .toString()
-                                      // .contains("1900")
-                                      // ? ""
-                                      // : getCustomFormattedDateTime(
-                                      // _bookingDetails[0].GateOutDate,
-                                      // 'dd-MM-yyyy HH:mm')
-                                      "15-01-2024 15:39")),
-                              // : _bookingDetails[0].GateOutDate)),
-                            ],
+                          Container(
+                            height: 50,
+                            color: Colors.transparent,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10.0),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                        " Flight Dep.",
+                                        style: mobileTimeLineHeaderFontStyle,
+                                      )),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                          // _bookingDetails.length == 0
+                                          // ? ""
+                                          // : _bookingDetails[0]
+                                          // .GateOutDate
+                                          // .toString()
+                                          // .contains("1900")
+                                          // ? ""
+                                          // : getCustomFormattedDateTime(
+                                          // _bookingDetails[0].GateOutDate,
+                                          // 'dd-MM-yyyy HH:mm')
+                                          "15-01-2024 15:39")),
+                                  // : _bookingDetails[0].GateOutDate)),
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      Container(
-                        height: 50,
-                        color: Colors.transparent,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 10.0),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.6,
-                                  child: Text(
-                                    " Export Manifest",
-                                    style: mobileTimeLineHeaderFontStyle,
-                                  )),
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.6,
-                                  child: Text(
-                                      // _bookingDetails.length == 0
-                                      // ? ""
-                                      // : _bookingDetails[0]
-                                      // .GateOutDate
-                                      // .toString()
-                                      // .contains("1900")
-                                      // ? ""
-                                      // : getCustomFormattedDateTime(
-                                      // _bookingDetails[0].GateOutDate,
-                                      // 'dd-MM-yyyy HH:mm')
-                                      "15-01-2024 15:39")),
-                              // : _bookingDetails[0].GateOutDate)),
-                            ],
+                          Container(
+                            height: 50,
+                            color: Colors.transparent,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10.0),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                        " Export Manifest",
+                                        style: mobileTimeLineHeaderFontStyle,
+                                      )),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                          // _bookingDetails.length == 0
+                                          // ? ""
+                                          // : _bookingDetails[0]
+                                          // .GateOutDate
+                                          // .toString()
+                                          // .contains("1900")
+                                          // ? ""
+                                          // : getCustomFormattedDateTime(
+                                          // _bookingDetails[0].GateOutDate,
+                                          // 'dd-MM-yyyy HH:mm')
+                                          "15-01-2024 15:39")),
+                                  // : _bookingDetails[0].GateOutDate)),
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ],
-                    indicators: <Widget>[
-                      Icon(
-                        // _bookingDetails.length == 0
-                        //     ? Icons.schedule
-                        //     : _bookingDetails[0]
-                        //     .CreatedOn
-                        //     .toString()
-                        //     .contains("1900")
-                        0 == 0 ? Icons.schedule : Icons.check_circle_outline,
-                        size: 40,
-                        color:
+                        ],
+                        indicators: <Widget>[
+                          Icon(
                             // _bookingDetails.length == 0
-                            //     ? const Color(0xff3a3a3a)
+                            //     ? Icons.schedule
                             //     : _bookingDetails[0]
                             //     .CreatedOn
                             //     .toString()
                             //     .contains("1900")
                             0 == 0
-                                ? Colors.red.shade200
-                                : Colors.green.shade200,
-                      ),
-                      Icon(
-                        // _bookingDetails.length == 0
-                        0 == 0
-                            ? Icons.schedule
-                            :
-                            // _bookingDetails[0]
-                            // .ConfirmedOn
-                            // .toString()
-                            // .contains("1900")
-                            0 == 0
-                                ?
-                                // _bookingDetails[0].Status == 0
-                                0 == 0
-                                    ? Icons.highlight_off
-                                    : Icons.schedule
+                                ? Icons.schedule
                                 : Icons.check_circle_outline,
-                        size: 40,
-                        color:
-                            // _bookingDetails.length == 0
-                            0 == 0
-                                ? const Color(0xff3a3a3a)
-                                :
-                                // _bookingDetails[0]
-                                //   .ConfirmedOn
-                                //   .toString()
-                                //   .contains("1900")
+                            size: 40,
+                            color:
+                                // _bookingDetails.length == 0
+                                //     ? const Color(0xff3a3a3a)
+                                //     : _bookingDetails[0]
+                                //     .CreatedOn
+                                //     .toString()
+                                //     .contains("1900")
                                 0 == 0
                                     ? Colors.red.shade200
                                     : Colors.green.shade200,
-                      ),
-                      Icon(
-                        // _bookingDetails.length == 0
-                        0 == 0
-                            ? Icons.schedule
-                            :
-                            // _bookingDetails[0]
-                            //                                     .PreGateDate
-                            //                                     .toString()
-                            //                                     .contains("1900")
-                            0 == 0
-                                ? Icons.schedule
-                                :
-                                // _bookingDetails[0].PreGate == 2
-                                0 == 0
-                                    ? Icons.highlight_off
-                                    : Icons.check_circle_outline,
-                        size: 40,
-                        color:
+                          ),
+                          Icon(
                             // _bookingDetails.length == 0
                             0 == 0
-                                ? const Color(0xff3a3a3a)
+                                ? Icons.schedule
                                 :
                                 // _bookingDetails[0]
-                                //   .PreGateDate
-                                //   .toString()
-                                //   .contains("1900")
+                                // .ConfirmedOn
+                                // .toString()
+                                // .contains("1900")
                                 0 == 0
-                                    ? Colors.red.shade200
-                                    :
-                                    // _bookingDetails[0].PreGate == 1
+                                    ?
+                                    // _bookingDetails[0].Status == 0
                                     0 == 0
-                                        ? Colors.green.shade200
-                                        : Colors.red.shade200,
-                      ),
-                      Icon(
-                        //  _bookingDetails.length == 0
-                        0 == 0
-                            ? Icons.schedule
-                            :
-                            // _bookingDetails[0]
-                            //     .GateInDate
-                            //     .toString()
-                            //     .contains("1900")
+                                        ? Icons.highlight_off
+                                        : Icons.schedule
+                                    : Icons.check_circle_outline,
+                            size: 40,
+                            color:
+                                // _bookingDetails.length == 0
+                                0 == 0
+                                    ? const Color(0xff3a3a3a)
+                                    :
+                                    // _bookingDetails[0]
+                                    //   .ConfirmedOn
+                                    //   .toString()
+                                    //   .contains("1900")
+                                    0 == 0
+                                        ? Colors.red.shade200
+                                        : Colors.green.shade200,
+                          ),
+                          Icon(
+                            // _bookingDetails.length == 0
                             0 == 0
                                 ? Icons.schedule
                                 :
-                                // _bookingDetails[0].GateIn == 2
+                                // _bookingDetails[0]
+                                //                                     .PreGateDate
+                                //                                     .toString()
+                                //                                     .contains("1900")
                                 0 == 0
-                                    ? Icons.highlight_off
-                                    : Icons.check_circle_outline,
-                        size: 40,
-                        color:
-                            // _bookingDetails.length == 0
+                                    ? Icons.schedule
+                                    :
+                                    // _bookingDetails[0].PreGate == 2
+                                    0 == 0
+                                        ? Icons.highlight_off
+                                        : Icons.check_circle_outline,
+                            size: 40,
+                            color:
+                                // _bookingDetails.length == 0
+                                0 == 0
+                                    ? const Color(0xff3a3a3a)
+                                    :
+                                    // _bookingDetails[0]
+                                    //   .PreGateDate
+                                    //   .toString()
+                                    //   .contains("1900")
+                                    0 == 0
+                                        ? Colors.red.shade200
+                                        :
+                                        // _bookingDetails[0].PreGate == 1
+                                        0 == 0
+                                            ? Colors.green.shade200
+                                            : Colors.red.shade200,
+                          ),
+                          Icon(
+                            //  _bookingDetails.length == 0
                             0 == 0
-                                ? const Color(0xff3a3a3a)
+                                ? Icons.schedule
                                 :
                                 // _bookingDetails[0]
                                 //     .GateInDate
                                 //     .toString()
                                 //     .contains("1900")
                                 0 == 0
-                                    ? Colors.red.shade200
+                                    ? Icons.schedule
                                     :
-                                    // _bookingDetails[0].GateIn == 1
+                                    // _bookingDetails[0].GateIn == 2
                                     0 == 0
-                                        ? Colors.green.shade200
-                                        : Colors.red.shade200,
-                      ),
-                      Icon(
-                        // _bookingDetails.length == 0
-                        0 == 0
-                            ? Icons.schedule
-                            :
-                            // _bookingDetails[0]
-                            //     .GateOutDate
-                            //     .toString()
-                            //     .contains("1900")
-                            0 == 0
-                                ? Icons.schedule
-                                :
-                                // _bookingDetails[0].GateOut == 2
+                                        ? Icons.highlight_off
+                                        : Icons.check_circle_outline,
+                            size: 40,
+                            color:
+                                // _bookingDetails.length == 0
                                 0 == 0
-                                    ? Icons.highlight_off
-                                    : Icons.check_circle_outline,
-                        size: 40,
-                        color:
+                                    ? const Color(0xff3a3a3a)
+                                    :
+                                    // _bookingDetails[0]
+                                    //     .GateInDate
+                                    //     .toString()
+                                    //     .contains("1900")
+                                    0 == 0
+                                        ? Colors.red.shade200
+                                        :
+                                        // _bookingDetails[0].GateIn == 1
+                                        0 == 0
+                                            ? Colors.green.shade200
+                                            : Colors.red.shade200,
+                          ),
+                          Icon(
                             // _bookingDetails.length == 0
                             0 == 0
-                                ? const Color(0xff3a3a3a)
+                                ? Icons.schedule
                                 :
                                 // _bookingDetails[0]
                                 //     .GateOutDate
                                 //     .toString()
                                 //     .contains("1900")
                                 0 == 0
-                                    ? Colors.red.shade200
+                                    ? Icons.schedule
                                     :
-                                    // _bookingDetails[0].GateOut == 1
+                                    // _bookingDetails[0].GateOut == 2
                                     0 == 0
-                                        ? Colors.green.shade200
-                                        : Colors.red.shade200,
-                      ),
-                      Icon(
-                        // _bookingDetails.length == 0
-                        0 == 0
-                            ? Icons.schedule
-                            :
-                            // _bookingDetails[0]
-                            // .ConfirmedOn
-                            // .toString()
-                            // .contains("1900")
-                            0 == 0
-                                ?
-                                // _bookingDetails[0].Status == 0
+                                        ? Icons.highlight_off
+                                        : Icons.check_circle_outline,
+                            size: 40,
+                            color:
+                                // _bookingDetails.length == 0
                                 0 == 0
-                                    ? Icons.highlight_off
-                                    : Icons.schedule
-                                : Icons.check_circle_outline,
-                        size: 40,
-                        color:
+                                    ? const Color(0xff3a3a3a)
+                                    :
+                                    // _bookingDetails[0]
+                                    //     .GateOutDate
+                                    //     .toString()
+                                    //     .contains("1900")
+                                    0 == 0
+                                        ? Colors.red.shade200
+                                        :
+                                        // _bookingDetails[0].GateOut == 1
+                                        0 == 0
+                                            ? Colors.green.shade200
+                                            : Colors.red.shade200,
+                          ),
+                          Icon(
                             // _bookingDetails.length == 0
-                            0 == 0
-                                ? const Color(0xff3a3a3a)
-                                :
-                                // _bookingDetails[0]
-                                //   .ConfirmedOn
-                                //   .toString()
-                                //   .contains("1900")
-                                0 == 0
-                                    ? Colors.red.shade200
-                                    : Colors.green.shade200,
-                      ),
-                      Icon(
-                        // _bookingDetails.length == 0
-                        0 == 0
-                            ? Icons.schedule
-                            :
-                            // _bookingDetails[0]
-                            //                                     .PreGateDate
-                            //                                     .toString()
-                            //                                     .contains("1900")
                             0 == 0
                                 ? Icons.schedule
                                 :
-                                // _bookingDetails[0].PreGate == 2
-                                0 == 0
-                                    ? Icons.highlight_off
-                                    : Icons.check_circle_outline,
-                        size: 40,
-                        color:
-                            // _bookingDetails.length == 0
-                            0 == 0
-                                ? const Color(0xff3a3a3a)
-                                :
                                 // _bookingDetails[0]
-                                //   .PreGateDate
-                                //   .toString()
-                                //   .contains("1900")
+                                // .ConfirmedOn
+                                // .toString()
+                                // .contains("1900")
                                 0 == 0
-                                    ? Colors.red.shade200
-                                    :
-                                    // _bookingDetails[0].PreGate == 1
+                                    ?
+                                    // _bookingDetails[0].Status == 0
                                     0 == 0
-                                        ? Colors.green.shade200
-                                        : Colors.red.shade200,
-                      ),
-                      Icon(
-                        //  _bookingDetails.length == 0
-                        0 == 0
-                            ? Icons.schedule
-                            :
-                            // _bookingDetails[0]
-                            //     .GateInDate
-                            //     .toString()
-                            //     .contains("1900")
+                                        ? Icons.highlight_off
+                                        : Icons.schedule
+                                    : Icons.check_circle_outline,
+                            size: 40,
+                            color:
+                                // _bookingDetails.length == 0
+                                0 == 0
+                                    ? const Color(0xff3a3a3a)
+                                    :
+                                    // _bookingDetails[0]
+                                    //   .ConfirmedOn
+                                    //   .toString()
+                                    //   .contains("1900")
+                                    0 == 0
+                                        ? Colors.red.shade200
+                                        : Colors.green.shade200,
+                          ),
+                          Icon(
+                            // _bookingDetails.length == 0
                             0 == 0
                                 ? Icons.schedule
                                 :
-                                // _bookingDetails[0].GateIn == 2
+                                // _bookingDetails[0]
+                                //                                     .PreGateDate
+                                //                                     .toString()
+                                //                                     .contains("1900")
                                 0 == 0
-                                    ? Icons.highlight_off
-                                    : Icons.check_circle_outline,
-                        size: 40,
-                        color:
-                            // _bookingDetails.length == 0
+                                    ? Icons.schedule
+                                    :
+                                    // _bookingDetails[0].PreGate == 2
+                                    0 == 0
+                                        ? Icons.highlight_off
+                                        : Icons.check_circle_outline,
+                            size: 40,
+                            color:
+                                // _bookingDetails.length == 0
+                                0 == 0
+                                    ? const Color(0xff3a3a3a)
+                                    :
+                                    // _bookingDetails[0]
+                                    //   .PreGateDate
+                                    //   .toString()
+                                    //   .contains("1900")
+                                    0 == 0
+                                        ? Colors.red.shade200
+                                        :
+                                        // _bookingDetails[0].PreGate == 1
+                                        0 == 0
+                                            ? Colors.green.shade200
+                                            : Colors.red.shade200,
+                          ),
+                          Icon(
+                            //  _bookingDetails.length == 0
                             0 == 0
-                                ? const Color(0xff3a3a3a)
+                                ? Icons.schedule
                                 :
                                 // _bookingDetails[0]
                                 //     .GateInDate
                                 //     .toString()
                                 //     .contains("1900")
                                 0 == 0
-                                    ? Colors.red.shade200
+                                    ? Icons.schedule
                                     :
-                                    // _bookingDetails[0].GateIn == 1
+                                    // _bookingDetails[0].GateIn == 2
                                     0 == 0
-                                        ? Colors.green.shade200
-                                        : Colors.red.shade200,
-                      ),
-                      Icon(
-                        // _bookingDetails.length == 0
-                        0 == 0
-                            ? Icons.schedule
-                            :
-                            // _bookingDetails[0]
-                            //     .GateOutDate
-                            //     .toString()
-                            //     .contains("1900")
-                            0 == 0
-                                ? Icons.schedule
-                                :
-                                // _bookingDetails[0].GateOut == 2
+                                        ? Icons.highlight_off
+                                        : Icons.check_circle_outline,
+                            size: 40,
+                            color:
+                                // _bookingDetails.length == 0
                                 0 == 0
-                                    ? Icons.highlight_off
-                                    : Icons.check_circle_outline,
-                        size: 40,
-                        color:
+                                    ? const Color(0xff3a3a3a)
+                                    :
+                                    // _bookingDetails[0]
+                                    //     .GateInDate
+                                    //     .toString()
+                                    //     .contains("1900")
+                                    0 == 0
+                                        ? Colors.red.shade200
+                                        :
+                                        // _bookingDetails[0].GateIn == 1
+                                        0 == 0
+                                            ? Colors.green.shade200
+                                            : Colors.red.shade200,
+                          ),
+                          Icon(
                             // _bookingDetails.length == 0
                             0 == 0
-                                ? const Color(0xff3a3a3a)
+                                ? Icons.schedule
                                 :
                                 // _bookingDetails[0]
                                 //     .GateOutDate
                                 //     .toString()
                                 //     .contains("1900")
                                 0 == 0
-                                    ? Colors.red.shade200
+                                    ? Icons.schedule
                                     :
-                                    // _bookingDetails[0].GateOut == 1
+                                    // _bookingDetails[0].GateOut == 2
                                     0 == 0
-                                        ? Colors.green.shade200
-                                        : Colors.red.shade200,
-                      ),
-                      Icon(
-                        // _bookingDetails.length == 0
-                        0 == 0
-                            ? Icons.schedule
-                            :
-                            // _bookingDetails[0]
-                            //     .GateOutDate
-                            //     .toString()
-                            //     .contains("1900")
-                            0 == 0
-                                ? Icons.schedule
-                                :
-                                // _bookingDetails[0].GateOut == 2
+                                        ? Icons.highlight_off
+                                        : Icons.check_circle_outline,
+                            size: 40,
+                            color:
+                                // _bookingDetails.length == 0
                                 0 == 0
-                                    ? Icons.highlight_off
-                                    : Icons.check_circle_outline,
-                        size: 40,
-                        color:
+                                    ? const Color(0xff3a3a3a)
+                                    :
+                                    // _bookingDetails[0]
+                                    //     .GateOutDate
+                                    //     .toString()
+                                    //     .contains("1900")
+                                    0 == 0
+                                        ? Colors.red.shade200
+                                        :
+                                        // _bookingDetails[0].GateOut == 1
+                                        0 == 0
+                                            ? Colors.green.shade200
+                                            : Colors.red.shade200,
+                          ),
+                          Icon(
                             // _bookingDetails.length == 0
                             0 == 0
-                                ? const Color(0xff3a3a3a)
+                                ? Icons.schedule
                                 :
                                 // _bookingDetails[0]
                                 //     .GateOutDate
                                 //     .toString()
                                 //     .contains("1900")
                                 0 == 0
-                                    ? Colors.red.shade200
+                                    ? Icons.schedule
                                     :
-                                    // _bookingDetails[0].GateOut == 1
+                                    // _bookingDetails[0].GateOut == 2
                                     0 == 0
-                                        ? Colors.green.shade200
-                                        : Colors.red.shade200,
-                      ),
-                      Icon(
-                        // _bookingDetails.length == 0
-                        0 == 0
-                            ? Icons.schedule
-                            :
-                            // _bookingDetails[0]
-                            //     .GateOutDate
-                            //     .toString()
-                            //     .contains("1900")
-                            0 == 0
-                                ? Icons.schedule
-                                :
-                                // _bookingDetails[0].GateOut == 2
+                                        ? Icons.highlight_off
+                                        : Icons.check_circle_outline,
+                            size: 40,
+                            color:
+                                // _bookingDetails.length == 0
                                 0 == 0
-                                    ? Icons.highlight_off
-                                    : Icons.check_circle_outline,
-                        size: 40,
-                        color:
+                                    ? const Color(0xff3a3a3a)
+                                    :
+                                    // _bookingDetails[0]
+                                    //     .GateOutDate
+                                    //     .toString()
+                                    //     .contains("1900")
+                                    0 == 0
+                                        ? Colors.red.shade200
+                                        :
+                                        // _bookingDetails[0].GateOut == 1
+                                        0 == 0
+                                            ? Colors.green.shade200
+                                            : Colors.red.shade200,
+                          ),
+                          Icon(
                             // _bookingDetails.length == 0
                             0 == 0
-                                ? const Color(0xff3a3a3a)
+                                ? Icons.schedule
                                 :
                                 // _bookingDetails[0]
                                 //     .GateOutDate
                                 //     .toString()
                                 //     .contains("1900")
                                 0 == 0
-                                    ? Colors.red.shade200
+                                    ? Icons.schedule
                                     :
-                                    // _bookingDetails[0].GateOut == 1
+                                    // _bookingDetails[0].GateOut == 2
                                     0 == 0
-                                        ? Colors.green.shade200
-                                        : Colors.red.shade200,
-                      ),
-                      Icon(
-                        // _bookingDetails.length == 0
-                        0 == 0
-                            ? Icons.schedule
-                            :
-                            // _bookingDetails[0]
-                            //     .GateOutDate
-                            //     .toString()
-                            //     .contains("1900")
-                            0 == 0
-                                ? Icons.schedule
-                                :
-                                // _bookingDetails[0].GateOut == 2
+                                        ? Icons.highlight_off
+                                        : Icons.check_circle_outline,
+                            size: 40,
+                            color:
+                                // _bookingDetails.length == 0
                                 0 == 0
-                                    ? Icons.highlight_off
-                                    : Icons.check_circle_outline,
-                        size: 40,
-                        color:
+                                    ? const Color(0xff3a3a3a)
+                                    :
+                                    // _bookingDetails[0]
+                                    //     .GateOutDate
+                                    //     .toString()
+                                    //     .contains("1900")
+                                    0 == 0
+                                        ? Colors.red.shade200
+                                        :
+                                        // _bookingDetails[0].GateOut == 1
+                                        0 == 0
+                                            ? Colors.green.shade200
+                                            : Colors.red.shade200,
+                          ),
+                          Icon(
                             // _bookingDetails.length == 0
                             0 == 0
-                                ? const Color(0xff3a3a3a)
+                                ? Icons.schedule
                                 :
                                 // _bookingDetails[0]
                                 //     .GateOutDate
                                 //     .toString()
                                 //     .contains("1900")
                                 0 == 0
-                                    ? Colors.red.shade200
+                                    ? Icons.schedule
                                     :
-                                    // _bookingDetails[0].GateOut == 1
+                                    // _bookingDetails[0].GateOut == 2
                                     0 == 0
-                                        ? Colors.green.shade200
-                                        : Colors.red.shade200,
-                      ),
-                      Icon(
-                        // _bookingDetails.length == 0
-                        0 == 0
-                            ? Icons.schedule
-                            :
-                            // _bookingDetails[0]
-                            //     .GateOutDate
-                            //     .toString()
-                            //     .contains("1900")
-                            0 == 0
-                                ? Icons.schedule
-                                :
-                                // _bookingDetails[0].GateOut == 2
+                                        ? Icons.highlight_off
+                                        : Icons.check_circle_outline,
+                            size: 40,
+                            color:
+                                // _bookingDetails.length == 0
                                 0 == 0
-                                    ? Icons.highlight_off
-                                    : Icons.check_circle_outline,
-                        size: 40,
-                        color:
+                                    ? const Color(0xff3a3a3a)
+                                    :
+                                    // _bookingDetails[0]
+                                    //     .GateOutDate
+                                    //     .toString()
+                                    //     .contains("1900")
+                                    0 == 0
+                                        ? Colors.red.shade200
+                                        :
+                                        // _bookingDetails[0].GateOut == 1
+                                        0 == 0
+                                            ? Colors.green.shade200
+                                            : Colors.red.shade200,
+                          ),
+                          Icon(
                             // _bookingDetails.length == 0
                             0 == 0
-                                ? const Color(0xff3a3a3a)
+                                ? Icons.schedule
                                 :
                                 // _bookingDetails[0]
                                 //     .GateOutDate
                                 //     .toString()
                                 //     .contains("1900")
                                 0 == 0
-                                    ? Colors.red.shade200
+                                    ? Icons.schedule
                                     :
-                                    // _bookingDetails[0].GateOut == 1
+                                    // _bookingDetails[0].GateOut == 2
                                     0 == 0
-                                        ? Colors.green.shade200
-                                        : Colors.red.shade200,
-                      ),
-                      Icon(
-                        // _bookingDetails.length == 0
-                        0 == 0
-                            ? Icons.schedule
-                            :
-                            // _bookingDetails[0]
-                            //     .GateOutDate
-                            //     .toString()
-                            //     .contains("1900")
-                            0 == 0
-                                ? Icons.schedule
-                                :
-                                // _bookingDetails[0].GateOut == 2
+                                        ? Icons.highlight_off
+                                        : Icons.check_circle_outline,
+                            size: 40,
+                            color:
+                                // _bookingDetails.length == 0
                                 0 == 0
-                                    ? Icons.highlight_off
-                                    : Icons.check_circle_outline,
-                        size: 40,
-                        color:
+                                    ? const Color(0xff3a3a3a)
+                                    :
+                                    // _bookingDetails[0]
+                                    //     .GateOutDate
+                                    //     .toString()
+                                    //     .contains("1900")
+                                    0 == 0
+                                        ? Colors.red.shade200
+                                        :
+                                        // _bookingDetails[0].GateOut == 1
+                                        0 == 0
+                                            ? Colors.green.shade200
+                                            : Colors.red.shade200,
+                          ),
+                          Icon(
                             // _bookingDetails.length == 0
                             0 == 0
-                                ? const Color(0xff3a3a3a)
+                                ? Icons.schedule
                                 :
                                 // _bookingDetails[0]
                                 //     .GateOutDate
                                 //     .toString()
                                 //     .contains("1900")
                                 0 == 0
-                                    ? Colors.red.shade200
+                                    ? Icons.schedule
                                     :
-                                    // _bookingDetails[0].GateOut == 1
+                                    // _bookingDetails[0].GateOut == 2
                                     0 == 0
-                                        ? Colors.green.shade200
-                                        : Colors.red.shade200,
-                      ),
-                      Icon(
-                        // _bookingDetails.length == 0
-                        0 == 0
-                            ? Icons.schedule
-                            :
-                            // _bookingDetails[0]
-                            //     .GateOutDate
-                            //     .toString()
-                            //     .contains("1900")
-                            0 == 0
-                                ? Icons.schedule
-                                :
-                                // _bookingDetails[0].GateOut == 2
+                                        ? Icons.highlight_off
+                                        : Icons.check_circle_outline,
+                            size: 40,
+                            color:
+                                // _bookingDetails.length == 0
                                 0 == 0
-                                    ? Icons.highlight_off
-                                    : Icons.check_circle_outline,
-                        size: 40,
-                        color:
+                                    ? const Color(0xff3a3a3a)
+                                    :
+                                    // _bookingDetails[0]
+                                    //     .GateOutDate
+                                    //     .toString()
+                                    //     .contains("1900")
+                                    0 == 0
+                                        ? Colors.red.shade200
+                                        :
+                                        // _bookingDetails[0].GateOut == 1
+                                        0 == 0
+                                            ? Colors.green.shade200
+                                            : Colors.red.shade200,
+                          ),
+                          Icon(
                             // _bookingDetails.length == 0
                             0 == 0
-                                ? const Color(0xff3a3a3a)
+                                ? Icons.schedule
                                 :
                                 // _bookingDetails[0]
                                 //     .GateOutDate
                                 //     .toString()
                                 //     .contains("1900")
                                 0 == 0
-                                    ? Colors.red.shade200
+                                    ? Icons.schedule
                                     :
-                                    // _bookingDetails[0].GateOut == 1
+                                    // _bookingDetails[0].GateOut == 2
                                     0 == 0
-                                        ? Colors.green.shade200
-                                        : Colors.red.shade200,
+                                        ? Icons.highlight_off
+                                        : Icons.check_circle_outline,
+                            size: 40,
+                            color:
+                                // _bookingDetails.length == 0
+                                0 == 0
+                                    ? const Color(0xff3a3a3a)
+                                    :
+                                    // _bookingDetails[0]
+                                    //     .GateOutDate
+                                    //     .toString()
+                                    //     .contains("1900")
+                                    0 == 0
+                                        ? Colors.red.shade200
+                                        :
+                                        // _bookingDetails[0].GateOut == 1
+                                        0 == 0
+                                            ? Colors.green.shade200
+                                            : Colors.red.shade200,
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                )
-                  // Container(
-                  //   height: isImport
-                  //       ? trackingType == 0 || trackingType == 1
-                  //           ? MediaQuery.of(context).size.height / 1.85
-                  //           : trackingType == 2
-                  //               ? MediaQuery.of(context).size.height / 1.62
-                  //               : MediaQuery.of(context).size.height / 1.85
-                  //       : trackingType == 1
-                  //           ? MediaQuery.of(context).size.height / 1.85
-                  //           : MediaQuery.of(context).size.height / 1.62,
-                  //   width: MediaQuery.of(context).size.width,
-                  //   margin: EdgeInsets.only(right: 8, top: 8),
-                  //   child:,
-                  // ),
+                    )
+                      // Container(
+                      //   height: isImport
+                      //       ? trackingType == 0 || trackingType == 1
+                      //           ? MediaQuery.of(context).size.height / 1.85
+                      //           : trackingType == 2
+                      //               ? MediaQuery.of(context).size.height / 1.62
+                      //               : MediaQuery.of(context).size.height / 1.85
+                      //       : trackingType == 1
+                      //           ? MediaQuery.of(context).size.height / 1.85
+                      //           : MediaQuery.of(context).size.height / 1.62,
+                      //   width: MediaQuery.of(context).size.width,
+                      //   margin: EdgeInsets.only(right: 8, top: 8),
+                      //   child:,
+                      // ),
 
-                  // SingleChildScrollView(
-                  //   child: Padding(
-                  //     padding: useMobileLayout
-                  //         ? const EdgeInsets.only(top: 2.0, left: 0.0)
-                  //         : const EdgeInsets.only(
-                  //             top: 2.0, bottom: 10.0, left: 40.0),
-                  //     child: SizedBox(
-                  //         width: useMobileLayout
-                  //             ? MediaQuery.of(context).size.width / 1.01
-                  //             : MediaQuery.of(context).size.width / 1.19,
-                  //         child: ListView.builder(
-                  //           physics: NeverScrollableScrollPhysics(),
-                  //           itemBuilder: (BuildContext, index) {
-                  //             VehicleToken _dockinlist =
-                  //                 vehicleToeknListToBind.elementAt(index);
-                  //             return buildDockList(_dockinlist, index);
-                  //           },
-                  //           itemCount: vehicleToeknListToBind.length,
-                  //           shrinkWrap: true,
-                  //           padding: EdgeInsets.all(2),
-                  //         )),
-                  //   ),
-                  // ),
-                  )
+                      // SingleChildScrollView(
+                      //   child: Padding(
+                      //     padding: useMobileLayout
+                      //         ? const EdgeInsets.only(top: 2.0, left: 0.0)
+                      //         : const EdgeInsets.only(
+                      //             top: 2.0, bottom: 10.0, left: 40.0),
+                      //     child: SizedBox(
+                      //         width: useMobileLayout
+                      //             ? MediaQuery.of(context).size.width / 1.01
+                      //             : MediaQuery.of(context).size.width / 1.19,
+                      //         child: ListView.builder(
+                      //           physics: NeverScrollableScrollPhysics(),
+                      //           itemBuilder: (BuildContext, index) {
+                      //             VehicleToken _dockinlist =
+                      //                 vehicleToeknListToBind.elementAt(index);
+                      //             return buildDockList(_dockinlist, index);
+                      //           },
+                      //           itemCount: vehicleToeknListToBind.length,
+                      //           shrinkWrap: true,
+                      //           padding: EdgeInsets.all(2),
+                      //         )),
+                      //   ),
+                      // ),
+                      )
+                  : Expanded(
+                      child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 40,
+                            color: Color(0xFF11249F),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(right: 20, left: 20),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.8,
+                                      child: Text(
+                                        " EVT Number",
+                                        style: mobileHeaderFontStyleBold2,
+                                      )),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.4,
+                                      child: Text(
+                                        "Vehicle Number",
+                                        style: mobileHeaderFontStyleBold2,
+                                      )),
+                                ],
+                              ),
+                            ),
+                          ),
+                          ListView(
+                            padding: EdgeInsets.zero,
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            children: [
+                              Card(
+                                color: Colors.white,
+                                elevation: 3.0,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 4.0, right: 4.0, top: 4.0),
+                                  child: ExpansionTile(
+                                    title: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                2.2,
+                                            child: Text(
+                                              " EVT2401190001",
+                                              style:
+                                                  mobileTimeLineHeaderFontStyle,
+                                            )),
+                                        SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                3.1,
+                                            child: Text(
+                                              " 12341111",
+                                              style:
+                                                  mobileTimeLineHeaderFontStyle,
+                                            )),
+                                      ],
+                                    ),
+                                    // subtitle: Text(" 1234",style: TextStyle(color: Colors.black87),),
+                                    children: [
+                                      Timeline(
+                                        children: <Widget>[
+                                          Container(
+                                            height: 50,
+                                            color: Colors.transparent,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10.0),
+                                              child: Row(
+                                                children: [
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                        " Parking Area",
+                                                        style:
+                                                            mobileTimeLineHeaderFontStyle,
+                                                      )),
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                          // _bookingDetails.length == 0
+                                                          // ? ""
+                                                          // : _bookingDetails[0]
+                                                          // .CreatedOn
+                                                          // .toString()
+                                                          // .contains("1900")
+                                                          // ? ""
+                                                          // : getCustomFormattedDateTime(
+                                                          // _bookingDetails[0].CreatedOn,
+                                                          // 'dd-MM-yyyy HH:mm')
+                                                          "15-01-2024 15:39")),
+                                                  // : _bookingDetails[0].CreatedOn)),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 50,
+                                            color: Colors.transparent,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10.0),
+                                              child: Row(
+                                                children: [
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                        " Dock-IN",
+                                                        style:
+                                                            mobileTimeLineHeaderFontStyle,
+                                                      )),
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                          // _bookingDetails.length == 0
+                                                          // ? ""
+                                                          // : _bookingDetails[0]
+                                                          // .GateOutDate
+                                                          // .toString()
+                                                          // .contains("1900")
+                                                          // ? ""
+                                                          // : getCustomFormattedDateTime(
+                                                          // _bookingDetails[0].GateOutDate,
+                                                          // 'dd-MM-yyyy HH:mm')
+                                                          "15-01-2024 15:39")),
+                                                  // : _bookingDetails[0].GateOutDate)),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 50,
+                                            color: Colors.transparent,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10.0),
+                                              child: Row(
+                                                children: [
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                        " Dock-OUT",
+                                                        style:
+                                                            mobileTimeLineHeaderFontStyle,
+                                                      )),
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                          // _bookingDetails.length == 0
+                                                          // ? ""
+                                                          // : _bookingDetails[0]
+                                                          // .ConfirmedOn
+                                                          // .toString()
+                                                          // .contains("1900")
+                                                          // ? ""
+                                                          // : getCustomFormattedDateTime(
+                                                          // _bookingDetails[0].ConfirmedOn,
+                                                          // 'dd-MM-yyyy HH:mm')
+                                                          "15-01-2024 15:39")),
+                                                  // : _bookingDetails[0].ConfirmedOn)),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                        indicators: <Widget>[
+                                          Icon(
+                                            // _bookingDetails.length == 0
+                                            //     ? Icons.schedule
+                                            //     : _bookingDetails[0]
+                                            //     .CreatedOn
+                                            //     .toString()
+                                            //     .contains("1900")
+                                            0 == 0
+                                                ? Icons.schedule
+                                                : Icons.check_circle_outline,
+                                            size: 40,
+                                            color:
+                                                // _bookingDetails.length == 0
+                                                //     ? const Color(0xff3a3a3a)
+                                                //     : _bookingDetails[0]
+                                                //     .CreatedOn
+                                                //     .toString()
+                                                //     .contains("1900")
+                                                0 == 0
+                                                    ? Colors.red.shade200
+                                                    : Colors.green.shade200,
+                                          ),
+                                          Icon(
+                                            // _bookingDetails.length == 0
+                                            0 == 0
+                                                ? Icons.schedule
+                                                :
+                                                // _bookingDetails[0]
+                                                // .ConfirmedOn
+                                                // .toString()
+                                                // .contains("1900")
+                                                0 == 0
+                                                    ?
+                                                    // _bookingDetails[0].Status == 0
+                                                    0 == 0
+                                                        ? Icons.highlight_off
+                                                        : Icons.schedule
+                                                    : Icons
+                                                        .check_circle_outline,
+                                            size: 40,
+                                            color:
+                                                // _bookingDetails.length == 0
+                                                0 == 0
+                                                    ? const Color(0xff3a3a3a)
+                                                    :
+                                                    // _bookingDetails[0]
+                                                    //   .ConfirmedOn
+                                                    //   .toString()
+                                                    //   .contains("1900")
+                                                    0 == 0
+                                                        ? Colors.red.shade200
+                                                        : Colors.green.shade200,
+                                          ),
+                                          Icon(
+                                            // _bookingDetails.length == 0
+                                            0 == 0
+                                                ? Icons.schedule
+                                                :
+                                                // _bookingDetails[0]
+                                                //                                     .PreGateDate
+                                                //                                     .toString()
+                                                //                                     .contains("1900")
+                                                0 == 0
+                                                    ? Icons.schedule
+                                                    :
+                                                    // _bookingDetails[0].PreGate == 2
+                                                    0 == 0
+                                                        ? Icons.highlight_off
+                                                        : Icons
+                                                            .check_circle_outline,
+                                            size: 40,
+                                            color:
+                                                // _bookingDetails.length == 0
+                                                0 == 0
+                                                    ? const Color(0xff3a3a3a)
+                                                    :
+                                                    // _bookingDetails[0]
+                                                    //   .PreGateDate
+                                                    //   .toString()
+                                                    //   .contains("1900")
+                                                    0 == 0
+                                                        ? Colors.red.shade200
+                                                        :
+                                                        // _bookingDetails[0].PreGate == 1
+                                                        0 == 0
+                                                            ? Colors
+                                                                .green.shade200
+                                                            : Colors
+                                                                .red.shade200,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Card(
+                                color: Colors.white,
+                                elevation: 3.0,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 4.0, right: 4.0, top: 4.0),
+                                  child: ExpansionTile(
+                                    title: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                2.2,
+                                            child: Text(
+                                              " EVT2401190001",
+                                              style:
+                                                  mobileTimeLineHeaderFontStyle,
+                                            )),
+                                        SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                3.1,
+                                            child: Text(
+                                              " 12341111",
+                                              style:
+                                                  mobileTimeLineHeaderFontStyle,
+                                            )),
+                                      ],
+                                    ),
+                                    // subtitle: Text(" 1234",style: TextStyle(color: Colors.black87),),
+                                    children: [
+                                      Timeline(
+                                        children: <Widget>[
+                                          Container(
+                                            height: 50,
+                                            color: Colors.transparent,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10.0),
+                                              child: Row(
+                                                children: [
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                        " Parking Area",
+                                                        style:
+                                                            mobileTimeLineHeaderFontStyle,
+                                                      )),
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                          // _bookingDetails.length == 0
+                                                          // ? ""
+                                                          // : _bookingDetails[0]
+                                                          // .CreatedOn
+                                                          // .toString()
+                                                          // .contains("1900")
+                                                          // ? ""
+                                                          // : getCustomFormattedDateTime(
+                                                          // _bookingDetails[0].CreatedOn,
+                                                          // 'dd-MM-yyyy HH:mm')
+                                                          "15-01-2024 15:39")),
+                                                  // : _bookingDetails[0].CreatedOn)),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 50,
+                                            color: Colors.transparent,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10.0),
+                                              child: Row(
+                                                children: [
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                        " Dock-IN",
+                                                        style:
+                                                            mobileTimeLineHeaderFontStyle,
+                                                      )),
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                          // _bookingDetails.length == 0
+                                                          // ? ""
+                                                          // : _bookingDetails[0]
+                                                          // .GateOutDate
+                                                          // .toString()
+                                                          // .contains("1900")
+                                                          // ? ""
+                                                          // : getCustomFormattedDateTime(
+                                                          // _bookingDetails[0].GateOutDate,
+                                                          // 'dd-MM-yyyy HH:mm')
+                                                          "15-01-2024 15:39")),
+                                                  // : _bookingDetails[0].GateOutDate)),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 50,
+                                            color: Colors.transparent,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10.0),
+                                              child: Row(
+                                                children: [
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                        " Dock-OUT",
+                                                        style:
+                                                            mobileTimeLineHeaderFontStyle,
+                                                      )),
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                          // _bookingDetails.length == 0
+                                                          // ? ""
+                                                          // : _bookingDetails[0]
+                                                          // .ConfirmedOn
+                                                          // .toString()
+                                                          // .contains("1900")
+                                                          // ? ""
+                                                          // : getCustomFormattedDateTime(
+                                                          // _bookingDetails[0].ConfirmedOn,
+                                                          // 'dd-MM-yyyy HH:mm')
+                                                          "15-01-2024 15:39")),
+                                                  // : _bookingDetails[0].ConfirmedOn)),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                        indicators: <Widget>[
+                                          Icon(
+                                            // _bookingDetails.length == 0
+                                            //     ? Icons.schedule
+                                            //     : _bookingDetails[0]
+                                            //     .CreatedOn
+                                            //     .toString()
+                                            //     .contains("1900")
+                                            0 == 0
+                                                ? Icons.schedule
+                                                : Icons.check_circle_outline,
+                                            size: 40,
+                                            color:
+                                                // _bookingDetails.length == 0
+                                                //     ? const Color(0xff3a3a3a)
+                                                //     : _bookingDetails[0]
+                                                //     .CreatedOn
+                                                //     .toString()
+                                                //     .contains("1900")
+                                                0 == 0
+                                                    ? Colors.red.shade200
+                                                    : Colors.green.shade200,
+                                          ),
+                                          Icon(
+                                            // _bookingDetails.length == 0
+                                            0 == 0
+                                                ? Icons.schedule
+                                                :
+                                                // _bookingDetails[0]
+                                                // .ConfirmedOn
+                                                // .toString()
+                                                // .contains("1900")
+                                                0 == 0
+                                                    ?
+                                                    // _bookingDetails[0].Status == 0
+                                                    0 == 0
+                                                        ? Icons.highlight_off
+                                                        : Icons.schedule
+                                                    : Icons
+                                                        .check_circle_outline,
+                                            size: 40,
+                                            color:
+                                                // _bookingDetails.length == 0
+                                                0 == 0
+                                                    ? const Color(0xff3a3a3a)
+                                                    :
+                                                    // _bookingDetails[0]
+                                                    //   .ConfirmedOn
+                                                    //   .toString()
+                                                    //   .contains("1900")
+                                                    0 == 0
+                                                        ? Colors.red.shade200
+                                                        : Colors.green.shade200,
+                                          ),
+                                          Icon(
+                                            // _bookingDetails.length == 0
+                                            0 == 0
+                                                ? Icons.schedule
+                                                :
+                                                // _bookingDetails[0]
+                                                //                                     .PreGateDate
+                                                //                                     .toString()
+                                                //                                     .contains("1900")
+                                                0 == 0
+                                                    ? Icons.schedule
+                                                    :
+                                                    // _bookingDetails[0].PreGate == 2
+                                                    0 == 0
+                                                        ? Icons.highlight_off
+                                                        : Icons
+                                                            .check_circle_outline,
+                                            size: 40,
+                                            color:
+                                                // _bookingDetails.length == 0
+                                                0 == 0
+                                                    ? const Color(0xff3a3a3a)
+                                                    :
+                                                    // _bookingDetails[0]
+                                                    //   .PreGateDate
+                                                    //   .toString()
+                                                    //   .contains("1900")
+                                                    0 == 0
+                                                        ? Colors.red.shade200
+                                                        :
+                                                        // _bookingDetails[0].PreGate == 1
+                                                        0 == 0
+                                                            ? Colors
+                                                                .green.shade200
+                                                            : Colors
+                                                                .red.shade200,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Card(
+                                color: Colors.white,
+                                elevation: 3.0,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 4.0, right: 4.0, top: 4.0),
+                                  child: ExpansionTile(
+                                    title: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                2.2,
+                                            child: Text(
+                                              " EVT2401190001",
+                                              style:
+                                                  mobileTimeLineHeaderFontStyle,
+                                            )),
+                                        SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                3.1,
+                                            child: Text(
+                                              " 12341111",
+                                              style:
+                                                  mobileTimeLineHeaderFontStyle,
+                                            )),
+                                      ],
+                                    ),
+                                    // subtitle: Text(" 1234",style: TextStyle(color: Colors.black87),),
+                                    children: [
+                                      Timeline(
+                                        children: <Widget>[
+                                          Container(
+                                            height: 50,
+                                            color: Colors.transparent,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10.0),
+                                              child: Row(
+                                                children: [
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                        " Parking Area",
+                                                        style:
+                                                            mobileTimeLineHeaderFontStyle,
+                                                      )),
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                          // _bookingDetails.length == 0
+                                                          // ? ""
+                                                          // : _bookingDetails[0]
+                                                          // .CreatedOn
+                                                          // .toString()
+                                                          // .contains("1900")
+                                                          // ? ""
+                                                          // : getCustomFormattedDateTime(
+                                                          // _bookingDetails[0].CreatedOn,
+                                                          // 'dd-MM-yyyy HH:mm')
+                                                          "15-01-2024 15:39")),
+                                                  // : _bookingDetails[0].CreatedOn)),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 50,
+                                            color: Colors.transparent,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10.0),
+                                              child: Row(
+                                                children: [
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                        " Dock-IN",
+                                                        style:
+                                                            mobileTimeLineHeaderFontStyle,
+                                                      )),
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                          // _bookingDetails.length == 0
+                                                          // ? ""
+                                                          // : _bookingDetails[0]
+                                                          // .GateOutDate
+                                                          // .toString()
+                                                          // .contains("1900")
+                                                          // ? ""
+                                                          // : getCustomFormattedDateTime(
+                                                          // _bookingDetails[0].GateOutDate,
+                                                          // 'dd-MM-yyyy HH:mm')
+                                                          "15-01-2024 15:39")),
+                                                  // : _bookingDetails[0].GateOutDate)),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 50,
+                                            color: Colors.transparent,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10.0),
+                                              child: Row(
+                                                children: [
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                        " Dock-OUT",
+                                                        style:
+                                                            mobileTimeLineHeaderFontStyle,
+                                                      )),
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                          // _bookingDetails.length == 0
+                                                          // ? ""
+                                                          // : _bookingDetails[0]
+                                                          // .ConfirmedOn
+                                                          // .toString()
+                                                          // .contains("1900")
+                                                          // ? ""
+                                                          // : getCustomFormattedDateTime(
+                                                          // _bookingDetails[0].ConfirmedOn,
+                                                          // 'dd-MM-yyyy HH:mm')
+                                                          "15-01-2024 15:39")),
+                                                  // : _bookingDetails[0].ConfirmedOn)),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                        indicators: <Widget>[
+                                          Icon(
+                                            // _bookingDetails.length == 0
+                                            //     ? Icons.schedule
+                                            //     : _bookingDetails[0]
+                                            //     .CreatedOn
+                                            //     .toString()
+                                            //     .contains("1900")
+                                            0 == 0
+                                                ? Icons.schedule
+                                                : Icons.check_circle_outline,
+                                            size: 40,
+                                            color:
+                                                // _bookingDetails.length == 0
+                                                //     ? const Color(0xff3a3a3a)
+                                                //     : _bookingDetails[0]
+                                                //     .CreatedOn
+                                                //     .toString()
+                                                //     .contains("1900")
+                                                0 == 0
+                                                    ? Colors.red.shade200
+                                                    : Colors.green.shade200,
+                                          ),
+                                          Icon(
+                                            // _bookingDetails.length == 0
+                                            0 == 0
+                                                ? Icons.schedule
+                                                :
+                                                // _bookingDetails[0]
+                                                // .ConfirmedOn
+                                                // .toString()
+                                                // .contains("1900")
+                                                0 == 0
+                                                    ?
+                                                    // _bookingDetails[0].Status == 0
+                                                    0 == 0
+                                                        ? Icons.highlight_off
+                                                        : Icons.schedule
+                                                    : Icons
+                                                        .check_circle_outline,
+                                            size: 40,
+                                            color:
+                                                // _bookingDetails.length == 0
+                                                0 == 0
+                                                    ? const Color(0xff3a3a3a)
+                                                    :
+                                                    // _bookingDetails[0]
+                                                    //   .ConfirmedOn
+                                                    //   .toString()
+                                                    //   .contains("1900")
+                                                    0 == 0
+                                                        ? Colors.red.shade200
+                                                        : Colors.green.shade200,
+                                          ),
+                                          Icon(
+                                            // _bookingDetails.length == 0
+                                            0 == 0
+                                                ? Icons.schedule
+                                                :
+                                                // _bookingDetails[0]
+                                                //                                     .PreGateDate
+                                                //                                     .toString()
+                                                //                                     .contains("1900")
+                                                0 == 0
+                                                    ? Icons.schedule
+                                                    :
+                                                    // _bookingDetails[0].PreGate == 2
+                                                    0 == 0
+                                                        ? Icons.highlight_off
+                                                        : Icons
+                                                            .check_circle_outline,
+                                            size: 40,
+                                            color:
+                                                // _bookingDetails.length == 0
+                                                0 == 0
+                                                    ? const Color(0xff3a3a3a)
+                                                    :
+                                                    // _bookingDetails[0]
+                                                    //   .PreGateDate
+                                                    //   .toString()
+                                                    //   .contains("1900")
+                                                    0 == 0
+                                                        ? Colors.red.shade200
+                                                        :
+                                                        // _bookingDetails[0].PreGate == 1
+                                                        0 == 0
+                                                            ? Colors
+                                                                .green.shade200
+                                                            : Colors
+                                                                .red.shade200,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Card(
+                                color: Colors.white,
+                                elevation: 3.0,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 4.0, right: 4.0, top: 4.0),
+                                  child: ExpansionTile(
+                                    title: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                2.2,
+                                            child: Text(
+                                              " EVT2401190001",
+                                              style:
+                                                  mobileTimeLineHeaderFontStyle,
+                                            )),
+                                        SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                3.1,
+                                            child: Text(
+                                              " 12341111",
+                                              style:
+                                                  mobileTimeLineHeaderFontStyle,
+                                            )),
+                                      ],
+                                    ),
+                                    // subtitle: Text(" 1234",style: TextStyle(color: Colors.black87),),
+                                    children: [
+                                      Timeline(
+                                        children: <Widget>[
+                                          Container(
+                                            height: 50,
+                                            color: Colors.transparent,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10.0),
+                                              child: Row(
+                                                children: [
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                        " Parking Area",
+                                                        style:
+                                                            mobileTimeLineHeaderFontStyle,
+                                                      )),
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                          // _bookingDetails.length == 0
+                                                          // ? ""
+                                                          // : _bookingDetails[0]
+                                                          // .CreatedOn
+                                                          // .toString()
+                                                          // .contains("1900")
+                                                          // ? ""
+                                                          // : getCustomFormattedDateTime(
+                                                          // _bookingDetails[0].CreatedOn,
+                                                          // 'dd-MM-yyyy HH:mm')
+                                                          "15-01-2024 15:39")),
+                                                  // : _bookingDetails[0].CreatedOn)),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 50,
+                                            color: Colors.transparent,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10.0),
+                                              child: Row(
+                                                children: [
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                        " Dock-IN",
+                                                        style:
+                                                            mobileTimeLineHeaderFontStyle,
+                                                      )),
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                          // _bookingDetails.length == 0
+                                                          // ? ""
+                                                          // : _bookingDetails[0]
+                                                          // .GateOutDate
+                                                          // .toString()
+                                                          // .contains("1900")
+                                                          // ? ""
+                                                          // : getCustomFormattedDateTime(
+                                                          // _bookingDetails[0].GateOutDate,
+                                                          // 'dd-MM-yyyy HH:mm')
+                                                          "15-01-2024 15:39")),
+                                                  // : _bookingDetails[0].GateOutDate)),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 50,
+                                            color: Colors.transparent,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10.0),
+                                              child: Row(
+                                                children: [
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                        " Dock-OUT",
+                                                        style:
+                                                            mobileTimeLineHeaderFontStyle,
+                                                      )),
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                          // _bookingDetails.length == 0
+                                                          // ? ""
+                                                          // : _bookingDetails[0]
+                                                          // .ConfirmedOn
+                                                          // .toString()
+                                                          // .contains("1900")
+                                                          // ? ""
+                                                          // : getCustomFormattedDateTime(
+                                                          // _bookingDetails[0].ConfirmedOn,
+                                                          // 'dd-MM-yyyy HH:mm')
+                                                          "15-01-2024 15:39")),
+                                                  // : _bookingDetails[0].ConfirmedOn)),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                        indicators: <Widget>[
+                                          Icon(
+                                            // _bookingDetails.length == 0
+                                            //     ? Icons.schedule
+                                            //     : _bookingDetails[0]
+                                            //     .CreatedOn
+                                            //     .toString()
+                                            //     .contains("1900")
+                                            0 == 0
+                                                ? Icons.schedule
+                                                : Icons.check_circle_outline,
+                                            size: 40,
+                                            color:
+                                                // _bookingDetails.length == 0
+                                                //     ? const Color(0xff3a3a3a)
+                                                //     : _bookingDetails[0]
+                                                //     .CreatedOn
+                                                //     .toString()
+                                                //     .contains("1900")
+                                                0 == 0
+                                                    ? Colors.red.shade200
+                                                    : Colors.green.shade200,
+                                          ),
+                                          Icon(
+                                            // _bookingDetails.length == 0
+                                            0 == 0
+                                                ? Icons.schedule
+                                                :
+                                                // _bookingDetails[0]
+                                                // .ConfirmedOn
+                                                // .toString()
+                                                // .contains("1900")
+                                                0 == 0
+                                                    ?
+                                                    // _bookingDetails[0].Status == 0
+                                                    0 == 0
+                                                        ? Icons.highlight_off
+                                                        : Icons.schedule
+                                                    : Icons
+                                                        .check_circle_outline,
+                                            size: 40,
+                                            color:
+                                                // _bookingDetails.length == 0
+                                                0 == 0
+                                                    ? const Color(0xff3a3a3a)
+                                                    :
+                                                    // _bookingDetails[0]
+                                                    //   .ConfirmedOn
+                                                    //   .toString()
+                                                    //   .contains("1900")
+                                                    0 == 0
+                                                        ? Colors.red.shade200
+                                                        : Colors.green.shade200,
+                                          ),
+                                          Icon(
+                                            // _bookingDetails.length == 0
+                                            0 == 0
+                                                ? Icons.schedule
+                                                :
+                                                // _bookingDetails[0]
+                                                //                                     .PreGateDate
+                                                //                                     .toString()
+                                                //                                     .contains("1900")
+                                                0 == 0
+                                                    ? Icons.schedule
+                                                    :
+                                                    // _bookingDetails[0].PreGate == 2
+                                                    0 == 0
+                                                        ? Icons.highlight_off
+                                                        : Icons
+                                                            .check_circle_outline,
+                                            size: 40,
+                                            color:
+                                                // _bookingDetails.length == 0
+                                                0 == 0
+                                                    ? const Color(0xff3a3a3a)
+                                                    :
+                                                    // _bookingDetails[0]
+                                                    //   .PreGateDate
+                                                    //   .toString()
+                                                    //   .contains("1900")
+                                                    0 == 0
+                                                        ? Colors.red.shade200
+                                                        :
+                                                        // _bookingDetails[0].PreGate == 1
+                                                        0 == 0
+                                                            ? Colors
+                                                                .green.shade200
+                                                            : Colors
+                                                                .red.shade200,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Card(
+                                color: Colors.white,
+                                elevation: 3.0,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 4.0, right: 4.0, top: 4.0),
+                                  child: ExpansionTile(
+                                    title: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                2.2,
+                                            child: Text(
+                                              " EVT2401190001",
+                                              style:
+                                                  mobileTimeLineHeaderFontStyle,
+                                            )),
+                                        SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                3.1,
+                                            child: Text(
+                                              " 12341111",
+                                              style:
+                                                  mobileTimeLineHeaderFontStyle,
+                                            )),
+                                      ],
+                                    ),
+                                    // subtitle: Text(" 1234",style: TextStyle(color: Colors.black87),),
+                                    children: [
+                                      Timeline(
+                                        children: <Widget>[
+                                          Container(
+                                            height: 50,
+                                            color: Colors.transparent,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10.0),
+                                              child: Row(
+                                                children: [
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                        " Parking Area",
+                                                        style:
+                                                            mobileTimeLineHeaderFontStyle,
+                                                      )),
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                          // _bookingDetails.length == 0
+                                                          // ? ""
+                                                          // : _bookingDetails[0]
+                                                          // .CreatedOn
+                                                          // .toString()
+                                                          // .contains("1900")
+                                                          // ? ""
+                                                          // : getCustomFormattedDateTime(
+                                                          // _bookingDetails[0].CreatedOn,
+                                                          // 'dd-MM-yyyy HH:mm')
+                                                          "15-01-2024 15:39")),
+                                                  // : _bookingDetails[0].CreatedOn)),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 50,
+                                            color: Colors.transparent,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10.0),
+                                              child: Row(
+                                                children: [
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                        " Dock-IN",
+                                                        style:
+                                                            mobileTimeLineHeaderFontStyle,
+                                                      )),
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                          // _bookingDetails.length == 0
+                                                          // ? ""
+                                                          // : _bookingDetails[0]
+                                                          // .GateOutDate
+                                                          // .toString()
+                                                          // .contains("1900")
+                                                          // ? ""
+                                                          // : getCustomFormattedDateTime(
+                                                          // _bookingDetails[0].GateOutDate,
+                                                          // 'dd-MM-yyyy HH:mm')
+                                                          "15-01-2024 15:39")),
+                                                  // : _bookingDetails[0].GateOutDate)),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 50,
+                                            color: Colors.transparent,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10.0),
+                                              child: Row(
+                                                children: [
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                        " Dock-OUT",
+                                                        style:
+                                                            mobileTimeLineHeaderFontStyle,
+                                                      )),
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                          // _bookingDetails.length == 0
+                                                          // ? ""
+                                                          // : _bookingDetails[0]
+                                                          // .ConfirmedOn
+                                                          // .toString()
+                                                          // .contains("1900")
+                                                          // ? ""
+                                                          // : getCustomFormattedDateTime(
+                                                          // _bookingDetails[0].ConfirmedOn,
+                                                          // 'dd-MM-yyyy HH:mm')
+                                                          "15-01-2024 15:39")),
+                                                  // : _bookingDetails[0].ConfirmedOn)),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                        indicators: <Widget>[
+                                          Icon(
+                                            // _bookingDetails.length == 0
+                                            //     ? Icons.schedule
+                                            //     : _bookingDetails[0]
+                                            //     .CreatedOn
+                                            //     .toString()
+                                            //     .contains("1900")
+                                            0 == 0
+                                                ? Icons.schedule
+                                                : Icons.check_circle_outline,
+                                            size: 40,
+                                            color:
+                                                // _bookingDetails.length == 0
+                                                //     ? const Color(0xff3a3a3a)
+                                                //     : _bookingDetails[0]
+                                                //     .CreatedOn
+                                                //     .toString()
+                                                //     .contains("1900")
+                                                0 == 0
+                                                    ? Colors.red.shade200
+                                                    : Colors.green.shade200,
+                                          ),
+                                          Icon(
+                                            // _bookingDetails.length == 0
+                                            0 == 0
+                                                ? Icons.schedule
+                                                :
+                                                // _bookingDetails[0]
+                                                // .ConfirmedOn
+                                                // .toString()
+                                                // .contains("1900")
+                                                0 == 0
+                                                    ?
+                                                    // _bookingDetails[0].Status == 0
+                                                    0 == 0
+                                                        ? Icons.highlight_off
+                                                        : Icons.schedule
+                                                    : Icons
+                                                        .check_circle_outline,
+                                            size: 40,
+                                            color:
+                                                // _bookingDetails.length == 0
+                                                0 == 0
+                                                    ? const Color(0xff3a3a3a)
+                                                    :
+                                                    // _bookingDetails[0]
+                                                    //   .ConfirmedOn
+                                                    //   .toString()
+                                                    //   .contains("1900")
+                                                    0 == 0
+                                                        ? Colors.red.shade200
+                                                        : Colors.green.shade200,
+                                          ),
+                                          Icon(
+                                            // _bookingDetails.length == 0
+                                            0 == 0
+                                                ? Icons.schedule
+                                                :
+                                                // _bookingDetails[0]
+                                                //                                     .PreGateDate
+                                                //                                     .toString()
+                                                //                                     .contains("1900")
+                                                0 == 0
+                                                    ? Icons.schedule
+                                                    :
+                                                    // _bookingDetails[0].PreGate == 2
+                                                    0 == 0
+                                                        ? Icons.highlight_off
+                                                        : Icons
+                                                            .check_circle_outline,
+                                            size: 40,
+                                            color:
+                                                // _bookingDetails.length == 0
+                                                0 == 0
+                                                    ? const Color(0xff3a3a3a)
+                                                    :
+                                                    // _bookingDetails[0]
+                                                    //   .PreGateDate
+                                                    //   .toString()
+                                                    //   .contains("1900")
+                                                    0 == 0
+                                                        ? Colors.red.shade200
+                                                        :
+                                                        // _bookingDetails[0].PreGate == 1
+                                                        0 == 0
+                                                            ? Colors
+                                                                .green.shade200
+                                                            : Colors
+                                                                .red.shade200,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Card(
+                                color: Colors.white,
+                                elevation: 3.0,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 4.0, right: 4.0, top: 4.0),
+                                  child: ExpansionTile(
+                                    title: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                2.2,
+                                            child: Text(
+                                              " EVT2401190001",
+                                              style:
+                                                  mobileTimeLineHeaderFontStyle,
+                                            )),
+                                        SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                3.1,
+                                            child: Text(
+                                              " 12341111",
+                                              style:
+                                                  mobileTimeLineHeaderFontStyle,
+                                            )),
+                                      ],
+                                    ),
+                                    // subtitle: Text(" 1234",style: TextStyle(color: Colors.black87),),
+                                    children: [
+                                      Timeline(
+                                        children: <Widget>[
+                                          Container(
+                                            height: 50,
+                                            color: Colors.transparent,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10.0),
+                                              child: Row(
+                                                children: [
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                        " Parking Area",
+                                                        style:
+                                                            mobileTimeLineHeaderFontStyle,
+                                                      )),
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                          // _bookingDetails.length == 0
+                                                          // ? ""
+                                                          // : _bookingDetails[0]
+                                                          // .CreatedOn
+                                                          // .toString()
+                                                          // .contains("1900")
+                                                          // ? ""
+                                                          // : getCustomFormattedDateTime(
+                                                          // _bookingDetails[0].CreatedOn,
+                                                          // 'dd-MM-yyyy HH:mm')
+                                                          "15-01-2024 15:39")),
+                                                  // : _bookingDetails[0].CreatedOn)),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 50,
+                                            color: Colors.transparent,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10.0),
+                                              child: Row(
+                                                children: [
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                        " Dock-IN",
+                                                        style:
+                                                            mobileTimeLineHeaderFontStyle,
+                                                      )),
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                          // _bookingDetails.length == 0
+                                                          // ? ""
+                                                          // : _bookingDetails[0]
+                                                          // .GateOutDate
+                                                          // .toString()
+                                                          // .contains("1900")
+                                                          // ? ""
+                                                          // : getCustomFormattedDateTime(
+                                                          // _bookingDetails[0].GateOutDate,
+                                                          // 'dd-MM-yyyy HH:mm')
+                                                          "15-01-2024 15:39")),
+                                                  // : _bookingDetails[0].GateOutDate)),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 50,
+                                            color: Colors.transparent,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10.0),
+                                              child: Row(
+                                                children: [
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                        " Dock-OUT",
+                                                        style:
+                                                            mobileTimeLineHeaderFontStyle,
+                                                      )),
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                          // _bookingDetails.length == 0
+                                                          // ? ""
+                                                          // : _bookingDetails[0]
+                                                          // .ConfirmedOn
+                                                          // .toString()
+                                                          // .contains("1900")
+                                                          // ? ""
+                                                          // : getCustomFormattedDateTime(
+                                                          // _bookingDetails[0].ConfirmedOn,
+                                                          // 'dd-MM-yyyy HH:mm')
+                                                          "15-01-2024 15:39")),
+                                                  // : _bookingDetails[0].ConfirmedOn)),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                        indicators: <Widget>[
+                                          Icon(
+                                            // _bookingDetails.length == 0
+                                            //     ? Icons.schedule
+                                            //     : _bookingDetails[0]
+                                            //     .CreatedOn
+                                            //     .toString()
+                                            //     .contains("1900")
+                                            0 == 0
+                                                ? Icons.schedule
+                                                : Icons.check_circle_outline,
+                                            size: 40,
+                                            color:
+                                                // _bookingDetails.length == 0
+                                                //     ? const Color(0xff3a3a3a)
+                                                //     : _bookingDetails[0]
+                                                //     .CreatedOn
+                                                //     .toString()
+                                                //     .contains("1900")
+                                                0 == 0
+                                                    ? Colors.red.shade200
+                                                    : Colors.green.shade200,
+                                          ),
+                                          Icon(
+                                            // _bookingDetails.length == 0
+                                            0 == 0
+                                                ? Icons.schedule
+                                                :
+                                                // _bookingDetails[0]
+                                                // .ConfirmedOn
+                                                // .toString()
+                                                // .contains("1900")
+                                                0 == 0
+                                                    ?
+                                                    // _bookingDetails[0].Status == 0
+                                                    0 == 0
+                                                        ? Icons.highlight_off
+                                                        : Icons.schedule
+                                                    : Icons
+                                                        .check_circle_outline,
+                                            size: 40,
+                                            color:
+                                                // _bookingDetails.length == 0
+                                                0 == 0
+                                                    ? const Color(0xff3a3a3a)
+                                                    :
+                                                    // _bookingDetails[0]
+                                                    //   .ConfirmedOn
+                                                    //   .toString()
+                                                    //   .contains("1900")
+                                                    0 == 0
+                                                        ? Colors.red.shade200
+                                                        : Colors.green.shade200,
+                                          ),
+                                          Icon(
+                                            // _bookingDetails.length == 0
+                                            0 == 0
+                                                ? Icons.schedule
+                                                :
+                                                // _bookingDetails[0]
+                                                //                                     .PreGateDate
+                                                //                                     .toString()
+                                                //                                     .contains("1900")
+                                                0 == 0
+                                                    ? Icons.schedule
+                                                    :
+                                                    // _bookingDetails[0].PreGate == 2
+                                                    0 == 0
+                                                        ? Icons.highlight_off
+                                                        : Icons
+                                                            .check_circle_outline,
+                                            size: 40,
+                                            color:
+                                                // _bookingDetails.length == 0
+                                                0 == 0
+                                                    ? const Color(0xff3a3a3a)
+                                                    :
+                                                    // _bookingDetails[0]
+                                                    //   .PreGateDate
+                                                    //   .toString()
+                                                    //   .contains("1900")
+                                                    0 == 0
+                                                        ? Colors.red.shade200
+                                                        :
+                                                        // _bookingDetails[0].PreGate == 1
+                                                        0 == 0
+                                                            ? Colors
+                                                                .green.shade200
+                                                            : Colors
+                                                                .red.shade200,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Card(
+                                color: Colors.white,
+                                elevation: 3.0,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 4.0, right: 4.0, top: 4.0),
+                                  child: ExpansionTile(
+                                    title: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                2.2,
+                                            child: Text(
+                                              " EVT2401190001",
+                                              style:
+                                                  mobileTimeLineHeaderFontStyle,
+                                            )),
+                                        SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                3.1,
+                                            child: Text(
+                                              " 12341111",
+                                              style:
+                                                  mobileTimeLineHeaderFontStyle,
+                                            )),
+                                      ],
+                                    ),
+                                    // subtitle: Text(" 1234",style: TextStyle(color: Colors.black87),),
+                                    children: [
+                                      Timeline(
+                                        children: <Widget>[
+                                          Container(
+                                            height: 50,
+                                            color: Colors.transparent,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10.0),
+                                              child: Row(
+                                                children: [
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                        " Parking Area",
+                                                        style:
+                                                            mobileTimeLineHeaderFontStyle,
+                                                      )),
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                          // _bookingDetails.length == 0
+                                                          // ? ""
+                                                          // : _bookingDetails[0]
+                                                          // .CreatedOn
+                                                          // .toString()
+                                                          // .contains("1900")
+                                                          // ? ""
+                                                          // : getCustomFormattedDateTime(
+                                                          // _bookingDetails[0].CreatedOn,
+                                                          // 'dd-MM-yyyy HH:mm')
+                                                          "15-01-2024 15:39")),
+                                                  // : _bookingDetails[0].CreatedOn)),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 50,
+                                            color: Colors.transparent,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10.0),
+                                              child: Row(
+                                                children: [
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                        " Dock-IN",
+                                                        style:
+                                                            mobileTimeLineHeaderFontStyle,
+                                                      )),
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                          // _bookingDetails.length == 0
+                                                          // ? ""
+                                                          // : _bookingDetails[0]
+                                                          // .GateOutDate
+                                                          // .toString()
+                                                          // .contains("1900")
+                                                          // ? ""
+                                                          // : getCustomFormattedDateTime(
+                                                          // _bookingDetails[0].GateOutDate,
+                                                          // 'dd-MM-yyyy HH:mm')
+                                                          "15-01-2024 15:39")),
+                                                  // : _bookingDetails[0].GateOutDate)),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 50,
+                                            color: Colors.transparent,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10.0),
+                                              child: Row(
+                                                children: [
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                        " Dock-OUT",
+                                                        style:
+                                                            mobileTimeLineHeaderFontStyle,
+                                                      )),
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                          // _bookingDetails.length == 0
+                                                          // ? ""
+                                                          // : _bookingDetails[0]
+                                                          // .ConfirmedOn
+                                                          // .toString()
+                                                          // .contains("1900")
+                                                          // ? ""
+                                                          // : getCustomFormattedDateTime(
+                                                          // _bookingDetails[0].ConfirmedOn,
+                                                          // 'dd-MM-yyyy HH:mm')
+                                                          "15-01-2024 15:39")),
+                                                  // : _bookingDetails[0].ConfirmedOn)),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                        indicators: <Widget>[
+                                          Icon(
+                                            // _bookingDetails.length == 0
+                                            //     ? Icons.schedule
+                                            //     : _bookingDetails[0]
+                                            //     .CreatedOn
+                                            //     .toString()
+                                            //     .contains("1900")
+                                            0 == 0
+                                                ? Icons.schedule
+                                                : Icons.check_circle_outline,
+                                            size: 40,
+                                            color:
+                                                // _bookingDetails.length == 0
+                                                //     ? const Color(0xff3a3a3a)
+                                                //     : _bookingDetails[0]
+                                                //     .CreatedOn
+                                                //     .toString()
+                                                //     .contains("1900")
+                                                0 == 0
+                                                    ? Colors.red.shade200
+                                                    : Colors.green.shade200,
+                                          ),
+                                          Icon(
+                                            // _bookingDetails.length == 0
+                                            0 == 0
+                                                ? Icons.schedule
+                                                :
+                                                // _bookingDetails[0]
+                                                // .ConfirmedOn
+                                                // .toString()
+                                                // .contains("1900")
+                                                0 == 0
+                                                    ?
+                                                    // _bookingDetails[0].Status == 0
+                                                    0 == 0
+                                                        ? Icons.highlight_off
+                                                        : Icons.schedule
+                                                    : Icons
+                                                        .check_circle_outline,
+                                            size: 40,
+                                            color:
+                                                // _bookingDetails.length == 0
+                                                0 == 0
+                                                    ? const Color(0xff3a3a3a)
+                                                    :
+                                                    // _bookingDetails[0]
+                                                    //   .ConfirmedOn
+                                                    //   .toString()
+                                                    //   .contains("1900")
+                                                    0 == 0
+                                                        ? Colors.red.shade200
+                                                        : Colors.green.shade200,
+                                          ),
+                                          Icon(
+                                            // _bookingDetails.length == 0
+                                            0 == 0
+                                                ? Icons.schedule
+                                                :
+                                                // _bookingDetails[0]
+                                                //                                     .PreGateDate
+                                                //                                     .toString()
+                                                //                                     .contains("1900")
+                                                0 == 0
+                                                    ? Icons.schedule
+                                                    :
+                                                    // _bookingDetails[0].PreGate == 2
+                                                    0 == 0
+                                                        ? Icons.highlight_off
+                                                        : Icons
+                                                            .check_circle_outline,
+                                            size: 40,
+                                            color:
+                                                // _bookingDetails.length == 0
+                                                0 == 0
+                                                    ? const Color(0xff3a3a3a)
+                                                    :
+                                                    // _bookingDetails[0]
+                                                    //   .PreGateDate
+                                                    //   .toString()
+                                                    //   .contains("1900")
+                                                    0 == 0
+                                                        ? Colors.red.shade200
+                                                        :
+                                                        // _bookingDetails[0].PreGate == 1
+                                                        0 == 0
+                                                            ? Colors
+                                                                .green.shade200
+                                                            : Colors
+                                                                .red.shade200,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Card(
+                                color: Colors.white,
+                                elevation: 3.0,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 4.0, right: 4.0, top: 4.0),
+                                  child: ExpansionTile(
+                                    title: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                2.2,
+                                            child: Text(
+                                              " EVT2401190001",
+                                              style:
+                                                  mobileTimeLineHeaderFontStyle,
+                                            )),
+                                        SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                3.1,
+                                            child: Text(
+                                              " 12341111",
+                                              style:
+                                                  mobileTimeLineHeaderFontStyle,
+                                            )),
+                                      ],
+                                    ),
+                                    // subtitle: Text(" 1234",style: TextStyle(color: Colors.black87),),
+                                    children: [
+                                      Timeline(
+                                        children: <Widget>[
+                                          Container(
+                                            height: 50,
+                                            color: Colors.transparent,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10.0),
+                                              child: Row(
+                                                children: [
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                        " Parking Area",
+                                                        style:
+                                                            mobileTimeLineHeaderFontStyle,
+                                                      )),
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                          // _bookingDetails.length == 0
+                                                          // ? ""
+                                                          // : _bookingDetails[0]
+                                                          // .CreatedOn
+                                                          // .toString()
+                                                          // .contains("1900")
+                                                          // ? ""
+                                                          // : getCustomFormattedDateTime(
+                                                          // _bookingDetails[0].CreatedOn,
+                                                          // 'dd-MM-yyyy HH:mm')
+                                                          "15-01-2024 15:39")),
+                                                  // : _bookingDetails[0].CreatedOn)),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 50,
+                                            color: Colors.transparent,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10.0),
+                                              child: Row(
+                                                children: [
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                        " Dock-IN",
+                                                        style:
+                                                            mobileTimeLineHeaderFontStyle,
+                                                      )),
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                          // _bookingDetails.length == 0
+                                                          // ? ""
+                                                          // : _bookingDetails[0]
+                                                          // .GateOutDate
+                                                          // .toString()
+                                                          // .contains("1900")
+                                                          // ? ""
+                                                          // : getCustomFormattedDateTime(
+                                                          // _bookingDetails[0].GateOutDate,
+                                                          // 'dd-MM-yyyy HH:mm')
+                                                          "15-01-2024 15:39")),
+                                                  // : _bookingDetails[0].GateOutDate)),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 50,
+                                            color: Colors.transparent,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10.0),
+                                              child: Row(
+                                                children: [
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                        " Dock-OUT",
+                                                        style:
+                                                            mobileTimeLineHeaderFontStyle,
+                                                      )),
+                                                  SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.6,
+                                                      child: Text(
+                                                          // _bookingDetails.length == 0
+                                                          // ? ""
+                                                          // : _bookingDetails[0]
+                                                          // .ConfirmedOn
+                                                          // .toString()
+                                                          // .contains("1900")
+                                                          // ? ""
+                                                          // : getCustomFormattedDateTime(
+                                                          // _bookingDetails[0].ConfirmedOn,
+                                                          // 'dd-MM-yyyy HH:mm')
+                                                          "15-01-2024 15:39")),
+                                                  // : _bookingDetails[0].ConfirmedOn)),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                        indicators: <Widget>[
+                                          Icon(
+                                            // _bookingDetails.length == 0
+                                            //     ? Icons.schedule
+                                            //     : _bookingDetails[0]
+                                            //     .CreatedOn
+                                            //     .toString()
+                                            //     .contains("1900")
+                                            0 == 0
+                                                ? Icons.schedule
+                                                : Icons.check_circle_outline,
+                                            size: 40,
+                                            color:
+                                                // _bookingDetails.length == 0
+                                                //     ? const Color(0xff3a3a3a)
+                                                //     : _bookingDetails[0]
+                                                //     .CreatedOn
+                                                //     .toString()
+                                                //     .contains("1900")
+                                                0 == 0
+                                                    ? Colors.red.shade200
+                                                    : Colors.green.shade200,
+                                          ),
+                                          Icon(
+                                            // _bookingDetails.length == 0
+                                            0 == 0
+                                                ? Icons.schedule
+                                                :
+                                                // _bookingDetails[0]
+                                                // .ConfirmedOn
+                                                // .toString()
+                                                // .contains("1900")
+                                                0 == 0
+                                                    ?
+                                                    // _bookingDetails[0].Status == 0
+                                                    0 == 0
+                                                        ? Icons.highlight_off
+                                                        : Icons.schedule
+                                                    : Icons
+                                                        .check_circle_outline,
+                                            size: 40,
+                                            color:
+                                                // _bookingDetails.length == 0
+                                                0 == 0
+                                                    ? const Color(0xff3a3a3a)
+                                                    :
+                                                    // _bookingDetails[0]
+                                                    //   .ConfirmedOn
+                                                    //   .toString()
+                                                    //   .contains("1900")
+                                                    0 == 0
+                                                        ? Colors.red.shade200
+                                                        : Colors.green.shade200,
+                                          ),
+                                          Icon(
+                                            // _bookingDetails.length == 0
+                                            0 == 0
+                                                ? Icons.schedule
+                                                :
+                                                // _bookingDetails[0]
+                                                //                                     .PreGateDate
+                                                //                                     .toString()
+                                                //                                     .contains("1900")
+                                                0 == 0
+                                                    ? Icons.schedule
+                                                    :
+                                                    // _bookingDetails[0].PreGate == 2
+                                                    0 == 0
+                                                        ? Icons.highlight_off
+                                                        : Icons
+                                                            .check_circle_outline,
+                                            size: 40,
+                                            color:
+                                                // _bookingDetails.length == 0
+                                                0 == 0
+                                                    ? const Color(0xff3a3a3a)
+                                                    :
+                                                    // _bookingDetails[0]
+                                                    //   .PreGateDate
+                                                    //   .toString()
+                                                    //   .contains("1900")
+                                                    0 == 0
+                                                        ? Colors.red.shade200
+                                                        :
+                                                        // _bookingDetails[0].PreGate == 1
+                                                        0 == 0
+                                                            ? Colors
+                                                                .green.shade200
+                                                            : Colors
+                                                                .red.shade200,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    )
+                      // Container(
+                      //   height: isImport
+                      //       ? trackingType == 0 || trackingType == 1
+                      //           ? MediaQuery.of(context).size.height / 1.85
+                      //           : trackingType == 2
+                      //               ? MediaQuery.of(context).size.height / 1.62
+                      //               : MediaQuery.of(context).size.height / 1.85
+                      //       : trackingType == 1
+                      //           ? MediaQuery.of(context).size.height / 1.85
+                      //           : MediaQuery.of(context).size.height / 1.62,
+                      //   width: MediaQuery.of(context).size.width,
+                      //   margin: EdgeInsets.only(right: 8, top: 8),
+                      //   child:,
+                      // ),
+
+                      // SingleChildScrollView(
+                      //   child: Padding(
+                      //     padding: useMobileLayout
+                      //         ? const EdgeInsets.only(top: 2.0, left: 0.0)
+                      //         : const EdgeInsets.only(
+                      //             top: 2.0, bottom: 10.0, left: 40.0),
+                      //     child: SizedBox(
+                      //         width: useMobileLayout
+                      //             ? MediaQuery.of(context).size.width / 1.01
+                      //             : MediaQuery.of(context).size.width / 1.19,
+                      //         child: ListView.builder(
+                      //           physics: NeverScrollableScrollPhysics(),
+                      //           itemBuilder: (BuildContext, index) {
+                      //             VehicleToken _dockinlist =
+                      //                 vehicleToeknListToBind.elementAt(index);
+                      //             return buildDockList(_dockinlist, index);
+                      //           },
+                      //           itemCount: vehicleToeknListToBind.length,
+                      //           shrinkWrap: true,
+                      //           padding: EdgeInsets.all(2),
+                      //         )),
+                      //   ),
+                      // ),
+                      ),
         ],
       ),
     );

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_advanced_switch/flutter_advanced_switch.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:luxair/otherpages/submitITNDetails.dart';
+
 import 'package:scan/scan.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:luxair/datastructure/vehicletoken.dart';
@@ -17,15 +19,16 @@ import '../constants.dart';
 import '../global.dart';
 import '../widgets/timeline.dart';
 import 'documentUploadChild.dart';
+import 'documentupload.dart';
 
-class DocumentUpload extends StatefulWidget {
-  const DocumentUpload({Key? key}) : super(key: key);
+class SubmitITN extends StatefulWidget {
+  const SubmitITN({Key? key}) : super(key: key);
 
   @override
-  State<DocumentUpload> createState() => _DocumentUploadState();
+  State<SubmitITN> createState() => _SubmitITNState();
 }
 
-class _DocumentUploadState extends State<DocumentUpload> {
+class _SubmitITNState extends State<SubmitITN> {
   TextEditingController dateInput = TextEditingController();
   String scannedCodeReceived = "", selectedSlotDate = "";
   bool useMobileLayout = false;
@@ -33,11 +36,6 @@ class _DocumentUploadState extends State<DocumentUpload> {
   int trackingSelected = 0; //, modeSelected1 = 0;
   int trackingType = 0;
   String dropdownValue = 'Select';
-  TextEditingController mawbPrefixController = TextEditingController();
-  TextEditingController mawbNoController = TextEditingController();
-
-  FocusNode mawbPrefixFocusNode = FocusNode();
-  FocusNode mawbNoFocusNode = FocusNode();
 
   //  List<CodexPass> passList = [];
   // List<FilterArray> _filterArray = [];
@@ -51,7 +49,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
   // List<VehicleToken> vehicleToeknListImport = [];
   // List<VehicleToken> vehicleToeknListExport = [];
   // List<VehicleToken> vehicleToeknListtRandom = [];
-  List<DocUploadDetails> searchedList = [];
+
   List<DocUploadDetails> docUploadList = [
     DocUploadDetails(
         MAWBNo: '999-56565670',
@@ -60,13 +58,13 @@ class _DocumentUploadState extends State<DocumentUpload> {
         Weight: '55.00',
         Unit: 'kgs'),
     DocUploadDetails(
-        MAWBNo: '125-56565671',
+        MAWBNo: '999-56565671',
         Date: '18-Jan-24',
         PCS: '20',
         Weight: '96.00',
         Unit: 'kgs'),
     DocUploadDetails(
-        MAWBNo: '125-56565672',
+        MAWBNo: '999-56565672',
         Date: '19-Jan-24',
         PCS: '20',
         Weight: '71.00',
@@ -84,7 +82,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
         Weight: '80.00',
         Unit: 'kgs'),
     DocUploadDetails(
-        MAWBNo: '165-56565675',
+        MAWBNo: '999-56565675',
         Date: '22-Jan-24',
         PCS: '20',
         Weight: '60.00',
@@ -97,7 +95,6 @@ class _DocumentUploadState extends State<DocumentUpload> {
     dateInput.text = "";
     // if (modeSelected == 0) vehicleToeknListToBind = vehicleToeknListExport;
     // if (modeSelected == 1) vehicleToeknListToBind = vehicleToeknListImport;
-
     // if (vehicleToeknListExport.isNotEmpty)
     //   vehicleToeknListToBind = vehicleToeknListExport;
     //
@@ -246,7 +243,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
             HeaderClipperWave(
                 color1: Color(0xFF3383CD),
                 color2: Color(0xFF11249F),
-                headerText: "Document Upload"),
+                headerText: "Submit ITN"),
             // ClipPath(
             //   clipper: MyClippers1(),
             //   child: Container(
@@ -336,28 +333,22 @@ class _DocumentUploadState extends State<DocumentUpload> {
                                       borderRadius: BorderRadius.circular(4.0),
                                     ),
                                     child: TextField(
-                                      keyboardType: TextInputType.number,
-                                      textCapitalization:
-                                          TextCapitalization.characters,
-                                      textAlign: TextAlign.right,
-                                      decoration: InputDecoration(
-                                        border: InputBorder.none,
-                                        hintText: "Prefix",
-                                        hintStyle:
-                                            TextStyle(color: Colors.grey),
-                                        contentPadding: EdgeInsets.symmetric(
-                                            vertical: 8, horizontal: 8),
-                                        isDense: true,
-                                      ),
-                                      style: mobileTextFontStyle,
-                                      onChanged: (value) {
-                                        onSearchTextChanged(value);
-                                        if (value.length == 3) {
-                                          mawbPrefixFocusNode.unfocus();
-                                          mawbNoFocusNode.requestFocus();
-                                        }
-                                      },
-                                    ),
+
+                                        // controller: txtVTNO,
+                                        keyboardType: TextInputType.text,
+                                        textCapitalization:
+                                            TextCapitalization.characters,
+                                        textAlign: TextAlign.right,
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText: "Prefix",
+                                          hintStyle:
+                                              TextStyle(color: Colors.grey),
+                                          contentPadding: EdgeInsets.symmetric(
+                                              vertical: 8, horizontal: 8),
+                                          isDense: true,
+                                        ),
+                                        style: mobileTextFontStyle),
                                   ),
                                 ),
                               ),
@@ -378,30 +369,21 @@ class _DocumentUploadState extends State<DocumentUpload> {
                                       borderRadius: BorderRadius.circular(4.0),
                                     ),
                                     child: TextField(
-                                      controller: mawbNoController,
-                                      focusNode: mawbNoFocusNode,
-                                      textAlign: TextAlign.right,
-                                      keyboardType: TextInputType.number,
-                                      textCapitalization:
-                                          TextCapitalization.characters,
-                                      decoration: InputDecoration(
-                                        border: InputBorder.none,
-                                        hintText: "MAWB No.",
-                                        hintStyle:
-                                            TextStyle(color: Colors.grey),
-                                        contentPadding: EdgeInsets.symmetric(
-                                            vertical: 8, horizontal: 8),
-                                        isDense: true,
-                                      ),
-                                      style: mobileTextFontStyle,
-                                      onChanged: (value) {
-                                        onSearchTextChanged(value);
-                                        if (value.length == 3) {
-                                          // mawbPrefixFocusNode.unfocus();
-                                          // mawbNoFocusNode.requestFocus();
-                                        }
-                                      },
-                                    ),
+                                        controller: txtVTNO,
+                                        textAlign: TextAlign.right,
+                                        keyboardType: TextInputType.text,
+                                        textCapitalization:
+                                            TextCapitalization.characters,
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText: "MAWB No.",
+                                          hintStyle:
+                                              TextStyle(color: Colors.grey),
+                                          contentPadding: EdgeInsets.symmetric(
+                                              vertical: 8, horizontal: 8),
+                                          isDense: true,
+                                        ),
+                                        style: mobileTextFontStyle),
                                   ),
                                 ),
                               ),
@@ -429,287 +411,296 @@ class _DocumentUploadState extends State<DocumentUpload> {
                     child: Container(
                       height: 135,
                       child: Padding(
-                        padding: const EdgeInsets.only(
-                            top: 10.0, bottom: 10.0, left: 16.0),
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                2.45,
-                                        child: Text(
-                                          " Mode",
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.normal,
-                                            color: Color(0xFF11249F),
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: SizedBox(
+                          padding: const EdgeInsets.only(
+                              top: 10.0, bottom: 10.0, left: 16.0),
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width /
-                                              2.50,
-                                          child: ToggleSwitch(
-                                            minWidth: 146,
-                                            minHeight: 65.0,
-                                            initialLabelIndex: modeSelected,
-                                            cornerRadius: 20.0,
-                                            activeFgColor: Colors.white,
-                                            inactiveBgColor: Colors.grey,
-                                            inactiveFgColor: Colors.white,
-                                            totalSwitches: 2,
-                                            customTextStyles: [
-                                              TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.normal,
-                                                color: Colors.white,
-                                              ),
-                                              TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.normal,
-                                                color: Colors.white,
-                                              )
-                                            ],
-                                            labels: ['Exports ', ' Imports'],
-                                            icons: [
-                                              Icons.north,
-                                              Icons.south,
-                                            ],
-                                            iconSize: 22.0,
-                                            activeBgColors: [
-                                              // [Colors.blueAccent, Colors.blue],
-                                              // [Colors.blueAccent, Colors.blue],
-                                              [
-                                                Color(0xFF1220BC),
-                                                Color(0xFF3540E8)
-                                              ],
-                                              [
-                                                Color(0xFF1220BC),
-                                                Color(0xFF3540E8)
-                                              ],
-                                            ],
-                                            animate: true,
-                                            // with just animate set to true, default curve = Curves.easeIn
-                                            curve: Curves.bounceInOut,
-                                            // animate must be set to true when using custom curve
-                                            onToggle: (index) {
-                                              print('switched to: $index');
-
-                                              setState(() {
-                                                //selectedText = "";
-                                                modeSelected = index!;
-                                                // if (index == 1) {
-                                                //   getVehicleToeknList(
-                                                //       3); //Import
-                                                //   vehicleToeknListToBind =
-                                                //       vehicleToeknListImport;
-                                                // } else {
-                                                //   getVehicleToeknList(
-                                                //       4); //Export
-                                                //   vehicleToeknListToBind =
-                                                //       vehicleToeknListExport;
-                                                // }
-                                              });
-                                            },
+                                              2.45,
+                                          child: Text(
+                                            " Mode",
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.normal,
+                                              color: Color(0xFF11249F),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  //SizedBox(width: 10),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                3.11,
-                                        child: Text(
-                                          " Search VT No.",
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.normal,
-                                            color: Color(0xFF11249F),
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              3.2, // hard coding child width
-                                          child: Container(
-                                            height: 60,
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: SizedBox(
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width /
-                                                3.2,
-                                            decoration: BoxDecoration(
-                                              border: Border.all(
-                                                color: Colors.grey
-                                                    .withOpacity(0.5),
-                                                width: 1.0,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(4.0),
+                                                2.50,
+                                            child: ToggleSwitch(
+                                              minWidth: 146,
+                                              minHeight: 65.0,
+                                              initialLabelIndex: modeSelected,
+                                              cornerRadius: 20.0,
+                                              activeFgColor: Colors.white,
+                                              inactiveBgColor: Colors.grey,
+                                              inactiveFgColor: Colors.white,
+                                              totalSwitches: 2,
+                                              customTextStyles: [
+                                                TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.normal,
+                                                  color: Colors.white,
+                                                ),
+                                                TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.normal,
+                                                  color: Colors.white,
+                                                )
+                                              ],
+                                              labels: ['Exports ', ' Imports'],
+                                              icons: [
+                                                Icons.north,
+                                                Icons.south,
+                                              ],
+                                              iconSize: 22.0,
+                                              activeBgColors: [
+                                                // [Colors.blueAccent, Colors.blue],
+                                                // [Colors.blueAccent, Colors.blue],
+                                                [
+                                                  Color(0xFF1220BC),
+                                                  Color(0xFF3540E8)
+                                                ],
+                                                [
+                                                  Color(0xFF1220BC),
+                                                  Color(0xFF3540E8)
+                                                ],
+                                              ],
+                                              animate: true,
+                                              // with just animate set to true, default curve = Curves.easeIn
+                                              curve: Curves.bounceInOut,
+                                              // animate must be set to true when using custom curve
+                                              onToggle: (index) {
+                                                print('switched to: $index');
+
+                                                setState(() {
+                                                  //selectedText = "";
+                                                  modeSelected = index!;
+                                                  // if (index == 1) {
+                                                  //   getVehicleToeknList(
+                                                  //       3); //Import
+                                                  //   vehicleToeknListToBind =
+                                                  //       vehicleToeknListImport;
+                                                  // } else {
+                                                  //   getVehicleToeknList(
+                                                  //       4); //Export
+                                                  //   vehicleToeknListToBind =
+                                                  //       vehicleToeknListExport;
+                                                  // }
+                                                });
+                                              },
                                             ),
-                                            child: TextField(
-                                              controller: txtVTNO,
-                                              keyboardType: TextInputType.text,
-                                              textCapitalization:
-                                                  TextCapitalization.characters,
-                                              decoration: InputDecoration(
-                                                border: InputBorder.none,
-                                                hintText: "Search VT No.",
-                                                hintStyle: TextStyle(
-                                                    color: Colors.grey),
-                                                contentPadding:
-                                                    EdgeInsets.symmetric(
-                                                        vertical: 8,
-                                                        horizontal: 8),
-                                                isDense: true,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    //SizedBox(width: 10),
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              3.11,
+                                          child: Text(
+                                            " Search VT No.",
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.normal,
+                                              color: Color(0xFF11249F),
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                3.2, // hard coding child width
+                                            child: Container(
+                                              height: 60,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  3.2,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: Colors.grey
+                                                      .withOpacity(0.5),
+                                                  width: 1.0,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(4.0),
                                               ),
-                                              style: TextStyle(
-                                                fontSize: 24.0,
-                                                color: Colors.black,
+                                              child: TextField(
+                                                controller: txtVTNO,
+                                                keyboardType:
+                                                    TextInputType.text,
+                                                textCapitalization:
+                                                    TextCapitalization
+                                                        .characters,
+                                                decoration: InputDecoration(
+                                                  border: InputBorder.none,
+                                                  hintText: "Search VT No.",
+                                                  hintStyle: TextStyle(
+                                                      color: Colors.grey),
+                                                  contentPadding:
+                                                      EdgeInsets.symmetric(
+                                                          vertical: 8,
+                                                          horizontal: 8),
+                                                  isDense: true,
+                                                ),
+                                                style: TextStyle(
+                                                  fontSize: 24.0,
+                                                  color: Colors.black,
+                                                ),
                                               ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(width: 8),
-                                  // Padding(
-                                  //   padding: const EdgeInsets.only(top: 16.0),
-                                  //   child: ElevatedButton(
-                                  //     style: ElevatedButton.styleFrom(
-                                  //       elevation: 4.0,
-                                  //       shape: RoundedRectangleBorder(
-                                  //           borderRadius:
-                                  //               BorderRadius.circular(
-                                  //                   10.0)), //
-                                  //       padding: const EdgeInsets.all(0.0),
-                                  //     ),
-                                  //     child: Container(
-                                  //       height: 65.0,
-                                  //       width: 65.0,
-                                  //       decoration: BoxDecoration(
-                                  //         borderRadius:
-                                  //             BorderRadius.circular(10),
-                                  //         gradient: LinearGradient(
-                                  //           begin: Alignment.topRight,
-                                  //           end: Alignment.bottomLeft,
-                                  //           colors: [
-                                  //             Color(0xFF1220BC),
-                                  //             Color(0xFF3540E8),
-                                  //           ],
-                                  //         ),
-                                  //       ),
-                                  //       child: Icon(
-                                  //         Icons.search,
-                                  //         size: 32,
-                                  //       ),
-                                  //     ),
-                                  //     onPressed: () {
-                                  //       setState(() {
-                                  //         isSearched = true;
-                                  //         _runFilter(txtVTNO.text);
-                                  //       });
-                                  //     },
-                                  //   ),
-                                  // ),
+                                      ],
+                                    ),
+                                    SizedBox(width: 8),
+                                    // Padding(
+                                    //   padding: const EdgeInsets.only(top: 16.0),
+                                    //   child: ElevatedButton(
+                                    //     style: ElevatedButton.styleFrom(
+                                    //       elevation: 4.0,
+                                    //       shape: RoundedRectangleBorder(
+                                    //           borderRadius:
+                                    //               BorderRadius.circular(
+                                    //                   10.0)), //
+                                    //       padding: const EdgeInsets.all(0.0),
+                                    //     ),
+                                    //     child: Container(
+                                    //       height: 65.0,
+                                    //       width: 65.0,
+                                    //       decoration: BoxDecoration(
+                                    //         borderRadius:
+                                    //             BorderRadius.circular(10),
+                                    //         gradient: LinearGradient(
+                                    //           begin: Alignment.topRight,
+                                    //           end: Alignment.bottomLeft,
+                                    //           colors: [
+                                    //             Color(0xFF1220BC),
+                                    //             Color(0xFF3540E8),
+                                    //           ],
+                                    //         ),
+                                    //       ),
+                                    //       child: Icon(
+                                    //         Icons.search,
+                                    //         size: 32,
+                                    //       ),
+                                    //     ),
+                                    //     onPressed: () {
+                                    //       setState(() {
+                                    //         isSearched = true;
+                                    //         _runFilter(txtVTNO.text);
+                                    //       });
+                                    //     },
+                                    //   ),
+                                    // ),
 
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 8.0),
-                                    child: GestureDetector(
-                                        child: ScanContainerButtonIpad(),
-                                        onTap: () async {
-                                          var scannedCode =
-                                              await Navigator.of(context)
-                                                  .push(MaterialPageRoute(
-                                            builder: (context) =>
-                                                const QRViewExample(),
-                                          ));
-                                          print("code returned from app");
-                                          print(scannedCode);
-                                          if (scannedCode == null)
-                                            setState(() {
-                                              scannedCodeReceived = "";
-                                            });
-                                          if (scannedCode == "")
-                                            setState(() {
-                                              scannedCodeReceived = "";
-                                            });
-                                          if (scannedCode != null) {
-                                            if (scannedCode != "") {
-                                              print("code returned from app =" +
-                                                  scannedCode);
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 8.0),
+                                      child: GestureDetector(
+                                          child: ScanContainerButtonIpad(),
+                                          onTap: () async {
+                                            var scannedCode =
+                                                await Navigator.of(context)
+                                                    .push(MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const QRViewExample(),
+                                            ));
+                                            print("code returned from app");
+                                            print(scannedCode);
+                                            if (scannedCode == null)
                                               setState(() {
-                                                scannedCodeReceived =
-                                                    scannedCode;
+                                                scannedCodeReceived = "";
+                                              });
+                                            if (scannedCode == "")
+                                              setState(() {
+                                                scannedCodeReceived = "";
+                                              });
+                                            if (scannedCode != null) {
+                                              if (scannedCode != "") {
+                                                print(
+                                                    "code returned from app =" +
+                                                        scannedCode);
+                                                setState(() {
+                                                  scannedCodeReceived =
+                                                      scannedCode;
+                                                  txtVTNO.text =
+                                                      scannedCodeReceived;
+                                                });
+                                                // await getShipmentDetails(scannedCode);
+                                              }
+                                            }
+                                          }),
+                                    ),
+                                    SizedBox(width: 5),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 8.0),
+                                      child: GestureDetector(
+                                        child: GallaryScanContainerButtonIpad(),
+                                        onTap: () async {
+                                          final ImagePicker _picker =
+                                              ImagePicker();
+                                          final XFile? image =
+                                              await _picker.pickImage(
+                                                  source: ImageSource
+                                                      .gallery); // Pick an image
+                                          if (image == null)
+                                            return;
+                                          else {
+                                            String? str =
+                                                await Scan.parse(image.path);
+                                            if (str != null) {
+                                              setState(() {
+                                                scannedCodeReceived = str;
                                                 txtVTNO.text =
                                                     scannedCodeReceived;
                                               });
-                                              // await getShipmentDetails(scannedCode);
                                             }
                                           }
-                                        }),
-                                  ),
-                                  SizedBox(width: 5),
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 8.0),
-                                    child: GestureDetector(
-                                      child: GallaryScanContainerButtonIpad(),
-                                      onTap: () async {
-                                        final ImagePicker _picker =
-                                            ImagePicker();
-                                        final XFile? image =
-                                            await _picker.pickImage(
-                                                source: ImageSource
-                                                    .gallery); // Pick an image
-                                        if (image == null)
-                                          return;
-                                        else {
-                                          String? str =
-                                              await Scan.parse(image.path);
-                                          if (str != null) {
-                                            setState(() {
-                                              scannedCodeReceived = str;
-                                              txtVTNO.text =
-                                                  scannedCodeReceived;
-                                            });
-                                          }
-                                        }
-                                      },
-                                    ),
-                                  )
-                                ],
-                              ),
-                              SizedBox(height: 10),
-                            ]),
-                      ),
+                                        },
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                SizedBox(height: 10),
+                              ])),
                     ),
                   ),
+
             isLoading
                 ? Center(
                     child: Container(
@@ -718,18 +709,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
                         child: CircularProgressIndicator()))
                 : Expanded(
                     child: SingleChildScrollView(
-                      child:searchedList.isNotEmpty||( mawbPrefixController.text.isNotEmpty||mawbPrefixController.text.isNotEmpty)?
-                      ListView.builder(
-                        padding: EdgeInsets.zero,
-                        shrinkWrap: true,
-                        itemCount: searchedList.length,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemBuilder: (BuildContext context, int index) {
-                          DocUploadDetails docListItem =
-                          searchedList.elementAt(index);
-                          return mawbListItem(context, docListItem, index);
-                        },
-                      ):ListView.builder(
+                      child: ListView.builder(
                         padding: EdgeInsets.zero,
                         shrinkWrap: true,
                         itemCount: docUploadList.length,
@@ -745,19 +725,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
           ]),
     );
   }
-  onSearchTextChanged(String text) async {
-    searchedList.clear();
-    if (text.isEmpty) {
-      setState(() {});
-      return;
-    }
-    for (var item in docUploadList) {
-      if (item.MAWBNo.contains(text.toLowerCase())) {
-        searchedList.add(item);
-      }
-    }
-    setState(() {});
-  }
+
   mawbListItem(BuildContext context, DocUploadDetails docUploadDetails, index) {
     return Card(
       elevation: 3,
@@ -789,7 +757,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                DocumentUploadChild(docUploadDetails)),
+                                SubmitITNDetails(docUploadDetails)),
                       );
                     },
                     child: Icon(
@@ -929,42 +897,6 @@ class _DocumentUploadState extends State<DocumentUpload> {
       ),
     );
   }
-
-
 }
 
-class DocUploadDetails {
-  final String MAWBNo;
-  final String Date;
-  final String PCS;
-  final String Weight;
-  final String Unit;
 
-  DocUploadDetails({
-    required this.MAWBNo,
-    required this.Date,
-    required this.PCS,
-    required this.Weight,
-    required this.Unit,
-  });
-
-  factory DocUploadDetails.fromJson(Map<String, dynamic> json) {
-    return DocUploadDetails(
-      MAWBNo: json['MAWBNo'] == null ? "" : json['MAWBNo'],
-      Date: json['Date'] == null ? "" : json['Date'],
-      PCS: json['PCS'] == null ? "" : json['PCS'],
-      Weight: json['Weight'] == null ? "" : json['Weight'],
-      Unit: json['Unit'] == null ? "" : json['Unit'],
-    );
-  }
-
-  Map toMap() {
-    var map = new Map<String, dynamic>();
-    map["MAWBNo"] = MAWBNo;
-    map["Date"] = Date;
-    map["PCS"] = PCS;
-    map["Weight"] = Weight;
-    map["Unit"] = Unit;
-    return map;
-  }
-}

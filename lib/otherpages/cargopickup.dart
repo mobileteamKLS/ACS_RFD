@@ -764,7 +764,7 @@ class _CArgoPickUpState extends State<CArgoPickUp> {
     );
   }
 
-  buildDockList(VehicleToken _dl, index) {
+    buildDockList(VehicleToken _dl, index) {
     return index < 120
         ? GestureDetector(
             onTap: () async {

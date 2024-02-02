@@ -18,6 +18,12 @@ const mobileHeaderFontStyleBold = TextStyle(
   color: Color(0xFF11249F),
 );
 
+const mobileHeaderFontStyleBold2 = TextStyle(
+  fontSize: 18,
+  fontWeight: FontWeight.bold,
+  color: Color(0xFFFFFFFF),
+);
+
 const iPadHeaderFontStyle = TextStyle(
   fontSize: 24,
   fontWeight: FontWeight.normal,

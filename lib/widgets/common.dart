@@ -129,6 +129,57 @@ class DeleteScanContainerButton extends StatelessWidget {
     );
   }
 }
+
+class SearchContainerButtonIpad extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: MediaQuery.of(context).size.width / 14, // 65.0,
+      width: MediaQuery.of(context).size.width / 14, //65.0,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        gradient: LinearGradient(
+          begin: Alignment.center,
+          end: Alignment.topCenter,
+          colors: [
+            Color(0xFF1220BC),
+            Color(0xFF3540E8),
+          ],
+        ),
+      ),
+      child: Icon(
+        Icons.search,
+        color: Colors.white,
+        size: MediaQuery.of(context).size.width / 18, //32,
+      ),
+    );
+  }
+}
+class DeleteScanContainerButtonIpad extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: MediaQuery.of(context).size.width / 14, // 65.0,
+      width: MediaQuery.of(context).size.width / 14, //65.0,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        gradient: LinearGradient(
+          begin: Alignment.center,
+          end: Alignment.topCenter,
+          colors: [
+            Color(0xFF1220BC),
+            Color(0xFF3540E8),
+          ],
+        ),
+      ),
+      child: Icon(
+        Icons.delete,
+        color: Colors.white,
+        size: MediaQuery.of(context).size.width / 18, //32,
+      ),
+    );
+  }
+}
 class DatePickerContainerButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
