@@ -72,6 +72,12 @@ const iPadGroupHeaderFontStyleBold = TextStyle(
   color: Color(0xFF11249F),
 );
 
+const iPadGroupHeaderFontStyleBold2 = TextStyle(
+  fontSize: 22,
+  fontWeight: FontWeight.bold,
+  color: Color(0xFFFFFFFF),
+);
+
 const iPadGroupHeaderFontStyleTooBold = TextStyle(
   fontSize: 40,
   fontWeight: FontWeight.bold,
@@ -290,7 +296,7 @@ const iPadToggleTextFontStyleWhite = TextStyle(
 );
 
 class Settings {
-
+  // 16 FEB
   static const String ACSServiceURL =
       "https://acsdemoservice.kalelogistics.com/srvMobile.asmx"; //YVRA UAT Server
   //"https://acsdemo.upliftindia.com/ACS_GMR_UAT_HHT_Services/srvMobile.asmx";

@@ -36,6 +36,10 @@ class _SubmitITNState extends State<SubmitITN> {
   int trackingSelected = 0; //, modeSelected1 = 0;
   int trackingType = 0;
   String dropdownValue = 'Select';
+  TextEditingController mawbPrefixController = TextEditingController();
+  TextEditingController mawbNoController = TextEditingController();
+  FocusNode mawbPrefixFocusNode = FocusNode();
+  FocusNode mawbNoFocusNode = FocusNode();
 
   //  List<CodexPass> passList = [];
   // List<FilterArray> _filterArray = [];
@@ -49,7 +53,7 @@ class _SubmitITNState extends State<SubmitITN> {
   // List<VehicleToken> vehicleToeknListImport = [];
   // List<VehicleToken> vehicleToeknListExport = [];
   // List<VehicleToken> vehicleToeknListtRandom = [];
-
+  List<DocUploadDetails> searchedList = [];
   List<DocUploadDetails> docUploadList = [
     DocUploadDetails(
         MAWBNo: '999-56565670',
@@ -58,7 +62,7 @@ class _SubmitITNState extends State<SubmitITN> {
         Weight: '55.00',
         Unit: 'kgs'),
     DocUploadDetails(
-        MAWBNo: '999-56565671',
+        MAWBNo: '125-56565671',
         Date: '18-Jan-24',
         PCS: '20',
         Weight: '96.00',
@@ -70,7 +74,7 @@ class _SubmitITNState extends State<SubmitITN> {
         Weight: '71.00',
         Unit: 'kgs'),
     DocUploadDetails(
-        MAWBNo: '999-56565673',
+        MAWBNo: '125-56565673',
         Date: '20-Jan-24',
         PCS: '20',
         Weight: '45.00',
@@ -333,22 +337,28 @@ class _SubmitITNState extends State<SubmitITN> {
                                       borderRadius: BorderRadius.circular(4.0),
                                     ),
                                     child: TextField(
-
-                                        // controller: txtVTNO,
-                                        keyboardType: TextInputType.text,
-                                        textCapitalization:
-                                            TextCapitalization.characters,
-                                        textAlign: TextAlign.right,
-                                        decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          hintText: "Prefix",
-                                          hintStyle:
-                                              TextStyle(color: Colors.grey),
-                                          contentPadding: EdgeInsets.symmetric(
-                                              vertical: 8, horizontal: 8),
-                                          isDense: true,
-                                        ),
-                                        style: mobileTextFontStyle),
+                                      keyboardType: TextInputType.number,
+                                      controller: mawbPrefixController,
+                                      focusNode: mawbPrefixFocusNode,
+                                      textAlign: TextAlign.right,
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: "Prefix",
+                                        hintStyle:
+                                            TextStyle(color: Colors.grey),
+                                        contentPadding: EdgeInsets.symmetric(
+                                            vertical: 8, horizontal: 8),
+                                        isDense: true,
+                                      ),
+                                      style: mobileTextFontStyle,
+                                      onChanged: (value) {
+                                        onSearchTextChanged(value);
+                                        if (value.length == 3) {
+                                          mawbPrefixFocusNode.unfocus();
+                                          mawbNoFocusNode.requestFocus();
+                                        }
+                                      },
+                                    ),
                                   ),
                                 ),
                               ),
@@ -369,21 +379,30 @@ class _SubmitITNState extends State<SubmitITN> {
                                       borderRadius: BorderRadius.circular(4.0),
                                     ),
                                     child: TextField(
-                                        controller: txtVTNO,
-                                        textAlign: TextAlign.right,
-                                        keyboardType: TextInputType.text,
-                                        textCapitalization:
-                                            TextCapitalization.characters,
-                                        decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          hintText: "MAWB No.",
-                                          hintStyle:
-                                              TextStyle(color: Colors.grey),
-                                          contentPadding: EdgeInsets.symmetric(
-                                              vertical: 8, horizontal: 8),
-                                          isDense: true,
-                                        ),
-                                        style: mobileTextFontStyle),
+                                      controller: mawbNoController,
+                                      focusNode: mawbNoFocusNode,
+                                      textAlign: TextAlign.right,
+                                      keyboardType: TextInputType.text,
+                                      textCapitalization:
+                                          TextCapitalization.characters,
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: "MAWB No.",
+                                        hintStyle:
+                                            TextStyle(color: Colors.grey),
+                                        contentPadding: EdgeInsets.symmetric(
+                                            vertical: 8, horizontal: 8),
+                                        isDense: true,
+                                      ),
+                                      style: mobileTextFontStyle,
+                                      onChanged: (value) {
+                                        onSearchTextChanged(value);
+                                        if (value.length == 3) {
+                                          // mawbPrefixFocusNode.unfocus();
+                                          // mawbNoFocusNode.requestFocus();
+                                        }
+                                      },
+                                    ),
                                   ),
                                 ),
                               ),
@@ -411,296 +430,191 @@ class _SubmitITNState extends State<SubmitITN> {
                     child: Container(
                       height: 135,
                       child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 10.0, bottom: 10.0, left: 16.0),
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              2.45,
-                                          child: Text(
-                                            " Mode",
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.normal,
-                                              color: Color(0xFF11249F),
-                                            ),
+                        padding: const EdgeInsets.only(
+                            top: 10.0, bottom: 10.0, left: 16.0),
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  //SizedBox(width: 10),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2.45,
+                                        child: Text(
+                                          " MAWB No.",
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.normal,
+                                            color: Color(0xFF11249F),
                                           ),
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                2.50,
-                                            child: ToggleSwitch(
-                                              minWidth: 146,
-                                              minHeight: 65.0,
-                                              initialLabelIndex: modeSelected,
-                                              cornerRadius: 20.0,
-                                              activeFgColor: Colors.white,
-                                              inactiveBgColor: Colors.grey,
-                                              inactiveFgColor: Colors.white,
-                                              totalSwitches: 2,
-                                              customTextStyles: [
-                                                TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.normal,
-                                                  color: Colors.white,
-                                                ),
-                                                TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.normal,
-                                                  color: Colors.white,
-                                                )
-                                              ],
-                                              labels: ['Exports ', ' Imports'],
-                                              icons: [
-                                                Icons.north,
-                                                Icons.south,
-                                              ],
-                                              iconSize: 22.0,
-                                              activeBgColors: [
-                                                // [Colors.blueAccent, Colors.blue],
-                                                // [Colors.blueAccent, Colors.blue],
-                                                [
-                                                  Color(0xFF1220BC),
-                                                  Color(0xFF3540E8)
-                                                ],
-                                                [
-                                                  Color(0xFF1220BC),
-                                                  Color(0xFF3540E8)
-                                                ],
-                                              ],
-                                              animate: true,
-                                              // with just animate set to true, default curve = Curves.easeIn
-                                              curve: Curves.bounceInOut,
-                                              // animate must be set to true when using custom curve
-                                              onToggle: (index) {
-                                                print('switched to: $index');
-
-                                                setState(() {
-                                                  //selectedText = "";
-                                                  modeSelected = index!;
-                                                  // if (index == 1) {
-                                                  //   getVehicleToeknList(
-                                                  //       3); //Import
-                                                  //   vehicleToeknListToBind =
-                                                  //       vehicleToeknListImport;
-                                                  // } else {
-                                                  //   getVehicleToeknList(
-                                                  //       4); //Export
-                                                  //   vehicleToeknListToBind =
-                                                  //       vehicleToeknListExport;
-                                                  // }
-                                                });
-                                              },
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    //SizedBox(width: 10),
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              3.11,
-                                          child: Text(
-                                            " Search VT No.",
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.normal,
-                                              color: Color(0xFF11249F),
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                3.2, // hard coding child width
-                                            child: Container(
-                                              height: 60,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: SizedBox(
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .width /
-                                                  3.2,
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.5),
-                                                  width: 1.0,
+                                                  8.8,
+                                              // hard coding child width
+                                              child: Container(
+                                                height: 60,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    8.8,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.5),
+                                                    width: 1.0,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          4.0),
                                                 ),
-                                                borderRadius:
-                                                    BorderRadius.circular(4.0),
-                                              ),
-                                              child: TextField(
-                                                controller: txtVTNO,
-                                                keyboardType:
-                                                    TextInputType.text,
-                                                textCapitalization:
-                                                    TextCapitalization
-                                                        .characters,
-                                                decoration: InputDecoration(
-                                                  border: InputBorder.none,
-                                                  hintText: "Search VT No.",
-                                                  hintStyle: TextStyle(
-                                                      color: Colors.grey),
-                                                  contentPadding:
-                                                      EdgeInsets.symmetric(
-                                                          vertical: 8,
-                                                          horizontal: 8),
-                                                  isDense: true,
-                                                ),
-                                                style: TextStyle(
-                                                  fontSize: 24.0,
-                                                  color: Colors.black,
+                                                child: TextField(
+                                                  controller:
+                                                      mawbPrefixController,
+                                                  focusNode:
+                                                      mawbPrefixFocusNode,
+                                                  textAlign: TextAlign.right,
+                                                  keyboardType:
+                                                      TextInputType.text,
+                                                  textCapitalization:
+                                                      TextCapitalization
+                                                          .characters,
+                                                  decoration: InputDecoration(
+                                                    border: InputBorder.none,
+                                                    hintText: "Prefix",
+                                                    hintStyle: TextStyle(
+                                                        color: Colors.grey),
+                                                    contentPadding:
+                                                        EdgeInsets.symmetric(
+                                                            vertical: 8,
+                                                            horizontal: 8),
+                                                    isDense: true,
+                                                  ),
+                                                  style: TextStyle(
+                                                    fontSize: 24.0,
+                                                    color: Colors.black,
+                                                  ),
+                                                  onChanged: (value) {
+                                                    onSearchTextChanged(value);
+                                                    if (value.length == 3) {
+                                                      mawbPrefixFocusNode
+                                                          .unfocus();
+                                                      mawbNoFocusNode
+                                                          .requestFocus();
+                                                    }
+                                                  },
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(width: 8),
-                                    // Padding(
-                                    //   padding: const EdgeInsets.only(top: 16.0),
-                                    //   child: ElevatedButton(
-                                    //     style: ElevatedButton.styleFrom(
-                                    //       elevation: 4.0,
-                                    //       shape: RoundedRectangleBorder(
-                                    //           borderRadius:
-                                    //               BorderRadius.circular(
-                                    //                   10.0)), //
-                                    //       padding: const EdgeInsets.all(0.0),
-                                    //     ),
-                                    //     child: Container(
-                                    //       height: 65.0,
-                                    //       width: 65.0,
-                                    //       decoration: BoxDecoration(
-                                    //         borderRadius:
-                                    //             BorderRadius.circular(10),
-                                    //         gradient: LinearGradient(
-                                    //           begin: Alignment.topRight,
-                                    //           end: Alignment.bottomLeft,
-                                    //           colors: [
-                                    //             Color(0xFF1220BC),
-                                    //             Color(0xFF3540E8),
-                                    //           ],
-                                    //         ),
-                                    //       ),
-                                    //       child: Icon(
-                                    //         Icons.search,
-                                    //         size: 32,
-                                    //       ),
-                                    //     ),
-                                    //     onPressed: () {
-                                    //       setState(() {
-                                    //         isSearched = true;
-                                    //         _runFilter(txtVTNO.text);
-                                    //       });
-                                    //     },
-                                    //   ),
-                                    // ),
-
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 8.0),
-                                      child: GestureDetector(
-                                          child: ScanContainerButtonIpad(),
-                                          onTap: () async {
-                                            var scannedCode =
-                                                await Navigator.of(context)
-                                                    .push(MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const QRViewExample(),
-                                            ));
-                                            print("code returned from app");
-                                            print(scannedCode);
-                                            if (scannedCode == null)
-                                              setState(() {
-                                                scannedCodeReceived = "";
-                                              });
-                                            if (scannedCode == "")
-                                              setState(() {
-                                                scannedCodeReceived = "";
-                                              });
-                                            if (scannedCode != null) {
-                                              if (scannedCode != "") {
-                                                print(
-                                                    "code returned from app =" +
-                                                        scannedCode);
-                                                setState(() {
-                                                  scannedCodeReceived =
-                                                      scannedCode;
-                                                  txtVTNO.text =
-                                                      scannedCodeReceived;
-                                                });
-                                                // await getShipmentDetails(scannedCode);
-                                              }
-                                            }
-                                          }),
-                                    ),
-                                    SizedBox(width: 5),
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 8.0),
-                                      child: GestureDetector(
-                                        child: GallaryScanContainerButtonIpad(),
-                                        onTap: () async {
-                                          final ImagePicker _picker =
-                                              ImagePicker();
-                                          final XFile? image =
-                                              await _picker.pickImage(
-                                                  source: ImageSource
-                                                      .gallery); // Pick an image
-                                          if (image == null)
-                                            return;
-                                          else {
-                                            String? str =
-                                                await Scan.parse(image.path);
-                                            if (str != null) {
-                                              setState(() {
-                                                scannedCodeReceived = str;
-                                                txtVTNO.text =
-                                                    scannedCodeReceived;
-                                              });
-                                            }
-                                          }
-                                        },
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(height: 10),
-                              ])),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  4.6,
+                                              // hard coding child width
+                                              child: Container(
+                                                height: 60,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    4.8,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.5),
+                                                    width: 1.0,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          4.0),
+                                                ),
+                                                child: TextField(
+                                                  controller: mawbNoController,
+                                                  focusNode: mawbNoFocusNode,
+                                                  textAlign: TextAlign.right,
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  decoration: InputDecoration(
+                                                    border: InputBorder.none,
+                                                    hintText: "MAWB No.",
+                                                    hintStyle: TextStyle(
+                                                        color: Colors.grey),
+                                                    contentPadding:
+                                                        EdgeInsets.symmetric(
+                                                            vertical: 8,
+                                                            horizontal: 8),
+                                                    isDense: true,
+                                                  ),
+                                                  style: TextStyle(
+                                                    fontSize: 24.0,
+                                                    color: Colors.black,
+                                                  ),
+                                                  onChanged: (value) {
+                                                    onSearchTextChanged(value);
+                                                    if (value.length == 3) {
+                                                      // mawbPrefixFocusNode.unfocus();
+                                                      // mawbNoFocusNode.requestFocus();
+                                                    }
+                                                  },
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(width: 8),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 8.0),
+                                            child: GestureDetector(
+                                                child:
+                                                    SearchContainerButtonIpad(),
+                                                onTap: () async {
+                                                  // getTrackAndTraceDetails(
+                                                  //     1); //export
+                                                }),
+                                          ),
+                                          SizedBox(width: 5),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 8.0),
+                                            child: GestureDetector(
+                                                child:
+                                                    DeleteScanContainerButtonIpad(),
+                                                onTap: () async {
+                                                  // getTrackAndTraceDetails(
+                                                  //     1); //export
+                                                }),
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 10),
+                            ]),
+                      ),
                     ),
                   ),
-
             isLoading
                 ? Center(
                     child: Container(
@@ -709,27 +623,59 @@ class _SubmitITNState extends State<SubmitITN> {
                         child: CircularProgressIndicator()))
                 : Expanded(
                     child: SingleChildScrollView(
-                      child: ListView.builder(
-                        padding: EdgeInsets.zero,
-                        shrinkWrap: true,
-                        itemCount: docUploadList.length,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemBuilder: (BuildContext context, int index) {
-                          DocUploadDetails docListItem =
-                              docUploadList.elementAt(index);
-                          return mawbListItem(context, docListItem, index);
-                        },
-                      ),
+                      child: searchedList.isNotEmpty ||
+                              (mawbPrefixController.text.isNotEmpty ||
+                                  mawbPrefixController.text.isNotEmpty)
+                          ? ListView.builder(
+                              padding: EdgeInsets.zero,
+                              shrinkWrap: true,
+                              itemCount: searchedList.length,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemBuilder: (BuildContext context, int index) {
+                                DocUploadDetails docListItem =
+                                    searchedList.elementAt(index);
+                                return mawbListItem(
+                                    context, docListItem, index);
+                              },
+                            )
+                          : ListView.builder(
+                              padding: EdgeInsets.zero,
+                              shrinkWrap: true,
+                              itemCount: docUploadList.length,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemBuilder: (BuildContext context, int index) {
+                                DocUploadDetails docListItem =
+                                    docUploadList.elementAt(index);
+                                return mawbListItem(
+                                    context, docListItem, index);
+                              },
+                            ),
                     ),
                   )
           ]),
     );
   }
 
+  onSearchTextChanged(String text) async {
+    searchedList.clear();
+    if (text.isEmpty) {
+      setState(() {});
+      return;
+    }
+    for (var item in docUploadList) {
+      if (item.MAWBNo.contains(text.toLowerCase())) {
+        searchedList.add(item);
+      }
+    }
+    setState(() {});
+  }
+
   mawbListItem(BuildContext context, DocUploadDetails docUploadDetails, index) {
     return Card(
       elevation: 3,
-      margin: EdgeInsets.all(8),
+      margin: useMobileLayout
+          ? EdgeInsets.all(8)
+          : EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       color: Colors.white,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -747,7 +693,9 @@ class _SubmitITNState extends State<SubmitITN> {
                   // color: Colors.white,
                   child: Text(
                     docUploadDetails.MAWBNo,
-                    style: mobileGroupHeaderFontStyleBold,
+                    style: useMobileLayout
+                        ? mobileGroupHeaderFontStyleBold
+                        : iPadGroupHeaderFontStyleBold,
                   ),
                 ),
                 SizedBox(
@@ -763,6 +711,7 @@ class _SubmitITNState extends State<SubmitITN> {
                     child: Icon(
                       FontAwesomeIcons.chevronRight,
                       color: Colors.white,
+                      size: useMobileLayout ? 24 : 34,
                     ),
                     style: ButtonStyle(
                       shape: MaterialStateProperty.all(CircleBorder()),
@@ -780,22 +729,7 @@ class _SubmitITNState extends State<SubmitITN> {
               ],
             ),
             // SizedBox(height: 2),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Icon(
-                  Icons.calendar_month,
-                  size: 16,
-                  color: Color(0xFF11249F),
-                ),
-                //              SizedBox(width: 10),
-                Text(
-                  "${docUploadDetails.Date}",
-                  style: VTlistTextFontStyle,
-                ),
-              ],
-            ),
+
             SizedBox(height: 3),
 
             //  Container(
@@ -809,21 +743,34 @@ class _SubmitITNState extends State<SubmitITN> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  width: MediaQuery.of(context).size.width / 1.5,
+                  width: useMobileLayout
+                      ? MediaQuery.of(context).size.width / 1.7
+                      : MediaQuery.of(context).size.width / 1.5,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Carrier",
-                        style: VTlistTextFontStyle,
+                        "Trucking Company Name",
+                        style: useMobileLayout
+                            ? VTlistTextFontStyle
+                            : iPadcompletedBlackText,
+                      ),
+
+                      Text(
+                        "Origin",
+                        style: useMobileLayout
+                            ? VTlistTextFontStyle
+                            : iPadcompletedBlackText,
                         textAlign: TextAlign.left,
                         // softWrap: true,
                         // maxLines: 3,
                       ),
                       Text(
-                        "FF",
-                        style: VTlistTextFontStyle,
+                        "Destination",
+                        style: useMobileLayout
+                            ? VTlistTextFontStyle
+                            : iPadcompletedBlackText,
                         textAlign: TextAlign.left,
                       ),
                       // SizedBox(
@@ -843,29 +790,53 @@ class _SubmitITNState extends State<SubmitITN> {
                   ),
                 ),
                 Container(
-                  height: 40,
+                  height: useMobileLayout ? 60 : 70,
                   width: 3,
                   color: Color(0xFF0461AA),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0),
                   child: SizedBox(
-                    width: MediaQuery.of(context).size.width / 5,
+                    width: useMobileLayout
+                        ? MediaQuery.of(context).size.width / 4.2
+                        : MediaQuery.of(context).size.width / 4.6,
                     // height: 70,
                     // color: Colors.white,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(
+                              Icons.calendar_month,
+                              size: useMobileLayout ? 16 : 28,
+                              color: Color(0xFF11249F),
+                            ),
+                            //              SizedBox(width: 10),
+                            Text(
+                              " ${docUploadDetails.Date}",
+                              style: useMobileLayout
+                                  ? VTlistTextFontStyle
+                                  : iPadcompletedBlackText,
+                            ),
+                          ],
+                        ),
                         Text(
                           "${docUploadDetails.PCS}" + " PCS",
-                          style: VTlistTextFontStylesmall,
+                          style: useMobileLayout
+                              ? VTlistTextFontStyle
+                              : iPadcompletedBlackText,
                         ),
                         Text(
                           "${docUploadDetails.Weight}" +
                               " " +
                               "${docUploadDetails.Unit}",
-                          style: VTlistTextFontStylesmall,
+                          style: useMobileLayout
+                              ? VTlistTextFontStyle
+                              : iPadcompletedBlackText,
                         ),
                       ],
                     ),
@@ -898,5 +869,3 @@ class _SubmitITNState extends State<SubmitITN> {
     );
   }
 }
-
-

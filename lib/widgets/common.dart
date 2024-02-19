@@ -129,7 +129,31 @@ class DeleteScanContainerButton extends StatelessWidget {
     );
   }
 }
-
+class DatePickerContainerButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: MediaQuery.of(context).size.width / 9.5, // 65.0,
+      width: MediaQuery.of(context).size.width / 9.5, //65.0,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        gradient: LinearGradient(
+          begin: Alignment.center,
+          end: Alignment.topCenter,
+          colors: [
+            Color(0xFF1220BC),
+            Color(0xFF3540E8),
+          ],
+        ),
+      ),
+      child: Icon(
+        Icons.calendar_month_rounded,
+        color: Colors.white,
+        size: MediaQuery.of(context).size.width / 16, //32,
+      ),
+    );
+  }
+}
 class SearchContainerButtonIpad extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -180,12 +204,12 @@ class DeleteScanContainerButtonIpad extends StatelessWidget {
     );
   }
 }
-class DatePickerContainerButton extends StatelessWidget {
+class DatePickerContainerButtonIpad extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.width / 9.5, // 65.0,
-      width: MediaQuery.of(context).size.width / 9.5, //65.0,
+      height: MediaQuery.of(context).size.width / 14, // 65.0,
+      width: MediaQuery.of(context).size.width / 14, //65.0,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         gradient: LinearGradient(
@@ -200,7 +224,7 @@ class DatePickerContainerButton extends StatelessWidget {
       child: Icon(
         Icons.calendar_month_rounded,
         color: Colors.white,
-        size: MediaQuery.of(context).size.width / 16, //32,
+        size: MediaQuery.of(context).size.width / 18, //32,
       ),
     );
   }
@@ -462,4 +486,22 @@ Future<String> determinePosition() async {
   // continue accessing the position of the device.
   //return await Geolocator.getCurrentPosition();
   return locationMsg;
+}
+
+void showSnackBar(BuildContext context,msg,screenWidth) {
+  final snackBar = SnackBar(
+    content: Text(msg),
+    backgroundColor: Color(0xFF1220BC),
+    behavior: SnackBarBehavior.floating,
+    width: screenWidth,
+    action: SnackBarAction(
+      label: 'Dismiss',
+      disabledTextColor:Colors.white,
+      textColor: Colors.yellow,
+      onPressed: () {
+        //Do whatever you want
+      },
+    ),
+  );
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }

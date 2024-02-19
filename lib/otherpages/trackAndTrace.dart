@@ -25,11 +25,56 @@ class TrackAndTrace extends StatefulWidget {
 }
 
 class _TrackAndTraceState extends State<TrackAndTrace> {
-  TextEditingController dateInput = TextEditingController();
+  TextEditingController dateInputSB = TextEditingController();
+  TextEditingController dateInputBOE = TextEditingController();
   final _controllerModeType = ValueNotifier<bool>(false);
   List<VehicleToken> vehicleToeknListToBind = [];
   List<VehicleToken> vehicleToeknListImport = [];
   List<VehicleToken> vehicleToeknListExport = [];
+  List<EVTDetails> evtList = [
+    EVTDetails(
+        EVTno: "EVT2401190001",
+        VehicleNo: "12341111",
+        PendingArea: "15-01-2024 15.39",
+        DockIn: "15-01-2024 15.39",
+        DockOut: "15-01-2024 15.39"),
+    EVTDetails(
+        EVTno: "EVT2401190002",
+        VehicleNo: "12341112",
+        PendingArea: "15-01-2024 15.39",
+        DockIn: "15-01-2024 15.39",
+        DockOut: "15-01-2024 15.39"),
+    EVTDetails(
+        EVTno: "EVT2401190003",
+        VehicleNo: "12341111",
+        PendingArea: "15-01-2024 15.39",
+        DockIn: "15-01-2024 15.39",
+        DockOut: "15-01-2024 15.39"),
+    EVTDetails(
+        EVTno: "EVT2401190003",
+        VehicleNo: "12341111",
+        PendingArea: "15-01-2024 15.39",
+        DockIn: "15-01-2024 15.39",
+        DockOut: "15-01-2024 15.39"),
+    EVTDetails(
+        EVTno: "EVT2401190004",
+        VehicleNo: "12341114",
+        PendingArea: "15-01-2024 15.39",
+        DockIn: "15-01-2024 15.39",
+        DockOut: "15-01-2024 15.39"),
+    EVTDetails(
+        EVTno: "EVT2401190005",
+        VehicleNo: "12341115",
+        PendingArea: "15-01-2024 15.39",
+        DockIn: "15-01-2024 15.39",
+        DockOut: "15-01-2024 15.39"),
+    EVTDetails(
+        EVTno: "EVT2401190006",
+        VehicleNo: "12341116",
+        PendingArea: "15-01-2024 15.39",
+        DockIn: "15-01-2024 15.39",
+        DockOut: "15-01-2024 15.39"),
+  ];
   bool isImport = false;
   bool isLoading = false;
   bool useMobileLayout = false;
@@ -42,7 +87,8 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
   @override
   void initState() {
     super.initState();
-    dateInput.text = "";
+    dateInputSB.text = "";
+    dateInputBOE.text = "";
     _controllerModeType.addListener(() {
       setState(() {
         if (_controllerModeType.value) {
@@ -285,7 +331,7 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                                     //     _runFilter(value),
                                                     // controller: txtVTNO,
                                                     keyboardType:
-                                                        TextInputType.text,
+                                                        TextInputType.number,
                                                     textCapitalization:
                                                         TextCapitalization
                                                             .characters,
@@ -334,7 +380,7 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                                     // controller: txtVTNO,
                                                     textAlign: TextAlign.right,
                                                     keyboardType:
-                                                        TextInputType.text,
+                                                        TextInputType.number,
                                                     textCapitalization:
                                                         TextCapitalization
                                                             .characters,
@@ -571,7 +617,7 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                                 //     _runFilter(value),
                                                 // controller: txtVTNO,
                                                 keyboardType:
-                                                    TextInputType.text,
+                                                    TextInputType.number,
                                                 textCapitalization:
                                                     TextCapitalization
                                                         .characters,
@@ -619,7 +665,7 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                                 // controller: txtVTNO,
                                                 textAlign: TextAlign.right,
                                                 keyboardType:
-                                                    TextInputType.text,
+                                                    TextInputType.number,
                                                 textCapitalization:
                                                     TextCapitalization
                                                         .characters,
@@ -774,9 +820,11 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                                     child: TextField(
                                                         // onChanged: (value) =>
                                                         //     _runFilter(value),
-                                                        // controller: dateInput,
+                                                        controller:
+                                                            dateInputBOE,
                                                         keyboardType:
-                                                            TextInputType.text,
+                                                            TextInputType
+                                                                .datetime,
                                                         textAlign:
                                                             TextAlign.right,
                                                         textCapitalization:
@@ -866,7 +914,7 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                                                   'dd MMM yyyy')
                                                               .format(
                                                                   pickedDate);
-                                                      dateInput.text =
+                                                      dateInputBOE.text =
                                                           formattedDate; //set output date to TextField value.
 
                                                       // getSlotsList(); // refesh slots
@@ -1000,7 +1048,7 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                                     child: TextField(
                                                         // onChanged: (value) =>
                                                         //     _runFilter(value),
-                                                        controller: dateInput,
+                                                        controller: dateInputSB,
                                                         keyboardType:
                                                             TextInputType.text,
                                                         textAlign:
@@ -1092,7 +1140,7 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                                                   'dd MMM yyyy')
                                                               .format(
                                                                   pickedDate);
-                                                      dateInput.text =
+                                                      dateInputSB.text =
                                                           formattedDate; //set output date to TextField value.
 
                                                       // getSlotsList(); // refesh slots
@@ -1614,8 +1662,8 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                                                         4.0),
                                                           ),
                                                           child: TextField(
-                                                            textAlign: TextAlign.right,
-
+                                                            textAlign:
+                                                                TextAlign.right,
                                                             keyboardType:
                                                                 TextInputType
                                                                     .text,
@@ -1624,7 +1672,6 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                                                     .characters,
                                                             decoration:
                                                                 InputDecoration(
-
                                                               border:
                                                                   InputBorder
                                                                       .none,
@@ -1682,14 +1729,13 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                                                         4.0),
                                                           ),
                                                           child: TextField(
-                                                            textAlign: TextAlign.right,
+                                                            textAlign:
+                                                                TextAlign.right,
                                                             keyboardType:
                                                                 TextInputType
                                                                     .number,
-
                                                             decoration:
                                                                 InputDecoration(
-
                                                               border:
                                                                   InputBorder
                                                                       .none,
@@ -1707,7 +1753,6 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                                               isDense: true,
                                                             ),
                                                             style: TextStyle(
-
                                                               fontSize: 24.0,
                                                               color:
                                                                   Colors.black,
@@ -1930,6 +1975,8 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                                       child: TextField(
                                                         keyboardType:
                                                             TextInputType.text,
+                                                        textAlign:
+                                                            TextAlign.right,
                                                         textCapitalization:
                                                             TextCapitalization
                                                                 .characters,
@@ -1937,8 +1984,7 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                                             InputDecoration(
                                                           border:
                                                               InputBorder.none,
-                                                          hintText:
-                                                              "Search VT No.",
+                                                          hintText: "Prefix",
                                                           hintStyle: TextStyle(
                                                               color:
                                                                   Colors.grey),
@@ -1992,12 +2038,13 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                                         textCapitalization:
                                                             TextCapitalization
                                                                 .characters,
+                                                        textAlign:
+                                                            TextAlign.right,
                                                         decoration:
                                                             InputDecoration(
                                                           border:
                                                               InputBorder.none,
-                                                          hintText:
-                                                              "Search VT No.",
+                                                          hintText: "MAWB No.",
                                                           hintStyle: TextStyle(
                                                               color:
                                                                   Colors.grey),
@@ -2117,13 +2164,16 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                                                 textCapitalization:
                                                                     TextCapitalization
                                                                         .characters,
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .right,
                                                                 decoration:
                                                                     InputDecoration(
                                                                   border:
                                                                       InputBorder
                                                                           .none,
                                                                   hintText:
-                                                                      "Search VT No.",
+                                                                      "Enter BoE No.",
                                                                   hintStyle: TextStyle(
                                                                       color: Colors
                                                                           .grey),
@@ -2241,13 +2291,16 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                                                 textCapitalization:
                                                                     TextCapitalization
                                                                         .characters,
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .right,
                                                                 decoration:
                                                                     InputDecoration(
                                                                   border:
                                                                       InputBorder
                                                                           .none,
                                                                   hintText:
-                                                                      "Search VT No.",
+                                                                      "Enter Date",
                                                                   hintStyle: TextStyle(
                                                                       color: Colors
                                                                           .grey),
@@ -2277,25 +2330,25 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                                                       .only(
                                                                   bottom: 8.0),
                                                           child: GestureDetector(
-                                                              child: SearchContainerButtonIpad(),
+                                                              child: DatePickerContainerButtonIpad(),
                                                               onTap: () async {
-                                                                getTrackAndTraceDetails(
-                                                                    1); //export
+                                                                // getTrackAndTraceDetails(
+                                                                //     1); //export
                                                               }),
                                                         ),
                                                         SizedBox(width: 5),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  bottom: 8.0),
-                                                          child: GestureDetector(
-                                                              child: DeleteScanContainerButtonIpad(),
-                                                              onTap: () async {
-                                                                getTrackAndTraceDetails(
-                                                                    1); //export
-                                                              }),
-                                                        )
+                                                        // Padding(
+                                                        //   padding:
+                                                        //       const EdgeInsets
+                                                        //               .only(
+                                                        //           bottom: 8.0),
+                                                        //   child: GestureDetector(
+                                                        //       child: DeleteScanContainerButtonIpad(),
+                                                        //       onTap: () async {
+                                                        //         getTrackAndTraceDetails(
+                                                        //             1); //export
+                                                        //       }),
+                                                        // )
                                                       ],
                                                     )
                                                   ],
@@ -2370,13 +2423,16 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                                                 textCapitalization:
                                                                     TextCapitalization
                                                                         .characters,
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .right,
                                                                 decoration:
                                                                     InputDecoration(
                                                                   border:
                                                                       InputBorder
                                                                           .none,
                                                                   hintText:
-                                                                      "Search VT No.",
+                                                                      "Enter Shipping Bill No.",
                                                                   hintStyle: TextStyle(
                                                                       color: Colors
                                                                           .grey),
@@ -2491,6 +2547,9 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                                                 keyboardType:
                                                                     TextInputType
                                                                         .text,
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .right,
                                                                 textCapitalization:
                                                                     TextCapitalization
                                                                         .characters,
@@ -2500,7 +2559,7 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                                                       InputBorder
                                                                           .none,
                                                                   hintText:
-                                                                      "Search VT No.",
+                                                                      "Enter Date",
                                                                   hintStyle: TextStyle(
                                                                       color: Colors
                                                                           .grey),
@@ -2530,25 +2589,12 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                                                       .only(
                                                                   bottom: 8.0),
                                                           child: GestureDetector(
-                                                              child: SearchContainerButtonIpad(),
+                                                              child: DatePickerContainerButtonIpad(),
                                                               onTap: () async {
-                                                                getTrackAndTraceDetails(
-                                                                    1); //export
+                                                                // getTrackAndTraceDetails(
+                                                                //     1); //export
                                                               }),
                                                         ),
-                                                        SizedBox(width: 5),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  bottom: 8.0),
-                                                          child: GestureDetector(
-                                                              child: DeleteScanContainerButtonIpad(),
-                                                              onTap: () async {
-                                                                getTrackAndTraceDetails(
-                                                                    1); //export
-                                                              }),
-                                                        )
                                                       ],
                                                     )
                                                   ],
@@ -2608,6 +2654,8 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                                       child: TextField(
                                                         keyboardType:
                                                             TextInputType.text,
+                                                        textAlign:
+                                                            TextAlign.right,
                                                         textCapitalization:
                                                             TextCapitalization
                                                                 .characters,
@@ -2667,6 +2715,8 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                                       child: TextField(
                                                         keyboardType:
                                                             TextInputType.text,
+                                                        textAlign:
+                                                            TextAlign.right,
                                                         textCapitalization:
                                                             TextCapitalization
                                                                 .characters,
@@ -2745,7 +2795,9 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                             height: 50,
                             color: Colors.transparent,
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 10.0),
+                              padding: useMobileLayout
+                                  ? const EdgeInsets.only(left: 10.0)
+                                  : const EdgeInsets.only(left: 24.0),
                               child: Row(
                                 children: [
                                   SizedBox(
@@ -2753,7 +2805,9 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                           2.6,
                                       child: Text(
                                         " MAWB Creation",
-                                        style: mobileTimeLineHeaderFontStyle,
+                                        style: useMobileLayout
+                                            ? mobileTimeLineHeaderFontStyle
+                                            : mobileGroupHeaderFontStyle,
                                       )),
                                   SizedBox(
                                       width: MediaQuery.of(context).size.width /
@@ -2769,7 +2823,10 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                           // : getCustomFormattedDateTime(
                                           // _bookingDetails[0].CreatedOn,
                                           // 'dd-MM-yyyy HH:mm')
-                                          "15-01-2024 15:39")),
+                                          "15-01-2024 15:39",
+                                          style: useMobileLayout
+                                              ? TextStyle(fontSize: 15.0)
+                                              : TextStyle(fontSize: 18.0))),
                                   // : _bookingDetails[0].CreatedOn)),
                                 ],
                               ),
@@ -2779,7 +2836,9 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                             height: 50,
                             color: Colors.transparent,
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 10.0),
+                              padding: useMobileLayout
+                                  ? const EdgeInsets.only(left: 10.0)
+                                  : const EdgeInsets.only(left: 24.0),
                               child: Row(
                                 children: [
                                   SizedBox(
@@ -2787,7 +2846,9 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                           2.6,
                                       child: Text(
                                         " MAWB ASI",
-                                        style: mobileTimeLineHeaderFontStyle,
+                                        style: useMobileLayout
+                                            ? mobileTimeLineHeaderFontStyle
+                                            : mobileGroupHeaderFontStyle,
                                       )),
                                   SizedBox(
                                       width: MediaQuery.of(context).size.width /
@@ -2803,7 +2864,10 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                           // : getCustomFormattedDateTime(
                                           // _bookingDetails[0].GateOutDate,
                                           // 'dd-MM-yyyy HH:mm')
-                                          "15-01-2024 15:39")),
+                                          "15-01-2024 15:39",
+                                          style: useMobileLayout
+                                              ? TextStyle(fontSize: 15.0)
+                                              : TextStyle(fontSize: 18.0))),
                                   // : _bookingDetails[0].GateOutDate)),
                                 ],
                               ),
@@ -2813,7 +2877,9 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                             height: 50,
                             color: Colors.transparent,
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 10.0),
+                              padding: useMobileLayout
+                                  ? const EdgeInsets.only(left: 10.0)
+                                  : const EdgeInsets.only(left: 24.0),
                               child: Row(
                                 children: [
                                   SizedBox(
@@ -2821,7 +2887,9 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                           2.6,
                                       child: Text(
                                         " e-AWB Submit",
-                                        style: mobileTimeLineHeaderFontStyle,
+                                        style: useMobileLayout
+                                            ? mobileTimeLineHeaderFontStyle
+                                            : mobileGroupHeaderFontStyle,
                                       )),
                                   SizedBox(
                                       width: MediaQuery.of(context).size.width /
@@ -2837,7 +2905,10 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                           // : getCustomFormattedDateTime(
                                           // _bookingDetails[0].ConfirmedOn,
                                           // 'dd-MM-yyyy HH:mm')
-                                          "15-01-2024 15:39")),
+                                          "15-01-2024 15:39",
+                                          style: useMobileLayout
+                                              ? TextStyle(fontSize: 15.0)
+                                              : TextStyle(fontSize: 18.0))),
                                   // : _bookingDetails[0].ConfirmedOn)),
                                 ],
                               ),
@@ -2847,7 +2918,9 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                             height: 50,
                             color: Colors.transparent,
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 10.0),
+                              padding: useMobileLayout
+                                  ? const EdgeInsets.only(left: 10.0)
+                                  : const EdgeInsets.only(left: 24.0),
                               child: Row(
                                 children: [
                                   SizedBox(
@@ -2855,7 +2928,9 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                           2.6,
                                       child: Text(
                                         " Assign to Trucking Company",
-                                        style: mobileTimeLineHeaderFontStyle,
+                                        style: useMobileLayout
+                                            ? mobileTimeLineHeaderFontStyle
+                                            : mobileGroupHeaderFontStyle,
                                       )),
                                   SizedBox(
                                       width: MediaQuery.of(context).size.width /
@@ -2871,7 +2946,10 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                           // : getCustomFormattedDateTime(
                                           // _bookingDetails[0].PreGateDate,
                                           // 'dd-MM-yyyy HH:mm')
-                                          "15-01-2024 15:39")),
+                                          "15-01-2024 15:39",
+                                          style: useMobileLayout
+                                              ? TextStyle(fontSize: 15.0)
+                                              : TextStyle(fontSize: 18.0))),
                                   // : _bookingDetails[0].ConfirmedOn)),
                                 ],
                               ),
@@ -2881,7 +2959,9 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                             height: 50,
                             color: Colors.transparent,
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 10.0),
+                              padding: useMobileLayout
+                                  ? const EdgeInsets.only(left: 10.0)
+                                  : const EdgeInsets.only(left: 24.0),
                               child: Row(
                                 children: [
                                   SizedBox(
@@ -2889,7 +2969,9 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                           2.6,
                                       child: Text(
                                         " Slot Status",
-                                        style: mobileTimeLineHeaderFontStyle,
+                                        style: useMobileLayout
+                                            ? mobileTimeLineHeaderFontStyle
+                                            : mobileGroupHeaderFontStyle,
                                       )),
                                   SizedBox(
                                       width: MediaQuery.of(context).size.width /
@@ -2905,7 +2987,10 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                           // : getCustomFormattedDateTime(
                                           // _bookingDetails[0].GateInDate,
                                           // 'dd-MM-yyyy HH:mm')
-                                          "15-01-2024 15:39")),
+                                          "15-01-2024 15:39",
+                                          style: useMobileLayout
+                                              ? TextStyle(fontSize: 15.0)
+                                              : TextStyle(fontSize: 18.0))),
                                   // : _bookingDetails[0].GateInDate)),
                                 ],
                               ),
@@ -2915,7 +3000,9 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                             height: 50,
                             color: Colors.transparent,
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 10.0),
+                              padding: useMobileLayout
+                                  ? const EdgeInsets.only(left: 10.0)
+                                  : const EdgeInsets.only(left: 24.0),
                               child: Row(
                                 children: [
                                   SizedBox(
@@ -2923,7 +3010,9 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                           2.6,
                                       child: Text(
                                         " Yard check-in",
-                                        style: mobileTimeLineHeaderFontStyle,
+                                        style: useMobileLayout
+                                            ? mobileTimeLineHeaderFontStyle
+                                            : mobileGroupHeaderFontStyle,
                                       )),
                                   SizedBox(
                                       width: MediaQuery.of(context).size.width /
@@ -2939,7 +3028,10 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                           // : getCustomFormattedDateTime(
                                           // _bookingDetails[0].ConfirmedOn,
                                           // 'dd-MM-yyyy HH:mm')
-                                          "15-01-2024 15:39")),
+                                          "15-01-2024 15:39",
+                                          style: useMobileLayout
+                                              ? TextStyle(fontSize: 15.0)
+                                              : TextStyle(fontSize: 18.0))),
                                   // : _bookingDetails[0].ConfirmedOn)),
                                 ],
                               ),
@@ -2949,7 +3041,9 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                             height: 50,
                             color: Colors.transparent,
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 10.0),
+                              padding: useMobileLayout
+                                  ? const EdgeInsets.only(left: 10.0)
+                                  : const EdgeInsets.only(left: 24.0),
                               child: Row(
                                 children: [
                                   SizedBox(
@@ -2957,7 +3051,9 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                           2.6,
                                       child: Text(
                                         " Dock-in",
-                                        style: mobileTimeLineHeaderFontStyle,
+                                        style: useMobileLayout
+                                            ? mobileTimeLineHeaderFontStyle
+                                            : mobileGroupHeaderFontStyle,
                                       )),
                                   SizedBox(
                                       width: MediaQuery.of(context).size.width /
@@ -2973,7 +3069,10 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                           // : getCustomFormattedDateTime(
                                           // _bookingDetails[0].PreGateDate,
                                           // 'dd-MM-yyyy HH:mm')
-                                          "15-01-2024 15:39")),
+                                          "15-01-2024 15:39",
+                                          style: useMobileLayout
+                                              ? TextStyle(fontSize: 15.0)
+                                              : TextStyle(fontSize: 18.0))),
                                   // : _bookingDetails[0].ConfirmedOn)),
                                 ],
                               ),
@@ -2983,7 +3082,9 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                             height: 50,
                             color: Colors.transparent,
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 10.0),
+                              padding: useMobileLayout
+                                  ? const EdgeInsets.only(left: 10.0)
+                                  : const EdgeInsets.only(left: 24.0),
                               child: Row(
                                 children: [
                                   SizedBox(
@@ -2991,7 +3092,9 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                           2.6,
                                       child: Text(
                                         " Warehouse \n Acceptance",
-                                        style: mobileTimeLineHeaderFontStyle,
+                                        style: useMobileLayout
+                                            ? mobileTimeLineHeaderFontStyle
+                                            : mobileGroupHeaderFontStyle,
                                       )),
                                   SizedBox(
                                       width: MediaQuery.of(context).size.width /
@@ -3007,7 +3110,10 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                           // : getCustomFormattedDateTime(
                                           // _bookingDetails[0].GateInDate,
                                           // 'dd-MM-yyyy HH:mm')
-                                          "15-01-2024 15:39")),
+                                          "15-01-2024 15:39",
+                                          style: useMobileLayout
+                                              ? TextStyle(fontSize: 15.0)
+                                              : TextStyle(fontSize: 18.0))),
                                   // : _bookingDetails[0].GateInDate)),
                                 ],
                               ),
@@ -3017,7 +3123,9 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                             height: 50,
                             color: Colors.transparent,
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 10.0),
+                              padding: useMobileLayout
+                                  ? const EdgeInsets.only(left: 10.0)
+                                  : const EdgeInsets.only(left: 24.0),
                               child: Row(
                                 children: [
                                   SizedBox(
@@ -3025,7 +3133,9 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                           2.6,
                                       child: Text(
                                         " Dock-out",
-                                        style: mobileTimeLineHeaderFontStyle,
+                                        style: useMobileLayout
+                                            ? mobileTimeLineHeaderFontStyle
+                                            : mobileGroupHeaderFontStyle,
                                       )),
                                   SizedBox(
                                       width: MediaQuery.of(context).size.width /
@@ -3041,7 +3151,10 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                           // : getCustomFormattedDateTime(
                                           // _bookingDetails[0].GateOutDate,
                                           // 'dd-MM-yyyy HH:mm')
-                                          "15-01-2024 15:39")),
+                                          "15-01-2024 15:39",
+                                          style: useMobileLayout
+                                              ? TextStyle(fontSize: 15.0)
+                                              : TextStyle(fontSize: 18.0))),
                                   // : _bookingDetails[0].GateOutDate)),
                                 ],
                               ),
@@ -3051,7 +3164,9 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                             height: 50,
                             color: Colors.transparent,
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 10.0),
+                              padding: useMobileLayout
+                                  ? const EdgeInsets.only(left: 10.0)
+                                  : const EdgeInsets.only(left: 24.0),
                               child: Row(
                                 children: [
                                   SizedBox(
@@ -3059,7 +3174,9 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                           2.6,
                                       child: Text(
                                         " Customs Release",
-                                        style: mobileTimeLineHeaderFontStyle,
+                                        style: useMobileLayout
+                                            ? mobileTimeLineHeaderFontStyle
+                                            : mobileGroupHeaderFontStyle,
                                       )),
                                   SizedBox(
                                       width: MediaQuery.of(context).size.width /
@@ -3075,7 +3192,10 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                           // : getCustomFormattedDateTime(
                                           // _bookingDetails[0].GateOutDate,
                                           // 'dd-MM-yyyy HH:mm')
-                                          "15-01-2024 15:39")),
+                                          "15-01-2024 15:39",
+                                          style: useMobileLayout
+                                              ? TextStyle(fontSize: 15.0)
+                                              : TextStyle(fontSize: 18.0))),
                                   // : _bookingDetails[0].GateOutDate)),
                                 ],
                               ),
@@ -3085,7 +3205,9 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                             height: 50,
                             color: Colors.transparent,
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 10.0),
+                              padding: useMobileLayout
+                                  ? const EdgeInsets.only(left: 10.0)
+                                  : const EdgeInsets.only(left: 24.0),
                               child: Row(
                                 children: [
                                   SizedBox(
@@ -3093,7 +3215,9 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                           2.6,
                                       child: Text(
                                         " DOC",
-                                        style: mobileTimeLineHeaderFontStyle,
+                                        style: useMobileLayout
+                                            ? mobileTimeLineHeaderFontStyle
+                                            : mobileGroupHeaderFontStyle,
                                       )),
                                   SizedBox(
                                       width: MediaQuery.of(context).size.width /
@@ -3109,7 +3233,10 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                           // : getCustomFormattedDateTime(
                                           // _bookingDetails[0].GateOutDate,
                                           // 'dd-MM-yyyy HH:mm')
-                                          "15-01-2024 15:39")),
+                                          "15-01-2024 15:39",
+                                          style: useMobileLayout
+                                              ? TextStyle(fontSize: 15.0)
+                                              : TextStyle(fontSize: 18.0))),
                                   // : _bookingDetails[0].GateOutDate)),
                                 ],
                               ),
@@ -3119,7 +3246,9 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                             height: 50,
                             color: Colors.transparent,
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 10.0),
+                              padding: useMobileLayout
+                                  ? const EdgeInsets.only(left: 10.0)
+                                  : const EdgeInsets.only(left: 24.0),
                               child: Row(
                                 children: [
                                   SizedBox(
@@ -3127,7 +3256,9 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                           2.6,
                                       child: Text(
                                         " RCS",
-                                        style: mobileTimeLineHeaderFontStyle,
+                                        style: useMobileLayout
+                                            ? mobileTimeLineHeaderFontStyle
+                                            : mobileGroupHeaderFontStyle,
                                       )),
                                   SizedBox(
                                       width: MediaQuery.of(context).size.width /
@@ -3143,7 +3274,10 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                           // : getCustomFormattedDateTime(
                                           // _bookingDetails[0].GateOutDate,
                                           // 'dd-MM-yyyy HH:mm')
-                                          "15-01-2024 15:39")),
+                                          "15-01-2024 15:39",
+                                          style: useMobileLayout
+                                              ? TextStyle(fontSize: 15.0)
+                                              : TextStyle(fontSize: 18.0))),
                                   // : _bookingDetails[0].GateOutDate)),
                                 ],
                               ),
@@ -3153,7 +3287,9 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                             height: 50,
                             color: Colors.transparent,
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 10.0),
+                              padding: useMobileLayout
+                                  ? const EdgeInsets.only(left: 10.0)
+                                  : const EdgeInsets.only(left: 24.0),
                               child: Row(
                                 children: [
                                   SizedBox(
@@ -3161,7 +3297,9 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                           2.6,
                                       child: Text(
                                         " SCR",
-                                        style: mobileTimeLineHeaderFontStyle,
+                                        style: useMobileLayout
+                                            ? mobileTimeLineHeaderFontStyle
+                                            : mobileGroupHeaderFontStyle,
                                       )),
                                   SizedBox(
                                       width: MediaQuery.of(context).size.width /
@@ -3177,7 +3315,10 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                           // : getCustomFormattedDateTime(
                                           // _bookingDetails[0].GateOutDate,
                                           // 'dd-MM-yyyy HH:mm')
-                                          "15-01-2024 15:39")),
+                                          "15-01-2024 15:39",
+                                          style: useMobileLayout
+                                              ? TextStyle(fontSize: 15.0)
+                                              : TextStyle(fontSize: 18.0))),
                                   // : _bookingDetails[0].GateOutDate)),
                                 ],
                               ),
@@ -3187,7 +3328,9 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                             height: 50,
                             color: Colors.transparent,
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 10.0),
+                              padding: useMobileLayout
+                                  ? const EdgeInsets.only(left: 10.0)
+                                  : const EdgeInsets.only(left: 24.0),
                               child: Row(
                                 children: [
                                   SizedBox(
@@ -3195,7 +3338,9 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                           2.6,
                                       child: Text(
                                         " Flight Dep.",
-                                        style: mobileTimeLineHeaderFontStyle,
+                                        style: useMobileLayout
+                                            ? mobileTimeLineHeaderFontStyle
+                                            : mobileGroupHeaderFontStyle,
                                       )),
                                   SizedBox(
                                       width: MediaQuery.of(context).size.width /
@@ -3211,7 +3356,10 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                           // : getCustomFormattedDateTime(
                                           // _bookingDetails[0].GateOutDate,
                                           // 'dd-MM-yyyy HH:mm')
-                                          "15-01-2024 15:39")),
+                                          "15-01-2024 15:39",
+                                          style: useMobileLayout
+                                              ? TextStyle(fontSize: 15.0)
+                                              : TextStyle(fontSize: 18.0))),
                                   // : _bookingDetails[0].GateOutDate)),
                                 ],
                               ),
@@ -3221,7 +3369,9 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                             height: 50,
                             color: Colors.transparent,
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 10.0),
+                              padding: useMobileLayout
+                                  ? const EdgeInsets.only(left: 10.0)
+                                  : const EdgeInsets.only(left: 24.0),
                               child: Row(
                                 children: [
                                   SizedBox(
@@ -3229,7 +3379,9 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                           2.6,
                                       child: Text(
                                         " Export Manifest",
-                                        style: mobileTimeLineHeaderFontStyle,
+                                        style: useMobileLayout
+                                            ? mobileTimeLineHeaderFontStyle
+                                            : mobileGroupHeaderFontStyle,
                                       )),
                                   SizedBox(
                                       width: MediaQuery.of(context).size.width /
@@ -3245,7 +3397,10 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                           // : getCustomFormattedDateTime(
                                           // _bookingDetails[0].GateOutDate,
                                           // 'dd-MM-yyyy HH:mm')
-                                          "15-01-2024 15:39")),
+                                          "15-01-2024 15:39",
+                                          style: useMobileLayout
+                                              ? TextStyle(fontSize: 15.0)
+                                              : TextStyle(fontSize: 18.0))),
                                   // : _bookingDetails[0].GateOutDate)),
                                 ],
                               ),
@@ -3263,7 +3418,7 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                             0 == 0
                                 ? Icons.schedule
                                 : Icons.check_circle_outline,
-                            size: 40,
+                            size: useMobileLayout ? 40 : 50,
                             color:
                                 // _bookingDetails.length == 0
                                 //     ? const Color(0xff3a3a3a)
@@ -3291,7 +3446,7 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                         ? Icons.highlight_off
                                         : Icons.schedule
                                     : Icons.check_circle_outline,
-                            size: 40,
+                            size: useMobileLayout ? 40 : 50,
                             color:
                                 // _bookingDetails.length == 0
                                 0 == 0
@@ -3321,7 +3476,7 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                     0 == 0
                                         ? Icons.highlight_off
                                         : Icons.check_circle_outline,
-                            size: 40,
+                            size: useMobileLayout ? 40 : 50,
                             color:
                                 // _bookingDetails.length == 0
                                 0 == 0
@@ -3355,7 +3510,7 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                     0 == 0
                                         ? Icons.highlight_off
                                         : Icons.check_circle_outline,
-                            size: 40,
+                            size: useMobileLayout ? 40 : 50,
                             color:
                                 // _bookingDetails.length == 0
                                 0 == 0
@@ -3389,7 +3544,7 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                     0 == 0
                                         ? Icons.highlight_off
                                         : Icons.check_circle_outline,
-                            size: 40,
+                            size: useMobileLayout ? 40 : 50,
                             color:
                                 // _bookingDetails.length == 0
                                 0 == 0
@@ -3423,7 +3578,7 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                         ? Icons.highlight_off
                                         : Icons.schedule
                                     : Icons.check_circle_outline,
-                            size: 40,
+                            size: useMobileLayout ? 40 : 50,
                             color:
                                 // _bookingDetails.length == 0
                                 0 == 0
@@ -3453,7 +3608,7 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                     0 == 0
                                         ? Icons.highlight_off
                                         : Icons.check_circle_outline,
-                            size: 40,
+                            size: useMobileLayout ? 40 : 50,
                             color:
                                 // _bookingDetails.length == 0
                                 0 == 0
@@ -3487,7 +3642,7 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                     0 == 0
                                         ? Icons.highlight_off
                                         : Icons.check_circle_outline,
-                            size: 40,
+                            size: useMobileLayout ? 40 : 50,
                             color:
                                 // _bookingDetails.length == 0
                                 0 == 0
@@ -3521,7 +3676,7 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                     0 == 0
                                         ? Icons.highlight_off
                                         : Icons.check_circle_outline,
-                            size: 40,
+                            size: useMobileLayout ? 40 : 50,
                             color:
                                 // _bookingDetails.length == 0
                                 0 == 0
@@ -3555,7 +3710,7 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                     0 == 0
                                         ? Icons.highlight_off
                                         : Icons.check_circle_outline,
-                            size: 40,
+                            size: useMobileLayout ? 40 : 50,
                             color:
                                 // _bookingDetails.length == 0
                                 0 == 0
@@ -3589,7 +3744,7 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                     0 == 0
                                         ? Icons.highlight_off
                                         : Icons.check_circle_outline,
-                            size: 40,
+                            size: useMobileLayout ? 40 : 50,
                             color:
                                 // _bookingDetails.length == 0
                                 0 == 0
@@ -3623,7 +3778,7 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                     0 == 0
                                         ? Icons.highlight_off
                                         : Icons.check_circle_outline,
-                            size: 40,
+                            size: useMobileLayout ? 40 : 50,
                             color:
                                 // _bookingDetails.length == 0
                                 0 == 0
@@ -3657,7 +3812,7 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                     0 == 0
                                         ? Icons.highlight_off
                                         : Icons.check_circle_outline,
-                            size: 40,
+                            size: useMobileLayout ? 40 : 50,
                             color:
                                 // _bookingDetails.length == 0
                                 0 == 0
@@ -3691,7 +3846,7 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                     0 == 0
                                         ? Icons.highlight_off
                                         : Icons.check_circle_outline,
-                            size: 40,
+                            size: useMobileLayout ? 40 : 50,
                             color:
                                 // _bookingDetails.length == 0
                                 0 == 0
@@ -3725,7 +3880,7 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                     0 == 0
                                         ? Icons.highlight_off
                                         : Icons.check_circle_outline,
-                            size: 40,
+                            size: useMobileLayout ? 40 : 50,
                             color:
                                 // _bookingDetails.length == 0
                                 0 == 0
@@ -3790,7 +3945,7 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                       child: Column(
                         children: [
                           Container(
-                            height: 40,
+                            height: useMobileLayout ? 40 : 60,
                             color: Color(0xFF11249F),
                             child: Padding(
                               padding:
@@ -3804,2114 +3959,34 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                           2.8,
                                       child: Text(
                                         " EVT Number",
-                                        style: mobileHeaderFontStyleBold2,
+                                        style: useMobileLayout
+                                            ? mobileHeaderFontStyleBold2
+                                            : iPadGroupHeaderFontStyleBold2,
                                       )),
                                   SizedBox(
                                       width: MediaQuery.of(context).size.width /
                                           2.4,
                                       child: Text(
                                         "Vehicle Number",
-                                        style: mobileHeaderFontStyleBold2,
+                                        style: useMobileLayout
+                                            ? mobileHeaderFontStyleBold2
+                                            : iPadGroupHeaderFontStyleBold2,
                                       )),
                                 ],
                               ),
                             ),
                           ),
-                          ListView(
+                          ListView.builder(
                             padding: EdgeInsets.zero,
                             shrinkWrap: true,
+                            itemCount: evtList.length,
                             physics: NeverScrollableScrollPhysics(),
-                            children: [
-                              Card(
-                                color: Colors.white,
-                                elevation: 3.0,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 4.0, right: 4.0, top: 4.0),
-                                  child: ExpansionTile(
-                                    title: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                2.2,
-                                            child: Text(
-                                              " EVT2401190001",
-                                              style:
-                                                  mobileTimeLineHeaderFontStyle,
-                                            )),
-                                        SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                3.1,
-                                            child: Text(
-                                              " 12341111",
-                                              style:
-                                                  mobileTimeLineHeaderFontStyle,
-                                            )),
-                                      ],
-                                    ),
-                                    // subtitle: Text(" 1234",style: TextStyle(color: Colors.black87),),
-                                    children: [
-                                      Timeline(
-                                        children: <Widget>[
-                                          Container(
-                                            height: 50,
-                                            color: Colors.transparent,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10.0),
-                                              child: Row(
-                                                children: [
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                        " Parking Area",
-                                                        style:
-                                                            mobileTimeLineHeaderFontStyle,
-                                                      )),
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                          // _bookingDetails.length == 0
-                                                          // ? ""
-                                                          // : _bookingDetails[0]
-                                                          // .CreatedOn
-                                                          // .toString()
-                                                          // .contains("1900")
-                                                          // ? ""
-                                                          // : getCustomFormattedDateTime(
-                                                          // _bookingDetails[0].CreatedOn,
-                                                          // 'dd-MM-yyyy HH:mm')
-                                                          "15-01-2024 15:39")),
-                                                  // : _bookingDetails[0].CreatedOn)),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            height: 50,
-                                            color: Colors.transparent,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10.0),
-                                              child: Row(
-                                                children: [
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                        " Dock-IN",
-                                                        style:
-                                                            mobileTimeLineHeaderFontStyle,
-                                                      )),
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                          // _bookingDetails.length == 0
-                                                          // ? ""
-                                                          // : _bookingDetails[0]
-                                                          // .GateOutDate
-                                                          // .toString()
-                                                          // .contains("1900")
-                                                          // ? ""
-                                                          // : getCustomFormattedDateTime(
-                                                          // _bookingDetails[0].GateOutDate,
-                                                          // 'dd-MM-yyyy HH:mm')
-                                                          "15-01-2024 15:39")),
-                                                  // : _bookingDetails[0].GateOutDate)),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            height: 50,
-                                            color: Colors.transparent,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10.0),
-                                              child: Row(
-                                                children: [
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                        " Dock-OUT",
-                                                        style:
-                                                            mobileTimeLineHeaderFontStyle,
-                                                      )),
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                          // _bookingDetails.length == 0
-                                                          // ? ""
-                                                          // : _bookingDetails[0]
-                                                          // .ConfirmedOn
-                                                          // .toString()
-                                                          // .contains("1900")
-                                                          // ? ""
-                                                          // : getCustomFormattedDateTime(
-                                                          // _bookingDetails[0].ConfirmedOn,
-                                                          // 'dd-MM-yyyy HH:mm')
-                                                          "15-01-2024 15:39")),
-                                                  // : _bookingDetails[0].ConfirmedOn)),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                        indicators: <Widget>[
-                                          Icon(
-                                            // _bookingDetails.length == 0
-                                            //     ? Icons.schedule
-                                            //     : _bookingDetails[0]
-                                            //     .CreatedOn
-                                            //     .toString()
-                                            //     .contains("1900")
-                                            0 == 0
-                                                ? Icons.schedule
-                                                : Icons.check_circle_outline,
-                                            size: 40,
-                                            color:
-                                                // _bookingDetails.length == 0
-                                                //     ? const Color(0xff3a3a3a)
-                                                //     : _bookingDetails[0]
-                                                //     .CreatedOn
-                                                //     .toString()
-                                                //     .contains("1900")
-                                                0 == 0
-                                                    ? Colors.red.shade200
-                                                    : Colors.green.shade200,
-                                          ),
-                                          Icon(
-                                            // _bookingDetails.length == 0
-                                            0 == 0
-                                                ? Icons.schedule
-                                                :
-                                                // _bookingDetails[0]
-                                                // .ConfirmedOn
-                                                // .toString()
-                                                // .contains("1900")
-                                                0 == 0
-                                                    ?
-                                                    // _bookingDetails[0].Status == 0
-                                                    0 == 0
-                                                        ? Icons.highlight_off
-                                                        : Icons.schedule
-                                                    : Icons
-                                                        .check_circle_outline,
-                                            size: 40,
-                                            color:
-                                                // _bookingDetails.length == 0
-                                                0 == 0
-                                                    ? const Color(0xff3a3a3a)
-                                                    :
-                                                    // _bookingDetails[0]
-                                                    //   .ConfirmedOn
-                                                    //   .toString()
-                                                    //   .contains("1900")
-                                                    0 == 0
-                                                        ? Colors.red.shade200
-                                                        : Colors.green.shade200,
-                                          ),
-                                          Icon(
-                                            // _bookingDetails.length == 0
-                                            0 == 0
-                                                ? Icons.schedule
-                                                :
-                                                // _bookingDetails[0]
-                                                //                                     .PreGateDate
-                                                //                                     .toString()
-                                                //                                     .contains("1900")
-                                                0 == 0
-                                                    ? Icons.schedule
-                                                    :
-                                                    // _bookingDetails[0].PreGate == 2
-                                                    0 == 0
-                                                        ? Icons.highlight_off
-                                                        : Icons
-                                                            .check_circle_outline,
-                                            size: 40,
-                                            color:
-                                                // _bookingDetails.length == 0
-                                                0 == 0
-                                                    ? const Color(0xff3a3a3a)
-                                                    :
-                                                    // _bookingDetails[0]
-                                                    //   .PreGateDate
-                                                    //   .toString()
-                                                    //   .contains("1900")
-                                                    0 == 0
-                                                        ? Colors.red.shade200
-                                                        :
-                                                        // _bookingDetails[0].PreGate == 1
-                                                        0 == 0
-                                                            ? Colors
-                                                                .green.shade200
-                                                            : Colors
-                                                                .red.shade200,
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Card(
-                                color: Colors.white,
-                                elevation: 3.0,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 4.0, right: 4.0, top: 4.0),
-                                  child: ExpansionTile(
-                                    title: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                2.2,
-                                            child: Text(
-                                              " EVT2401190001",
-                                              style:
-                                                  mobileTimeLineHeaderFontStyle,
-                                            )),
-                                        SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                3.1,
-                                            child: Text(
-                                              " 12341111",
-                                              style:
-                                                  mobileTimeLineHeaderFontStyle,
-                                            )),
-                                      ],
-                                    ),
-                                    // subtitle: Text(" 1234",style: TextStyle(color: Colors.black87),),
-                                    children: [
-                                      Timeline(
-                                        children: <Widget>[
-                                          Container(
-                                            height: 50,
-                                            color: Colors.transparent,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10.0),
-                                              child: Row(
-                                                children: [
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                        " Parking Area",
-                                                        style:
-                                                            mobileTimeLineHeaderFontStyle,
-                                                      )),
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                          // _bookingDetails.length == 0
-                                                          // ? ""
-                                                          // : _bookingDetails[0]
-                                                          // .CreatedOn
-                                                          // .toString()
-                                                          // .contains("1900")
-                                                          // ? ""
-                                                          // : getCustomFormattedDateTime(
-                                                          // _bookingDetails[0].CreatedOn,
-                                                          // 'dd-MM-yyyy HH:mm')
-                                                          "15-01-2024 15:39")),
-                                                  // : _bookingDetails[0].CreatedOn)),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            height: 50,
-                                            color: Colors.transparent,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10.0),
-                                              child: Row(
-                                                children: [
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                        " Dock-IN",
-                                                        style:
-                                                            mobileTimeLineHeaderFontStyle,
-                                                      )),
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                          // _bookingDetails.length == 0
-                                                          // ? ""
-                                                          // : _bookingDetails[0]
-                                                          // .GateOutDate
-                                                          // .toString()
-                                                          // .contains("1900")
-                                                          // ? ""
-                                                          // : getCustomFormattedDateTime(
-                                                          // _bookingDetails[0].GateOutDate,
-                                                          // 'dd-MM-yyyy HH:mm')
-                                                          "15-01-2024 15:39")),
-                                                  // : _bookingDetails[0].GateOutDate)),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            height: 50,
-                                            color: Colors.transparent,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10.0),
-                                              child: Row(
-                                                children: [
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                        " Dock-OUT",
-                                                        style:
-                                                            mobileTimeLineHeaderFontStyle,
-                                                      )),
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                          // _bookingDetails.length == 0
-                                                          // ? ""
-                                                          // : _bookingDetails[0]
-                                                          // .ConfirmedOn
-                                                          // .toString()
-                                                          // .contains("1900")
-                                                          // ? ""
-                                                          // : getCustomFormattedDateTime(
-                                                          // _bookingDetails[0].ConfirmedOn,
-                                                          // 'dd-MM-yyyy HH:mm')
-                                                          "15-01-2024 15:39")),
-                                                  // : _bookingDetails[0].ConfirmedOn)),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                        indicators: <Widget>[
-                                          Icon(
-                                            // _bookingDetails.length == 0
-                                            //     ? Icons.schedule
-                                            //     : _bookingDetails[0]
-                                            //     .CreatedOn
-                                            //     .toString()
-                                            //     .contains("1900")
-                                            0 == 0
-                                                ? Icons.schedule
-                                                : Icons.check_circle_outline,
-                                            size: 40,
-                                            color:
-                                                // _bookingDetails.length == 0
-                                                //     ? const Color(0xff3a3a3a)
-                                                //     : _bookingDetails[0]
-                                                //     .CreatedOn
-                                                //     .toString()
-                                                //     .contains("1900")
-                                                0 == 0
-                                                    ? Colors.red.shade200
-                                                    : Colors.green.shade200,
-                                          ),
-                                          Icon(
-                                            // _bookingDetails.length == 0
-                                            0 == 0
-                                                ? Icons.schedule
-                                                :
-                                                // _bookingDetails[0]
-                                                // .ConfirmedOn
-                                                // .toString()
-                                                // .contains("1900")
-                                                0 == 0
-                                                    ?
-                                                    // _bookingDetails[0].Status == 0
-                                                    0 == 0
-                                                        ? Icons.highlight_off
-                                                        : Icons.schedule
-                                                    : Icons
-                                                        .check_circle_outline,
-                                            size: 40,
-                                            color:
-                                                // _bookingDetails.length == 0
-                                                0 == 0
-                                                    ? const Color(0xff3a3a3a)
-                                                    :
-                                                    // _bookingDetails[0]
-                                                    //   .ConfirmedOn
-                                                    //   .toString()
-                                                    //   .contains("1900")
-                                                    0 == 0
-                                                        ? Colors.red.shade200
-                                                        : Colors.green.shade200,
-                                          ),
-                                          Icon(
-                                            // _bookingDetails.length == 0
-                                            0 == 0
-                                                ? Icons.schedule
-                                                :
-                                                // _bookingDetails[0]
-                                                //                                     .PreGateDate
-                                                //                                     .toString()
-                                                //                                     .contains("1900")
-                                                0 == 0
-                                                    ? Icons.schedule
-                                                    :
-                                                    // _bookingDetails[0].PreGate == 2
-                                                    0 == 0
-                                                        ? Icons.highlight_off
-                                                        : Icons
-                                                            .check_circle_outline,
-                                            size: 40,
-                                            color:
-                                                // _bookingDetails.length == 0
-                                                0 == 0
-                                                    ? const Color(0xff3a3a3a)
-                                                    :
-                                                    // _bookingDetails[0]
-                                                    //   .PreGateDate
-                                                    //   .toString()
-                                                    //   .contains("1900")
-                                                    0 == 0
-                                                        ? Colors.red.shade200
-                                                        :
-                                                        // _bookingDetails[0].PreGate == 1
-                                                        0 == 0
-                                                            ? Colors
-                                                                .green.shade200
-                                                            : Colors
-                                                                .red.shade200,
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Card(
-                                color: Colors.white,
-                                elevation: 3.0,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 4.0, right: 4.0, top: 4.0),
-                                  child: ExpansionTile(
-                                    title: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                2.2,
-                                            child: Text(
-                                              " EVT2401190001",
-                                              style:
-                                                  mobileTimeLineHeaderFontStyle,
-                                            )),
-                                        SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                3.1,
-                                            child: Text(
-                                              " 12341111",
-                                              style:
-                                                  mobileTimeLineHeaderFontStyle,
-                                            )),
-                                      ],
-                                    ),
-                                    // subtitle: Text(" 1234",style: TextStyle(color: Colors.black87),),
-                                    children: [
-                                      Timeline(
-                                        children: <Widget>[
-                                          Container(
-                                            height: 50,
-                                            color: Colors.transparent,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10.0),
-                                              child: Row(
-                                                children: [
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                        " Parking Area",
-                                                        style:
-                                                            mobileTimeLineHeaderFontStyle,
-                                                      )),
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                          // _bookingDetails.length == 0
-                                                          // ? ""
-                                                          // : _bookingDetails[0]
-                                                          // .CreatedOn
-                                                          // .toString()
-                                                          // .contains("1900")
-                                                          // ? ""
-                                                          // : getCustomFormattedDateTime(
-                                                          // _bookingDetails[0].CreatedOn,
-                                                          // 'dd-MM-yyyy HH:mm')
-                                                          "15-01-2024 15:39")),
-                                                  // : _bookingDetails[0].CreatedOn)),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            height: 50,
-                                            color: Colors.transparent,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10.0),
-                                              child: Row(
-                                                children: [
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                        " Dock-IN",
-                                                        style:
-                                                            mobileTimeLineHeaderFontStyle,
-                                                      )),
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                          // _bookingDetails.length == 0
-                                                          // ? ""
-                                                          // : _bookingDetails[0]
-                                                          // .GateOutDate
-                                                          // .toString()
-                                                          // .contains("1900")
-                                                          // ? ""
-                                                          // : getCustomFormattedDateTime(
-                                                          // _bookingDetails[0].GateOutDate,
-                                                          // 'dd-MM-yyyy HH:mm')
-                                                          "15-01-2024 15:39")),
-                                                  // : _bookingDetails[0].GateOutDate)),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            height: 50,
-                                            color: Colors.transparent,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10.0),
-                                              child: Row(
-                                                children: [
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                        " Dock-OUT",
-                                                        style:
-                                                            mobileTimeLineHeaderFontStyle,
-                                                      )),
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                          // _bookingDetails.length == 0
-                                                          // ? ""
-                                                          // : _bookingDetails[0]
-                                                          // .ConfirmedOn
-                                                          // .toString()
-                                                          // .contains("1900")
-                                                          // ? ""
-                                                          // : getCustomFormattedDateTime(
-                                                          // _bookingDetails[0].ConfirmedOn,
-                                                          // 'dd-MM-yyyy HH:mm')
-                                                          "15-01-2024 15:39")),
-                                                  // : _bookingDetails[0].ConfirmedOn)),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                        indicators: <Widget>[
-                                          Icon(
-                                            // _bookingDetails.length == 0
-                                            //     ? Icons.schedule
-                                            //     : _bookingDetails[0]
-                                            //     .CreatedOn
-                                            //     .toString()
-                                            //     .contains("1900")
-                                            0 == 0
-                                                ? Icons.schedule
-                                                : Icons.check_circle_outline,
-                                            size: 40,
-                                            color:
-                                                // _bookingDetails.length == 0
-                                                //     ? const Color(0xff3a3a3a)
-                                                //     : _bookingDetails[0]
-                                                //     .CreatedOn
-                                                //     .toString()
-                                                //     .contains("1900")
-                                                0 == 0
-                                                    ? Colors.red.shade200
-                                                    : Colors.green.shade200,
-                                          ),
-                                          Icon(
-                                            // _bookingDetails.length == 0
-                                            0 == 0
-                                                ? Icons.schedule
-                                                :
-                                                // _bookingDetails[0]
-                                                // .ConfirmedOn
-                                                // .toString()
-                                                // .contains("1900")
-                                                0 == 0
-                                                    ?
-                                                    // _bookingDetails[0].Status == 0
-                                                    0 == 0
-                                                        ? Icons.highlight_off
-                                                        : Icons.schedule
-                                                    : Icons
-                                                        .check_circle_outline,
-                                            size: 40,
-                                            color:
-                                                // _bookingDetails.length == 0
-                                                0 == 0
-                                                    ? const Color(0xff3a3a3a)
-                                                    :
-                                                    // _bookingDetails[0]
-                                                    //   .ConfirmedOn
-                                                    //   .toString()
-                                                    //   .contains("1900")
-                                                    0 == 0
-                                                        ? Colors.red.shade200
-                                                        : Colors.green.shade200,
-                                          ),
-                                          Icon(
-                                            // _bookingDetails.length == 0
-                                            0 == 0
-                                                ? Icons.schedule
-                                                :
-                                                // _bookingDetails[0]
-                                                //                                     .PreGateDate
-                                                //                                     .toString()
-                                                //                                     .contains("1900")
-                                                0 == 0
-                                                    ? Icons.schedule
-                                                    :
-                                                    // _bookingDetails[0].PreGate == 2
-                                                    0 == 0
-                                                        ? Icons.highlight_off
-                                                        : Icons
-                                                            .check_circle_outline,
-                                            size: 40,
-                                            color:
-                                                // _bookingDetails.length == 0
-                                                0 == 0
-                                                    ? const Color(0xff3a3a3a)
-                                                    :
-                                                    // _bookingDetails[0]
-                                                    //   .PreGateDate
-                                                    //   .toString()
-                                                    //   .contains("1900")
-                                                    0 == 0
-                                                        ? Colors.red.shade200
-                                                        :
-                                                        // _bookingDetails[0].PreGate == 1
-                                                        0 == 0
-                                                            ? Colors
-                                                                .green.shade200
-                                                            : Colors
-                                                                .red.shade200,
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Card(
-                                color: Colors.white,
-                                elevation: 3.0,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 4.0, right: 4.0, top: 4.0),
-                                  child: ExpansionTile(
-                                    title: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                2.2,
-                                            child: Text(
-                                              " EVT2401190001",
-                                              style:
-                                                  mobileTimeLineHeaderFontStyle,
-                                            )),
-                                        SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                3.1,
-                                            child: Text(
-                                              " 12341111",
-                                              style:
-                                                  mobileTimeLineHeaderFontStyle,
-                                            )),
-                                      ],
-                                    ),
-                                    // subtitle: Text(" 1234",style: TextStyle(color: Colors.black87),),
-                                    children: [
-                                      Timeline(
-                                        children: <Widget>[
-                                          Container(
-                                            height: 50,
-                                            color: Colors.transparent,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10.0),
-                                              child: Row(
-                                                children: [
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                        " Parking Area",
-                                                        style:
-                                                            mobileTimeLineHeaderFontStyle,
-                                                      )),
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                          // _bookingDetails.length == 0
-                                                          // ? ""
-                                                          // : _bookingDetails[0]
-                                                          // .CreatedOn
-                                                          // .toString()
-                                                          // .contains("1900")
-                                                          // ? ""
-                                                          // : getCustomFormattedDateTime(
-                                                          // _bookingDetails[0].CreatedOn,
-                                                          // 'dd-MM-yyyy HH:mm')
-                                                          "15-01-2024 15:39")),
-                                                  // : _bookingDetails[0].CreatedOn)),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            height: 50,
-                                            color: Colors.transparent,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10.0),
-                                              child: Row(
-                                                children: [
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                        " Dock-IN",
-                                                        style:
-                                                            mobileTimeLineHeaderFontStyle,
-                                                      )),
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                          // _bookingDetails.length == 0
-                                                          // ? ""
-                                                          // : _bookingDetails[0]
-                                                          // .GateOutDate
-                                                          // .toString()
-                                                          // .contains("1900")
-                                                          // ? ""
-                                                          // : getCustomFormattedDateTime(
-                                                          // _bookingDetails[0].GateOutDate,
-                                                          // 'dd-MM-yyyy HH:mm')
-                                                          "15-01-2024 15:39")),
-                                                  // : _bookingDetails[0].GateOutDate)),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            height: 50,
-                                            color: Colors.transparent,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10.0),
-                                              child: Row(
-                                                children: [
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                        " Dock-OUT",
-                                                        style:
-                                                            mobileTimeLineHeaderFontStyle,
-                                                      )),
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                          // _bookingDetails.length == 0
-                                                          // ? ""
-                                                          // : _bookingDetails[0]
-                                                          // .ConfirmedOn
-                                                          // .toString()
-                                                          // .contains("1900")
-                                                          // ? ""
-                                                          // : getCustomFormattedDateTime(
-                                                          // _bookingDetails[0].ConfirmedOn,
-                                                          // 'dd-MM-yyyy HH:mm')
-                                                          "15-01-2024 15:39")),
-                                                  // : _bookingDetails[0].ConfirmedOn)),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                        indicators: <Widget>[
-                                          Icon(
-                                            // _bookingDetails.length == 0
-                                            //     ? Icons.schedule
-                                            //     : _bookingDetails[0]
-                                            //     .CreatedOn
-                                            //     .toString()
-                                            //     .contains("1900")
-                                            0 == 0
-                                                ? Icons.schedule
-                                                : Icons.check_circle_outline,
-                                            size: 40,
-                                            color:
-                                                // _bookingDetails.length == 0
-                                                //     ? const Color(0xff3a3a3a)
-                                                //     : _bookingDetails[0]
-                                                //     .CreatedOn
-                                                //     .toString()
-                                                //     .contains("1900")
-                                                0 == 0
-                                                    ? Colors.red.shade200
-                                                    : Colors.green.shade200,
-                                          ),
-                                          Icon(
-                                            // _bookingDetails.length == 0
-                                            0 == 0
-                                                ? Icons.schedule
-                                                :
-                                                // _bookingDetails[0]
-                                                // .ConfirmedOn
-                                                // .toString()
-                                                // .contains("1900")
-                                                0 == 0
-                                                    ?
-                                                    // _bookingDetails[0].Status == 0
-                                                    0 == 0
-                                                        ? Icons.highlight_off
-                                                        : Icons.schedule
-                                                    : Icons
-                                                        .check_circle_outline,
-                                            size: 40,
-                                            color:
-                                                // _bookingDetails.length == 0
-                                                0 == 0
-                                                    ? const Color(0xff3a3a3a)
-                                                    :
-                                                    // _bookingDetails[0]
-                                                    //   .ConfirmedOn
-                                                    //   .toString()
-                                                    //   .contains("1900")
-                                                    0 == 0
-                                                        ? Colors.red.shade200
-                                                        : Colors.green.shade200,
-                                          ),
-                                          Icon(
-                                            // _bookingDetails.length == 0
-                                            0 == 0
-                                                ? Icons.schedule
-                                                :
-                                                // _bookingDetails[0]
-                                                //                                     .PreGateDate
-                                                //                                     .toString()
-                                                //                                     .contains("1900")
-                                                0 == 0
-                                                    ? Icons.schedule
-                                                    :
-                                                    // _bookingDetails[0].PreGate == 2
-                                                    0 == 0
-                                                        ? Icons.highlight_off
-                                                        : Icons
-                                                            .check_circle_outline,
-                                            size: 40,
-                                            color:
-                                                // _bookingDetails.length == 0
-                                                0 == 0
-                                                    ? const Color(0xff3a3a3a)
-                                                    :
-                                                    // _bookingDetails[0]
-                                                    //   .PreGateDate
-                                                    //   .toString()
-                                                    //   .contains("1900")
-                                                    0 == 0
-                                                        ? Colors.red.shade200
-                                                        :
-                                                        // _bookingDetails[0].PreGate == 1
-                                                        0 == 0
-                                                            ? Colors
-                                                                .green.shade200
-                                                            : Colors
-                                                                .red.shade200,
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Card(
-                                color: Colors.white,
-                                elevation: 3.0,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 4.0, right: 4.0, top: 4.0),
-                                  child: ExpansionTile(
-                                    title: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                2.2,
-                                            child: Text(
-                                              " EVT2401190001",
-                                              style:
-                                                  mobileTimeLineHeaderFontStyle,
-                                            )),
-                                        SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                3.1,
-                                            child: Text(
-                                              " 12341111",
-                                              style:
-                                                  mobileTimeLineHeaderFontStyle,
-                                            )),
-                                      ],
-                                    ),
-                                    // subtitle: Text(" 1234",style: TextStyle(color: Colors.black87),),
-                                    children: [
-                                      Timeline(
-                                        children: <Widget>[
-                                          Container(
-                                            height: 50,
-                                            color: Colors.transparent,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10.0),
-                                              child: Row(
-                                                children: [
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                        " Parking Area",
-                                                        style:
-                                                            mobileTimeLineHeaderFontStyle,
-                                                      )),
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                          // _bookingDetails.length == 0
-                                                          // ? ""
-                                                          // : _bookingDetails[0]
-                                                          // .CreatedOn
-                                                          // .toString()
-                                                          // .contains("1900")
-                                                          // ? ""
-                                                          // : getCustomFormattedDateTime(
-                                                          // _bookingDetails[0].CreatedOn,
-                                                          // 'dd-MM-yyyy HH:mm')
-                                                          "15-01-2024 15:39")),
-                                                  // : _bookingDetails[0].CreatedOn)),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            height: 50,
-                                            color: Colors.transparent,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10.0),
-                                              child: Row(
-                                                children: [
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                        " Dock-IN",
-                                                        style:
-                                                            mobileTimeLineHeaderFontStyle,
-                                                      )),
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                          // _bookingDetails.length == 0
-                                                          // ? ""
-                                                          // : _bookingDetails[0]
-                                                          // .GateOutDate
-                                                          // .toString()
-                                                          // .contains("1900")
-                                                          // ? ""
-                                                          // : getCustomFormattedDateTime(
-                                                          // _bookingDetails[0].GateOutDate,
-                                                          // 'dd-MM-yyyy HH:mm')
-                                                          "15-01-2024 15:39")),
-                                                  // : _bookingDetails[0].GateOutDate)),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            height: 50,
-                                            color: Colors.transparent,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10.0),
-                                              child: Row(
-                                                children: [
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                        " Dock-OUT",
-                                                        style:
-                                                            mobileTimeLineHeaderFontStyle,
-                                                      )),
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                          // _bookingDetails.length == 0
-                                                          // ? ""
-                                                          // : _bookingDetails[0]
-                                                          // .ConfirmedOn
-                                                          // .toString()
-                                                          // .contains("1900")
-                                                          // ? ""
-                                                          // : getCustomFormattedDateTime(
-                                                          // _bookingDetails[0].ConfirmedOn,
-                                                          // 'dd-MM-yyyy HH:mm')
-                                                          "15-01-2024 15:39")),
-                                                  // : _bookingDetails[0].ConfirmedOn)),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                        indicators: <Widget>[
-                                          Icon(
-                                            // _bookingDetails.length == 0
-                                            //     ? Icons.schedule
-                                            //     : _bookingDetails[0]
-                                            //     .CreatedOn
-                                            //     .toString()
-                                            //     .contains("1900")
-                                            0 == 0
-                                                ? Icons.schedule
-                                                : Icons.check_circle_outline,
-                                            size: 40,
-                                            color:
-                                                // _bookingDetails.length == 0
-                                                //     ? const Color(0xff3a3a3a)
-                                                //     : _bookingDetails[0]
-                                                //     .CreatedOn
-                                                //     .toString()
-                                                //     .contains("1900")
-                                                0 == 0
-                                                    ? Colors.red.shade200
-                                                    : Colors.green.shade200,
-                                          ),
-                                          Icon(
-                                            // _bookingDetails.length == 0
-                                            0 == 0
-                                                ? Icons.schedule
-                                                :
-                                                // _bookingDetails[0]
-                                                // .ConfirmedOn
-                                                // .toString()
-                                                // .contains("1900")
-                                                0 == 0
-                                                    ?
-                                                    // _bookingDetails[0].Status == 0
-                                                    0 == 0
-                                                        ? Icons.highlight_off
-                                                        : Icons.schedule
-                                                    : Icons
-                                                        .check_circle_outline,
-                                            size: 40,
-                                            color:
-                                                // _bookingDetails.length == 0
-                                                0 == 0
-                                                    ? const Color(0xff3a3a3a)
-                                                    :
-                                                    // _bookingDetails[0]
-                                                    //   .ConfirmedOn
-                                                    //   .toString()
-                                                    //   .contains("1900")
-                                                    0 == 0
-                                                        ? Colors.red.shade200
-                                                        : Colors.green.shade200,
-                                          ),
-                                          Icon(
-                                            // _bookingDetails.length == 0
-                                            0 == 0
-                                                ? Icons.schedule
-                                                :
-                                                // _bookingDetails[0]
-                                                //                                     .PreGateDate
-                                                //                                     .toString()
-                                                //                                     .contains("1900")
-                                                0 == 0
-                                                    ? Icons.schedule
-                                                    :
-                                                    // _bookingDetails[0].PreGate == 2
-                                                    0 == 0
-                                                        ? Icons.highlight_off
-                                                        : Icons
-                                                            .check_circle_outline,
-                                            size: 40,
-                                            color:
-                                                // _bookingDetails.length == 0
-                                                0 == 0
-                                                    ? const Color(0xff3a3a3a)
-                                                    :
-                                                    // _bookingDetails[0]
-                                                    //   .PreGateDate
-                                                    //   .toString()
-                                                    //   .contains("1900")
-                                                    0 == 0
-                                                        ? Colors.red.shade200
-                                                        :
-                                                        // _bookingDetails[0].PreGate == 1
-                                                        0 == 0
-                                                            ? Colors
-                                                                .green.shade200
-                                                            : Colors
-                                                                .red.shade200,
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Card(
-                                color: Colors.white,
-                                elevation: 3.0,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 4.0, right: 4.0, top: 4.0),
-                                  child: ExpansionTile(
-                                    title: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                2.2,
-                                            child: Text(
-                                              " EVT2401190001",
-                                              style:
-                                                  mobileTimeLineHeaderFontStyle,
-                                            )),
-                                        SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                3.1,
-                                            child: Text(
-                                              " 12341111",
-                                              style:
-                                                  mobileTimeLineHeaderFontStyle,
-                                            )),
-                                      ],
-                                    ),
-                                    // subtitle: Text(" 1234",style: TextStyle(color: Colors.black87),),
-                                    children: [
-                                      Timeline(
-                                        children: <Widget>[
-                                          Container(
-                                            height: 50,
-                                            color: Colors.transparent,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10.0),
-                                              child: Row(
-                                                children: [
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                        " Parking Area",
-                                                        style:
-                                                            mobileTimeLineHeaderFontStyle,
-                                                      )),
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                          // _bookingDetails.length == 0
-                                                          // ? ""
-                                                          // : _bookingDetails[0]
-                                                          // .CreatedOn
-                                                          // .toString()
-                                                          // .contains("1900")
-                                                          // ? ""
-                                                          // : getCustomFormattedDateTime(
-                                                          // _bookingDetails[0].CreatedOn,
-                                                          // 'dd-MM-yyyy HH:mm')
-                                                          "15-01-2024 15:39")),
-                                                  // : _bookingDetails[0].CreatedOn)),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            height: 50,
-                                            color: Colors.transparent,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10.0),
-                                              child: Row(
-                                                children: [
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                        " Dock-IN",
-                                                        style:
-                                                            mobileTimeLineHeaderFontStyle,
-                                                      )),
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                          // _bookingDetails.length == 0
-                                                          // ? ""
-                                                          // : _bookingDetails[0]
-                                                          // .GateOutDate
-                                                          // .toString()
-                                                          // .contains("1900")
-                                                          // ? ""
-                                                          // : getCustomFormattedDateTime(
-                                                          // _bookingDetails[0].GateOutDate,
-                                                          // 'dd-MM-yyyy HH:mm')
-                                                          "15-01-2024 15:39")),
-                                                  // : _bookingDetails[0].GateOutDate)),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            height: 50,
-                                            color: Colors.transparent,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10.0),
-                                              child: Row(
-                                                children: [
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                        " Dock-OUT",
-                                                        style:
-                                                            mobileTimeLineHeaderFontStyle,
-                                                      )),
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                          // _bookingDetails.length == 0
-                                                          // ? ""
-                                                          // : _bookingDetails[0]
-                                                          // .ConfirmedOn
-                                                          // .toString()
-                                                          // .contains("1900")
-                                                          // ? ""
-                                                          // : getCustomFormattedDateTime(
-                                                          // _bookingDetails[0].ConfirmedOn,
-                                                          // 'dd-MM-yyyy HH:mm')
-                                                          "15-01-2024 15:39")),
-                                                  // : _bookingDetails[0].ConfirmedOn)),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                        indicators: <Widget>[
-                                          Icon(
-                                            // _bookingDetails.length == 0
-                                            //     ? Icons.schedule
-                                            //     : _bookingDetails[0]
-                                            //     .CreatedOn
-                                            //     .toString()
-                                            //     .contains("1900")
-                                            0 == 0
-                                                ? Icons.schedule
-                                                : Icons.check_circle_outline,
-                                            size: 40,
-                                            color:
-                                                // _bookingDetails.length == 0
-                                                //     ? const Color(0xff3a3a3a)
-                                                //     : _bookingDetails[0]
-                                                //     .CreatedOn
-                                                //     .toString()
-                                                //     .contains("1900")
-                                                0 == 0
-                                                    ? Colors.red.shade200
-                                                    : Colors.green.shade200,
-                                          ),
-                                          Icon(
-                                            // _bookingDetails.length == 0
-                                            0 == 0
-                                                ? Icons.schedule
-                                                :
-                                                // _bookingDetails[0]
-                                                // .ConfirmedOn
-                                                // .toString()
-                                                // .contains("1900")
-                                                0 == 0
-                                                    ?
-                                                    // _bookingDetails[0].Status == 0
-                                                    0 == 0
-                                                        ? Icons.highlight_off
-                                                        : Icons.schedule
-                                                    : Icons
-                                                        .check_circle_outline,
-                                            size: 40,
-                                            color:
-                                                // _bookingDetails.length == 0
-                                                0 == 0
-                                                    ? const Color(0xff3a3a3a)
-                                                    :
-                                                    // _bookingDetails[0]
-                                                    //   .ConfirmedOn
-                                                    //   .toString()
-                                                    //   .contains("1900")
-                                                    0 == 0
-                                                        ? Colors.red.shade200
-                                                        : Colors.green.shade200,
-                                          ),
-                                          Icon(
-                                            // _bookingDetails.length == 0
-                                            0 == 0
-                                                ? Icons.schedule
-                                                :
-                                                // _bookingDetails[0]
-                                                //                                     .PreGateDate
-                                                //                                     .toString()
-                                                //                                     .contains("1900")
-                                                0 == 0
-                                                    ? Icons.schedule
-                                                    :
-                                                    // _bookingDetails[0].PreGate == 2
-                                                    0 == 0
-                                                        ? Icons.highlight_off
-                                                        : Icons
-                                                            .check_circle_outline,
-                                            size: 40,
-                                            color:
-                                                // _bookingDetails.length == 0
-                                                0 == 0
-                                                    ? const Color(0xff3a3a3a)
-                                                    :
-                                                    // _bookingDetails[0]
-                                                    //   .PreGateDate
-                                                    //   .toString()
-                                                    //   .contains("1900")
-                                                    0 == 0
-                                                        ? Colors.red.shade200
-                                                        :
-                                                        // _bookingDetails[0].PreGate == 1
-                                                        0 == 0
-                                                            ? Colors
-                                                                .green.shade200
-                                                            : Colors
-                                                                .red.shade200,
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Card(
-                                color: Colors.white,
-                                elevation: 3.0,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 4.0, right: 4.0, top: 4.0),
-                                  child: ExpansionTile(
-                                    title: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                2.2,
-                                            child: Text(
-                                              " EVT2401190001",
-                                              style:
-                                                  mobileTimeLineHeaderFontStyle,
-                                            )),
-                                        SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                3.1,
-                                            child: Text(
-                                              " 12341111",
-                                              style:
-                                                  mobileTimeLineHeaderFontStyle,
-                                            )),
-                                      ],
-                                    ),
-                                    // subtitle: Text(" 1234",style: TextStyle(color: Colors.black87),),
-                                    children: [
-                                      Timeline(
-                                        children: <Widget>[
-                                          Container(
-                                            height: 50,
-                                            color: Colors.transparent,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10.0),
-                                              child: Row(
-                                                children: [
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                        " Parking Area",
-                                                        style:
-                                                            mobileTimeLineHeaderFontStyle,
-                                                      )),
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                          // _bookingDetails.length == 0
-                                                          // ? ""
-                                                          // : _bookingDetails[0]
-                                                          // .CreatedOn
-                                                          // .toString()
-                                                          // .contains("1900")
-                                                          // ? ""
-                                                          // : getCustomFormattedDateTime(
-                                                          // _bookingDetails[0].CreatedOn,
-                                                          // 'dd-MM-yyyy HH:mm')
-                                                          "15-01-2024 15:39")),
-                                                  // : _bookingDetails[0].CreatedOn)),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            height: 50,
-                                            color: Colors.transparent,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10.0),
-                                              child: Row(
-                                                children: [
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                        " Dock-IN",
-                                                        style:
-                                                            mobileTimeLineHeaderFontStyle,
-                                                      )),
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                          // _bookingDetails.length == 0
-                                                          // ? ""
-                                                          // : _bookingDetails[0]
-                                                          // .GateOutDate
-                                                          // .toString()
-                                                          // .contains("1900")
-                                                          // ? ""
-                                                          // : getCustomFormattedDateTime(
-                                                          // _bookingDetails[0].GateOutDate,
-                                                          // 'dd-MM-yyyy HH:mm')
-                                                          "15-01-2024 15:39")),
-                                                  // : _bookingDetails[0].GateOutDate)),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            height: 50,
-                                            color: Colors.transparent,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10.0),
-                                              child: Row(
-                                                children: [
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                        " Dock-OUT",
-                                                        style:
-                                                            mobileTimeLineHeaderFontStyle,
-                                                      )),
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                          // _bookingDetails.length == 0
-                                                          // ? ""
-                                                          // : _bookingDetails[0]
-                                                          // .ConfirmedOn
-                                                          // .toString()
-                                                          // .contains("1900")
-                                                          // ? ""
-                                                          // : getCustomFormattedDateTime(
-                                                          // _bookingDetails[0].ConfirmedOn,
-                                                          // 'dd-MM-yyyy HH:mm')
-                                                          "15-01-2024 15:39")),
-                                                  // : _bookingDetails[0].ConfirmedOn)),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                        indicators: <Widget>[
-                                          Icon(
-                                            // _bookingDetails.length == 0
-                                            //     ? Icons.schedule
-                                            //     : _bookingDetails[0]
-                                            //     .CreatedOn
-                                            //     .toString()
-                                            //     .contains("1900")
-                                            0 == 0
-                                                ? Icons.schedule
-                                                : Icons.check_circle_outline,
-                                            size: 40,
-                                            color:
-                                                // _bookingDetails.length == 0
-                                                //     ? const Color(0xff3a3a3a)
-                                                //     : _bookingDetails[0]
-                                                //     .CreatedOn
-                                                //     .toString()
-                                                //     .contains("1900")
-                                                0 == 0
-                                                    ? Colors.red.shade200
-                                                    : Colors.green.shade200,
-                                          ),
-                                          Icon(
-                                            // _bookingDetails.length == 0
-                                            0 == 0
-                                                ? Icons.schedule
-                                                :
-                                                // _bookingDetails[0]
-                                                // .ConfirmedOn
-                                                // .toString()
-                                                // .contains("1900")
-                                                0 == 0
-                                                    ?
-                                                    // _bookingDetails[0].Status == 0
-                                                    0 == 0
-                                                        ? Icons.highlight_off
-                                                        : Icons.schedule
-                                                    : Icons
-                                                        .check_circle_outline,
-                                            size: 40,
-                                            color:
-                                                // _bookingDetails.length == 0
-                                                0 == 0
-                                                    ? const Color(0xff3a3a3a)
-                                                    :
-                                                    // _bookingDetails[0]
-                                                    //   .ConfirmedOn
-                                                    //   .toString()
-                                                    //   .contains("1900")
-                                                    0 == 0
-                                                        ? Colors.red.shade200
-                                                        : Colors.green.shade200,
-                                          ),
-                                          Icon(
-                                            // _bookingDetails.length == 0
-                                            0 == 0
-                                                ? Icons.schedule
-                                                :
-                                                // _bookingDetails[0]
-                                                //                                     .PreGateDate
-                                                //                                     .toString()
-                                                //                                     .contains("1900")
-                                                0 == 0
-                                                    ? Icons.schedule
-                                                    :
-                                                    // _bookingDetails[0].PreGate == 2
-                                                    0 == 0
-                                                        ? Icons.highlight_off
-                                                        : Icons
-                                                            .check_circle_outline,
-                                            size: 40,
-                                            color:
-                                                // _bookingDetails.length == 0
-                                                0 == 0
-                                                    ? const Color(0xff3a3a3a)
-                                                    :
-                                                    // _bookingDetails[0]
-                                                    //   .PreGateDate
-                                                    //   .toString()
-                                                    //   .contains("1900")
-                                                    0 == 0
-                                                        ? Colors.red.shade200
-                                                        :
-                                                        // _bookingDetails[0].PreGate == 1
-                                                        0 == 0
-                                                            ? Colors
-                                                                .green.shade200
-                                                            : Colors
-                                                                .red.shade200,
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Card(
-                                color: Colors.white,
-                                elevation: 3.0,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 4.0, right: 4.0, top: 4.0),
-                                  child: ExpansionTile(
-                                    title: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                2.2,
-                                            child: Text(
-                                              " EVT2401190001",
-                                              style:
-                                                  mobileTimeLineHeaderFontStyle,
-                                            )),
-                                        SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                3.1,
-                                            child: Text(
-                                              " 12341111",
-                                              style:
-                                                  mobileTimeLineHeaderFontStyle,
-                                            )),
-                                      ],
-                                    ),
-                                    // subtitle: Text(" 1234",style: TextStyle(color: Colors.black87),),
-                                    children: [
-                                      Timeline(
-                                        children: <Widget>[
-                                          Container(
-                                            height: 50,
-                                            color: Colors.transparent,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10.0),
-                                              child: Row(
-                                                children: [
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                        " Parking Area",
-                                                        style:
-                                                            mobileTimeLineHeaderFontStyle,
-                                                      )),
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                          // _bookingDetails.length == 0
-                                                          // ? ""
-                                                          // : _bookingDetails[0]
-                                                          // .CreatedOn
-                                                          // .toString()
-                                                          // .contains("1900")
-                                                          // ? ""
-                                                          // : getCustomFormattedDateTime(
-                                                          // _bookingDetails[0].CreatedOn,
-                                                          // 'dd-MM-yyyy HH:mm')
-                                                          "15-01-2024 15:39")),
-                                                  // : _bookingDetails[0].CreatedOn)),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            height: 50,
-                                            color: Colors.transparent,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10.0),
-                                              child: Row(
-                                                children: [
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                        " Dock-IN",
-                                                        style:
-                                                            mobileTimeLineHeaderFontStyle,
-                                                      )),
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                          // _bookingDetails.length == 0
-                                                          // ? ""
-                                                          // : _bookingDetails[0]
-                                                          // .GateOutDate
-                                                          // .toString()
-                                                          // .contains("1900")
-                                                          // ? ""
-                                                          // : getCustomFormattedDateTime(
-                                                          // _bookingDetails[0].GateOutDate,
-                                                          // 'dd-MM-yyyy HH:mm')
-                                                          "15-01-2024 15:39")),
-                                                  // : _bookingDetails[0].GateOutDate)),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            height: 50,
-                                            color: Colors.transparent,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10.0),
-                                              child: Row(
-                                                children: [
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                        " Dock-OUT",
-                                                        style:
-                                                            mobileTimeLineHeaderFontStyle,
-                                                      )),
-                                                  SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.6,
-                                                      child: Text(
-                                                          // _bookingDetails.length == 0
-                                                          // ? ""
-                                                          // : _bookingDetails[0]
-                                                          // .ConfirmedOn
-                                                          // .toString()
-                                                          // .contains("1900")
-                                                          // ? ""
-                                                          // : getCustomFormattedDateTime(
-                                                          // _bookingDetails[0].ConfirmedOn,
-                                                          // 'dd-MM-yyyy HH:mm')
-                                                          "15-01-2024 15:39")),
-                                                  // : _bookingDetails[0].ConfirmedOn)),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                        indicators: <Widget>[
-                                          Icon(
-                                            // _bookingDetails.length == 0
-                                            //     ? Icons.schedule
-                                            //     : _bookingDetails[0]
-                                            //     .CreatedOn
-                                            //     .toString()
-                                            //     .contains("1900")
-                                            0 == 0
-                                                ? Icons.schedule
-                                                : Icons.check_circle_outline,
-                                            size: 40,
-                                            color:
-                                                // _bookingDetails.length == 0
-                                                //     ? const Color(0xff3a3a3a)
-                                                //     : _bookingDetails[0]
-                                                //     .CreatedOn
-                                                //     .toString()
-                                                //     .contains("1900")
-                                                0 == 0
-                                                    ? Colors.red.shade200
-                                                    : Colors.green.shade200,
-                                          ),
-                                          Icon(
-                                            // _bookingDetails.length == 0
-                                            0 == 0
-                                                ? Icons.schedule
-                                                :
-                                                // _bookingDetails[0]
-                                                // .ConfirmedOn
-                                                // .toString()
-                                                // .contains("1900")
-                                                0 == 0
-                                                    ?
-                                                    // _bookingDetails[0].Status == 0
-                                                    0 == 0
-                                                        ? Icons.highlight_off
-                                                        : Icons.schedule
-                                                    : Icons
-                                                        .check_circle_outline,
-                                            size: 40,
-                                            color:
-                                                // _bookingDetails.length == 0
-                                                0 == 0
-                                                    ? const Color(0xff3a3a3a)
-                                                    :
-                                                    // _bookingDetails[0]
-                                                    //   .ConfirmedOn
-                                                    //   .toString()
-                                                    //   .contains("1900")
-                                                    0 == 0
-                                                        ? Colors.red.shade200
-                                                        : Colors.green.shade200,
-                                          ),
-                                          Icon(
-                                            // _bookingDetails.length == 0
-                                            0 == 0
-                                                ? Icons.schedule
-                                                :
-                                                // _bookingDetails[0]
-                                                //                                     .PreGateDate
-                                                //                                     .toString()
-                                                //                                     .contains("1900")
-                                                0 == 0
-                                                    ? Icons.schedule
-                                                    :
-                                                    // _bookingDetails[0].PreGate == 2
-                                                    0 == 0
-                                                        ? Icons.highlight_off
-                                                        : Icons
-                                                            .check_circle_outline,
-                                            size: 40,
-                                            color:
-                                                // _bookingDetails.length == 0
-                                                0 == 0
-                                                    ? const Color(0xff3a3a3a)
-                                                    :
-                                                    // _bookingDetails[0]
-                                                    //   .PreGateDate
-                                                    //   .toString()
-                                                    //   .contains("1900")
-                                                    0 == 0
-                                                        ? Colors.red.shade200
-                                                        :
-                                                        // _bookingDetails[0].PreGate == 1
-                                                        0 == 0
-                                                            ? Colors
-                                                                .green.shade200
-                                                            : Colors
-                                                                .red.shade200,
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          )
+                            itemBuilder: (BuildContext context, int index) {
+                              EVTDetails evtListItems =
+                                  evtList.elementAt(index);
+                              return evtListItem(context, evtListItems, index);
+                            },
+                          ),
                         ],
                       ),
                     )
@@ -5958,4 +4033,279 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
       ),
     );
   }
+
+  evtListItem(BuildContext context, EVTDetails evtDetails, index) {
+    return Card(
+      color: Colors.white,
+      elevation: 3.0,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 4.0, right: 4.0, top: 4.0),
+        child: ExpansionTile(
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(
+                  width: MediaQuery.of(context).size.width / 2.2,
+                  child: Text(
+                    " EVT2401190001",
+                    style: useMobileLayout
+                        ? mobileTimeLineHeaderFontStyle
+                        : mobileGroupHeaderFontStyle,
+                  )),
+              SizedBox(
+                  width: MediaQuery.of(context).size.width / 3.1,
+                  child: Text(
+                    " 12341111",
+                    style: useMobileLayout
+                        ? mobileTimeLineHeaderFontStyle
+                        : mobileGroupHeaderFontStyle,
+                  )),
+            ],
+          ),
+          // subtitle: Text(" 1234",style: TextStyle(color: Colors.black87),),
+          children: [
+            Timeline(
+              children: <Widget>[
+                Container(
+                  height: 50,
+                  color: Colors.transparent,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                            width: useMobileLayout
+                                ? MediaQuery.of(context).size.width / 2.6
+                                : MediaQuery.of(context).size.width / 1.9,
+                            child: Padding(
+                              padding: useMobileLayout
+                                  ? const EdgeInsets.only(left: 2.0)
+                                  : const EdgeInsets.only(left: 14.0),
+                              child: Text(
+                                " Parking Area",
+                                style: useMobileLayout
+                                    ? mobileTimeLineHeaderFontStyle
+                                    : mobileGroupHeaderFontStyle,
+                              ),
+                            )),
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width / 2.6,
+                            child: Text(
+                              // _bookingDetails.length == 0
+                              // ? ""
+                              // : _bookingDetails[0]
+                              // .CreatedOn
+                              // .toString()
+                              // .contains("1900")
+                              // ? ""
+                              // : getCustomFormattedDateTime(
+                              // _bookingDetails[0].CreatedOn,
+                              // 'dd-MM-yyyy HH:mm')
+                              "15-01-2024 15:39",
+                              style: useMobileLayout
+                                  ? mobileTimeLineHeaderFontStyle
+                                  : mobileGroupHeaderFontStyle,
+                            )),
+                        // : _bookingDetails[0].CreatedOn)),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  height: 50,
+                  color: Colors.transparent,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                            width: useMobileLayout
+                                ? MediaQuery.of(context).size.width / 2.6
+                                : MediaQuery.of(context).size.width / 1.9,
+                            child: Padding(
+                              padding: useMobileLayout
+                                  ? const EdgeInsets.only(left: 2.0)
+                                  : const EdgeInsets.only(left: 14.0),
+                              child: Text(
+                                " Dock-IN",
+                                style: useMobileLayout
+                                    ? mobileTimeLineHeaderFontStyle
+                                    : mobileGroupHeaderFontStyle,
+                              ),
+                            )),
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width / 2.6,
+                            child: Text(
+                              // _bookingDetails.length == 0
+                              // ? ""
+                              // : _bookingDetails[0]
+                              // .GateOutDate
+                              // .toString()
+                              // .contains("1900")
+                              // ? ""
+                              // : getCustomFormattedDateTime(
+                              // _bookingDetails[0].GateOutDate,
+                              // 'dd-MM-yyyy HH:mm')
+                              "15-01-2024 15:39",
+                              style: useMobileLayout
+                                  ? mobileTextFontStyle
+                                  : iPadTextFontStyle,
+                            )),
+                        // : _bookingDetails[0].GateOutDate)),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  height: 50,
+                  color: Colors.transparent,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                            width: useMobileLayout
+                                ? MediaQuery.of(context).size.width / 2.6
+                                : MediaQuery.of(context).size.width / 1.9,
+                            child: Padding(
+                              padding: useMobileLayout
+                                  ? const EdgeInsets.only(left: 2.0)
+                                  : const EdgeInsets.only(left: 14.0),
+                              child: Text(
+                                " Dock-OUT",
+                                style: useMobileLayout
+                                    ? mobileTextFontStyle
+                                    : mobileGroupHeaderFontStyle,
+                              ),
+                            )),
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width / 2.6,
+                            child: Text(
+                              // _bookingDetails.length == 0
+                              // ? ""
+                              // : _bookingDetails[0]
+                              // .ConfirmedOn
+                              // .toString()
+                              // .contains("1900")
+                              // ? ""
+                              // : getCustomFormattedDateTime(
+                              // _bookingDetails[0].ConfirmedOn,
+                              // 'dd-MM-yyyy HH:mm')
+                              "15-01-2024 15:39",
+                              style: useMobileLayout
+                                  ? mobileTextFontStyle
+                                  : iPadTextFontStyle,
+                            )),
+                        // : _bookingDetails[0].ConfirmedOn)),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+              indicators: <Widget>[
+                Icon(
+                  // _bookingDetails.length == 0
+                  //     ? Icons.schedule
+                  //     : _bookingDetails[0]
+                  //     .CreatedOn
+                  //     .toString()
+                  //     .contains("1900")
+                  0 == 0 ? Icons.schedule : Icons.check_circle_outline,
+                  size: useMobileLayout ? 40 : 50,
+                  color:
+                      // _bookingDetails.length == 0
+                      //     ? const Color(0xff3a3a3a)
+                      //     : _bookingDetails[0]
+                      //     .CreatedOn
+                      //     .toString()
+                      //     .contains("1900")
+                      0 == 0 ? Colors.red.shade200 : Colors.green.shade200,
+                ),
+                Icon(
+                  // _bookingDetails.length == 0
+                  0 == 0
+                      ? Icons.schedule
+                      :
+                      // _bookingDetails[0]
+                      // .ConfirmedOn
+                      // .toString()
+                      // .contains("1900")
+                      0 == 0
+                          ?
+                          // _bookingDetails[0].Status == 0
+                          0 == 0
+                              ? Icons.highlight_off
+                              : Icons.schedule
+                          : Icons.check_circle_outline,
+                  size: useMobileLayout ? 40 : 50,
+                  color:
+                      // _bookingDetails.length == 0
+                      0 == 0
+                          ? const Color(0xff3a3a3a)
+                          :
+                          // _bookingDetails[0]
+                          //   .ConfirmedOn
+                          //   .toString()
+                          //   .contains("1900")
+                          0 == 0
+                              ? Colors.red.shade200
+                              : Colors.green.shade200,
+                ),
+                Icon(
+                  // _bookingDetails.length == 0
+                  0 == 0
+                      ? Icons.schedule
+                      :
+                      // _bookingDetails[0]
+                      //                                     .PreGateDate
+                      //                                     .toString()
+                      //                                     .contains("1900")
+                      0 == 0
+                          ? Icons.schedule
+                          :
+                          // _bookingDetails[0].PreGate == 2
+                          0 == 0
+                              ? Icons.highlight_off
+                              : Icons.check_circle_outline,
+                  size: useMobileLayout ? 40 : 50,
+                  color:
+                      // _bookingDetails.length == 0
+                      0 == 0
+                          ? const Color(0xff3a3a3a)
+                          :
+                          // _bookingDetails[0]
+                          //   .PreGateDate
+                          //   .toString()
+                          //   .contains("1900")
+                          0 == 0
+                              ? Colors.red.shade200
+                              :
+                              // _bookingDetails[0].PreGate == 1
+                              0 == 0
+                                  ? Colors.green.shade200
+                                  : Colors.red.shade200,
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class EVTDetails {
+  final String EVTno;
+  final String VehicleNo;
+  final String PendingArea;
+  final String DockIn;
+  final String DockOut;
+
+  EVTDetails({
+    required this.EVTno,
+    required this.VehicleNo,
+    required this.PendingArea,
+    required this.DockIn,
+    required this.DockOut,
+  });
 }
