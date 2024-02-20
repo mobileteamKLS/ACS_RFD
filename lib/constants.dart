@@ -296,16 +296,26 @@ const iPadToggleTextFontStyleWhite = TextStyle(
 );
 
 class Settings {
-  // 16 FEB
-  static const String ACSServiceURL =
-      "https://acsdemoservice.kalelogistics.com/srvMobile.asmx"; //YVRA UAT Server
-  //"https://acsdemo.upliftindia.com/ACS_GMR_UAT_HHT_Services/srvMobile.asmx";
+  //19 FEB
+  static  String ACSServiceURL =
+      "https://acstsmdemo.kalelogistics.com/ACS_TSM_RFD_HHT_Services/srvMobile.asmx";
+
   static const String ACSServiceImageURL =
       'https://acsdemoservice.kalelogistics.com/';
   static const String loginUrl =
-      "https://acsdemoservice.kalelogistics.com/srvMobile.asmx";
+      "https://acstsmdemo.kalelogistics.com/ACS_TSM_RFD_HHT_Services/srvMobile.asmx";
   static const String ACSWFSServiceURL =
-      "https://acsdemoservice.kalelogistics.com/srvMobile.asmx";
+      "https://acstsmdemo.kalelogistics.com/ACS_TSM_RFD_HHT_Services/srvMobile.asmx";
+  // 16 FEB
+  // static const String ACSServiceURL =
+  //     "https://acsdemoservice.kalelogistics.com/srvMobile.asmx"; //YVRA UAT Server
+  // //"https://acsdemo.upliftindia.com/ACS_GMR_UAT_HHT_Services/srvMobile.asmx";
+  // static const String ACSServiceImageURL =
+  //     'https://acsdemoservice.kalelogistics.com/';
+  // static const String loginUrl =
+  //     "https://acsdemoservice.kalelogistics.com/srvMobile.asmx";
+  // static const String ACSWFSServiceURL =
+  //     "https://acsdemoservice.kalelogistics.com/srvMobile.asmx";
 
   //YVRA UAT LINK PROVIDED ON 31-OCT-2022 -  this is for YVRA UAT
 

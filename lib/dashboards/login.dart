@@ -30,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
   bool showPassword = false;
   bool useMobileLayout = false;
   static List<UserDetails> userDetails = [];
-  static final userCred = {'pUserID': "", "pPassword": ""};
+  static final userCred = {'pUserID': "", "pPassword": "","pDeviceNumber":""};
   static List<UserOrganizationDetails> userOrganizationsList = [];
   static List<WarehouseTerminals> userTerminallist = [];
   static List<LableDisplay> lblDisplay = [];
@@ -476,12 +476,17 @@ class _LoginPageState extends State<LoginPage> {
                                     print("isTPS  =  " + isTPS.toString());
                                     print("isTruckerFF  =  " +
                                         isTruckerFF.toString());
-                                    await getUserLocation();
-                                    await getTerminalsList();
-                                    await getUserBranchList();
-                                    await getVehicleTypesList();
-                                    await getVehicleNoList();
-                                    await getDriversList();
+                                    if (isTrucker ||
+                                        isTruckerFF ||
+                                        isGHA ||
+                                        isTPS) {
+                                      await getUserLocation();
+                                      await getTerminalsList();
+                                      await getUserBranchList();
+                                      await getVehicleTypesList();
+                                      await getVehicleNoList();
+                                      await getDriversList();
+                                    }
 
                                     if (isGHA) {
                                       await getDamageTypeList();
@@ -765,12 +770,14 @@ class _LoginPageState extends State<LoginPage> {
           print("isGHA  =  " + isGHA.toString());
           print("isTPS  =  " + isTPS.toString());
           print("isTruckerFF  =  " + isTruckerFF.toString());
-          await getUserLocation();
-          await getTerminalsList();
-          await getUserBranchList();
-          await getVehicleTypesList();
-          await getVehicleNoList();
-          await getDriversList();
+          if (isTrucker || isTruckerFF || isGHA || isTPS) {
+            await getUserLocation();
+            await getTerminalsList();
+            await getUserBranchList();
+            await getVehicleTypesList();
+            await getVehicleNoList();
+            await getDriversList();
+          }
           if (isGHA) {
             await getDamageTypeList();
             await getAcceptanceResonList();
@@ -795,7 +802,7 @@ class _LoginPageState extends State<LoginPage> {
       print("This is new function");
       userCred['pUserID'] = userNameController.text;
       userCred['pPassword'] = passWordController.text;
-
+      userCred['pDeviceNumber'] = "";
       setState(() {
         isLoading = true;
       });
@@ -904,6 +911,9 @@ class _LoginPageState extends State<LoginPage> {
                     OrganizationtypeIdString: organizationTypes);
 
                 setPreferences(userDetails[0]);
+              }
+              if(isTruckerFF||isTrucker||isGHA){
+                Settings.ACSServiceURL="https://acsdemoservice.kalelogistics.com/srvMobile.asmx";
               }
             });
           isValid = true;

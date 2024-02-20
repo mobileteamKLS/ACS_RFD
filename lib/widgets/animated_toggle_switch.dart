@@ -38,7 +38,7 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Container(
-      width: useMobileLayout ? width * 0.7 : width / 1.75,
+      width: useMobileLayout ? width * 0.65 : width / 1.75,
       height: useMobileLayout ? width * 0.13:width / 12.0,
       margin: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
       child: Container(
@@ -56,7 +56,7 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
                 setState(() {});
               },
               child: Container(
-                width: useMobileLayout ? width * 0.7 : width / 1.75,
+                width: useMobileLayout ? width * 0.65 : width / 1.75,
                 height: useMobileLayout ? width * 0.13: width /12.0,
 
                 decoration: ShapeDecoration(
@@ -68,8 +68,8 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomLeft,
                     colors: [
-                      Color(0xFF4364F7),
-                      Color(0xFFa8c0ff),
+                      Color(0xFFff9472),
+                      Color(0xFFf2709c),
                     ],
                   ),
                 ),
@@ -85,7 +85,7 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
                           fontFamily: 'Rubik',
                           fontSize: width * 0.04,
                           fontWeight: FontWeight.bold,
-                          color: const Color(0xFF918f95),
+                          color: Colors.white,
                         ),
                       ),
                     ),
@@ -102,8 +102,23 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
                 width: useMobileLayout ? width * 0.35 : width / 3.5,
                 height: useMobileLayout ? width * 0.13 : width / 12.0,
                 decoration: ShapeDecoration(
-                  color: widget.buttonColor,
-                  shadows: widget.shadows,
+                  shadows:[
+                    BoxShadow(
+                      color:Colors.black,
+                      spreadRadius: 0.15,
+                      blurRadius: 0.15,
+                      offset: Offset(0, 1),
+                    ),
+                  ],
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomLeft,
+                    colors: [
+                      Color(0xFF3383CD),
+                      Color(0xFF11249F),
+                    ],
+                  ),
+                  // shadows: widget.shadows,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(width * 0.1),
                   ),
@@ -112,8 +127,8 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
                   initialPosition ? widget.values[0] : widget.values[1],
                   style: TextStyle(
                     fontFamily: 'Rubik',
-                    fontSize: width * 0.035,
-                    color: widget.textColor,
+                    fontSize: width * 0.038,
+                    color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
