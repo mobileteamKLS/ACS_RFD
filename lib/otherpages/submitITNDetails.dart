@@ -261,1799 +261,2013 @@ class _SubmitITNDetailsState extends State<SubmitITNDetails> {
                   ),
                 ),
               ),
-             useMobileLayout ?
-             SizedBox(
-               child:  isLoading
-                   ? Center(
-                   child: Container(
-                       height: 100,
-                       width: 100,
-                       child: CircularProgressIndicator()))
-                   : SingleChildScrollView(
-                     child: Column(
-                       mainAxisAlignment: MainAxisAlignment.start,
-                       crossAxisAlignment: CrossAxisAlignment.start,
-                       children: [
-                         Row(
-                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                           crossAxisAlignment: CrossAxisAlignment.start,
-                           children: [
-                             SizedBox(
-                               width: MediaQuery.of(context).size.width / 2.2,
-                               child: Container(
-                                 height: 30,
-                                 color: Colors.yellow.shade300,
-                                 child: Center(
-                                   child: Text('MAWB No.',
-                                       style: mobileYellowTextFontStyleBold),
-                                 ),
-                               ),
-                             ),
-                             SizedBox(
-                               width: MediaQuery.of(context).size.width / 2.2,
-                               child: Container(
-                                 height: 30,
-                                 color: Colors.yellow.shade300,
-                                 child: Center(
-                                   child: Text('NOP',
-                                       style: mobileYellowTextFontStyleBold),
-                                 ),
-                               ),
-                             ),
-                           ],
-                         ),
-                         Row(
-                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                           crossAxisAlignment: CrossAxisAlignment.start,
-                           children: [
-                             SizedBox(
-                               width: MediaQuery.of(context).size.width / 2.2,
-                               child: Container(
-                                 height: 30,
-                                 color: Colors.yellow.shade100,
-                                 child: Center(
-                                   child: Text(
-                                       "${widget.docUploadDetails.MAWBNo}",
-                                       style: mobileDetailsYellowBold),
-                                 ),
-                               ),
-                             ),
-                             SizedBox(
-                               width: MediaQuery.of(context).size.width / 2.2,
-                               child: Container(
-                                 height: 30,
-                                 color: Colors.yellow.shade100,
-                                 child: Center(
-                                   child:
-                                   Text("${widget.docUploadDetails.PCS}",
-                                       // widget
-                                       //     .selectedVtDetails
-                                       //     .DRIVERNAME
-                                       //     .toUpperCase(),
-                                       style: mobileDetailsYellowBold),
-                                 ),
-                               ),
-                             ),
-                           ],
-                         ),
-                         Row(
-                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                           crossAxisAlignment: CrossAxisAlignment.start,
-                           children: [
-                             SizedBox(
-                               width: MediaQuery.of(context).size.width / 2.2,
-                               child: Container(
-                                 height: 30,
-                                 color: Colors.yellow.shade300,
-                                 child: Center(
-                                   child: Text('Gr.Wt.(Kgs)',
-                                       style: mobileYellowTextFontStyleBold),
-                                 ),
-                               ),
-                             ),
-                             SizedBox(
-                               width: MediaQuery.of(context).size.width / 2.2,
-                               child: Container(
-                                 height: 30,
-                                 color: Colors.yellow.shade300,
-                                 child: Center(
-                                   child: Text('Ch.Wt.(Kgs)',
-                                       style: mobileYellowTextFontStyleBold),
-                                 ),
-                               ),
-                             ),
-                           ],
-                         ),
-                         Row(
-                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                           crossAxisAlignment: CrossAxisAlignment.start,
-                           children: [
-                             SizedBox(
-                               width: MediaQuery.of(context).size.width / 2.2,
-                               child: Container(
-                                 height: 30,
-                                 color: Colors.yellow.shade100,
-                                 child: Center(
-                                   child: Text("128.00",
-                                       style: mobileDetailsYellowBold),
-                                 ),
-                               ),
-                             ),
-                             SizedBox(
-                               width: MediaQuery.of(context).size.width / 2.2,
-                               child: Container(
-                                 height: 30,
-                                 color: Colors.yellow.shade100,
-                                 child: Center(
-                                   child: Text("128.00",
-                                       // widget
-                                       //     .selectedVtDetails
-                                       //     .DRIVERNAME
-                                       //     .toUpperCase(),
-                                       style: mobileDetailsYellowBold),
-                                 ),
-                               ),
-                             ),
-                           ],
-                         ),
-                         Container(
-                           height: 1,
-                           margin: EdgeInsets.all(16.0),
-                           width: MediaQuery.of(context).size.width / 1.00,
-                           color: Color(0xFF11249F),
-                         ),
-                         Padding(
-                           padding: const EdgeInsets.only(
-                             top: 0.0,
-                             bottom: 10.0,
-                             left: 12.0,
-                           ),
-                           child: Column(
-                             children: [
-                               Row(children: [
-                                 SizedBox(
-                                   width:
-                                   MediaQuery.of(context).size.width / 3.4,
-                                   child: Text("ITN No.",
-                                       style: mobileHeaderFontStyle),
-                                 ),
-                                 Padding(
-                                   padding: const EdgeInsets.all(8.0),
-                                   child: SizedBox(
-                                     width: MediaQuery.of(context).size.width /
-                                         1.6, // hard coding child width
-                                     child: Container(
-                                       height: 40,
-                                       width:
-                                       MediaQuery.of(context).size.width /
-                                           2.4,
-                                       decoration: BoxDecoration(
-                                         border: Border.all(
-                                           color: Colors.grey.withOpacity(0.5),
-                                           width: 1.0,
-                                         ),
-                                         borderRadius:
-                                         BorderRadius.circular(4.0),
-                                       ),
-                                       child: TextField(
-                                           controller: txtVTNO,
-                                           textAlign: TextAlign.right,
-                                           keyboardType: TextInputType.text,
-                                           textCapitalization:
-                                           TextCapitalization.characters,
-                                           decoration: InputDecoration(
-                                             border: InputBorder.none,
-                                             hintText: "ITN No.",
-                                             hintStyle:
-                                             TextStyle(color: Colors.grey),
-                                             contentPadding:
-                                             EdgeInsets.symmetric(
-                                                 vertical: 8,
-                                                 horizontal: 8),
-                                             isDense: true,
-                                           ),
-                                           style: mobileTextFontStyle),
-                                     ),
-                                   ),
-                                 ),
-                               ]),
-                               Row(children: [
-                                 SizedBox(
-                                   width:
-                                   MediaQuery.of(context).size.width / 3.4,
-                                   child: Text("Date",
-                                       style: mobileHeaderFontStyle),
-                                 ),
-                                 Padding(
-                                   padding: const EdgeInsets.all(8.0),
-                                   child: SizedBox(
-                                     width: MediaQuery.of(context).size.width /
-                                         2.0, // hard coding child width
-                                     child: Container(
-                                       height: 40,
-                                       width:
-                                       MediaQuery.of(context).size.width /
-                                           2.4,
-                                       decoration: BoxDecoration(
-                                         border: Border.all(
-                                           color: Colors.grey.withOpacity(0.5),
-                                           width: 1.0,
-                                         ),
-                                         borderRadius:
-                                         BorderRadius.circular(4.0),
-                                       ),
-                                       child: TextField(
-                                         // onChanged: (value) =>
-                                         //     _runFilter(value),
-                                           controller: dateInput,
-                                           keyboardType: TextInputType.text,
-                                           textAlign: TextAlign.right,
-                                           textCapitalization:
-                                           TextCapitalization.characters,
-                                           decoration: InputDecoration(
-                                             border: InputBorder.none,
-                                             hintText: "Select Date",
-                                             hintStyle:
-                                             TextStyle(color: Colors.grey),
-                                             contentPadding:
-                                             EdgeInsets.symmetric(
-                                                 vertical: 8,
-                                                 horizontal: 8),
-                                             isDense: true,
-                                           ),
-                                           style: mobileTextFontStyle),
-                                     ),
-                                   ),
-                                 ),
-                                 GestureDetector(
-                                   child: DatePickerContainerButton(),
-                                   onTap: () async {
-                                     DateTime? pickedDate =
-                                     await showDatePicker(
-                                         context: context,
-                                         initialDate: DateTime.now(),
-                                         firstDate: DateTime.now(),
-                                         lastDate: DateTime(2100),
-                                         builder: (context, child) {
-                                           return Theme(
-                                             data: Theme.of(context)
-                                                 .copyWith(
-                                               colorScheme:
-                                               ColorScheme.light(
-                                                 primary:
-                                                 Color(0xFF1220BC),
-                                                 // <-- SEE HERE
-                                                 onPrimary: Colors.white,
-                                                 // <-- SEE HERE
-                                                 onSurface: Color(
-                                                     0xFF3540E8), // <-- SEE HERE
-                                               ),
-                                               textButtonTheme:
-                                               TextButtonThemeData(
-                                                 style:
-                                                 TextButton.styleFrom(
-                                                   foregroundColor: Color(
-                                                       0xFF3540E8), // button text color
-                                                 ),
-                                               ),
-                                             ),
-                                             child: child!,
-                                           );
-                                         });
+              useMobileLayout
+                  ? SizedBox(
+                      child: isLoading
+                          ? Center(
+                              child: Container(
+                                  height: 100,
+                                  width: 100,
+                                  child: CircularProgressIndicator()))
+                          : SingleChildScrollView(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2.2,
+                                        child: Container(
+                                          height: 30,
+                                          color: Colors.yellow.shade300,
+                                          child: Center(
+                                            child: Text('MAWB No.',
+                                                style:
+                                                    mobileYellowTextFontStyleBold),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2.2,
+                                        child: Container(
+                                          height: 30,
+                                          color: Colors.yellow.shade300,
+                                          child: Center(
+                                            child: Text('NOP',
+                                                style:
+                                                    mobileYellowTextFontStyleBold),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2.2,
+                                        child: Container(
+                                          height: 30,
+                                          color: Colors.yellow.shade100,
+                                          child: Center(
+                                            child: Text(
+                                                "${widget.docUploadDetails.MAWBNo}",
+                                                style: mobileDetailsYellowBold),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2.2,
+                                        child: Container(
+                                          height: 30,
+                                          color: Colors.yellow.shade100,
+                                          child: Center(
+                                            child: Text(
+                                                "${widget.docUploadDetails.PCS}",
+                                                // widget
+                                                //     .selectedVtDetails
+                                                //     .DRIVERNAME
+                                                //     .toUpperCase(),
+                                                style: mobileDetailsYellowBold),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2.2,
+                                        child: Container(
+                                          height: 30,
+                                          color: Colors.yellow.shade300,
+                                          child: Center(
+                                            child: Text('Gr.Wt.(Kgs)',
+                                                style:
+                                                    mobileYellowTextFontStyleBold),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2.2,
+                                        child: Container(
+                                          height: 30,
+                                          color: Colors.yellow.shade300,
+                                          child: Center(
+                                            child: Text('Ch.Wt.(Kgs)',
+                                                style:
+                                                    mobileYellowTextFontStyleBold),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2.2,
+                                        child: Container(
+                                          height: 30,
+                                          color: Colors.yellow.shade100,
+                                          child: Center(
+                                            child: Text("128.00",
+                                                style: mobileDetailsYellowBold),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2.2,
+                                        child: Container(
+                                          height: 30,
+                                          color: Colors.yellow.shade100,
+                                          child: Center(
+                                            child: Text("128.00",
+                                                // widget
+                                                //     .selectedVtDetails
+                                                //     .DRIVERNAME
+                                                //     .toUpperCase(),
+                                                style: mobileDetailsYellowBold),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Container(
+                                    height: 1,
+                                    margin: EdgeInsets.all(16.0),
+                                    width: MediaQuery.of(context).size.width /
+                                        1.00,
+                                    color: Color(0xFF11249F),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      top: 0.0,
+                                      bottom: 10.0,
+                                      left: 12.0,
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Row(children: [
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                3.4,
+                                            child: Text("ITN No.",
+                                                style: mobileHeaderFontStyle),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  1.6, // hard coding child width
+                                              child: Container(
+                                                height: 40,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    2.4,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.5),
+                                                    width: 1.0,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          4.0),
+                                                ),
+                                                child: TextField(
+                                                    controller: txtVTNO,
+                                                    textAlign: TextAlign.right,
+                                                    keyboardType:
+                                                        TextInputType.text,
+                                                    textCapitalization:
+                                                        TextCapitalization
+                                                            .characters,
+                                                    decoration: InputDecoration(
+                                                      border: InputBorder.none,
+                                                      hintText: "ITN No.",
+                                                      hintStyle: TextStyle(
+                                                          color: Colors.grey),
+                                                      contentPadding:
+                                                          EdgeInsets.symmetric(
+                                                              vertical: 8,
+                                                              horizontal: 8),
+                                                      isDense: true,
+                                                    ),
+                                                    style: mobileTextFontStyle),
+                                              ),
+                                            ),
+                                          ),
+                                        ]),
+                                        Row(children: [
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                3.4,
+                                            child: Text("Date",
+                                                style: mobileHeaderFontStyle),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2.0, // hard coding child width
+                                              child: Container(
+                                                height: 40,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    2.4,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.5),
+                                                    width: 1.0,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          4.0),
+                                                ),
+                                                child: TextField(
+                                                    // onChanged: (value) =>
+                                                    //     _runFilter(value),
+                                                    controller: dateInput,
+                                                    keyboardType:
+                                                        TextInputType.text,
+                                                    textAlign: TextAlign.right,
+                                                    textCapitalization:
+                                                        TextCapitalization
+                                                            .characters,
+                                                    decoration: InputDecoration(
+                                                      border: InputBorder.none,
+                                                      hintText: "Select Date",
+                                                      hintStyle: TextStyle(
+                                                          color: Colors.grey),
+                                                      contentPadding:
+                                                          EdgeInsets.symmetric(
+                                                              vertical: 8,
+                                                              horizontal: 8),
+                                                      isDense: true,
+                                                    ),
+                                                    style: mobileTextFontStyle),
+                                              ),
+                                            ),
+                                          ),
+                                          GestureDetector(
+                                            child: DatePickerContainerButton(),
+                                            onTap: () async {
+                                              DateTime? pickedDate =
+                                                  await showDatePicker(
+                                                      context: context,
+                                                      initialDate:
+                                                          DateTime.now(),
+                                                      firstDate: DateTime.now(),
+                                                      lastDate: DateTime(2100),
+                                                      builder:
+                                                          (context, child) {
+                                                        return Theme(
+                                                          data:
+                                                              Theme.of(context)
+                                                                  .copyWith(
+                                                            colorScheme:
+                                                                ColorScheme
+                                                                    .light(
+                                                              primary: Color(
+                                                                  0xFF1220BC),
+                                                              // <-- SEE HERE
+                                                              onPrimary:
+                                                                  Colors.white,
+                                                              // <-- SEE HERE
+                                                              onSurface: Color(
+                                                                  0xFF3540E8), // <-- SEE HERE
+                                                            ),
+                                                            textButtonTheme:
+                                                                TextButtonThemeData(
+                                                              style: TextButton
+                                                                  .styleFrom(
+                                                                foregroundColor:
+                                                                    Color(
+                                                                        0xFF3540E8), // button text color
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          child: child!,
+                                                        );
+                                                      });
 
-                                     if (pickedDate != null) {
-                                       print(
-                                           pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-                                       String formattedDate =
-                                       DateFormat('yyyy-MM-dd')
-                                           .format(pickedDate);
+                                              if (pickedDate != null) {
+                                                print(
+                                                    pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                                                String formattedDate =
+                                                    DateFormat('yyyy-MM-dd')
+                                                        .format(pickedDate);
 
-                                       print(
-                                           formattedDate); //formatted date output using intl package =>  2021-03-16
-                                       setState(() {
-                                         selectedSlotDate =
-                                             DateFormat('dd MMM yyyy')
-                                                 .format(pickedDate);
-                                         dateInput.text =
-                                             formattedDate; //set output date to TextField value.
+                                                print(
+                                                    formattedDate); //formatted date output using intl package =>  2021-03-16
+                                                setState(() {
+                                                  selectedSlotDate =
+                                                      DateFormat('dd MMM yyyy')
+                                                          .format(pickedDate);
+                                                  dateInput.text =
+                                                      formattedDate; //set output date to TextField value.
 
-                                         // getSlotsList(); // refesh slots
-                                       });
-                                     }
-                                   },
-                                 )
-                               ]),
-                               Row(children: [
-                                 SizedBox(
-                                   width:
-                                   MediaQuery.of(context).size.width / 3.4,
-                                   child: Text("NOP",
-                                       style: mobileHeaderFontStyle),
-                                 ),
-                                 Padding(
-                                   padding: const EdgeInsets.all(8.0),
-                                   child: SizedBox(
-                                     width: MediaQuery.of(context).size.width /
-                                         1.6, // hard coding child width
-                                     child: Container(
-                                       height: 40,
-                                       width:
-                                       MediaQuery.of(context).size.width /
-                                           2.4,
-                                       decoration: BoxDecoration(
-                                         border: Border.all(
-                                           color: Colors.grey.withOpacity(0.5),
-                                           width: 1.0,
-                                         ),
-                                         borderRadius:
-                                         BorderRadius.circular(4.0),
-                                       ),
-                                       child: TextField(
-                                           controller: txtVTNO,
-                                           textAlign: TextAlign.right,
-                                           keyboardType: TextInputType.text,
-                                           textCapitalization:
-                                           TextCapitalization.characters,
-                                           decoration: InputDecoration(
-                                             border: InputBorder.none,
-                                             hintText: "NoP",
-                                             hintStyle:
-                                             TextStyle(color: Colors.grey),
-                                             contentPadding:
-                                             EdgeInsets.symmetric(
-                                                 vertical: 8,
-                                                 horizontal: 8),
-                                             isDense: true,
-                                           ),
-                                           style: mobileTextFontStyle),
-                                     ),
-                                   ),
-                                 ),
-                               ]),
-                               Row(children: [
-                                 SizedBox(
-                                   width:
-                                   MediaQuery.of(context).size.width / 3.4,
-                                   child: Text("Gr.Wt.(Kgs)",
-                                       style: mobileHeaderFontStyle),
-                                 ),
-                                 Padding(
-                                   padding: const EdgeInsets.all(8.0),
-                                   child: SizedBox(
-                                     width: MediaQuery.of(context).size.width /
-                                         1.6, // hard coding child width
-                                     child: Container(
-                                       height: 40,
-                                       width:
-                                       MediaQuery.of(context).size.width /
-                                           2.4,
-                                       decoration: BoxDecoration(
-                                         border: Border.all(
-                                           color: Colors.grey.withOpacity(0.5),
-                                           width: 1.0,
-                                         ),
-                                         borderRadius:
-                                         BorderRadius.circular(4.0),
-                                       ),
-                                       child: TextField(
-                                           controller: txtVTNO,
-                                           textAlign: TextAlign.right,
-                                           keyboardType: TextInputType.text,
-                                           textCapitalization:
-                                           TextCapitalization.characters,
-                                           decoration: InputDecoration(
-                                             border: InputBorder.none,
-                                             hintText: "Gr.Wt.(Kgs)",
-                                             hintStyle:
-                                             TextStyle(color: Colors.grey),
-                                             contentPadding:
-                                             EdgeInsets.symmetric(
-                                                 vertical: 8,
-                                                 horizontal: 8),
-                                             isDense: true,
-                                           ),
-                                           style: mobileTextFontStyle),
-                                     ),
-                                   ),
-                                 ),
-                               ]),
-                               Row(children: [
-                                 SizedBox(
-                                   width:
-                                   MediaQuery.of(context).size.width / 3.4,
-                                   child: Text("Ch.Wt.(Kgs)",
-                                       style: mobileHeaderFontStyle),
-                                 ),
-                                 Padding(
-                                   padding: const EdgeInsets.all(8.0),
-                                   child: SizedBox(
-                                     width: MediaQuery.of(context).size.width /
-                                         1.6, // hard coding child width
-                                     child: Container(
-                                       height: 40,
-                                       width:
-                                       MediaQuery.of(context).size.width /
-                                           2.4,
-                                       decoration: BoxDecoration(
-                                         border: Border.all(
-                                           color: Colors.grey.withOpacity(0.5),
-                                           width: 1.0,
-                                         ),
-                                         borderRadius:
-                                         BorderRadius.circular(4.0),
-                                       ),
-                                       child: TextField(
-                                           controller: txtVTNO,
-                                           textAlign: TextAlign.right,
-                                           keyboardType: TextInputType.text,
-                                           textCapitalization:
-                                           TextCapitalization.characters,
-                                           decoration: InputDecoration(
-                                             border: InputBorder.none,
-                                             hintText: "Ch.Wt.(Kgs)",
-                                             hintStyle:
-                                             TextStyle(color: Colors.grey),
-                                             contentPadding:
-                                             EdgeInsets.symmetric(
-                                                 vertical: 8,
-                                                 horizontal: 8),
-                                             isDense: true,
-                                           ),
-                                           style: mobileTextFontStyle),
-                                     ),
-                                   ),
-                                 ),
-                               ]),
-                               Row(children: [
-                                 SizedBox(
-                                   width:
-                                   MediaQuery.of(context).size.width / 3.4,
-                                   child: Text("Exporter Name",
-                                       style: mobileHeaderFontStyle),
-                                 ),
-                                 Padding(
-                                   padding: const EdgeInsets.all(8.0),
-                                   child: SizedBox(
-                                     width: MediaQuery.of(context).size.width /
-                                         1.6, // hard coding child width
-                                     child: Container(
-                                       height: 40,
-                                       width:
-                                       MediaQuery.of(context).size.width /
-                                           2.4,
-                                       decoration: BoxDecoration(
-                                         border: Border.all(
-                                           color: Colors.grey.withOpacity(0.5),
-                                           width: 1.0,
-                                         ),
-                                         borderRadius:
-                                         BorderRadius.circular(4.0),
-                                       ),
-                                       child: TextField(
-                                           controller: txtVTNO,
-                                           textAlign: TextAlign.right,
-                                           keyboardType: TextInputType.text,
-                                           textCapitalization:
-                                           TextCapitalization.characters,
-                                           decoration: InputDecoration(
-                                             border: InputBorder.none,
-                                             hintText: "Exporter Name",
-                                             hintStyle:
-                                             TextStyle(color: Colors.grey),
-                                             contentPadding:
-                                             EdgeInsets.symmetric(
-                                                 vertical: 8,
-                                                 horizontal: 8),
-                                             isDense: true,
-                                           ),
-                                           style: mobileTextFontStyle),
-                                     ),
-                                   ),
-                                 ),
-                               ]),
-                               SizedBox(
-                                 height: 10,
-                               ),
-                             ],
-                           ),
-                         ),
-                         Padding(
-                           padding: EdgeInsets.all(10.0),
-                           child: Row(
-                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                             crossAxisAlignment: CrossAxisAlignment.start,
-                             children: [
-                               ElevatedButton(
-                                 onPressed: () {},
-                                 style: ButtonStyle(
-                                   foregroundColor: MaterialStateProperty.all(
-                                       const Color.fromARGB(255, 1, 36, 159)),
-                                   backgroundColor: MaterialStateProperty.all(
-                                       const Color.fromARGB(
-                                           255, 255, 255, 255)),
-                                   shape: MaterialStateProperty.all<
-                                       RoundedRectangleBorder>(
-                                     RoundedRectangleBorder(
-                                       borderRadius: BorderRadius.circular(10),
-                                       side: const BorderSide(
-                                           color: Color(0xFF11249F)),
-                                     ),
-                                   ),
-                                 ),
-                                 child: SizedBox(
-                                   width:
-                                   MediaQuery.of(context).size.width / 2.8,
-                                   height: MediaQuery.of(context).size.width /
-                                       10.8,
-                                   child: Center(
-                                     child: const Text(
-                                       "Back",
-                                       style: TextStyle(fontSize: 18),
-                                     ),
-                                   ),
-                                 ),
-                               ),
-                               // Container(
-                               //   height:MediaQuery.of(context).size.width /
-                               //       10.8,
-                               //   width: MediaQuery.of(context).size.width /
-                               //      2.8, //65.0,
-                               //   decoration: BoxDecoration(
-                               //     borderRadius: BorderRadius.circular(10),
-                               //     gradient: LinearGradient(
-                               //       begin: Alignment.center,
-                               //       end: Alignment.topCenter,
-                               //       colors: [
-                               //         Color(0xFF1220BC),
-                               //         Color(0xFF3540E8),
-                               //       ],
-                               //     ),
-                               //   ),
-                               //   child: ElevatedButton(
-                               //     onPressed: () {},
-                               //     style: ElevatedButton.styleFrom(
-                               //         backgroundColor: Colors.transparent,
-                               //         shadowColor: Colors.transparent),
-                               //     child: Text('Save'),
-                               //   ),
-                               // ),
-                               ElevatedButton(
-                                 onPressed: () {},
-                                 style: ButtonStyle(
-                                   foregroundColor: MaterialStateProperty.all(
-                                       const Color.fromARGB(
-                                           255, 255, 255, 255)),
-                                   backgroundColor: MaterialStateProperty.all(
-                                       const Color.fromARGB(255, 1, 36, 159)),
-                                   shape: MaterialStateProperty.all<
-                                       RoundedRectangleBorder>(
-                                     RoundedRectangleBorder(
-                                       borderRadius:
-                                       BorderRadius.circular(10.0),
-                                     ),
-                                   ),
-                                 ),
-                                 child: SizedBox(
-                                   width:
-                                   MediaQuery.of(context).size.width / 2.8,
-                                   height: MediaQuery.of(context).size.width /
-                                       10.8,
-                                   child: Center(
-                                     child: const Text(
-                                       "Save",
-                                       style: TextStyle(fontSize: 18),
-                                     ),
-                                   ),
-                                 ),
-                               ),
-                             ],
-                           ),
-                         ),
-                         // if (!widget.isExport)
-                         //   SizedBox(
-                         //       height:
-                         //       useMobileLayout ? 5 : 40),
-                         // if (!widget.isExport)
-                         //   Text(
-                         //     "Shipment Details",
-                         //     textAlign: TextAlign.start,
-                         //     style: useMobileLayout
-                         //         ? mobileHeaderFontStyle
-                         //         : TextStyle(
-                         //       fontSize: 24,
-                         //       fontWeight:
-                         //       FontWeight.normal,
-                         //       color: Color(0xFF11249F),
-                         //     ),
-                         //   ),
-                         // if (!widget.isExport)
-                         //   SizedBox(
-                         //       height:
-                         //       useMobileLayout ? 5 : 40),
-                         // for (DockInOutVTDetails dvd
-                         // in dockInOutDets)
-                         //   Card(
-                         //     child: Padding(
-                         //       padding:
-                         //       const EdgeInsets.all(8.0),
-                         //       child: Column(
-                         //         children: [
-                         //           Row(
-                         //             mainAxisAlignment:
-                         //             MainAxisAlignment
-                         //                 .start,
-                         //             crossAxisAlignment:
-                         //             CrossAxisAlignment
-                         //                 .start,
-                         //             children: [
-                         //               SizedBox(
-                         //                 width: MediaQuery.of(
-                         //                     context)
-                         //                     .size
-                         //                     .width /
-                         //                     2.2,
-                         //                 child: Container(
-                         //                   height: 30,
-                         //                   color: Colors.yellow
-                         //                       .shade300,
-                         //                   child: Center(
-                         //                     child: Text(
-                         //                         'AWB No.',
-                         //                         style:
-                         //                         mobileYellowTextFontStyleBold),
-                         //                   ),
-                         //                 ),
-                         //               ),
-                         //               SizedBox(width: 3),
-                         //               SizedBox(
-                         //                 width: MediaQuery.of(
-                         //                     context)
-                         //                     .size
-                         //                     .width /
-                         //                     2.3,
-                         //                 child: Container(
-                         //                   height: 30,
-                         //                   color: Colors.yellow
-                         //                       .shade300,
-                         //                   child: Center(
-                         //                     child: Text(
-                         //                         'HAWB No.',
-                         //                         style:
-                         //                         mobileYellowTextFontStyleBold),
-                         //                   ),
-                         //                 ),
-                         //               ),
-                         //             ],
-                         //           ),
-                         //           Row(
-                         //             mainAxisAlignment:
-                         //             MainAxisAlignment
-                         //                 .start,
-                         //             crossAxisAlignment:
-                         //             CrossAxisAlignment
-                         //                 .start,
-                         //             children: [
-                         //               SizedBox(
-                         //                 width: MediaQuery.of(
-                         //                     context)
-                         //                     .size
-                         //                     .width /
-                         //                     2.2,
-                         //                 child: Container(
-                         //                   height: 30,
-                         //                   color: Colors.yellow
-                         //                       .shade100,
-                         //                   child: Center(
-                         //                     child: Text(
-                         //                         dvd.AirlinePrefix +
-                         //                             "-" +
-                         //                             dvd
-                         //                                 .MAWBNumber,
-                         //                         style:
-                         //                         mobileDetailsYellowBold),
-                         //                   ),
-                         //                 ),
-                         //               ),
-                         //               SizedBox(width: 3),
-                         //               SizedBox(
-                         //                 width: MediaQuery.of(
-                         //                     context)
-                         //                     .size
-                         //                     .width /
-                         //                     2.3,
-                         //                 child: Container(
-                         //                   height: 30,
-                         //                   color: Colors.yellow
-                         //                       .shade100,
-                         //                   child: Center(
-                         //                     child: Text(
-                         //                         dvd
-                         //                             .HAWBNumber,
-                         //                         style:
-                         //                         mobileDetailsYellowBold),
-                         //                   ),
-                         //                 ),
-                         //               ),
-                         //             ],
-                         //           ),
-                         //
-                         //           // SizedBox(
-                         //           //     height: useMobileLayout ? 10 : 20),
-                         //
-                         //           Row(
-                         //             mainAxisAlignment:
-                         //             MainAxisAlignment
-                         //                 .start,
-                         //             crossAxisAlignment:
-                         //             CrossAxisAlignment
-                         //                 .start,
-                         //             children: [
-                         //               SizedBox(
-                         //                 width: MediaQuery.of(
-                         //                     context)
-                         //                     .size
-                         //                     .width /
-                         //                     2.6,
-                         //                 child: Container(
-                         //                   height: 30,
-                         //                   color: Colors.yellow
-                         //                       .shade300,
-                         //                   child: Center(
-                         //                     child: Text(
-                         //                         'Flt Arr',
-                         //                         style:
-                         //                         mobileYellowTextFontStyleBold),
-                         //                   ),
-                         //                 ),
-                         //               ),
-                         //               SizedBox(width: 2),
-                         //               SizedBox(
-                         //                 width: MediaQuery.of(
-                         //                     context)
-                         //                     .size
-                         //                     .width /
-                         //                     4,
-                         //                 child: Container(
-                         //                   height: 30,
-                         //                   color: Colors.yellow
-                         //                       .shade300,
-                         //                   child: Center(
-                         //                     child: Text('CRN',
-                         //                         style:
-                         //                         mobileYellowTextFontStyleBold),
-                         //                   ),
-                         //                 ),
-                         //               ),
-                         //               SizedBox(width: 2),
-                         //               SizedBox(
-                         //                 width: MediaQuery.of(
-                         //                     context)
-                         //                     .size
-                         //                     .width /
-                         //                     4,
-                         //                 child: Container(
-                         //                   height: 30,
-                         //                   color: Colors.yellow
-                         //                       .shade300,
-                         //                   child: Center(
-                         //                     child: Text(
-                         //                         'Pmt Cnf.',
-                         //                         style:
-                         //                         mobileYellowTextFontStyleBold),
-                         //                   ),
-                         //                 ),
-                         //               ),
-                         //             ],
-                         //           ),
-                         //           Row(
-                         //             mainAxisAlignment:
-                         //             MainAxisAlignment
-                         //                 .start,
-                         //             crossAxisAlignment:
-                         //             CrossAxisAlignment
-                         //                 .start,
-                         //             children: [
-                         //               SizedBox(
-                         //                 width: MediaQuery.of(
-                         //                     context)
-                         //                     .size
-                         //                     .width /
-                         //                     2.6,
-                         //                 child: Container(
-                         //                   height: 30,
-                         //                   color: Colors.yellow
-                         //                       .shade100,
-                         //                   child: Center(
-                         //                       child: Text(
-                         //                           dvd.FlightArrivalStatus ==
-                         //                               ""
-                         //                               ? ""
-                         //                               : dvd.FlightArrivalStatus.toString().substring(
-                         //                               0,
-                         //                               12), //dvd.FlightArrivalStatus,
-                         //                           style:
-                         //                           mobileDetailsYellowBold)
-                         //
-                         //                     //       dvd.FlightArrivalStatus ==
-                         //                     //     false
-                         //                     // ? Text(" -- ",
-                         //                     //     style:
-                         //                     //         mobileDetailsYellowBold)
-                         //                     // : Icon(
-                         //                     //     Icons
-                         //                     //         .task_alt,
-                         //                     //     size: 28,
-                         //                     //     color: Colors
-                         //                     //         .green,
-                         //                     //   ),
-                         //                   ),
-                         //                 ),
-                         //               ),
-                         //               SizedBox(width: 2),
-                         //               SizedBox(
-                         //                 width: MediaQuery.of(
-                         //                     context)
-                         //                     .size
-                         //                     .width /
-                         //                     4,
-                         //                 child: Container(
-                         //                   height: 30,
-                         //                   color: Colors.yellow
-                         //                       .shade100,
-                         //                   child: Center(
-                         //                       child: dvd.CustomReleaseNumber ==
-                         //                           ""
-                         //                           ? Text(
-                         //                           " -- ",
-                         //                           style:
-                         //                           mobileDetailsYellowBold)
-                         //                           : Icon(
-                         //                         Icons
-                         //                             .task_alt,
-                         //                         size:
-                         //                         28,
-                         //                         color: Colors
-                         //                             .green,
-                         //                       )),
-                         //                 ),
-                         //               ),
-                         //               SizedBox(width: 2),
-                         //               SizedBox(
-                         //                 width: MediaQuery.of(
-                         //                     context)
-                         //                     .size
-                         //                     .width /
-                         //                     4,
-                         //                 child: Container(
-                         //                   height: 30,
-                         //                   color: Colors.yellow
-                         //                       .shade100,
-                         //                   child: Center(
-                         //                       child: dvd.Payment ==
-                         //                           ""
-                         //                           ? Text(
-                         //                           " -- ",
-                         //                           style:
-                         //                           mobileDetailsYellowBold)
-                         //                           : Icon(
-                         //                         Icons
-                         //                             .task_alt,
-                         //                         size:
-                         //                         28,
-                         //                         color: Colors
-                         //                             .green,
-                         //                       )),
-                         //                 ),
-                         //               ),
-                         //             ],
-                         //           ),
-                         //         ],
-                         //       ),
-                         //     ),
-                         //   )
-                       ],
-                     ),
-                   ),
-             )
-                 : SizedBox(
-               child:  isLoading
-                   ? Center(
-                   child: Container(
-                       height: 100,
-                       width: 100,
-                       child: CircularProgressIndicator()))
-                   : SingleChildScrollView(
-                     child: Column(
-                       mainAxisAlignment: MainAxisAlignment.start,
-                       crossAxisAlignment: CrossAxisAlignment.start,
-                       children: [
-                         Row(
-                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                           crossAxisAlignment: CrossAxisAlignment.start,
-                           children: [
-                             SizedBox(
-                               width: MediaQuery.of(context).size.width / 2.2,
-                               child: Container(
-                                 height: 50,
-                                 color: Colors.yellow.shade300,
-                                 child: Center(
-                                   child: Text('MAWB No.',
-                                       style: iPadYellowTextFontStyleNormal),
-                                 ),
-                               ),
-                             ),
-                             SizedBox(
-                               width: MediaQuery.of(context).size.width / 2.2,
-                               child: Container(
-                                 height: 50,
-                                 color: Colors.yellow.shade300,
-                                 child: Center(
-                                   child: Text('NOP',
-                                       style: iPadYellowTextFontStyleNormal),
-                                 ),
-                               ),
-                             ),
-                           ],
-                         ),
-                         Row(
-                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                           crossAxisAlignment: CrossAxisAlignment.start,
-                           children: [
-                             SizedBox(
-                               width: MediaQuery.of(context).size.width / 2.2,
-                               child: Container(
-                                 height: 50,
-                                 color: Colors.yellow.shade100,
-                                 child: Center(
-                                   child: Text(
-                                       "${widget.docUploadDetails.MAWBNo}",
-                                       style: iPadYellowTextFontStyleBold),
-                                 ),
-                               ),
-                             ),
-                             SizedBox(
-                               width: MediaQuery.of(context).size.width / 2.2,
-                               child: Container(
-                                 height: 50,
-                                 color: Colors.yellow.shade100,
-                                 child: Center(
-                                   child:
-                                   Text("${widget.docUploadDetails.PCS}",
-                                       // widget
-                                       //     .selectedVtDetails
-                                       //     .DRIVERNAME
-                                       //     .toUpperCase(),
-                                       style: iPadYellowTextFontStyleBold),
-                                 ),
-                               ),
-                             ),
-                           ],
-                         ),
-                         Row(
-                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                           crossAxisAlignment: CrossAxisAlignment.start,
-                           children: [
-                             SizedBox(
-                               width: MediaQuery.of(context).size.width / 2.2,
-                               child: Container(
-                                 height: 50,
-                                 color: Colors.yellow.shade300,
-                                 child: Center(
-                                   child: Text('Gr.Wt.(Kgs)',
-                                       style: iPadYellowTextFontStyleNormal),
-                                 ),
-                               ),
-                             ),
-                             SizedBox(
-                               width: MediaQuery.of(context).size.width / 2.2,
-                               child: Container(
-                                 height: 50,
-                                 color: Colors.yellow.shade300,
-                                 child: Center(
-                                   child: Text('Ch.Wt.(Kgs)',
-                                       style: iPadYellowTextFontStyleNormal),
-                                 ),
-                               ),
-                             ),
-                           ],
-                         ),
-                         Row(
-                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                           crossAxisAlignment: CrossAxisAlignment.start,
-                           children: [
-                             SizedBox(
-                               width: MediaQuery.of(context).size.width / 2.2,
-                               child: Container(
-                                 height: 50,
-                                 color: Colors.yellow.shade100,
-                                 child: Center(
-                                   child: Text("128.00",
-                                       style: iPadYellowTextFontStyleBold),
-                                 ),
-                               ),
-                             ),
-                             SizedBox(
-                               width: MediaQuery.of(context).size.width / 2.2,
-                               child: Container(
-                                 height: 50,
-                                 color: Colors.yellow.shade100,
-                                 child: Center(
-                                   child: Text("128.00",
-                                       // widget
-                                       //     .selectedVtDetails
-                                       //     .DRIVERNAME
-                                       //     .toUpperCase(),
-                                       style: iPadYellowTextFontStyleBold),
-                                 ),
-                               ),
-                             ),
-                           ],
-                         ),
-                         Container(
-                           height: 1,
-                           margin: EdgeInsets.all(16.0),
-                           width: MediaQuery.of(context).size.width / 1.00,
-                           color: Color(0xFF11249F),
-                         ),
-                         Padding(
-                           padding: const EdgeInsets.only(
-                             top: 0.0,
-                             bottom: 10.0,
-                             left: 18.0,
-                           ),
-                           child: Column(
-                             children: [
-                               Row(children: [
-                                 SizedBox(
-                                   width:
-                                   MediaQuery.of(context).size.width / 3.0,
-                                   child: Text("ITN No.",
-                                       style: iPadTextFontStyleNormalBlue),
-                                 ),
-                                 Padding(
-                                   padding: const EdgeInsets.all(8.0),
-                                   child: SizedBox(
-                                     width: MediaQuery.of(context).size.width /
-                                         1.8, // hard coding child width
-                                     child: Container(
-                                       height: 46,
-                                       width:
-                                       MediaQuery.of(context).size.width /
-                                           2.4,
-                                       decoration: BoxDecoration(
-                                         border: Border.all(
-                                           color: Colors.grey.withOpacity(0.5),
-                                           width: 1.0,
-                                         ),
-                                         borderRadius:
-                                         BorderRadius.circular(4.0),
-                                       ),
-                                       child: TextField(
-                                           controller: txtVTNO,
-                                           textAlign: TextAlign.right,
-                                           keyboardType: TextInputType.text,
-                                           textCapitalization:
-                                           TextCapitalization.characters,
-                                           decoration: InputDecoration(
-                                             border: InputBorder.none,
-                                             hintText: "ITN No.",
+                                                  // getSlotsList(); // refesh slots
+                                                });
+                                              }
+                                            },
+                                          )
+                                        ]),
+                                        Row(children: [
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                3.4,
+                                            child: Text("NOP",
+                                                style: mobileHeaderFontStyle),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  1.6, // hard coding child width
+                                              child: Container(
+                                                height: 40,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    2.4,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.5),
+                                                    width: 1.0,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          4.0),
+                                                ),
+                                                child: TextField(
+                                                    controller: txtVTNO,
+                                                    textAlign: TextAlign.right,
+                                                    keyboardType:
+                                                        TextInputType.text,
+                                                    textCapitalization:
+                                                        TextCapitalization
+                                                            .characters,
+                                                    decoration: InputDecoration(
+                                                      border: InputBorder.none,
+                                                      hintText: "NoP",
+                                                      hintStyle: TextStyle(
+                                                          color: Colors.grey),
+                                                      contentPadding:
+                                                          EdgeInsets.symmetric(
+                                                              vertical: 8,
+                                                              horizontal: 8),
+                                                      isDense: true,
+                                                    ),
+                                                    style: mobileTextFontStyle),
+                                              ),
+                                            ),
+                                          ),
+                                        ]),
+                                        Row(children: [
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                3.4,
+                                            child: Text("Gr.Wt.(Kgs)",
+                                                style: mobileHeaderFontStyle),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  1.6, // hard coding child width
+                                              child: Container(
+                                                height: 40,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    2.4,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.5),
+                                                    width: 1.0,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          4.0),
+                                                ),
+                                                child: TextField(
+                                                    controller: txtVTNO,
+                                                    textAlign: TextAlign.right,
+                                                    keyboardType:
+                                                        TextInputType.text,
+                                                    textCapitalization:
+                                                        TextCapitalization
+                                                            .characters,
+                                                    decoration: InputDecoration(
+                                                      border: InputBorder.none,
+                                                      hintText: "Gr.Wt.(Kgs)",
+                                                      hintStyle: TextStyle(
+                                                          color: Colors.grey),
+                                                      contentPadding:
+                                                          EdgeInsets.symmetric(
+                                                              vertical: 8,
+                                                              horizontal: 8),
+                                                      isDense: true,
+                                                    ),
+                                                    style: mobileTextFontStyle),
+                                              ),
+                                            ),
+                                          ),
+                                        ]),
+                                        Row(children: [
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                3.4,
+                                            child: Text("Ch.Wt.(Kgs)",
+                                                style: mobileHeaderFontStyle),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  1.6, // hard coding child width
+                                              child: Container(
+                                                height: 40,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    2.4,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.5),
+                                                    width: 1.0,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          4.0),
+                                                ),
+                                                child: TextField(
+                                                    controller: txtVTNO,
+                                                    textAlign: TextAlign.right,
+                                                    keyboardType:
+                                                        TextInputType.text,
+                                                    textCapitalization:
+                                                        TextCapitalization
+                                                            .characters,
+                                                    decoration: InputDecoration(
+                                                      border: InputBorder.none,
+                                                      hintText: "Ch.Wt.(Kgs)",
+                                                      hintStyle: TextStyle(
+                                                          color: Colors.grey),
+                                                      contentPadding:
+                                                          EdgeInsets.symmetric(
+                                                              vertical: 8,
+                                                              horizontal: 8),
+                                                      isDense: true,
+                                                    ),
+                                                    style: mobileTextFontStyle),
+                                              ),
+                                            ),
+                                          ),
+                                        ]),
+                                        Row(children: [
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                3.4,
+                                            child: Text("Exporter Name",
+                                                style: mobileHeaderFontStyle),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  1.6, // hard coding child width
+                                              child: Container(
+                                                height: 40,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    2.4,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.5),
+                                                    width: 1.0,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          4.0),
+                                                ),
+                                                child: TextField(
+                                                    controller: txtVTNO,
+                                                    textAlign: TextAlign.right,
+                                                    keyboardType:
+                                                        TextInputType.text,
+                                                    textCapitalization:
+                                                        TextCapitalization
+                                                            .characters,
+                                                    decoration: InputDecoration(
+                                                      border: InputBorder.none,
+                                                      hintText: "Exporter Name",
+                                                      hintStyle: TextStyle(
+                                                          color: Colors.grey),
+                                                      contentPadding:
+                                                          EdgeInsets.symmetric(
+                                                              vertical: 8,
+                                                              horizontal: 8),
+                                                      isDense: true,
+                                                    ),
+                                                    style: mobileTextFontStyle),
+                                              ),
+                                            ),
+                                          ),
+                                        ]),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.all(10.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        ElevatedButton(
+                                          onPressed: () {},
+                                          style: ButtonStyle(
+                                            foregroundColor:
+                                                MaterialStateProperty.all(
+                                                    const Color.fromARGB(
+                                                        255, 1, 36, 159)),
+                                            backgroundColor:
+                                                MaterialStateProperty.all(
+                                                    const Color.fromARGB(
+                                                        255, 255, 255, 255)),
+                                            shape: MaterialStateProperty.all<
+                                                RoundedRectangleBorder>(
+                                              RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                side: const BorderSide(
+                                                    color: Color(0xFF11249F)),
+                                              ),
+                                            ),
+                                          ),
+                                          child: SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                2.8,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                10.8,
+                                            child: Center(
+                                              child: const Text(
+                                                "Back",
+                                                style: TextStyle(fontSize: 18),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        // Container(
+                                        //   height:MediaQuery.of(context).size.width /
+                                        //       10.8,
+                                        //   width: MediaQuery.of(context).size.width /
+                                        //      2.8, //65.0,
+                                        //   decoration: BoxDecoration(
+                                        //     borderRadius: BorderRadius.circular(10),
+                                        //     gradient: LinearGradient(
+                                        //       begin: Alignment.center,
+                                        //       end: Alignment.topCenter,
+                                        //       colors: [
+                                        //         Color(0xFF1220BC),
+                                        //         Color(0xFF3540E8),
+                                        //       ],
+                                        //     ),
+                                        //   ),
+                                        //   child: ElevatedButton(
+                                        //     onPressed: () {},
+                                        //     style: ElevatedButton.styleFrom(
+                                        //         backgroundColor: Colors.transparent,
+                                        //         shadowColor: Colors.transparent),
+                                        //     child: Text('Save'),
+                                        //   ),
+                                        // ),
+                                        ElevatedButton(
+                                          onPressed: () {},
+                                          style: ButtonStyle(
+                                            foregroundColor:
+                                                MaterialStateProperty.all(
+                                                    const Color.fromARGB(
+                                                        255, 255, 255, 255)),
+                                            backgroundColor:
+                                                MaterialStateProperty.all(
+                                                    const Color.fromARGB(
+                                                        255, 1, 36, 159)),
+                                            shape: MaterialStateProperty.all<
+                                                RoundedRectangleBorder>(
+                                              RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                              ),
+                                            ),
+                                          ),
+                                          child: SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                2.8,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                10.8,
+                                            child: Center(
+                                              child: const Text(
+                                                "Save",
+                                                style: TextStyle(fontSize: 18),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  // if (!widget.isExport)
+                                  //   SizedBox(
+                                  //       height:
+                                  //       useMobileLayout ? 5 : 40),
+                                  // if (!widget.isExport)
+                                  //   Text(
+                                  //     "Shipment Details",
+                                  //     textAlign: TextAlign.start,
+                                  //     style: useMobileLayout
+                                  //         ? mobileHeaderFontStyle
+                                  //         : TextStyle(
+                                  //       fontSize: 24,
+                                  //       fontWeight:
+                                  //       FontWeight.normal,
+                                  //       color: Color(0xFF11249F),
+                                  //     ),
+                                  //   ),
+                                  // if (!widget.isExport)
+                                  //   SizedBox(
+                                  //       height:
+                                  //       useMobileLayout ? 5 : 40),
+                                  // for (DockInOutVTDetails dvd
+                                  // in dockInOutDets)
+                                  //   Card(
+                                  //     child: Padding(
+                                  //       padding:
+                                  //       const EdgeInsets.all(8.0),
+                                  //       child: Column(
+                                  //         children: [
+                                  //           Row(
+                                  //             mainAxisAlignment:
+                                  //             MainAxisAlignment
+                                  //                 .start,
+                                  //             crossAxisAlignment:
+                                  //             CrossAxisAlignment
+                                  //                 .start,
+                                  //             children: [
+                                  //               SizedBox(
+                                  //                 width: MediaQuery.of(
+                                  //                     context)
+                                  //                     .size
+                                  //                     .width /
+                                  //                     2.2,
+                                  //                 child: Container(
+                                  //                   height: 30,
+                                  //                   color: Colors.yellow
+                                  //                       .shade300,
+                                  //                   child: Center(
+                                  //                     child: Text(
+                                  //                         'AWB No.',
+                                  //                         style:
+                                  //                         mobileYellowTextFontStyleBold),
+                                  //                   ),
+                                  //                 ),
+                                  //               ),
+                                  //               SizedBox(width: 3),
+                                  //               SizedBox(
+                                  //                 width: MediaQuery.of(
+                                  //                     context)
+                                  //                     .size
+                                  //                     .width /
+                                  //                     2.3,
+                                  //                 child: Container(
+                                  //                   height: 30,
+                                  //                   color: Colors.yellow
+                                  //                       .shade300,
+                                  //                   child: Center(
+                                  //                     child: Text(
+                                  //                         'HAWB No.',
+                                  //                         style:
+                                  //                         mobileYellowTextFontStyleBold),
+                                  //                   ),
+                                  //                 ),
+                                  //               ),
+                                  //             ],
+                                  //           ),
+                                  //           Row(
+                                  //             mainAxisAlignment:
+                                  //             MainAxisAlignment
+                                  //                 .start,
+                                  //             crossAxisAlignment:
+                                  //             CrossAxisAlignment
+                                  //                 .start,
+                                  //             children: [
+                                  //               SizedBox(
+                                  //                 width: MediaQuery.of(
+                                  //                     context)
+                                  //                     .size
+                                  //                     .width /
+                                  //                     2.2,
+                                  //                 child: Container(
+                                  //                   height: 30,
+                                  //                   color: Colors.yellow
+                                  //                       .shade100,
+                                  //                   child: Center(
+                                  //                     child: Text(
+                                  //                         dvd.AirlinePrefix +
+                                  //                             "-" +
+                                  //                             dvd
+                                  //                                 .MAWBNumber,
+                                  //                         style:
+                                  //                         mobileDetailsYellowBold),
+                                  //                   ),
+                                  //                 ),
+                                  //               ),
+                                  //               SizedBox(width: 3),
+                                  //               SizedBox(
+                                  //                 width: MediaQuery.of(
+                                  //                     context)
+                                  //                     .size
+                                  //                     .width /
+                                  //                     2.3,
+                                  //                 child: Container(
+                                  //                   height: 30,
+                                  //                   color: Colors.yellow
+                                  //                       .shade100,
+                                  //                   child: Center(
+                                  //                     child: Text(
+                                  //                         dvd
+                                  //                             .HAWBNumber,
+                                  //                         style:
+                                  //                         mobileDetailsYellowBold),
+                                  //                   ),
+                                  //                 ),
+                                  //               ),
+                                  //             ],
+                                  //           ),
+                                  //
+                                  //           // SizedBox(
+                                  //           //     height: useMobileLayout ? 10 : 20),
+                                  //
+                                  //           Row(
+                                  //             mainAxisAlignment:
+                                  //             MainAxisAlignment
+                                  //                 .start,
+                                  //             crossAxisAlignment:
+                                  //             CrossAxisAlignment
+                                  //                 .start,
+                                  //             children: [
+                                  //               SizedBox(
+                                  //                 width: MediaQuery.of(
+                                  //                     context)
+                                  //                     .size
+                                  //                     .width /
+                                  //                     2.6,
+                                  //                 child: Container(
+                                  //                   height: 30,
+                                  //                   color: Colors.yellow
+                                  //                       .shade300,
+                                  //                   child: Center(
+                                  //                     child: Text(
+                                  //                         'Flt Arr',
+                                  //                         style:
+                                  //                         mobileYellowTextFontStyleBold),
+                                  //                   ),
+                                  //                 ),
+                                  //               ),
+                                  //               SizedBox(width: 2),
+                                  //               SizedBox(
+                                  //                 width: MediaQuery.of(
+                                  //                     context)
+                                  //                     .size
+                                  //                     .width /
+                                  //                     4,
+                                  //                 child: Container(
+                                  //                   height: 30,
+                                  //                   color: Colors.yellow
+                                  //                       .shade300,
+                                  //                   child: Center(
+                                  //                     child: Text('CRN',
+                                  //                         style:
+                                  //                         mobileYellowTextFontStyleBold),
+                                  //                   ),
+                                  //                 ),
+                                  //               ),
+                                  //               SizedBox(width: 2),
+                                  //               SizedBox(
+                                  //                 width: MediaQuery.of(
+                                  //                     context)
+                                  //                     .size
+                                  //                     .width /
+                                  //                     4,
+                                  //                 child: Container(
+                                  //                   height: 30,
+                                  //                   color: Colors.yellow
+                                  //                       .shade300,
+                                  //                   child: Center(
+                                  //                     child: Text(
+                                  //                         'Pmt Cnf.',
+                                  //                         style:
+                                  //                         mobileYellowTextFontStyleBold),
+                                  //                   ),
+                                  //                 ),
+                                  //               ),
+                                  //             ],
+                                  //           ),
+                                  //           Row(
+                                  //             mainAxisAlignment:
+                                  //             MainAxisAlignment
+                                  //                 .start,
+                                  //             crossAxisAlignment:
+                                  //             CrossAxisAlignment
+                                  //                 .start,
+                                  //             children: [
+                                  //               SizedBox(
+                                  //                 width: MediaQuery.of(
+                                  //                     context)
+                                  //                     .size
+                                  //                     .width /
+                                  //                     2.6,
+                                  //                 child: Container(
+                                  //                   height: 30,
+                                  //                   color: Colors.yellow
+                                  //                       .shade100,
+                                  //                   child: Center(
+                                  //                       child: Text(
+                                  //                           dvd.FlightArrivalStatus ==
+                                  //                               ""
+                                  //                               ? ""
+                                  //                               : dvd.FlightArrivalStatus.toString().substring(
+                                  //                               0,
+                                  //                               12), //dvd.FlightArrivalStatus,
+                                  //                           style:
+                                  //                           mobileDetailsYellowBold)
+                                  //
+                                  //                     //       dvd.FlightArrivalStatus ==
+                                  //                     //     false
+                                  //                     // ? Text(" -- ",
+                                  //                     //     style:
+                                  //                     //         mobileDetailsYellowBold)
+                                  //                     // : Icon(
+                                  //                     //     Icons
+                                  //                     //         .task_alt,
+                                  //                     //     size: 28,
+                                  //                     //     color: Colors
+                                  //                     //         .green,
+                                  //                     //   ),
+                                  //                   ),
+                                  //                 ),
+                                  //               ),
+                                  //               SizedBox(width: 2),
+                                  //               SizedBox(
+                                  //                 width: MediaQuery.of(
+                                  //                     context)
+                                  //                     .size
+                                  //                     .width /
+                                  //                     4,
+                                  //                 child: Container(
+                                  //                   height: 30,
+                                  //                   color: Colors.yellow
+                                  //                       .shade100,
+                                  //                   child: Center(
+                                  //                       child: dvd.CustomReleaseNumber ==
+                                  //                           ""
+                                  //                           ? Text(
+                                  //                           " -- ",
+                                  //                           style:
+                                  //                           mobileDetailsYellowBold)
+                                  //                           : Icon(
+                                  //                         Icons
+                                  //                             .task_alt,
+                                  //                         size:
+                                  //                         28,
+                                  //                         color: Colors
+                                  //                             .green,
+                                  //                       )),
+                                  //                 ),
+                                  //               ),
+                                  //               SizedBox(width: 2),
+                                  //               SizedBox(
+                                  //                 width: MediaQuery.of(
+                                  //                     context)
+                                  //                     .size
+                                  //                     .width /
+                                  //                     4,
+                                  //                 child: Container(
+                                  //                   height: 30,
+                                  //                   color: Colors.yellow
+                                  //                       .shade100,
+                                  //                   child: Center(
+                                  //                       child: dvd.Payment ==
+                                  //                           ""
+                                  //                           ? Text(
+                                  //                           " -- ",
+                                  //                           style:
+                                  //                           mobileDetailsYellowBold)
+                                  //                           : Icon(
+                                  //                         Icons
+                                  //                             .task_alt,
+                                  //                         size:
+                                  //                         28,
+                                  //                         color: Colors
+                                  //                             .green,
+                                  //                       )),
+                                  //                 ),
+                                  //               ),
+                                  //             ],
+                                  //           ),
+                                  //         ],
+                                  //       ),
+                                  //     ),
+                                  //   )
+                                ],
+                              ),
+                            ),
+                    )
+                  : SizedBox(
+                      child: isLoading
+                          ? Center(
+                              child: Container(
+                                  height: 100,
+                                  width: 100,
+                                  child: CircularProgressIndicator()))
+                          : SingleChildScrollView(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2.2,
+                                        child: Container(
+                                          height: 50,
+                                          color: Colors.yellow.shade300,
+                                          child: Center(
+                                            child: Text('MAWB No.',
+                                                style:
+                                                    iPadYellowTextFontStyleNormal),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2.2,
+                                        child: Container(
+                                          height: 50,
+                                          color: Colors.yellow.shade300,
+                                          child: Center(
+                                            child: Text('NOP',
+                                                style:
+                                                    iPadYellowTextFontStyleNormal),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2.2,
+                                        child: Container(
+                                          height: 50,
+                                          color: Colors.yellow.shade100,
+                                          child: Center(
+                                            child: Text(
+                                                "${widget.docUploadDetails.MAWBNo}",
+                                                style:
+                                                    iPadYellowTextFontStyleBold),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2.2,
+                                        child: Container(
+                                          height: 50,
+                                          color: Colors.yellow.shade100,
+                                          child: Center(
+                                            child: Text(
+                                                "${widget.docUploadDetails.PCS}",
+                                                // widget
+                                                //     .selectedVtDetails
+                                                //     .DRIVERNAME
+                                                //     .toUpperCase(),
+                                                style:
+                                                    iPadYellowTextFontStyleBold),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2.2,
+                                        child: Container(
+                                          height: 50,
+                                          color: Colors.yellow.shade300,
+                                          child: Center(
+                                            child: Text('Gr.Wt.(Kgs)',
+                                                style:
+                                                    iPadYellowTextFontStyleNormal),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2.2,
+                                        child: Container(
+                                          height: 50,
+                                          color: Colors.yellow.shade300,
+                                          child: Center(
+                                            child: Text('Ch.Wt.(Kgs)',
+                                                style:
+                                                    iPadYellowTextFontStyleNormal),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2.2,
+                                        child: Container(
+                                          height: 50,
+                                          color: Colors.yellow.shade100,
+                                          child: Center(
+                                            child: Text("128.00",
+                                                style:
+                                                    iPadYellowTextFontStyleBold),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2.2,
+                                        child: Container(
+                                          height: 50,
+                                          color: Colors.yellow.shade100,
+                                          child: Center(
+                                            child: Text("128.00",
+                                                // widget
+                                                //     .selectedVtDetails
+                                                //     .DRIVERNAME
+                                                //     .toUpperCase(),
+                                                style:
+                                                    iPadYellowTextFontStyleBold),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Container(
+                                    height: 1,
+                                    margin: EdgeInsets.all(16.0),
+                                    width: MediaQuery.of(context).size.width /
+                                        1.00,
+                                    color: Color(0xFF11249F),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      top: 0.0,
+                                      bottom: 10.0,
+                                      left: 18.0,
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Row(children: [
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                3.0,
+                                            child: Text("ITN No.",
+                                                style:
+                                                    iPadTextFontStyleNormalBlue),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  1.8, // hard coding child width
+                                              child: Container(
+                                                height: 46,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    2.4,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.5),
+                                                    width: 1.0,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          4.0),
+                                                ),
+                                                child: TextField(
+                                                    controller: txtVTNO,
+                                                    textAlign: TextAlign.right,
+                                                    keyboardType:
+                                                        TextInputType.text,
+                                                    textCapitalization:
+                                                        TextCapitalization
+                                                            .characters,
+                                                    decoration: InputDecoration(
+                                                      border: InputBorder.none,
+                                                      hintText: "ITN No.",
+                                                      hintStyle: TextStyle(
+                                                          color: Colors.grey),
+                                                      contentPadding:
+                                                          EdgeInsets.symmetric(
+                                                              vertical: 14,
+                                                              horizontal: 8),
+                                                      isDense: true,
+                                                    ),
+                                                    style: mobileTextFontStyle),
+                                              ),
+                                            ),
+                                          ),
+                                        ]),
+                                        Row(children: [
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                3.0,
+                                            child: Text("Date",
+                                                style:
+                                                    iPadTextFontStyleNormalBlue),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2.1, // hard coding child width
+                                              child: Container(
+                                                height: 46,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    2.4,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.5),
+                                                    width: 1.0,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          4.0),
+                                                ),
+                                                child: TextField(
+                                                    // onChanged: (value) =>
+                                                    //     _runFilter(value),
+                                                    controller: dateInput,
+                                                    keyboardType:
+                                                        TextInputType.text,
+                                                    textAlign: TextAlign.right,
+                                                    textCapitalization:
+                                                        TextCapitalization
+                                                            .characters,
+                                                    decoration: InputDecoration(
+                                                      border: InputBorder.none,
+                                                      hintText: "Select Date",
+                                                      hintStyle: TextStyle(
+                                                          color: Colors.grey),
+                                                      contentPadding:
+                                                          EdgeInsets.symmetric(
+                                                              vertical: 12,
+                                                              horizontal: 8),
+                                                      isDense: true,
+                                                    ),
+                                                    style: mobileTextFontStyle),
+                                              ),
+                                            ),
+                                          ),
+                                          GestureDetector(
+                                            child:
+                                                DatePickerContainerButtonIpad(),
+                                            onTap: () async {
+                                              DateTime? pickedDate =
+                                                  await showDatePicker(
+                                                      context: context,
+                                                      initialDate:
+                                                          DateTime.now(),
+                                                      firstDate: DateTime.now(),
+                                                      lastDate: DateTime(2100),
+                                                      builder:
+                                                          (context, child) {
+                                                        return Theme(
+                                                          data:
+                                                              Theme.of(context)
+                                                                  .copyWith(
+                                                            colorScheme:
+                                                                ColorScheme
+                                                                    .light(
+                                                              primary: Color(
+                                                                  0xFF1220BC),
+                                                              // <-- SEE HERE
+                                                              onPrimary:
+                                                                  Colors.white,
+                                                              // <-- SEE HERE
+                                                              onSurface: Color(
+                                                                  0xFF3540E8), // <-- SEE HERE
+                                                            ),
+                                                            textButtonTheme:
+                                                                TextButtonThemeData(
+                                                              style: TextButton
+                                                                  .styleFrom(
+                                                                foregroundColor:
+                                                                    Color(
+                                                                        0xFF3540E8), // button text color
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          child: child!,
+                                                        );
+                                                      });
 
-                                             hintStyle:
-                                             TextStyle(color: Colors.grey),
-                                             contentPadding:
-                                             EdgeInsets.symmetric(
-                                                 vertical: 14,
-                                                 horizontal: 8),
-                                             isDense: true,
-                                           ),
-                                           style: mobileTextFontStyle),
-                                     ),
-                                   ),
-                                 ),
-                               ]),
-                               Row(children: [
-                                 SizedBox(
-                                   width:
-                                   MediaQuery.of(context).size.width / 3.0,
-                                   child: Text("Date",
-                                       style: iPadTextFontStyleNormalBlue),
-                                 ),
-                                 Padding(
-                                   padding: const EdgeInsets.all(8.0),
-                                   child: SizedBox(
-                                     width: MediaQuery.of(context).size.width /
-                                         2.1, // hard coding child width
-                                     child: Container(
-                                       height: 46,
-                                       width:
-                                       MediaQuery.of(context).size.width /
-                                           2.4,
-                                       decoration: BoxDecoration(
-                                         border: Border.all(
-                                           color: Colors.grey.withOpacity(0.5),
-                                           width: 1.0,
-                                         ),
-                                         borderRadius:
-                                         BorderRadius.circular(4.0),
-                                       ),
-                                       child: TextField(
-                                         // onChanged: (value) =>
-                                         //     _runFilter(value),
-                                           controller: dateInput,
-                                           keyboardType: TextInputType.text,
-                                           textAlign: TextAlign.right,
-                                           textCapitalization:
-                                           TextCapitalization.characters,
-                                           decoration: InputDecoration(
-                                             border: InputBorder.none,
-                                             hintText: "Select Date",
-                                             hintStyle:
-                                             TextStyle(color: Colors.grey),
-                                             contentPadding:
-                                             EdgeInsets.symmetric(
-                                                 vertical: 12,
-                                                 horizontal: 8),
-                                             isDense: true,
-                                           ),
-                                           style: mobileTextFontStyle),
-                                     ),
-                                   ),
-                                 ),
-                                 GestureDetector(
-                                   child: DatePickerContainerButtonIpad(),
-                                   onTap: () async {
-                                     DateTime? pickedDate =
-                                     await showDatePicker(
-                                         context: context,
-                                         initialDate: DateTime.now(),
-                                         firstDate: DateTime.now(),
-                                         lastDate: DateTime(2100),
-                                         builder: (context, child) {
-                                           return Theme(
-                                             data: Theme.of(context)
-                                                 .copyWith(
-                                               colorScheme:
-                                               ColorScheme.light(
-                                                 primary:
-                                                 Color(0xFF1220BC),
-                                                 // <-- SEE HERE
-                                                 onPrimary: Colors.white,
-                                                 // <-- SEE HERE
-                                                 onSurface: Color(
-                                                     0xFF3540E8), // <-- SEE HERE
-                                               ),
-                                               textButtonTheme:
-                                               TextButtonThemeData(
-                                                 style:
-                                                 TextButton.styleFrom(
-                                                   foregroundColor: Color(
-                                                       0xFF3540E8), // button text color
-                                                 ),
-                                               ),
-                                             ),
-                                             child: child!,
-                                           );
-                                         });
+                                              if (pickedDate != null) {
+                                                print(
+                                                    pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                                                String formattedDate =
+                                                    DateFormat('yyyy-MM-dd')
+                                                        .format(pickedDate);
 
-                                     if (pickedDate != null) {
-                                       print(
-                                           pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-                                       String formattedDate =
-                                       DateFormat('yyyy-MM-dd')
-                                           .format(pickedDate);
+                                                print(
+                                                    formattedDate); //formatted date output using intl package =>  2021-03-16
+                                                setState(() {
+                                                  selectedSlotDate =
+                                                      DateFormat('dd MMM yyyy')
+                                                          .format(pickedDate);
+                                                  dateInput.text =
+                                                      formattedDate; //set output date to TextField value.
 
-                                       print(
-                                           formattedDate); //formatted date output using intl package =>  2021-03-16
-                                       setState(() {
-                                         selectedSlotDate =
-                                             DateFormat('dd MMM yyyy')
-                                                 .format(pickedDate);
-                                         dateInput.text =
-                                             formattedDate; //set output date to TextField value.
-
-                                         // getSlotsList(); // refesh slots
-                                       });
-                                     }
-                                   },
-                                 )
-                               ]),
-                               Row(children: [
-                                 SizedBox(
-                                   width:
-                                   MediaQuery.of(context).size.width / 3.0,
-                                   child: Text("NOP",
-                                       style: iPadTextFontStyleNormalBlue),
-                                 ),
-                                 Padding(
-                                   padding: const EdgeInsets.all(8.0),
-                                   child: SizedBox(
-                                     width: MediaQuery.of(context).size.width /
-                                         1.8, // hard coding child width
-                                     child: Container(
-                                       height: 46,
-                                       width:
-                                       MediaQuery.of(context).size.width /
-                                           2.4,
-                                       decoration: BoxDecoration(
-                                         border: Border.all(
-                                           color: Colors.grey.withOpacity(0.5),
-                                           width: 1.0,
-                                         ),
-                                         borderRadius:
-                                         BorderRadius.circular(4.0),
-                                       ),
-                                       child: TextField(
-                                           controller: txtVTNO,
-                                           textAlign: TextAlign.right,
-                                           keyboardType: TextInputType.text,
-                                           textCapitalization:
-                                           TextCapitalization.characters,
-                                           decoration: InputDecoration(
-                                             border: InputBorder.none,
-                                             hintText: "NoP",
-                                             hintStyle:
-                                             TextStyle(color: Colors.grey),
-                                             contentPadding:
-                                             EdgeInsets.symmetric(
-                                                 vertical: 12,
-                                                 horizontal: 8),
-                                             isDense: true,
-                                           ),
-                                           style: mobileTextFontStyle),
-                                     ),
-                                   ),
-                                 ),
-                               ]),
-                               Row(children: [
-                                 SizedBox(
-                                   width:
-                                   MediaQuery.of(context).size.width / 3.0,
-                                   child: Text("Gr.Wt.(Kgs)",
-                                       style: iPadTextFontStyleNormalBlue),
-                                 ),
-                                 Padding(
-                                   padding: const EdgeInsets.all(8.0),
-                                   child: SizedBox(
-                                     width: MediaQuery.of(context).size.width /
-                                         1.8, // hard coding child width
-                                     child: Container(
-                                       height: 46,
-                                       width:
-                                       MediaQuery.of(context).size.width /
-                                           2.4,
-                                       decoration: BoxDecoration(
-                                         border: Border.all(
-                                           color: Colors.grey.withOpacity(0.5),
-                                           width: 1.0,
-                                         ),
-                                         borderRadius:
-                                         BorderRadius.circular(4.0),
-                                       ),
-                                       child: TextField(
-                                           controller: txtVTNO,
-                                           textAlign: TextAlign.right,
-                                           keyboardType: TextInputType.text,
-                                           textCapitalization:
-                                           TextCapitalization.characters,
-                                           decoration: InputDecoration(
-                                             border: InputBorder.none,
-                                             hintText: "Gr.Wt.(Kgs)",
-                                             hintStyle:
-                                             TextStyle(color: Colors.grey),
-                                             contentPadding:
-                                             EdgeInsets.symmetric(
-                                                 vertical: 12,
-                                                 horizontal: 8),
-                                             isDense: true,
-                                           ),
-                                           style: mobileTextFontStyle),
-                                     ),
-                                   ),
-                                 ),
-                               ]),
-                               Row(children: [
-                                 SizedBox(
-                                   width:
-                                   MediaQuery.of(context).size.width / 3.0,
-                                   child: Text("Ch.Wt.(Kgs)",
-                                       style: iPadTextFontStyleNormalBlue),
-                                 ),
-                                 Padding(
-                                   padding: const EdgeInsets.all(8.0),
-                                   child: SizedBox(
-                                     width: MediaQuery.of(context).size.width /
-                                         1.8, // hard coding child width
-                                     child: Container(
-                                       height: 46,
-                                       width:
-                                       MediaQuery.of(context).size.width /
-                                           2.4,
-                                       decoration: BoxDecoration(
-                                         border: Border.all(
-                                           color: Colors.grey.withOpacity(0.5),
-                                           width: 1.0,
-                                         ),
-                                         borderRadius:
-                                         BorderRadius.circular(4.0),
-                                       ),
-                                       child: TextField(
-                                           controller: txtVTNO,
-                                           textAlign: TextAlign.right,
-                                           keyboardType: TextInputType.text,
-                                           textCapitalization:
-                                           TextCapitalization.characters,
-                                           decoration: InputDecoration(
-                                             border: InputBorder.none,
-                                             hintText: "Ch.Wt.(Kgs)",
-                                             hintStyle:
-                                             TextStyle(color: Colors.grey),
-                                             contentPadding:
-                                             EdgeInsets.symmetric(
-                                                 vertical: 12,
-                                                 horizontal: 8),
-                                             isDense: true,
-                                           ),
-                                           style: mobileTextFontStyle),
-                                     ),
-                                   ),
-                                 ),
-                               ]),
-                               Row(children: [
-                                 SizedBox(
-                                   width:
-                                   MediaQuery.of(context).size.width / 3.0,
-                                   child: Text("Exporter Name",
-                                       style: iPadTextFontStyleNormalBlue),
-                                 ),
-                                 Padding(
-                                   padding: const EdgeInsets.all(8.0),
-                                   child: SizedBox(
-                                     width: MediaQuery.of(context).size.width /
-                                         1.8, // hard coding child width
-                                     child: Container(
-                                       height: 46,
-                                       width:
-                                       MediaQuery.of(context).size.width /
-                                           2.8,
-                                       decoration: BoxDecoration(
-                                         border: Border.all(
-                                           color: Colors.grey.withOpacity(0.5),
-                                           width: 1.0,
-                                         ),
-                                         borderRadius:
-                                         BorderRadius.circular(4.0),
-                                       ),
-                                       child: TextField(
-                                           controller: txtVTNO,
-                                           textAlign: TextAlign.right,
-                                           keyboardType: TextInputType.text,
-                                           textCapitalization:
-                                           TextCapitalization.characters,
-                                           decoration: InputDecoration(
-                                             border: InputBorder.none,
-                                             hintText: "Exporter Name",
-                                             hintStyle:
-                                             TextStyle(color: Colors.grey),
-                                             contentPadding:
-                                             EdgeInsets.symmetric(
-                                                 vertical: 12,
-                                                 horizontal: 8),
-                                             isDense: true,
-                                           ),
-                                           style: mobileTextFontStyle),
-                                     ),
-                                   ),
-                                 ),
-                               ]),
-                               SizedBox(
-                                 height: 10,
-                               ),
-                             ],
-                           ),
-                         ),
-                         Padding(
-                           padding: EdgeInsets.all(10.0),
-                           child: Row(
-                             mainAxisAlignment: MainAxisAlignment.center,
-                             crossAxisAlignment: CrossAxisAlignment.start,
-                             children: [
-                               ElevatedButton(
-                                 onPressed: () {},
-                                 style: ButtonStyle(
-                                   foregroundColor: MaterialStateProperty.all(
-                                       const Color.fromARGB(255, 1, 36, 159)),
-                                   backgroundColor: MaterialStateProperty.all(
-                                       const Color.fromARGB(
-                                           255, 255, 255, 255)),
-                                   shape: MaterialStateProperty.all<
-                                       RoundedRectangleBorder>(
-                                     RoundedRectangleBorder(
-                                       borderRadius: BorderRadius.circular(10),
-                                       side: const BorderSide(
-                                           color: Color(0xFF11249F)),
-                                     ),
-                                   ),
-                                 ),
-                                 child: SizedBox(
-                                   width: MediaQuery
-                                       .of(context)
-                                       .size
-                                       .width /
-                                       4.8,
-                                   height: 48,
-                                   child: Center(
-                                     child: const Text(
-                                       "Back",
-                                       style: TextStyle(fontSize: 18),
-                                     ),
-                                   ),
-                                 ),
-                               ),
-                               // Container(
-                               //   height:MediaQuery.of(context).size.width /
-                               //       10.8,
-                               //   width: MediaQuery.of(context).size.width /
-                               //      2.8, //65.0,
-                               //   decoration: BoxDecoration(
-                               //     borderRadius: BorderRadius.circular(10),
-                               //     gradient: LinearGradient(
-                               //       begin: Alignment.center,
-                               //       end: Alignment.topCenter,
-                               //       colors: [
-                               //         Color(0xFF1220BC),
-                               //         Color(0xFF3540E8),
-                               //       ],
-                               //     ),
-                               //   ),
-                               //   child: ElevatedButton(
-                               //     onPressed: () {},
-                               //     style: ElevatedButton.styleFrom(
-                               //         backgroundColor: Colors.transparent,
-                               //         shadowColor: Colors.transparent),
-                               //     child: Text('Save'),
-                               //   ),
-                               // ),
-                               SizedBox(width: 40,),
-                               ElevatedButton(
-                                 onPressed: () {},
-                                 style: ButtonStyle(
-                                   foregroundColor: MaterialStateProperty.all(
-                                       const Color.fromARGB(
-                                           255, 255, 255, 255)),
-                                   backgroundColor: MaterialStateProperty.all(
-                                       const Color.fromARGB(255, 1, 36, 159)),
-                                   shape: MaterialStateProperty.all<
-                                       RoundedRectangleBorder>(
-                                     RoundedRectangleBorder(
-                                       borderRadius:
-                                       BorderRadius.circular(10.0),
-                                     ),
-                                   ),
-                                 ),
-                                 child: SizedBox(
-                                   width: MediaQuery
-                                       .of(context)
-                                       .size
-                                       .width /
-                                       4.8,
-                                   height: 48,
-                                   child: Center(
-                                     child: const Text(
-                                       "Save",
-                                       style: TextStyle(fontSize: 18),
-                                     ),
-                                   ),
-                                 ),
-                               ),
-                             ],
-                           ),
-                         ),
-                         // if (!widget.isExport)
-                         //   SizedBox(
-                         //       height:
-                         //       useMobileLayout ? 5 : 40),
-                         // if (!widget.isExport)
-                         //   Text(
-                         //     "Shipment Details",
-                         //     textAlign: TextAlign.start,
-                         //     style: useMobileLayout
-                         //         ? mobileHeaderFontStyle
-                         //         : TextStyle(
-                         //       fontSize: 24,
-                         //       fontWeight:
-                         //       FontWeight.normal,
-                         //       color: Color(0xFF11249F),
-                         //     ),
-                         //   ),
-                         // if (!widget.isExport)
-                         //   SizedBox(
-                         //       height:
-                         //       useMobileLayout ? 5 : 40),
-                         // for (DockInOutVTDetails dvd
-                         // in dockInOutDets)
-                         //   Card(
-                         //     child: Padding(
-                         //       padding:
-                         //       const EdgeInsets.all(8.0),
-                         //       child: Column(
-                         //         children: [
-                         //           Row(
-                         //             mainAxisAlignment:
-                         //             MainAxisAlignment
-                         //                 .start,
-                         //             crossAxisAlignment:
-                         //             CrossAxisAlignment
-                         //                 .start,
-                         //             children: [
-                         //               SizedBox(
-                         //                 width: MediaQuery.of(
-                         //                     context)
-                         //                     .size
-                         //                     .width /
-                         //                     2.2,
-                         //                 child: Container(
-                         //                   height: 30,
-                         //                   color: Colors.yellow
-                         //                       .shade300,
-                         //                   child: Center(
-                         //                     child: Text(
-                         //                         'AWB No.',
-                         //                         style:
-                         //                         mobileYellowTextFontStyleBold),
-                         //                   ),
-                         //                 ),
-                         //               ),
-                         //               SizedBox(width: 3),
-                         //               SizedBox(
-                         //                 width: MediaQuery.of(
-                         //                     context)
-                         //                     .size
-                         //                     .width /
-                         //                     2.3,
-                         //                 child: Container(
-                         //                   height: 30,
-                         //                   color: Colors.yellow
-                         //                       .shade300,
-                         //                   child: Center(
-                         //                     child: Text(
-                         //                         'HAWB No.',
-                         //                         style:
-                         //                         mobileYellowTextFontStyleBold),
-                         //                   ),
-                         //                 ),
-                         //               ),
-                         //             ],
-                         //           ),
-                         //           Row(
-                         //             mainAxisAlignment:
-                         //             MainAxisAlignment
-                         //                 .start,
-                         //             crossAxisAlignment:
-                         //             CrossAxisAlignment
-                         //                 .start,
-                         //             children: [
-                         //               SizedBox(
-                         //                 width: MediaQuery.of(
-                         //                     context)
-                         //                     .size
-                         //                     .width /
-                         //                     2.2,
-                         //                 child: Container(
-                         //                   height: 30,
-                         //                   color: Colors.yellow
-                         //                       .shade100,
-                         //                   child: Center(
-                         //                     child: Text(
-                         //                         dvd.AirlinePrefix +
-                         //                             "-" +
-                         //                             dvd
-                         //                                 .MAWBNumber,
-                         //                         style:
-                         //                         mobileDetailsYellowBold),
-                         //                   ),
-                         //                 ),
-                         //               ),
-                         //               SizedBox(width: 3),
-                         //               SizedBox(
-                         //                 width: MediaQuery.of(
-                         //                     context)
-                         //                     .size
-                         //                     .width /
-                         //                     2.3,
-                         //                 child: Container(
-                         //                   height: 30,
-                         //                   color: Colors.yellow
-                         //                       .shade100,
-                         //                   child: Center(
-                         //                     child: Text(
-                         //                         dvd
-                         //                             .HAWBNumber,
-                         //                         style:
-                         //                         mobileDetailsYellowBold),
-                         //                   ),
-                         //                 ),
-                         //               ),
-                         //             ],
-                         //           ),
-                         //
-                         //           // SizedBox(
-                         //           //     height: useMobileLayout ? 10 : 20),
-                         //
-                         //           Row(
-                         //             mainAxisAlignment:
-                         //             MainAxisAlignment
-                         //                 .start,
-                         //             crossAxisAlignment:
-                         //             CrossAxisAlignment
-                         //                 .start,
-                         //             children: [
-                         //               SizedBox(
-                         //                 width: MediaQuery.of(
-                         //                     context)
-                         //                     .size
-                         //                     .width /
-                         //                     2.6,
-                         //                 child: Container(
-                         //                   height: 30,
-                         //                   color: Colors.yellow
-                         //                       .shade300,
-                         //                   child: Center(
-                         //                     child: Text(
-                         //                         'Flt Arr',
-                         //                         style:
-                         //                         mobileYellowTextFontStyleBold),
-                         //                   ),
-                         //                 ),
-                         //               ),
-                         //               SizedBox(width: 2),
-                         //               SizedBox(
-                         //                 width: MediaQuery.of(
-                         //                     context)
-                         //                     .size
-                         //                     .width /
-                         //                     4,
-                         //                 child: Container(
-                         //                   height: 30,
-                         //                   color: Colors.yellow
-                         //                       .shade300,
-                         //                   child: Center(
-                         //                     child: Text('CRN',
-                         //                         style:
-                         //                         mobileYellowTextFontStyleBold),
-                         //                   ),
-                         //                 ),
-                         //               ),
-                         //               SizedBox(width: 2),
-                         //               SizedBox(
-                         //                 width: MediaQuery.of(
-                         //                     context)
-                         //                     .size
-                         //                     .width /
-                         //                     4,
-                         //                 child: Container(
-                         //                   height: 30,
-                         //                   color: Colors.yellow
-                         //                       .shade300,
-                         //                   child: Center(
-                         //                     child: Text(
-                         //                         'Pmt Cnf.',
-                         //                         style:
-                         //                         mobileYellowTextFontStyleBold),
-                         //                   ),
-                         //                 ),
-                         //               ),
-                         //             ],
-                         //           ),
-                         //           Row(
-                         //             mainAxisAlignment:
-                         //             MainAxisAlignment
-                         //                 .start,
-                         //             crossAxisAlignment:
-                         //             CrossAxisAlignment
-                         //                 .start,
-                         //             children: [
-                         //               SizedBox(
-                         //                 width: MediaQuery.of(
-                         //                     context)
-                         //                     .size
-                         //                     .width /
-                         //                     2.6,
-                         //                 child: Container(
-                         //                   height: 30,
-                         //                   color: Colors.yellow
-                         //                       .shade100,
-                         //                   child: Center(
-                         //                       child: Text(
-                         //                           dvd.FlightArrivalStatus ==
-                         //                               ""
-                         //                               ? ""
-                         //                               : dvd.FlightArrivalStatus.toString().substring(
-                         //                               0,
-                         //                               12), //dvd.FlightArrivalStatus,
-                         //                           style:
-                         //                           mobileDetailsYellowBold)
-                         //
-                         //                     //       dvd.FlightArrivalStatus ==
-                         //                     //     false
-                         //                     // ? Text(" -- ",
-                         //                     //     style:
-                         //                     //         mobileDetailsYellowBold)
-                         //                     // : Icon(
-                         //                     //     Icons
-                         //                     //         .task_alt,
-                         //                     //     size: 28,
-                         //                     //     color: Colors
-                         //                     //         .green,
-                         //                     //   ),
-                         //                   ),
-                         //                 ),
-                         //               ),
-                         //               SizedBox(width: 2),
-                         //               SizedBox(
-                         //                 width: MediaQuery.of(
-                         //                     context)
-                         //                     .size
-                         //                     .width /
-                         //                     4,
-                         //                 child: Container(
-                         //                   height: 30,
-                         //                   color: Colors.yellow
-                         //                       .shade100,
-                         //                   child: Center(
-                         //                       child: dvd.CustomReleaseNumber ==
-                         //                           ""
-                         //                           ? Text(
-                         //                           " -- ",
-                         //                           style:
-                         //                           mobileDetailsYellowBold)
-                         //                           : Icon(
-                         //                         Icons
-                         //                             .task_alt,
-                         //                         size:
-                         //                         28,
-                         //                         color: Colors
-                         //                             .green,
-                         //                       )),
-                         //                 ),
-                         //               ),
-                         //               SizedBox(width: 2),
-                         //               SizedBox(
-                         //                 width: MediaQuery.of(
-                         //                     context)
-                         //                     .size
-                         //                     .width /
-                         //                     4,
-                         //                 child: Container(
-                         //                   height: 30,
-                         //                   color: Colors.yellow
-                         //                       .shade100,
-                         //                   child: Center(
-                         //                       child: dvd.Payment ==
-                         //                           ""
-                         //                           ? Text(
-                         //                           " -- ",
-                         //                           style:
-                         //                           mobileDetailsYellowBold)
-                         //                           : Icon(
-                         //                         Icons
-                         //                             .task_alt,
-                         //                         size:
-                         //                         28,
-                         //                         color: Colors
-                         //                             .green,
-                         //                       )),
-                         //                 ),
-                         //               ),
-                         //             ],
-                         //           ),
-                         //         ],
-                         //       ),
-                         //     ),
-                         //   )
-                       ],
-                     ),
-                   ),
-             )
+                                                  // getSlotsList(); // refesh slots
+                                                });
+                                              }
+                                            },
+                                          )
+                                        ]),
+                                        Row(children: [
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                3.0,
+                                            child: Text("NOP",
+                                                style:
+                                                    iPadTextFontStyleNormalBlue),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  1.8, // hard coding child width
+                                              child: Container(
+                                                height: 46,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    2.4,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.5),
+                                                    width: 1.0,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          4.0),
+                                                ),
+                                                child: TextField(
+                                                    controller: txtVTNO,
+                                                    textAlign: TextAlign.right,
+                                                    keyboardType:
+                                                        TextInputType.text,
+                                                    textCapitalization:
+                                                        TextCapitalization
+                                                            .characters,
+                                                    decoration: InputDecoration(
+                                                      border: InputBorder.none,
+                                                      hintText: "NoP",
+                                                      hintStyle: TextStyle(
+                                                          color: Colors.grey),
+                                                      contentPadding:
+                                                          EdgeInsets.symmetric(
+                                                              vertical: 12,
+                                                              horizontal: 8),
+                                                      isDense: true,
+                                                    ),
+                                                    style: mobileTextFontStyle),
+                                              ),
+                                            ),
+                                          ),
+                                        ]),
+                                        Row(children: [
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                3.0,
+                                            child: Text("Gr.Wt.(Kgs)",
+                                                style:
+                                                    iPadTextFontStyleNormalBlue),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  1.8, // hard coding child width
+                                              child: Container(
+                                                height: 46,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    2.4,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.5),
+                                                    width: 1.0,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          4.0),
+                                                ),
+                                                child: TextField(
+                                                    controller: txtVTNO,
+                                                    textAlign: TextAlign.right,
+                                                    keyboardType:
+                                                        TextInputType.text,
+                                                    textCapitalization:
+                                                        TextCapitalization
+                                                            .characters,
+                                                    decoration: InputDecoration(
+                                                      border: InputBorder.none,
+                                                      hintText: "Gr.Wt.(Kgs)",
+                                                      hintStyle: TextStyle(
+                                                          color: Colors.grey),
+                                                      contentPadding:
+                                                          EdgeInsets.symmetric(
+                                                              vertical: 12,
+                                                              horizontal: 8),
+                                                      isDense: true,
+                                                    ),
+                                                    style: mobileTextFontStyle),
+                                              ),
+                                            ),
+                                          ),
+                                        ]),
+                                        Row(children: [
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                3.0,
+                                            child: Text("Ch.Wt.(Kgs)",
+                                                style:
+                                                    iPadTextFontStyleNormalBlue),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  1.8, // hard coding child width
+                                              child: Container(
+                                                height: 46,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    2.4,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.5),
+                                                    width: 1.0,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          4.0),
+                                                ),
+                                                child: TextField(
+                                                    controller: txtVTNO,
+                                                    textAlign: TextAlign.right,
+                                                    keyboardType:
+                                                        TextInputType.text,
+                                                    textCapitalization:
+                                                        TextCapitalization
+                                                            .characters,
+                                                    decoration: InputDecoration(
+                                                      border: InputBorder.none,
+                                                      hintText: "Ch.Wt.(Kgs)",
+                                                      hintStyle: TextStyle(
+                                                          color: Colors.grey),
+                                                      contentPadding:
+                                                          EdgeInsets.symmetric(
+                                                              vertical: 12,
+                                                              horizontal: 8),
+                                                      isDense: true,
+                                                    ),
+                                                    style: mobileTextFontStyle),
+                                              ),
+                                            ),
+                                          ),
+                                        ]),
+                                        Row(children: [
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                3.0,
+                                            child: Text("Exporter Name",
+                                                style:
+                                                    iPadTextFontStyleNormalBlue),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  1.8, // hard coding child width
+                                              child: Container(
+                                                height: 46,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    2.8,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.5),
+                                                    width: 1.0,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          4.0),
+                                                ),
+                                                child: TextField(
+                                                    controller: txtVTNO,
+                                                    textAlign: TextAlign.right,
+                                                    keyboardType:
+                                                        TextInputType.text,
+                                                    textCapitalization:
+                                                        TextCapitalization
+                                                            .characters,
+                                                    decoration: InputDecoration(
+                                                      border: InputBorder.none,
+                                                      hintText: "Exporter Name",
+                                                      hintStyle: TextStyle(
+                                                          color: Colors.grey),
+                                                      contentPadding:
+                                                          EdgeInsets.symmetric(
+                                                              vertical: 12,
+                                                              horizontal: 8),
+                                                      isDense: true,
+                                                    ),
+                                                    style: mobileTextFontStyle),
+                                              ),
+                                            ),
+                                          ),
+                                        ]),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.all(10.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        ElevatedButton(
+                                          onPressed: () {},
+                                          style: ButtonStyle(
+                                            foregroundColor:
+                                                MaterialStateProperty.all(
+                                                    const Color.fromARGB(
+                                                        255, 1, 36, 159)),
+                                            backgroundColor:
+                                                MaterialStateProperty.all(
+                                                    const Color.fromARGB(
+                                                        255, 255, 255, 255)),
+                                            shape: MaterialStateProperty.all<
+                                                RoundedRectangleBorder>(
+                                              RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                side: const BorderSide(
+                                                    color: Color(0xFF11249F)),
+                                              ),
+                                            ),
+                                          ),
+                                          child: SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                4.8,
+                                            height: 48,
+                                            child: Center(
+                                              child: const Text(
+                                                "Back",
+                                                style: TextStyle(fontSize: 18),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        // Container(
+                                        //   height:MediaQuery.of(context).size.width /
+                                        //       10.8,
+                                        //   width: MediaQuery.of(context).size.width /
+                                        //      2.8, //65.0,
+                                        //   decoration: BoxDecoration(
+                                        //     borderRadius: BorderRadius.circular(10),
+                                        //     gradient: LinearGradient(
+                                        //       begin: Alignment.center,
+                                        //       end: Alignment.topCenter,
+                                        //       colors: [
+                                        //         Color(0xFF1220BC),
+                                        //         Color(0xFF3540E8),
+                                        //       ],
+                                        //     ),
+                                        //   ),
+                                        //   child: ElevatedButton(
+                                        //     onPressed: () {},
+                                        //     style: ElevatedButton.styleFrom(
+                                        //         backgroundColor: Colors.transparent,
+                                        //         shadowColor: Colors.transparent),
+                                        //     child: Text('Save'),
+                                        //   ),
+                                        // ),
+                                        SizedBox(
+                                          width: 40,
+                                        ),
+                                        ElevatedButton(
+                                          onPressed: () {},
+                                          style: ButtonStyle(
+                                            foregroundColor:
+                                                MaterialStateProperty.all(
+                                                    const Color.fromARGB(
+                                                        255, 255, 255, 255)),
+                                            backgroundColor:
+                                                MaterialStateProperty.all(
+                                                    const Color.fromARGB(
+                                                        255, 1, 36, 159)),
+                                            shape: MaterialStateProperty.all<
+                                                RoundedRectangleBorder>(
+                                              RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                              ),
+                                            ),
+                                          ),
+                                          child: SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                4.8,
+                                            height: 48,
+                                            child: Center(
+                                              child: const Text(
+                                                "Save",
+                                                style: TextStyle(fontSize: 18),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  // if (!widget.isExport)
+                                  //   SizedBox(
+                                  //       height:
+                                  //       useMobileLayout ? 5 : 40),
+                                  // if (!widget.isExport)
+                                  //   Text(
+                                  //     "Shipment Details",
+                                  //     textAlign: TextAlign.start,
+                                  //     style: useMobileLayout
+                                  //         ? mobileHeaderFontStyle
+                                  //         : TextStyle(
+                                  //       fontSize: 24,
+                                  //       fontWeight:
+                                  //       FontWeight.normal,
+                                  //       color: Color(0xFF11249F),
+                                  //     ),
+                                  //   ),
+                                  // if (!widget.isExport)
+                                  //   SizedBox(
+                                  //       height:
+                                  //       useMobileLayout ? 5 : 40),
+                                  // for (DockInOutVTDetails dvd
+                                  // in dockInOutDets)
+                                  //   Card(
+                                  //     child: Padding(
+                                  //       padding:
+                                  //       const EdgeInsets.all(8.0),
+                                  //       child: Column(
+                                  //         children: [
+                                  //           Row(
+                                  //             mainAxisAlignment:
+                                  //             MainAxisAlignment
+                                  //                 .start,
+                                  //             crossAxisAlignment:
+                                  //             CrossAxisAlignment
+                                  //                 .start,
+                                  //             children: [
+                                  //               SizedBox(
+                                  //                 width: MediaQuery.of(
+                                  //                     context)
+                                  //                     .size
+                                  //                     .width /
+                                  //                     2.2,
+                                  //                 child: Container(
+                                  //                   height: 30,
+                                  //                   color: Colors.yellow
+                                  //                       .shade300,
+                                  //                   child: Center(
+                                  //                     child: Text(
+                                  //                         'AWB No.',
+                                  //                         style:
+                                  //                         mobileYellowTextFontStyleBold),
+                                  //                   ),
+                                  //                 ),
+                                  //               ),
+                                  //               SizedBox(width: 3),
+                                  //               SizedBox(
+                                  //                 width: MediaQuery.of(
+                                  //                     context)
+                                  //                     .size
+                                  //                     .width /
+                                  //                     2.3,
+                                  //                 child: Container(
+                                  //                   height: 30,
+                                  //                   color: Colors.yellow
+                                  //                       .shade300,
+                                  //                   child: Center(
+                                  //                     child: Text(
+                                  //                         'HAWB No.',
+                                  //                         style:
+                                  //                         mobileYellowTextFontStyleBold),
+                                  //                   ),
+                                  //                 ),
+                                  //               ),
+                                  //             ],
+                                  //           ),
+                                  //           Row(
+                                  //             mainAxisAlignment:
+                                  //             MainAxisAlignment
+                                  //                 .start,
+                                  //             crossAxisAlignment:
+                                  //             CrossAxisAlignment
+                                  //                 .start,
+                                  //             children: [
+                                  //               SizedBox(
+                                  //                 width: MediaQuery.of(
+                                  //                     context)
+                                  //                     .size
+                                  //                     .width /
+                                  //                     2.2,
+                                  //                 child: Container(
+                                  //                   height: 30,
+                                  //                   color: Colors.yellow
+                                  //                       .shade100,
+                                  //                   child: Center(
+                                  //                     child: Text(
+                                  //                         dvd.AirlinePrefix +
+                                  //                             "-" +
+                                  //                             dvd
+                                  //                                 .MAWBNumber,
+                                  //                         style:
+                                  //                         mobileDetailsYellowBold),
+                                  //                   ),
+                                  //                 ),
+                                  //               ),
+                                  //               SizedBox(width: 3),
+                                  //               SizedBox(
+                                  //                 width: MediaQuery.of(
+                                  //                     context)
+                                  //                     .size
+                                  //                     .width /
+                                  //                     2.3,
+                                  //                 child: Container(
+                                  //                   height: 30,
+                                  //                   color: Colors.yellow
+                                  //                       .shade100,
+                                  //                   child: Center(
+                                  //                     child: Text(
+                                  //                         dvd
+                                  //                             .HAWBNumber,
+                                  //                         style:
+                                  //                         mobileDetailsYellowBold),
+                                  //                   ),
+                                  //                 ),
+                                  //               ),
+                                  //             ],
+                                  //           ),
+                                  //
+                                  //           // SizedBox(
+                                  //           //     height: useMobileLayout ? 10 : 20),
+                                  //
+                                  //           Row(
+                                  //             mainAxisAlignment:
+                                  //             MainAxisAlignment
+                                  //                 .start,
+                                  //             crossAxisAlignment:
+                                  //             CrossAxisAlignment
+                                  //                 .start,
+                                  //             children: [
+                                  //               SizedBox(
+                                  //                 width: MediaQuery.of(
+                                  //                     context)
+                                  //                     .size
+                                  //                     .width /
+                                  //                     2.6,
+                                  //                 child: Container(
+                                  //                   height: 30,
+                                  //                   color: Colors.yellow
+                                  //                       .shade300,
+                                  //                   child: Center(
+                                  //                     child: Text(
+                                  //                         'Flt Arr',
+                                  //                         style:
+                                  //                         mobileYellowTextFontStyleBold),
+                                  //                   ),
+                                  //                 ),
+                                  //               ),
+                                  //               SizedBox(width: 2),
+                                  //               SizedBox(
+                                  //                 width: MediaQuery.of(
+                                  //                     context)
+                                  //                     .size
+                                  //                     .width /
+                                  //                     4,
+                                  //                 child: Container(
+                                  //                   height: 30,
+                                  //                   color: Colors.yellow
+                                  //                       .shade300,
+                                  //                   child: Center(
+                                  //                     child: Text('CRN',
+                                  //                         style:
+                                  //                         mobileYellowTextFontStyleBold),
+                                  //                   ),
+                                  //                 ),
+                                  //               ),
+                                  //               SizedBox(width: 2),
+                                  //               SizedBox(
+                                  //                 width: MediaQuery.of(
+                                  //                     context)
+                                  //                     .size
+                                  //                     .width /
+                                  //                     4,
+                                  //                 child: Container(
+                                  //                   height: 30,
+                                  //                   color: Colors.yellow
+                                  //                       .shade300,
+                                  //                   child: Center(
+                                  //                     child: Text(
+                                  //                         'Pmt Cnf.',
+                                  //                         style:
+                                  //                         mobileYellowTextFontStyleBold),
+                                  //                   ),
+                                  //                 ),
+                                  //               ),
+                                  //             ],
+                                  //           ),
+                                  //           Row(
+                                  //             mainAxisAlignment:
+                                  //             MainAxisAlignment
+                                  //                 .start,
+                                  //             crossAxisAlignment:
+                                  //             CrossAxisAlignment
+                                  //                 .start,
+                                  //             children: [
+                                  //               SizedBox(
+                                  //                 width: MediaQuery.of(
+                                  //                     context)
+                                  //                     .size
+                                  //                     .width /
+                                  //                     2.6,
+                                  //                 child: Container(
+                                  //                   height: 30,
+                                  //                   color: Colors.yellow
+                                  //                       .shade100,
+                                  //                   child: Center(
+                                  //                       child: Text(
+                                  //                           dvd.FlightArrivalStatus ==
+                                  //                               ""
+                                  //                               ? ""
+                                  //                               : dvd.FlightArrivalStatus.toString().substring(
+                                  //                               0,
+                                  //                               12), //dvd.FlightArrivalStatus,
+                                  //                           style:
+                                  //                           mobileDetailsYellowBold)
+                                  //
+                                  //                     //       dvd.FlightArrivalStatus ==
+                                  //                     //     false
+                                  //                     // ? Text(" -- ",
+                                  //                     //     style:
+                                  //                     //         mobileDetailsYellowBold)
+                                  //                     // : Icon(
+                                  //                     //     Icons
+                                  //                     //         .task_alt,
+                                  //                     //     size: 28,
+                                  //                     //     color: Colors
+                                  //                     //         .green,
+                                  //                     //   ),
+                                  //                   ),
+                                  //                 ),
+                                  //               ),
+                                  //               SizedBox(width: 2),
+                                  //               SizedBox(
+                                  //                 width: MediaQuery.of(
+                                  //                     context)
+                                  //                     .size
+                                  //                     .width /
+                                  //                     4,
+                                  //                 child: Container(
+                                  //                   height: 30,
+                                  //                   color: Colors.yellow
+                                  //                       .shade100,
+                                  //                   child: Center(
+                                  //                       child: dvd.CustomReleaseNumber ==
+                                  //                           ""
+                                  //                           ? Text(
+                                  //                           " -- ",
+                                  //                           style:
+                                  //                           mobileDetailsYellowBold)
+                                  //                           : Icon(
+                                  //                         Icons
+                                  //                             .task_alt,
+                                  //                         size:
+                                  //                         28,
+                                  //                         color: Colors
+                                  //                             .green,
+                                  //                       )),
+                                  //                 ),
+                                  //               ),
+                                  //               SizedBox(width: 2),
+                                  //               SizedBox(
+                                  //                 width: MediaQuery.of(
+                                  //                     context)
+                                  //                     .size
+                                  //                     .width /
+                                  //                     4,
+                                  //                 child: Container(
+                                  //                   height: 30,
+                                  //                   color: Colors.yellow
+                                  //                       .shade100,
+                                  //                   child: Center(
+                                  //                       child: dvd.Payment ==
+                                  //                           ""
+                                  //                           ? Text(
+                                  //                           " -- ",
+                                  //                           style:
+                                  //                           mobileDetailsYellowBold)
+                                  //                           : Icon(
+                                  //                         Icons
+                                  //                             .task_alt,
+                                  //                         size:
+                                  //                         28,
+                                  //                         color: Colors
+                                  //                             .green,
+                                  //                       )),
+                                  //                 ),
+                                  //               ),
+                                  //             ],
+                                  //           ),
+                                  //         ],
+                                  //       ),
+                                  //     ),
+                                  //   )
+                                ],
+                              ),
+                            ),
+                    )
             ]),
       ),
     );

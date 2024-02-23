@@ -452,7 +452,6 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                 : Expanded(
                     flex: 0,
                     child: Container(
-                      height: 135,
                       child: Padding(
                         padding: const EdgeInsets.only(
                             top: 10.0, bottom: 10.0, left: 16.0),
@@ -470,6 +469,64 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              2.8,
+                                          child: ToggleSwitch(
+                                            minWidth: 160,
+                                            minHeight: 65.0,
+                                            initialLabelIndex: modeSelected,
+                                            cornerRadius: 20.0,
+                                            activeFgColor: Colors.white,
+                                            inactiveBgColor: Colors.grey,
+                                            inactiveFgColor: Colors.white,
+                                            totalSwitches: 2,
+                                            customTextStyles: [
+                                              TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.normal,
+                                                color: Colors.white,
+                                              ),
+                                              TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.normal,
+                                                color: Colors.white,
+                                              )
+                                            ],
+                                            labels: ['Assign ', ' Unassign'],
+
+                                            iconSize: 22.0,
+                                            activeBgColors: [
+                                              // [Colors.blueAccent, Colors.blue],
+                                              // [Colors.blueAccent, Colors.blue],
+                                              [
+                                                Color(0xFF1220BC),
+                                                Color(0xFF3540E8)
+                                              ],
+                                              [
+                                                Color(0xFF1220BC),
+                                                Color(0xFF3540E8)
+                                              ],
+                                            ],
+                                            animate: true,
+                                            // with just animate set to true, default curve = Curves.easeIn
+                                            curve: Curves.bounceInOut,
+                                            // animate must be set to true when using custom curve
+                                            onToggle: (index) {
+                                              print('switched to: $index');
+
+                                              setState(() {
+                                                //selectedText = "";
+                                                modeSelected = index!;
+                                              });
+                                            },
+                                          ),
+                                        ),
+                                      ),
                                       SizedBox(
                                         width:
                                             MediaQuery.of(context).size.width /
@@ -646,112 +703,126 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                         width: 100,
                         child: CircularProgressIndicator()))
                 : Expanded(
-                    child: Container(
-                      height: MediaQuery.of(context).size.height / 4.8,
-                      child: SingleChildScrollView(
-                          // padding: EdgeInsets.only(bottom: 64),
-                          child: Column(
-                        children: [
-                          searchedList.isNotEmpty &&
-                                  (mawbPrefixController.text.isNotEmpty ||
-                                      mawbPrefixController.text.isNotEmpty)
-                              ? ListView.builder(
+                    child: Stack(
+                      children: [
+                        Container(
+                          child: SingleChildScrollView(
+                            // padding: EdgeInsets.only(bottom: 64),
+                            child: Column(
+                              children: [
+                                searchedList.isNotEmpty &&
+                                    (mawbPrefixController.text.isNotEmpty ||
+                                        mawbPrefixController.text.isNotEmpty)
+                                    ? Padding(
+                                      padding: useMobileLayout
+                                          ? const EdgeInsets.only(bottom: 60.0)
+                                          : const EdgeInsets.only(bottom: 80.0),
+                                      child: ListView.builder(
                                   padding: EdgeInsets.zero,
                                   shrinkWrap: true,
                                   itemCount: searchedList.length,
                                   physics: NeverScrollableScrollPhysics(),
                                   itemBuilder:
-                                      (BuildContext context, int index) {
-                                    AssignTruckingDetails docListItem =
-                                        searchedList.elementAt(index);
-                                    return mawbListItem(
-                                        context, docListItem, index);
+                                        (BuildContext context, int index) {
+                                      AssignTruckingDetails docListItem =
+                                      searchedList.elementAt(index);
+                                      return mawbListItem(
+                                          context, docListItem, index);
                                   },
-                                )
-                              : ListView.builder(
+                                ),
+                                    )
+                                    : Padding(
+                                      padding: useMobileLayout?const EdgeInsets.only(bottom: 60.0):const EdgeInsets.only(bottom: 80.0),
+                                      child: ListView.builder(
                                   padding: EdgeInsets.zero,
                                   shrinkWrap: true,
                                   itemCount: assignTruckList.length,
                                   physics: NeverScrollableScrollPhysics(),
                                   itemBuilder:
-                                      (BuildContext context, int index) {
-                                    AssignTruckingDetails docListItem =
-                                        assignTruckList.elementAt(index);
-                                    return mawbListItem(
-                                        context, docListItem, index);
+                                        (BuildContext context, int index) {
+                                      AssignTruckingDetails docListItem =
+                                      assignTruckList.elementAt(index);
+                                      return mawbListItem(
+                                          context, docListItem, index);
                                   },
                                 ),
-                        ],
-                      )),
-                    ),
+                                    ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      Positioned(
+                        bottom: 10,
+                        left: 75,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {},
+                              style: ButtonStyle(
+                                foregroundColor: MaterialStateProperty.all(
+                                    const Color.fromARGB(255, 1, 36, 159)),
+                                backgroundColor: MaterialStateProperty.all(
+                                    const Color.fromARGB(255, 255, 255, 255)),
+                                shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    side: const BorderSide(
+                                        color: Color(0xFF11249F)),
+                                  ),
+                                ),
+                              ),
+                              child: SizedBox(
+                                width: useMobileLayout
+                                    ? MediaQuery.of(context).size.width / 4.8
+                                    : MediaQuery.of(context).size.width / 2.8,
+                                height: useMobileLayout ? 38 : 58,
+                                child: Center(
+                                  child: const Text(
+                                    "Back",
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 16,
+                            ),
+                            ElevatedButton(
+                              onPressed: () {},
+                              style: ButtonStyle(
+                                foregroundColor: MaterialStateProperty.all(
+                                    const Color.fromARGB(255, 255, 255, 255)),
+                                backgroundColor: MaterialStateProperty.all(
+                                    const Color.fromARGB(255, 1, 36, 159)),
+                                shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                ),
+                              ),
+                              child: SizedBox(
+                                width: useMobileLayout
+                                    ? MediaQuery.of(context).size.width / 4.8
+                                    : MediaQuery.of(context).size.width / 2.8,
+                                height: useMobileLayout ? 38 : 58,
+                                child: Center(
+                                  child: const Text(
+                                    "Save",
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                    )
                   ),
-            SizedBox(
-              height: 60,
-              child: Positioned(
-                top: 16.0,
-                right: 16.0,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ButtonStyle(
-                        foregroundColor: MaterialStateProperty.all(
-                            const Color.fromARGB(255, 1, 36, 159)),
-                        backgroundColor: MaterialStateProperty.all(
-                            const Color.fromARGB(255, 255, 255, 255)),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            side: const BorderSide(color: Color(0xFF11249F)),
-                          ),
-                        ),
-                      ),
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width / 4.8,
-                        height: 38,
-                        child: Center(
-                          child: const Text(
-                            "Back",
-                            style: TextStyle(fontSize: 18),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ButtonStyle(
-                        foregroundColor: MaterialStateProperty.all(
-                            const Color.fromARGB(255, 255, 255, 255)),
-                        backgroundColor: MaterialStateProperty.all(
-                            const Color.fromARGB(255, 1, 36, 159)),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
-                      ),
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width / 4.8,
-                        height: 38,
-                        child: Center(
-                          child: const Text(
-                            "Save",
-                            style: TextStyle(fontSize: 18),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
           ]),
     );
   }
@@ -835,8 +906,8 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                 ],
               ),
               // SizedBox(height: 2),
-              SizedBox(height: 3),
-              SizedBox(height: 3),
+              SizedBox(height: useMobileLayout ? 6 : 18),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -883,7 +954,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                     ),
                   ),
                   Container(
-                    height: useMobileLayout ? 40 : 70,
+                    height: useMobileLayout ? 40 : 50,
                     width: 3,
                     color: Color(0xFF0461AA),
                   ),

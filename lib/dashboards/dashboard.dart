@@ -733,6 +733,7 @@ class _DashboardsState extends State<Dashboards> {
                 // changeThemeMode();
               },
             ),
+            SizedBox(height: useMobileLayout ? 0 : 24),
             Wrap(
               alignment: WrapAlignment.start,
               crossAxisAlignment: WrapCrossAlignment.start,

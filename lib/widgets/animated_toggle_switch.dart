@@ -38,7 +38,7 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Container(
-      width: useMobileLayout ? width * 0.65 : width / 1.75,
+      width: useMobileLayout ? width * 0.65 : width / 1.78,
       height: useMobileLayout ? width * 0.13:width / 12.0,
       margin: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
       child: Container(
@@ -56,7 +56,7 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
                 setState(() {});
               },
               child: Container(
-                width: useMobileLayout ? width * 0.65 : width / 1.75,
+                width: useMobileLayout ? width * 0.65 : width / 1.78,
                 height: useMobileLayout ? width * 0.13: width /12.0,
 
                 decoration: ShapeDecoration(
