@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_advanced_switch/flutter_advanced_switch.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:luxair/otherpages/submitITNDetails.dart';
+
 import 'package:scan/scan.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:luxair/datastructure/vehicletoken.dart';
@@ -17,15 +19,16 @@ import '../constants.dart';
 import '../global.dart';
 import '../widgets/timeline.dart';
 import 'documentUploadChild.dart';
+import 'documentupload.dart';
 
-class DocumentUpload extends StatefulWidget {
-  const DocumentUpload({Key? key}) : super(key: key);
+class SubmitITN extends StatefulWidget {
+  const SubmitITN({Key? key}) : super(key: key);
 
   @override
-  State<DocumentUpload> createState() => _DocumentUploadState();
+  State<SubmitITN> createState() => _SubmitITNState();
 }
 
-class _DocumentUploadState extends State<DocumentUpload> {
+class _SubmitITNState extends State<SubmitITN> {
   TextEditingController dateInput = TextEditingController();
   String scannedCodeReceived = "", selectedSlotDate = "";
   bool useMobileLayout = false;
@@ -38,6 +41,8 @@ class _DocumentUploadState extends State<DocumentUpload> {
   FocusNode mawbPrefixFocusNode = FocusNode();
   FocusNode mawbNoFocusNode = FocusNode();
 
+  //  List<CodexPass> passList = [];
+  // List<FilterArray> _filterArray = [];
   bool isLoading = false;
   bool isSearched = false;
   bool isImport = false;
@@ -63,13 +68,13 @@ class _DocumentUploadState extends State<DocumentUpload> {
         Weight: '96.00',
         Unit: 'kgs'),
     DocUploadDetails(
-        MAWBNo: '125-56565672',
+        MAWBNo: '999-56565672',
         Date: '19-Jan-24',
         PCS: '20',
         Weight: '71.00',
         Unit: 'kgs'),
     DocUploadDetails(
-        MAWBNo: '999-56565673',
+        MAWBNo: '125-56565673',
         Date: '20-Jan-24',
         PCS: '20',
         Weight: '45.00',
@@ -81,7 +86,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
         Weight: '80.00',
         Unit: 'kgs'),
     DocUploadDetails(
-        MAWBNo: '165-56565675',
+        MAWBNo: '999-56565675',
         Date: '22-Jan-24',
         PCS: '20',
         Weight: '60.00',
@@ -94,7 +99,6 @@ class _DocumentUploadState extends State<DocumentUpload> {
     dateInput.text = "";
     // if (modeSelected == 0) vehicleToeknListToBind = vehicleToeknListExport;
     // if (modeSelected == 1) vehicleToeknListToBind = vehicleToeknListImport;
-
     // if (vehicleToeknListExport.isNotEmpty)
     //   vehicleToeknListToBind = vehicleToeknListExport;
     //
@@ -134,8 +138,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
   @override
   void dispose() {
     _controllerModeType.dispose();
-    mawbPrefixController.dispose();
-    mawbNoController.dispose();
+
     super.dispose();
   }
 
@@ -244,7 +247,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
             HeaderClipperWave(
                 color1: Color(0xFF3383CD),
                 color2: Color(0xFF11249F),
-                headerText: "Document Upload"),
+                headerText: "Submit ITN"),
             // ClipPath(
             //   clipper: MyClippers1(),
             //   child: Container(
@@ -349,7 +352,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
                                       ),
                                       style: mobileTextFontStyle,
                                       onChanged: (value) {
-                                        onSearchTextChanged();
+                                        onSearchTextChanged(value);
                                         if (value.length == 3) {
                                           mawbPrefixFocusNode.unfocus();
                                           mawbNoFocusNode.requestFocus();
@@ -379,7 +382,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
                                       controller: mawbNoController,
                                       focusNode: mawbNoFocusNode,
                                       textAlign: TextAlign.right,
-                                      keyboardType: TextInputType.number,
+                                      keyboardType: TextInputType.text,
                                       textCapitalization:
                                           TextCapitalization.characters,
                                       decoration: InputDecoration(
@@ -393,7 +396,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
                                       ),
                                       style: mobileTextFontStyle,
                                       onChanged: (value) {
-                                        onSearchTextChanged();
+                                        onSearchTextChanged(value);
                                         if (value.length == 3) {
                                           // mawbPrefixFocusNode.unfocus();
                                           // mawbNoFocusNode.requestFocus();
@@ -509,7 +512,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
                                                     color: Colors.black,
                                                   ),
                                                   onChanged: (value) {
-                                                    onSearchTextChanged();
+                                                    onSearchTextChanged(value);
                                                     if (value.length == 3) {
                                                       mawbPrefixFocusNode
                                                           .unfocus();
@@ -567,7 +570,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
                                                     color: Colors.black,
                                                   ),
                                                   onChanged: (value) {
-                                                    onSearchTextChanged();
+                                                    onSearchTextChanged(value);
                                                     if (value.length == 3) {
                                                       // mawbPrefixFocusNode.unfocus();
                                                       // mawbNoFocusNode.requestFocus();
@@ -653,21 +656,18 @@ class _DocumentUploadState extends State<DocumentUpload> {
     );
   }
 
-  void onSearchTextChanged() {
-    String prefix = mawbPrefixController.text.trim();
-    String suffix = mawbNoController.text.trim();
-    if (prefix.isEmpty && suffix.isEmpty) {
-      setState(() {
-        searchedList.clear();
-      });
+  onSearchTextChanged(String text) async {
+    searchedList.clear();
+    if (text.isEmpty) {
+      setState(() {});
       return;
     }
-    String searchText = prefix.isEmpty ? suffix : "$prefix-$suffix";
-    setState(() {
-      searchedList = docUploadList
-          .where((item) => item.MAWBNo.contains(searchText))
-          .toList();
-    });
+    for (var item in docUploadList) {
+      if (item.MAWBNo.contains(text.toLowerCase())) {
+        searchedList.add(item);
+      }
+    }
+    setState(() {});
   }
 
   mawbListItem(BuildContext context, DocUploadDetails docUploadDetails, index) {
@@ -705,7 +705,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                DocumentUploadChild(docUploadDetails)),
+                                SubmitITNDetails(docUploadDetails)),
                       );
                     },
                     child: Icon(
@@ -867,41 +867,5 @@ class _DocumentUploadState extends State<DocumentUpload> {
         ),
       ),
     );
-  }
-}
-
-class DocUploadDetails {
-  final String MAWBNo;
-  final String Date;
-  final String PCS;
-  final String Weight;
-  final String Unit;
-
-  DocUploadDetails({
-    required this.MAWBNo,
-    required this.Date,
-    required this.PCS,
-    required this.Weight,
-    required this.Unit,
-  });
-
-  factory DocUploadDetails.fromJson(Map<String, dynamic> json) {
-    return DocUploadDetails(
-      MAWBNo: json['MAWBNo'] == null ? "" : json['MAWBNo'],
-      Date: json['Date'] == null ? "" : json['Date'],
-      PCS: json['PCS'] == null ? "" : json['PCS'],
-      Weight: json['Weight'] == null ? "" : json['Weight'],
-      Unit: json['Unit'] == null ? "" : json['Unit'],
-    );
-  }
-
-  Map toMap() {
-    var map = new Map<String, dynamic>();
-    map["MAWBNo"] = MAWBNo;
-    map["Date"] = Date;
-    map["PCS"] = PCS;
-    map["Weight"] = Weight;
-    map["Unit"] = Unit;
-    return map;
   }
 }

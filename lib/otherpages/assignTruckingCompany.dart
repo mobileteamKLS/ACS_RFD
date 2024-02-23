@@ -1,9 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_advanced_switch/flutter_advanced_switch.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:luxair/otherpages/submitITNDetails.dart';
+
 import 'package:scan/scan.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:luxair/datastructure/vehicletoken.dart';
@@ -15,17 +18,19 @@ import 'package:luxair/widgets/speech_recognition.dart';
 import 'package:intl/intl.dart';
 import '../constants.dart';
 import '../global.dart';
+import '../widgets/animated_toggle_switch.dart';
 import '../widgets/timeline.dart';
 import 'documentUploadChild.dart';
+import 'documentupload.dart';
 
-class DocumentUpload extends StatefulWidget {
-  const DocumentUpload({Key? key}) : super(key: key);
+class AssignTruckingCompany extends StatefulWidget {
+  const AssignTruckingCompany({Key? key}) : super(key: key);
 
   @override
-  State<DocumentUpload> createState() => _DocumentUploadState();
+  State<AssignTruckingCompany> createState() => _AssignTruckingCompanyState();
 }
 
-class _DocumentUploadState extends State<DocumentUpload> {
+class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
   TextEditingController dateInput = TextEditingController();
   String scannedCodeReceived = "", selectedSlotDate = "";
   bool useMobileLayout = false;
@@ -38,6 +43,8 @@ class _DocumentUploadState extends State<DocumentUpload> {
   FocusNode mawbPrefixFocusNode = FocusNode();
   FocusNode mawbNoFocusNode = FocusNode();
 
+  //  List<CodexPass> passList = [];
+  // List<FilterArray> _filterArray = [];
   bool isLoading = false;
   bool isSearched = false;
   bool isImport = false;
@@ -48,44 +55,44 @@ class _DocumentUploadState extends State<DocumentUpload> {
   // List<VehicleToken> vehicleToeknListImport = [];
   // List<VehicleToken> vehicleToeknListExport = [];
   // List<VehicleToken> vehicleToeknListtRandom = [];
-  List<DocUploadDetails> searchedList = [];
-  List<DocUploadDetails> docUploadList = [
-    DocUploadDetails(
-        MAWBNo: '999-56565670',
-        Date: '17-Jan-24',
-        PCS: '20',
-        Weight: '55.00',
-        Unit: 'kgs'),
-    DocUploadDetails(
-        MAWBNo: '125-56565671',
-        Date: '18-Jan-24',
-        PCS: '20',
-        Weight: '96.00',
-        Unit: 'kgs'),
-    DocUploadDetails(
-        MAWBNo: '125-56565672',
-        Date: '19-Jan-24',
-        PCS: '20',
-        Weight: '71.00',
-        Unit: 'kgs'),
-    DocUploadDetails(
-        MAWBNo: '999-56565673',
-        Date: '20-Jan-24',
-        PCS: '20',
-        Weight: '45.00',
-        Unit: 'kgs'),
-    DocUploadDetails(
-        MAWBNo: '999-56565674',
-        Date: '21-Jan-24',
-        PCS: '20',
-        Weight: '80.00',
-        Unit: 'kgs'),
-    DocUploadDetails(
-        MAWBNo: '165-56565675',
-        Date: '22-Jan-24',
-        PCS: '20',
-        Weight: '60.00',
-        Unit: 'kgs'),
+
+  List<AssignTruckingDetails> searchedList = [];
+  List<AssignTruckingDetails> assignTruckList = [
+    AssignTruckingDetails(
+        MAWBNo: "999-56565670",
+        ITNNo: "X20240212456565",
+        ITNDate: "17-Jan-24",
+        TruckingCompany: "APGTransport"),
+    AssignTruckingDetails(
+        MAWBNo: "125-56565671",
+        ITNNo: "X20240212456566",
+        ITNDate: "18-Jan-24",
+        TruckingCompany: "APGTransport"),
+    AssignTruckingDetails(
+        MAWBNo: "999-56565672",
+        ITNNo: "X20240212456567",
+        ITNDate: "19-Jan-24",
+        TruckingCompany: "APGTransport"),
+    AssignTruckingDetails(
+        MAWBNo: "125-56565673",
+        ITNNo: "X20240212456568",
+        ITNDate: "20-Jan-24",
+        TruckingCompany: "APGTransport"),
+    AssignTruckingDetails(
+        MAWBNo: "999-56565674",
+        ITNNo: "X20240212456569",
+        ITNDate: "21-Jan-24",
+        TruckingCompany: "APGTransport"),
+    AssignTruckingDetails(
+        MAWBNo: "125-56565675",
+        ITNNo: "X20240212456570",
+        ITNDate: "22-Jan-24",
+        TruckingCompany: "APGTransport"),
+    AssignTruckingDetails(
+        MAWBNo: "999-56565676",
+        ITNNo: "X20240212456571",
+        ITNDate: "23-Jan-24",
+        TruckingCompany: "APGTransport"),
   ];
   List<bool> isSelected = [true, false, false];
 
@@ -94,7 +101,6 @@ class _DocumentUploadState extends State<DocumentUpload> {
     dateInput.text = "";
     // if (modeSelected == 0) vehicleToeknListToBind = vehicleToeknListExport;
     // if (modeSelected == 1) vehicleToeknListToBind = vehicleToeknListImport;
-
     // if (vehicleToeknListExport.isNotEmpty)
     //   vehicleToeknListToBind = vehicleToeknListExport;
     //
@@ -134,17 +140,35 @@ class _DocumentUploadState extends State<DocumentUpload> {
   @override
   void dispose() {
     _controllerModeType.dispose();
-    mawbPrefixController.dispose();
-    mawbNoController.dispose();
+
     super.dispose();
   }
 
+  // ThemeColor darkMode = ThemeColor(
+  //   gradient: [
+  //     const Color(0xFF8983F7),
+  //     const Color(0xFFA3DAFB),
+  //   ],
+  //   backgroundColor: const Color(0xFF26242e),
+  //   textColor: const Color(0xFFFFFFFF),
+  //   toggleButtonColor: const Color(0xFf34323d),
+  //   toggleBackgroundColor: const Color(0xFF222029),
+  //   shadow: const <BoxShadow>[
+  //     BoxShadow(
+  //       color: const Color(0x66000000),
+  //       spreadRadius: 5,
+  //       blurRadius: 10,
+  //       offset: Offset(0, 5),
+  //     ),
+  //   ],
+  // );
   @override
   Widget build(BuildContext context) {
     var smallestDimension = MediaQuery.of(context).size.shortestSide;
     useMobileLayout = smallestDimension < 600;
     print("useMobileLayout");
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           var returnVal = await showModalBottomSheet<String>(
@@ -175,7 +199,8 @@ class _DocumentUploadState extends State<DocumentUpload> {
             print("returnVal after replace " + returnVal);
             setState(() {
               scannedCodeReceived = returnVal.toString().trim();
-              txtVTNO.text = scannedCodeReceived;
+              mawbPrefixController.text = scannedCodeReceived.substring(0, 3);
+              mawbNoController.text = scannedCodeReceived.substring(3, 11);
             });
           } else if (returnVal.toLowerCase().contains("scan")) {
             if (returnVal.toLowerCase().contains("document")) {
@@ -244,62 +269,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
             HeaderClipperWave(
                 color1: Color(0xFF3383CD),
                 color2: Color(0xFF11249F),
-                headerText: "Document Upload"),
-            // ClipPath(
-            //   clipper: MyClippers1(),
-            //   child: Container(
-            //     padding: EdgeInsets.only(left: 40, top: 50, right: 20),
-            //     // height: 250,
-            //     // width: double.infinity,
-            //       height: MediaQuery.of(context).size.height / 5.2,
-            //     width: MediaQuery.of(context).size.width, //180,
-            //     decoration: BoxDecoration(
-            //       gradient: LinearGradient(
-            //         begin: Alignment.topRight,
-            //         end: Alignment.bottomLeft,
-            //         colors: [
-            //           Color(0xFF3383CD),
-            //           Color(0xFF11249F),
-            //         ],
-            //       ),
-            //     ),
-            //     child: Column(
-            //       mainAxisAlignment: MainAxisAlignment.start,
-            //       crossAxisAlignment: CrossAxisAlignment.start,
-            //       children: [
-            //         Padding(
-            //           padding: const EdgeInsets.only(top: 20.0),
-            //           child: Row(
-            //             mainAxisAlignment: MainAxisAlignment.start,
-            //             crossAxisAlignment: CrossAxisAlignment.center,
-            //             children: [
-            //               GestureDetector(
-            //                 onTap: () {
-            //                   Navigator.of(context).pop();
-            //                 },
-            //                 child: Center(
-            //                   child: Icon(
-            //                     Icons.chevron_left,
-            //                     size: MediaQuery.of(context).size.width / 18,//56,
-            //                     color: Colors.white,
-            //                   ),
-            //                 ),
-            //               ),
-            //               SizedBox(width: 20),
-            //               Text(
-            //                 "Dock-In List ",
-            //                 style: TextStyle(
-            //                     fontSize: MediaQuery.of(context).size.width / 18,//48,
-            //                     fontWeight: FontWeight.normal,
-            //                     color: Colors.white),
-            //               ),
-            //             ],
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // ),
+                headerText: "Assign Trucking Company"),
             useMobileLayout
                 ? Expanded(
                     flex: 0,
@@ -311,6 +281,57 @@ class _DocumentUploadState extends State<DocumentUpload> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: ToggleSwitch(
+                                minWidth: useMobileLayout
+                                    ? MediaQuery.of(context).size.width / 2
+                                    : MediaQuery.of(context).size.width / 4.5,
+                                minHeight: 45.0,
+                                fontSize: 16.0,
+                                // cornerRadius: 20.0,
+                                initialLabelIndex: trackingType,
+                                activeBgColors: [
+                                  [Color(0xFF1220BC), Color(0xFF3540E8)],
+                                  [Color(0xFF1220BC), Color(0xFF3540E8)],
+                                  [Color(0xFF1220BC), Color(0xFF3540E8)],
+                                ],
+                                activeFgColor: Colors.white,
+                                inactiveBgColor: Colors.grey,
+                                inactiveFgColor: Colors.white,
+                                totalSwitches: 2,
+                                animate: true,
+                                curve: Curves.bounceInOut,
+                                customTextStyles: [
+                                  TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.normal,
+                                    color: Colors.white,
+                                  ),
+                                  TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.normal,
+                                    color: Colors.white,
+                                  ),
+                                  TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.normal,
+                                    color: Colors.white,
+                                  )
+                                ],
+                                labels: [' Assign Truck ', ' Unassign Truck '],
+
+                                onToggle: (index) {
+                                  setState(() {
+                                    trackingType = index!;
+                                    print(trackingType);
+                                  });
+                                },
+                              ),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
                             Row(children: [
                               SizedBox(
                                 width: MediaQuery.of(context).size.width / 4.3,
@@ -335,6 +356,9 @@ class _DocumentUploadState extends State<DocumentUpload> {
                                     ),
                                     child: TextField(
                                       keyboardType: TextInputType.number,
+                                      inputFormatters: [
+                                        LengthLimitingTextInputFormatter(3)
+                                      ],
                                       controller: mawbPrefixController,
                                       focusNode: mawbPrefixFocusNode,
                                       textAlign: TextAlign.right,
@@ -380,6 +404,9 @@ class _DocumentUploadState extends State<DocumentUpload> {
                                       focusNode: mawbNoFocusNode,
                                       textAlign: TextAlign.right,
                                       keyboardType: TextInputType.number,
+                                      inputFormatters: [
+                                        LengthLimitingTextInputFormatter(9)
+                                      ],
                                       textCapitalization:
                                           TextCapitalization.characters,
                                       decoration: InputDecoration(
@@ -425,7 +452,6 @@ class _DocumentUploadState extends State<DocumentUpload> {
                 : Expanded(
                     flex: 0,
                     child: Container(
-                      height: 135,
                       child: Padding(
                         padding: const EdgeInsets.only(
                             top: 10.0, bottom: 10.0, left: 16.0),
@@ -443,6 +469,64 @@ class _DocumentUploadState extends State<DocumentUpload> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              2.8,
+                                          child: ToggleSwitch(
+                                            minWidth: 160,
+                                            minHeight: 65.0,
+                                            initialLabelIndex: modeSelected,
+                                            cornerRadius: 20.0,
+                                            activeFgColor: Colors.white,
+                                            inactiveBgColor: Colors.grey,
+                                            inactiveFgColor: Colors.white,
+                                            totalSwitches: 2,
+                                            customTextStyles: [
+                                              TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.normal,
+                                                color: Colors.white,
+                                              ),
+                                              TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.normal,
+                                                color: Colors.white,
+                                              )
+                                            ],
+                                            labels: ['Assign ', ' Unassign'],
+
+                                            iconSize: 22.0,
+                                            activeBgColors: [
+                                              // [Colors.blueAccent, Colors.blue],
+                                              // [Colors.blueAccent, Colors.blue],
+                                              [
+                                                Color(0xFF1220BC),
+                                                Color(0xFF3540E8)
+                                              ],
+                                              [
+                                                Color(0xFF1220BC),
+                                                Color(0xFF3540E8)
+                                              ],
+                                            ],
+                                            animate: true,
+                                            // with just animate set to true, default curve = Curves.easeIn
+                                            curve: Curves.bounceInOut,
+                                            // animate must be set to true when using custom curve
+                                            onToggle: (index) {
+                                              print('switched to: $index');
+
+                                              setState(() {
+                                                //selectedText = "";
+                                                modeSelected = index!;
+                                              });
+                                            },
+                                          ),
+                                        ),
+                                      ),
                                       SizedBox(
                                         width:
                                             MediaQuery.of(context).size.width /
@@ -619,39 +703,144 @@ class _DocumentUploadState extends State<DocumentUpload> {
                         width: 100,
                         child: CircularProgressIndicator()))
                 : Expanded(
-                    child: SingleChildScrollView(
-                      child: searchedList.isNotEmpty ||
-                              (mawbPrefixController.text.isNotEmpty ||
-                                  mawbPrefixController.text.isNotEmpty)
-                          ? ListView.builder(
-                              padding: EdgeInsets.zero,
-                              shrinkWrap: true,
-                              itemCount: searchedList.length,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemBuilder: (BuildContext context, int index) {
-                                DocUploadDetails docListItem =
-                                    searchedList.elementAt(index);
-                                return mawbListItem(
-                                    context, docListItem, index);
-                              },
-                            )
-                          : ListView.builder(
-                              padding: EdgeInsets.zero,
-                              shrinkWrap: true,
-                              itemCount: docUploadList.length,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemBuilder: (BuildContext context, int index) {
-                                DocUploadDetails docListItem =
-                                    docUploadList.elementAt(index);
-                                return mawbListItem(
-                                    context, docListItem, index);
-                              },
+                    child: Stack(
+                      children: [
+                        Container(
+                          child: SingleChildScrollView(
+                            // padding: EdgeInsets.only(bottom: 64),
+                            child: Column(
+                              children: [
+                                searchedList.isNotEmpty &&
+                                    (mawbPrefixController.text.isNotEmpty ||
+                                        mawbPrefixController.text.isNotEmpty)
+                                    ? Padding(
+                                      padding: useMobileLayout
+                                          ? const EdgeInsets.only(bottom: 60.0)
+                                          : const EdgeInsets.only(bottom: 80.0),
+                                      child: ListView.builder(
+                                  padding: EdgeInsets.zero,
+                                  shrinkWrap: true,
+                                  itemCount: searchedList.length,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemBuilder:
+                                        (BuildContext context, int index) {
+                                      AssignTruckingDetails docListItem =
+                                      searchedList.elementAt(index);
+                                      return mawbListItem(
+                                          context, docListItem, index);
+                                  },
+                                ),
+                                    )
+                                    : Padding(
+                                      padding: useMobileLayout?const EdgeInsets.only(bottom: 60.0):const EdgeInsets.only(bottom: 80.0),
+                                      child: ListView.builder(
+                                  padding: EdgeInsets.zero,
+                                  shrinkWrap: true,
+                                  itemCount: assignTruckList.length,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemBuilder:
+                                        (BuildContext context, int index) {
+                                      AssignTruckingDetails docListItem =
+                                      assignTruckList.elementAt(index);
+                                      return mawbListItem(
+                                          context, docListItem, index);
+                                  },
+                                ),
+                                    ),
+                              ],
                             ),
-                    ),
-                  )
+                          ),
+                        ),
+                      Positioned(
+                        bottom: 10,
+                        left: 75,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {},
+                              style: ButtonStyle(
+                                foregroundColor: MaterialStateProperty.all(
+                                    const Color.fromARGB(255, 1, 36, 159)),
+                                backgroundColor: MaterialStateProperty.all(
+                                    const Color.fromARGB(255, 255, 255, 255)),
+                                shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    side: const BorderSide(
+                                        color: Color(0xFF11249F)),
+                                  ),
+                                ),
+                              ),
+                              child: SizedBox(
+                                width: useMobileLayout
+                                    ? MediaQuery.of(context).size.width / 4.8
+                                    : MediaQuery.of(context).size.width / 2.8,
+                                height: useMobileLayout ? 38 : 58,
+                                child: Center(
+                                  child: const Text(
+                                    "Back",
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 16,
+                            ),
+                            ElevatedButton(
+                              onPressed: () {},
+                              style: ButtonStyle(
+                                foregroundColor: MaterialStateProperty.all(
+                                    const Color.fromARGB(255, 255, 255, 255)),
+                                backgroundColor: MaterialStateProperty.all(
+                                    const Color.fromARGB(255, 1, 36, 159)),
+                                shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                ),
+                              ),
+                              child: SizedBox(
+                                width: useMobileLayout
+                                    ? MediaQuery.of(context).size.width / 4.8
+                                    : MediaQuery.of(context).size.width / 2.8,
+                                height: useMobileLayout ? 38 : 58,
+                                child: Center(
+                                  child: const Text(
+                                    "Save",
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                    )
+                  ),
           ]),
     );
   }
+
+  // onSearchTextChanged(String text) async {
+  //   searchedList.clear();
+  //   if (mawbPrefixController.text.isEmpty && mawbNoController.text.isEmpty) {
+  //     setState(() {});
+  //     return;
+  //   }
+  //   for (var item in assignTruckList) {
+  //     var searchText="${mawbPrefixController.text.trim()}-${mawbNoController.text.trim()}";
+  //     if (item.MAWBNo.contains(searchText)) {
+  //       searchedList.add(item);
+  //     }
+  //   }
+  //   setState(() {});
+  // }
 
   void onSearchTextChanged() {
     String prefix = mawbPrefixController.text.trim();
@@ -664,244 +853,185 @@ class _DocumentUploadState extends State<DocumentUpload> {
     }
     String searchText = prefix.isEmpty ? suffix : "$prefix-$suffix";
     setState(() {
-      searchedList = docUploadList
+      searchedList = assignTruckList
           .where((item) => item.MAWBNo.contains(searchText))
           .toList();
     });
   }
 
-  mawbListItem(BuildContext context, DocUploadDetails docUploadDetails, index) {
-    return Card(
-      elevation: 3,
-      margin: useMobileLayout
-          ? EdgeInsets.all(8)
-          : EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      color: Colors.white,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width / 2,
-                  // height: 70,
-                  // color: Colors.white,
-                  child: Text(
-                    docUploadDetails.MAWBNo,
-                    style: useMobileLayout
-                        ? mobileGroupHeaderFontStyleBold
-                        : iPadGroupHeaderFontStyleBold,
-                  ),
-                ),
-                SizedBox(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                DocumentUploadChild(docUploadDetails)),
-                      );
-                    },
-                    child: Icon(
-                      FontAwesomeIcons.chevronRight,
-                      color: Colors.white,
-                      size: useMobileLayout ? 24 : 34,
-                    ),
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all(CircleBorder()),
-                      padding: MaterialStateProperty.all(EdgeInsets.all(12)),
-                      backgroundColor: MaterialStateProperty.all(
-                          Color(0xFF11249F)), // <-- Button color
-                      // overlayColor:
-                      //     MaterialStateProperty.resolveWith<Color?>((states) {
-                      //   if (states.contains(MaterialState.pressed))
-                      //     return Colors.red; // <-- Splash color
-                      // }),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            // SizedBox(height: 2),
-
-            SizedBox(height: 3),
-
-            //  Container(
-            //       height: 1,
-            //       width: MediaQuery.of(context).size.width / 1.2,
-            //       color: Color(0xFF0461AA),
-            //     ),
-            SizedBox(height: 3),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  width: useMobileLayout
-                      ? MediaQuery.of(context).size.width / 1.7
-                      : MediaQuery.of(context).size.width / 1.5,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Trucking Company Name",
-                        style: useMobileLayout
-                            ? VTlistTextFontStyle
-                            : iPadcompletedBlackText,
-                      ),
-
-                      Text(
-                        "Origin",
-                        style: useMobileLayout
-                            ? VTlistTextFontStyle
-                            : iPadcompletedBlackText,
-                        textAlign: TextAlign.left,
-                        // softWrap: true,
-                        // maxLines: 3,
-                      ),
-                      Text(
-                        "Destination",
-                        style: useMobileLayout
-                            ? VTlistTextFontStyle
-                            : iPadcompletedBlackText,
-                        textAlign: TextAlign.left,
-                      ),
-                      // SizedBox(
-                      //   width: MediaQuery.of(context).size.width / 1.2,
-                      //   // height: 70,
-                      //   // color: Colors.white,
-                      //   child: Padding(
-                      //     padding: const EdgeInsets.only(top: 8.0),
-                      //     child: Text(
-                      //       bawbd.FreightForwarder,
-                      //       style: mobileDetailsGridView,
-                      //       textAlign: TextAlign.left,
-                      //     ),
-                      //   ),
-                      // ),
-                    ],
-                  ),
-                ),
-                Container(
-                  height: useMobileLayout ? 60 : 70,
-                  width: 3,
-                  color: Color(0xFF0461AA),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: SizedBox(
-                    width: useMobileLayout
-                        ? MediaQuery.of(context).size.width / 4.2
-                        : MediaQuery.of(context).size.width / 4.6,
+  mawbListItem(
+      BuildContext context, AssignTruckingDetails assignTruckDetails, index) {
+    return GestureDetector(
+      onLongPress: () {
+        setState(() {
+          assignTruckDetails.isSelected = !assignTruckDetails.isSelected!;
+        });
+      },
+      child: Card(
+        elevation: 3,
+        margin: useMobileLayout
+            ? EdgeInsets.all(8)
+            : EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        // color: assignTruckDetails.isSelected!?Colors.blue:Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(4.0),
+          side: BorderSide(
+            color: assignTruckDetails.isSelected ?? false
+                ? Color(0xFF11249F)
+                : Colors.transparent,
+            width: 2.0,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 2.0,
                     // height: 70,
-                    // color: Colors.white,
+                    // color: Colors.red,
+                    child: Text(
+                      assignTruckDetails.MAWBNo,
+                      style: useMobileLayout
+                          ? mobileGroupHeaderFontStyleBold
+                          : iPadGroupHeaderFontStyleBold,
+                    ),
+                  ),
+                ],
+              ),
+              // SizedBox(height: 2),
+              SizedBox(height: useMobileLayout ? 6 : 18),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: useMobileLayout
+                        ? MediaQuery.of(context).size.width / 1.7
+                        : MediaQuery.of(context).size.width / 1.5,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Icon(
-                              Icons.calendar_month,
-                              size: useMobileLayout ? 16 : 28,
-                              color: Color(0xFF11249F),
-                            ),
-                            //              SizedBox(width: 10),
-                            Text(
-                              " ${docUploadDetails.Date}",
-                              style: useMobileLayout
-                                  ? VTlistTextFontStyle
-                                  : iPadcompletedBlackText,
-                            ),
-                          ],
-                        ),
                         Text(
-                          "${docUploadDetails.PCS}" + " PCS",
+                          " ${assignTruckDetails.ITNNo}",
                           style: useMobileLayout
                               ? VTlistTextFontStyle
                               : iPadcompletedBlackText,
                         ),
+
                         Text(
-                          "${docUploadDetails.Weight}" +
-                              " " +
-                              "${docUploadDetails.Unit}",
+                          " ${assignTruckDetails.TruckingCompany}",
                           style: useMobileLayout
                               ? VTlistTextFontStyle
                               : iPadcompletedBlackText,
+                          textAlign: TextAlign.left,
+                          // softWrap: true,
+                          // maxLines: 3,
                         ),
+
+                        // SizedBox(
+                        //   width: MediaQuery.of(context).size.width / 1.2,
+                        //   // height: 70,
+                        //   // color: Colors.white,
+                        //   child: Padding(
+                        //     padding: const EdgeInsets.only(top: 8.0),
+                        //     child: Text(
+                        //       bawbd.FreightForwarder,
+                        //       style: mobileDetailsGridView,
+                        //       textAlign: TextAlign.left,
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),
-                ),
-              ],
-            ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.start,
-            //   crossAxisAlignment: CrossAxisAlignment.start,
-            //   children: [
-            //     SizedBox(
-            //       width: MediaQuery.of(context).size.width / 1.2,
-            //       // height: 70,
-            //       // color: Colors.white,
-            //       child: Padding(
-            //         padding: const EdgeInsets.only(top: 8.0),
-            //         child: Text(
-            //           bawbd.FreightForwarder,
-            //           style: mobileDetailsGridView,
-            //           textAlign: TextAlign.left,
-            //         ),
-            //       ),
-            //     ),
-            //   ],
-            // ),
-          ],
+                  Container(
+                    height: useMobileLayout ? 40 : 50,
+                    width: 3,
+                    color: Color(0xFF0461AA),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: SizedBox(
+                      width: useMobileLayout
+                          ? MediaQuery.of(context).size.width / 4.2
+                          : MediaQuery.of(context).size.width / 4.6,
+                      // height: 70,
+                      // color: Colors.white,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.calendar_month,
+                                size: useMobileLayout ? 16 : 28,
+                                color: Color(0xFF11249F),
+                              ),
+                              //              SizedBox(width: 10),
+                              Text(
+                                " ${assignTruckDetails.ITNDate}",
+                                style: useMobileLayout
+                                    ? VTlistTextFontStyle
+                                    : iPadcompletedBlackText,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.start,
+              //   crossAxisAlignment: CrossAxisAlignment.start,
+              //   children: [
+              //     SizedBox(
+              //       width: MediaQuery.of(context).size.width / 1.2,
+              //       // height: 70,
+              //       // color: Colors.white,
+              //       child: Padding(
+              //         padding: const EdgeInsets.only(top: 8.0),
+              //         child: Text(
+              //           bawbd.FreightForwarder,
+              //           style: mobileDetailsGridView,
+              //           textAlign: TextAlign.left,
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-class DocUploadDetails {
+class AssignTruckingDetails {
   final String MAWBNo;
-  final String Date;
-  final String PCS;
-  final String Weight;
-  final String Unit;
+  final String ITNNo;
+  final String ITNDate;
+  final String TruckingCompany;
+  bool? isSelected;
 
-  DocUploadDetails({
-    required this.MAWBNo,
-    required this.Date,
-    required this.PCS,
-    required this.Weight,
-    required this.Unit,
-  });
-
-  factory DocUploadDetails.fromJson(Map<String, dynamic> json) {
-    return DocUploadDetails(
-      MAWBNo: json['MAWBNo'] == null ? "" : json['MAWBNo'],
-      Date: json['Date'] == null ? "" : json['Date'],
-      PCS: json['PCS'] == null ? "" : json['PCS'],
-      Weight: json['Weight'] == null ? "" : json['Weight'],
-      Unit: json['Unit'] == null ? "" : json['Unit'],
-    );
-  }
-
-  Map toMap() {
-    var map = new Map<String, dynamic>();
-    map["MAWBNo"] = MAWBNo;
-    map["Date"] = Date;
-    map["PCS"] = PCS;
-    map["Weight"] = Weight;
-    map["Unit"] = Unit;
-    return map;
-  }
+  AssignTruckingDetails(
+      {required this.MAWBNo,
+      required this.ITNNo,
+      required this.ITNDate,
+      required this.TruckingCompany,
+      this.isSelected = false});
 }

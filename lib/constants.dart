@@ -6,10 +6,22 @@ const mobileHeaderFontStyle = TextStyle(
   color: Color(0xFF11249F),
 );
 
+const mobileTimeLineHeaderFontStyle = TextStyle(
+  fontSize: 16,
+  fontWeight: FontWeight.normal,
+  color: Color(0xFF11249F),
+);
+
 const mobileHeaderFontStyleBold = TextStyle(
   fontSize: 18,
   fontWeight: FontWeight.bold,
   color: Color(0xFF11249F),
+);
+
+const mobileHeaderFontStyleBold2 = TextStyle(
+  fontSize: 18,
+  fontWeight: FontWeight.bold,
+  color: Color(0xFFFFFFFF),
 );
 
 const iPadHeaderFontStyle = TextStyle(
@@ -58,6 +70,12 @@ const iPadGroupHeaderFontStyleBold = TextStyle(
   fontSize: 22,
   fontWeight: FontWeight.bold,
   color: Color(0xFF11249F),
+);
+
+const iPadGroupHeaderFontStyleBold2 = TextStyle(
+  fontSize: 22,
+  fontWeight: FontWeight.bold,
+  color: Color(0xFFFFFFFF),
 );
 
 const iPadGroupHeaderFontStyleTooBold = TextStyle(
@@ -278,15 +296,26 @@ const iPadToggleTextFontStyleWhite = TextStyle(
 );
 
 class Settings {
+  //19 FEB
+  static  String ACSServiceURL =
+      "https://acstsmdemo.kalelogistics.com/ACS_TSM_RFD_HHT_Services/srvMobile.asmx";
 
-  static const String ACSServiceURL =
-      "https://acsdemoservice.kalelogistics.com/srvMobile.asmx"; //YVRA UAT Server
   static const String ACSServiceImageURL =
       'https://acsdemoservice.kalelogistics.com/';
   static const String loginUrl =
-      "https://acsdemoservice.kalelogistics.com/srvMobile.asmx";
+      "https://acstsmdemo.kalelogistics.com/ACS_TSM_RFD_HHT_Services/srvMobile.asmx";
   static const String ACSWFSServiceURL =
-      "https://acsdemoservice.kalelogistics.com/srvMobile.asmx";
+      "https://acstsmdemo.kalelogistics.com/ACS_TSM_RFD_HHT_Services/srvMobile.asmx";
+  // 16 FEB
+  // static const String ACSServiceURL =
+  //     "https://acsdemoservice.kalelogistics.com/srvMobile.asmx"; //YVRA UAT Server
+  // //"https://acsdemo.upliftindia.com/ACS_GMR_UAT_HHT_Services/srvMobile.asmx";
+  // static const String ACSServiceImageURL =
+  //     'https://acsdemoservice.kalelogistics.com/';
+  // static const String loginUrl =
+  //     "https://acsdemoservice.kalelogistics.com/srvMobile.asmx";
+  // static const String ACSWFSServiceURL =
+  //     "https://acsdemoservice.kalelogistics.com/srvMobile.asmx";
 
   //YVRA UAT LINK PROVIDED ON 31-OCT-2022 -  this is for YVRA UAT
 
@@ -397,5 +426,7 @@ class Settings {
         "/GetBookedSlotList", // get list of booked slots export
     "BookedSlotsListImport":
         "/GetImportBookedSlotList", // get list of booked slots import
+    "TrackAndTrace":
+    "/ACS_Exp_TrackandTrace",
   };
 }

@@ -15,6 +15,7 @@ import 'package:luxair/widgets/speech_recognition.dart';
 import 'package:intl/intl.dart';
 import '../constants.dart';
 import '../global.dart';
+import '../widgets/timeline.dart';
 
 class TrackAndTrace extends StatefulWidget {
   const TrackAndTrace({Key? key}) : super(key: key);
@@ -24,204 +25,85 @@ class TrackAndTrace extends StatefulWidget {
 }
 
 class _TrackAndTraceState extends State<TrackAndTrace> {
-  TextEditingController dateInput = TextEditingController();
-  String scannedCodeReceived = "", selectedSlotDate = "";
+  TextEditingController dateInputSB = TextEditingController();
+  TextEditingController dateInputBOE = TextEditingController();
+  final _controllerModeType = ValueNotifier<bool>(false);
+  List<VehicleToken> vehicleToeknListToBind = [];
+  List<VehicleToken> vehicleToeknListImport = [];
+  List<VehicleToken> vehicleToeknListExport = [];
+  List<EVTDetails> evtList = [
+    EVTDetails(
+        EVTno: "EVT2401190001",
+        VehicleNo: "12341111",
+        PendingArea: "15-01-2024 15.39",
+        DockIn: "15-01-2024 15.39",
+        DockOut: "15-01-2024 15.39"),
+    EVTDetails(
+        EVTno: "EVT2401190002",
+        VehicleNo: "12341112",
+        PendingArea: "15-01-2024 15.39",
+        DockIn: "15-01-2024 15.39",
+        DockOut: "15-01-2024 15.39"),
+    EVTDetails(
+        EVTno: "EVT2401190003",
+        VehicleNo: "12341111",
+        PendingArea: "15-01-2024 15.39",
+        DockIn: "15-01-2024 15.39",
+        DockOut: "15-01-2024 15.39"),
+    EVTDetails(
+        EVTno: "EVT2401190003",
+        VehicleNo: "12341111",
+        PendingArea: "15-01-2024 15.39",
+        DockIn: "15-01-2024 15.39",
+        DockOut: "15-01-2024 15.39"),
+    EVTDetails(
+        EVTno: "EVT2401190004",
+        VehicleNo: "12341114",
+        PendingArea: "15-01-2024 15.39",
+        DockIn: "15-01-2024 15.39",
+        DockOut: "15-01-2024 15.39"),
+    EVTDetails(
+        EVTno: "EVT2401190005",
+        VehicleNo: "12341115",
+        PendingArea: "15-01-2024 15.39",
+        DockIn: "15-01-2024 15.39",
+        DockOut: "15-01-2024 15.39"),
+    EVTDetails(
+        EVTno: "EVT2401190006",
+        VehicleNo: "12341116",
+        PendingArea: "15-01-2024 15.39",
+        DockIn: "15-01-2024 15.39",
+        DockOut: "15-01-2024 15.39"),
+  ];
+  bool isImport = false;
+  bool isLoading = false;
   bool useMobileLayout = false;
   int modeSelected = 0;
   int trackingSelected = 0; //, modeSelected1 = 0;
   int trackingType = 0;
   String dropdownValue = 'Select';
-
-  //  List<CodexPass> passList = [];
-  // List<FilterArray> _filterArray = [];
-  bool isLoading = false;
-  bool isSearched = false;
-  bool isImport = false;
-  TextEditingController txtVTNO = new TextEditingController();
-  final _controllerModeType = ValueNotifier<bool>(false);
-  List<VehicleToken> vehicleToeknListToBind = [];
-  List<VehicleToken> vehicleToeknListImport = [];
-  List<VehicleToken> vehicleToeknListExport = [];
-  List<VehicleToken> vehicleToeknListtRandom = [];
-  List<bool> isSelected = [true, false, false];
-
-  // List<VehicleToken> vehicleToeknListImport = [
-  //   TokenList(
-  //       VTNo: "IVT2206200020",
-  //       timefromto: "13:00 - 14:00",
-  //       DRIVERNAME: "John K",
-  //       VEHICLENO.toUpperCase(): "TNY34-563546"),
-  //   TokenList(
-  //       VTNo: "IVT2206200021",
-  //       timefromto: "14:00 - 15:00",
-  //       DRIVERNAME: "John K",
-  //       VEHICLENO.toUpperCase(): "TNY34-563546"),
-  //   TokenList(
-  //       VTNo: "IVT2206200022",
-  //       timefromto: "15:00 - 16:00",
-  //       DRIVERNAME: "John K",
-  //       VEHICLENO.toUpperCase(): "TNY34-563546"),
-  //   TokenList(
-  //       VTNo: "IVT2206200023",
-  //       timefromto: "16:00 - 17:00",
-  //       DRIVERNAME: "John K",
-  //       VEHICLENO.toUpperCase(): "TNY34-563546"),
-  //   TokenList(
-  //       VTNo: "IVT2206200024",
-  //       timefromto: "17:00 - 18:00",
-  //       DRIVERNAME: "John K",
-  //       VEHICLENO.toUpperCase(): "TNY34-563546"),
-  //   TokenList(
-  //       VTNo: "IVT2307200025",
-  //       timefromto: "18:00 - 19:00",
-  //       DRIVERNAME: "John K",
-  //       VEHICLENO.toUpperCase(): "TNY34-563546"),
-  //   TokenList(
-  //       VTNo: "IVT2307200025",
-  //       timefromto: "19:00 - 20:00",
-  //       DRIVERNAME: "John K",
-  //       VEHICLENO.toUpperCase(): "TNY34-563546"),
-  //   TokenList(
-  //       VTNo: "IVT2307200027",
-  //       timefromto: "20:00 - 21:00",
-  //       DRIVERNAME: "John K",
-  //       VEHICLENO.toUpperCase(): "TNY34-563546"),
-  //   TokenList(
-  //       VTNo: "IVT2307200028",
-  //       timefromto: "21:00 - 22:00",
-  //       DRIVERNAME: "John K",
-  //       VEHICLENO.toUpperCase(): "TNY34-563546"),
-  //   TokenList(
-  //       VTNo: "IVT2307200029",
-  //       timefromto: "22:00 - 23:00",
-  //       DRIVERNAME: "John K",
-  //       VEHICLENO.toUpperCase(): "TNY34-563546"),
-  // ];
-
-  // List<TokenList> vehicleToeknListExport = [
-  //   TokenList(
-  //       VTNo: "EVT2206200020",
-  //       timefromto: "13:00 - 14:00",
-  //       DRIVERNAME: "Joshua K",
-  //       VEHICLENO.toUpperCase(): "TNY34-563546"),
-  //   TokenList(
-  //       VTNo: "EVT2206200021",
-  //       timefromto: "14:00 - 15:00",
-  //       DRIVERNAME: "Joshua K",
-  //       VEHICLENO.toUpperCase(): "TNY34-563546"),
-  //   TokenList(
-  //       VTNo: "EVT2206200022",
-  //       timefromto: "15:00 - 16:00",
-  //       DRIVERNAME: "Joshua K",
-  //       VEHICLENO.toUpperCase(): "TNY34-563546"),
-  //   TokenList(
-  //       VTNo: "EVT2206200023",
-  //       timefromto: "16:00 - 17:00",
-  //       DRIVERNAME: "Joshua K",
-  //       VEHICLENO.toUpperCase(): "TNY34-563546"),
-  //   TokenList(
-  //       VTNo: "EVT2206200024",
-  //       timefromto: "17:00 - 18:00",
-  //       DRIVERNAME: "Joshua K",
-  //       VEHICLENO.toUpperCase(): "TNY34-563546"),
-  //   TokenList(
-  //       VTNo: "EVT2307200025",
-  //       timefromto: "18:00 - 19:00",
-  //       DRIVERNAME: "Joshua K",
-  //       VEHICLENO.toUpperCase(): "TNY34-563546"),
-  //   TokenList(
-  //       VTNo: "EVT2307200025",
-  //       timefromto: "19:00 - 20:00",
-  //       DRIVERNAME: "Joshua K",
-  //       VEHICLENO.toUpperCase(): "TNY34-563546"),
-  //   TokenList(
-  //       VTNo: "EVT2307200027",
-  //       timefromto: "20:00 - 21:00",
-  //       DRIVERNAME: "Joshua K",
-  //       VEHICLENO.toUpperCase(): "TNY34-563546"),
-  //   TokenList(
-  //       VTNo: "EVT2307200028",
-  //       timefromto: "21:00 - 22:00",
-  //       DRIVERNAME: "Joshua K",
-  //       VEHICLENO.toUpperCase(): "TNY34-563546"),
-  //   TokenList(
-  //       VTNo: "EVT2307210029",
-  //       timefromto: "22:00 - 23:00",
-  //       DRIVERNAME: "Joshua K",
-  //       VEHICLENO.toUpperCase(): "TNY34-563546"),
-  //   TokenList(
-  //       VTNo: "EVT2307220029",
-  //       timefromto: "22:00 - 23:00",
-  //       DRIVERNAME: "Joshua K",
-  //       VEHICLENO.toUpperCase(): "TNY34-563546"),
-  //   TokenList(
-  //       VTNo: "EVT2307230029",
-  //       timefromto: "22:00 - 23:00",
-  //       DRIVERNAME: "Joshua K",
-  //       VEHICLENO.toUpperCase(): "TNY34-563546"),
-  // ];
-
-  // List<TokenList> dockInListRandom = [
-  //   TokenList(
-  //       VTNo: "EVT2204200020",
-  //       timefromto: "06:00 - 07:00",
-  //       DRIVERNAME: "Killian S",
-  //       VEHICLENO.toUpperCase(): "IOQQ-563546"),
-  // ];
+  String selectedSlotDate = "";
 
   @override
   void initState() {
-    dateInput.text = "";
-    // if (modeSelected == 0) vehicleToeknListToBind = vehicleToeknListExport;
-    // if (modeSelected == 1) vehicleToeknListToBind = vehicleToeknListImport;
-
-    // if (vehicleToeknListExport.isNotEmpty)
-    //   vehicleToeknListToBind = vehicleToeknListExport;
-    //
+    super.initState();
+    dateInputSB.text = "";
+    dateInputBOE.text = "";
     _controllerModeType.addListener(() {
       setState(() {
-        // //scannedCodeReceived = "";
-        //
-        // print("value chnaged heere");
-        // txtVTNO.text = "";
         if (_controllerModeType.value) {
-          print("_controllerModeType.value chnaged to import");
-
           isImport = true;
-          // getVehicleToeknList(3); //Import
-          // modeSelected = 1;
-          // vehicleToeknListToBind = vehicleToeknListImport;
         } else {
-          print("_controllerModeType.value chnaged to export");
           isImport = false;
-          // modeSelected = 0;
-          // getVehicleToeknList(4); //Export
-          // vehicleToeknListToBind = vehicleToeknListExport;
         }
       });
     });
-    //
-    // if (modeSelected == 1) {
-    //   getVehicleToeknList(3); //Import
-    //   print("import");
-    // } else {
-    //   getVehicleToeknList(4); //Export
-    //   print("export");
-    // }
-    super.initState();
   }
 
-  @override
-  void dispose() {
-    _controllerModeType.dispose();
-
-    super.dispose();
-  }
-
-  getVehicleToeknList(modeType) async {
+  getTrackAndTraceDetails(modeType) async {
     if (isLoading) return;
 
-    txtVTNO.text = "";
+    // txtVTNO.text = "";
     vehicleToeknListExport = [];
     vehicleToeknListImport = [];
     vehicleToeknListToBind = [];
@@ -231,13 +113,17 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
     });
 
     var queryParams = {
-      "OperationType": modeType.toString(), // "",
-      "OrganizationBranchId":
-          selectedTerminalID, // loggedinUser.OrganizationBranchId,
+      "OperationType": "1", // "",
+      "AirlinePrefix": "999",
+      "AwbNumber": "56565670",
+      "CreatedByUserId": "22438",
+      "HawbNumber": "",
+      "OrganizationBranchId": "22462",
+      "OrganizationId": "22426" // loggedinUser.OrganizationBranchId,
     };
     await Global()
         .postData(
-      Settings.SERVICES['VehicleTokenList'],
+      Settings.SERVICES['TrackAndTrace'],
       queryParams,
     )
         .then((response) {
@@ -268,10 +154,10 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
       // });
 
       setState(() {
-        modeType == 2 ? modeSelected = 0 : modeSelected = 1;
-        vehicleToeknListToBind =
-            modeType == 2 ? vehicleToeknListExport : vehicleToeknListImport;
-        isLoading = false;
+        // modeType == 2 ? modeSelected = 0 : modeSelected = 1;
+        // vehicleToeknListToBind =
+        // modeType == 2 ? vehicleToeknListExport : vehicleToeknListImport;
+        // isLoading = false;
       });
 
       // if (response.statusCode == HttpStatus.notFound) {
@@ -308,1839 +194,437 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
     useMobileLayout = smallestDimension < 600;
     print("useMobileLayout");
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          var returnVal = await showModalBottomSheet<String>(
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(20),
-                ),
-              ),
-              context: context,
-              isDismissible: false,
-              builder: (context) {
-                return SpeechRecognition();
-              });
-
-          if (returnVal == null) return;
-          if (returnVal == "") return;
-          print("returnVal = " + returnVal);
-
-          if ((returnVal.toLowerCase().contains("search")) ||
-              (returnVal.toLowerCase().contains("look")) ||
-              (returnVal.toLowerCase().contains("find")) ||
-              (returnVal.toLowerCase().contains("get"))) {
-            returnVal = returnVal.toLowerCase().replaceAll('search', "");
-            returnVal = returnVal.toLowerCase().replaceAll('look', "");
-            returnVal = returnVal.toLowerCase().replaceAll('for', "");
-            returnVal = returnVal.toLowerCase().replaceAll('find', "");
-            returnVal = returnVal.toLowerCase().replaceAll('get', "");
-            print("returnVal after replace " + returnVal);
-            setState(() {
-              scannedCodeReceived = returnVal.toString().trim();
-              txtVTNO.text = scannedCodeReceived;
-              _runFilter(scannedCodeReceived);
-            });
-          } else if (returnVal.toLowerCase().contains("scan")) {
-            if (returnVal.toLowerCase().contains("document")) {
-              var scannedCode =
-                  await Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const QRViewExample(),
-              ));
-              print("code returned from app");
-              print(scannedCode);
-              if (scannedCode == null)
-                setState(() {
-                  scannedCodeReceived = "";
-                });
-              if (scannedCode == "")
-                setState(() {
-                  scannedCodeReceived = "";
-                });
-              if (scannedCode != null) {
-                if (scannedCode != "") {
-                  print("code returned from app =" + scannedCode);
-                  setState(() {
-                    scannedCodeReceived = scannedCode;
-                    txtVTNO.text = scannedCodeReceived;
-                    _runFilter(scannedCodeReceived);
-                  });
-                  // await getShipmentDetails(scannedCode);
-                }
-              }
-            }
-
-            if (returnVal.toLowerCase().contains("gallery")) {
-              final ImagePicker _picker = ImagePicker();
-              final XFile? image = await _picker.pickImage(
-                  source: ImageSource.gallery); // Pick an image
-              if (image == null)
-                return;
-              else {
-                String? str = await Scan.parse(image.path);
-                if (str != null) {
-                  setState(() {
-                    scannedCodeReceived = str;
-                    txtVTNO.text = scannedCodeReceived;
-                    _runFilter(scannedCodeReceived);
-                  });
-                }
-              }
-            }
-
-            // returnVal = returnVal.toLowerCase().replaceAll('search', "");
-            // print("returnVal after replace " + returnVal);
-
-            // setState(() {
-            //   scannedCodeReceived = returnVal.toString().trim();
-            //   txtVTNO.text = scannedCodeReceived;
-            //   _runFilter(scannedCodeReceived);
-            // });
-          } else {
-            print("returnVal after replace " + returnVal);
-          }
-        },
-        backgroundColor: Color(0xFF11249F), //Colors.green,
-        child: const Icon(Icons.record_voice_over_sharp),
-      ),
       body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            HeaderClipperWave(
-                color1: Color(0xFF3383CD),
-                color2: Color(0xFF11249F),
-                headerText: "Track And Trace"),
-            // ClipPath(
-            //   clipper: MyClippers1(),
-            //   child: Container(
-            //     padding: EdgeInsets.only(left: 40, top: 50, right: 20),
-            //     // height: 250,
-            //     // width: double.infinity,
-            //       height: MediaQuery.of(context).size.height / 5.2,
-            //     width: MediaQuery.of(context).size.width, //180,
-            //     decoration: BoxDecoration(
-            //       gradient: LinearGradient(
-            //         begin: Alignment.topRight,
-            //         end: Alignment.bottomLeft,
-            //         colors: [
-            //           Color(0xFF3383CD),
-            //           Color(0xFF11249F),
-            //         ],
-            //       ),
-            //     ),
-            //     child: Column(
-            //       mainAxisAlignment: MainAxisAlignment.start,
-            //       crossAxisAlignment: CrossAxisAlignment.start,
-            //       children: [
-            //         Padding(
-            //           padding: const EdgeInsets.only(top: 20.0),
-            //           child: Row(
-            //             mainAxisAlignment: MainAxisAlignment.start,
-            //             crossAxisAlignment: CrossAxisAlignment.center,
-            //             children: [
-            //               GestureDetector(
-            //                 onTap: () {
-            //                   Navigator.of(context).pop();
-            //                 },
-            //                 child: Center(
-            //                   child: Icon(
-            //                     Icons.chevron_left,
-            //                     size: MediaQuery.of(context).size.width / 18,//56,
-            //                     color: Colors.white,
-            //                   ),
-            //                 ),
-            //               ),
-            //               SizedBox(width: 20),
-            //               Text(
-            //                 "Dock-In List ",
-            //                 style: TextStyle(
-            //                     fontSize: MediaQuery.of(context).size.width / 18,//48,
-            //                     fontWeight: FontWeight.normal,
-            //                     color: Colors.white),
-            //               ),
-            //             ],
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // ),
-
-            useMobileLayout
-                ? Expanded(
-                    flex: 0,
-                    child: Container(
-                      height: 350,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            top: 0.0, bottom: 10.0, left: 10.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width / 4,
-                                  child: Text("Mode",
-                                      style: mobileHeaderFontStyle),
-                                ),
-                                AdvancedSwitch(
-                                  activeColor: Color(0xFF11249F),
-                                  inactiveColor: Color(0xFF11249F),
-                                  activeChild: Text('Import',
-                                      style: mobileTextFontStyleWhite),
-                                  inactiveChild: Text('Export',
-                                      style: mobileTextFontStyleWhite),
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.5,
-                                  height: 35,
-                                  controller: _controllerModeType,
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 20),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: ToggleSwitch(
-                                minWidth: useMobileLayout
-                                    ? MediaQuery.of(context).size.width / 2
-                                    : MediaQuery.of(context).size.width / 4.5,
-                                minHeight: 45.0,
-                                fontSize: 16.0,
-                                // cornerRadius: 20.0,
-                                initialLabelIndex: trackingType,
-                                activeBgColors: [
-                                  [Color(0xFF1220BC), Color(0xFF3540E8)],
-                                  [Color(0xFF1220BC), Color(0xFF3540E8)],
-                                  [Color(0xFF1220BC), Color(0xFF3540E8)],
-                                ],
-                                activeFgColor: Colors.white,
-                                inactiveBgColor: Colors.grey,
-                                inactiveFgColor: Colors.white,
-                                totalSwitches: 3,
-                                animate: true,
-                                curve: Curves.bounceInOut,
-                                customTextStyles: [
-                                  TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.normal,
-                                    color: Colors.white,
-                                  ),
-                                  TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.normal,
-                                    color: Colors.white,
-                                  ),
-                                  TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.normal,
-                                    color: Colors.white,
-                                  )
-                                ],
-                                labels: isImport
-                                    ? [' AWB ', ' Vehicle ', ' IGM']
-                                    : [' AWB ', ' Vehicle ', ' EGM'],
-                                icons: [
-                                  FontAwesomeIcons.box,
-                                  FontAwesomeIcons.truckMoving,
-                                  FontAwesomeIcons.fileAlt,
-                                ],
-                                onToggle: (index) {
-                                  setState(() {
-                                    trackingType = index!;
-                                  });
-                                },
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          HeaderClipperWave(
+              color1: Color(0xFF3383CD),
+              color2: Color(0xFF11249F),
+              headerText: "Track And Trace"),
+          useMobileLayout
+              ? Expanded(
+                  flex: 0,
+                  child: Container(
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          top: 0.0, bottom: 10.0, left: 10.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width / 4,
+                                child:
+                                    Text("Mode", style: mobileHeaderFontStyle),
                               ),
-                            ),
-                            SizedBox(height: 10),
-                            trackingType == 0
-                                ? isImport
-                                    ? Column(
-                                        children: [
-                                          Row(children: [
-                                            SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  4.3,
-                                              child: Text("MAWB No.",
-                                                  style: mobileHeaderFontStyle),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 8.0),
-                                              child: SizedBox(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    7.0, // hard coding child width
-                                                child: Container(
-                                                  height: 40,
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      2.4,
-                                                  decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                      color: Colors.grey
-                                                          .withOpacity(0.5),
-                                                      width: 1.0,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            4.0),
-                                                  ),
-                                                  child: TextField(
-                                                      onChanged: (value) =>
-                                                          _runFilter(value),
-                                                      // controller: txtVTNO,
-                                                      keyboardType:
-                                                          TextInputType.text,
-                                                      textCapitalization:
-                                                          TextCapitalization
-                                                              .characters,
-                                                      textAlign:
-                                                          TextAlign.right,
-                                                      decoration:
-                                                          InputDecoration(
-                                                        border:
-                                                            InputBorder.none,
-                                                        hintText: "Prefix",
-                                                        hintStyle: TextStyle(
-                                                            color: Colors.grey),
-                                                        contentPadding:
-                                                            EdgeInsets
-                                                                .symmetric(
-                                                                    vertical: 8,
-                                                                    horizontal:
-                                                                        8),
-                                                        isDense: true,
-                                                      ),
-                                                      style:
-                                                          mobileTextFontStyle),
-                                                ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: SizedBox(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    3.5, // hard coding child width
-                                                child: Container(
-                                                  height: 40,
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      2.4,
-                                                  decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                      color: Colors.grey
-                                                          .withOpacity(0.5),
-                                                      width: 1.0,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            4.0),
-                                                  ),
-                                                  child: TextField(
-                                                      onChanged: (value) =>
-                                                          _runFilter(value),
-                                                      controller: txtVTNO,
-                                                      textAlign:
-                                                          TextAlign.right,
-                                                      keyboardType:
-                                                          TextInputType.text,
-                                                      textCapitalization:
-                                                          TextCapitalization
-                                                              .characters,
-                                                      decoration:
-                                                          InputDecoration(
-                                                        border:
-                                                            InputBorder.none,
-                                                        hintText: "MAWB No.",
-                                                        hintStyle: TextStyle(
-                                                            color: Colors.grey),
-                                                        contentPadding:
-                                                            EdgeInsets
-                                                                .symmetric(
-                                                                    vertical: 8,
-                                                                    horizontal:
-                                                                        8),
-                                                        isDense: true,
-                                                      ),
-                                                      style:
-                                                          mobileTextFontStyle),
-                                                ),
-                                              ),
-                                            ),
-                                            GestureDetector(
-                                                child: ScanContainerButton(),
-                                                onTap: () async {
-                                                  var scannedCode =
-                                                      await Navigator.of(
-                                                              context)
-                                                          .push(
-                                                              MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        const QRViewExample(),
-                                                  ));
-                                                  print(
-                                                      "code returned from app");
-                                                  print(scannedCode);
-                                                  if (scannedCode == null)
-                                                    setState(() {
-                                                      scannedCodeReceived = "";
-                                                    });
-                                                  if (scannedCode == "")
-                                                    setState(() {
-                                                      scannedCodeReceived = "";
-                                                    });
-                                                  if (scannedCode != null) {
-                                                    if (scannedCode != "") {
-                                                      print(
-                                                          "code returned from app =" +
-                                                              scannedCode);
-                                                      setState(() {
-                                                        scannedCodeReceived =
-                                                            scannedCode;
-                                                        txtVTNO.text =
-                                                            scannedCodeReceived;
-                                                        _runFilter(
-                                                            scannedCodeReceived);
-                                                      });
-                                                      // await getShipmentDetails(scannedCode);
-                                                    }
-                                                  }
-                                                }),
-                                            SizedBox(width: 5),
-                                            GestureDetector(
-                                              child:
-                                                  GallaryScanContainerButton(),
-                                              onTap: () async {
-                                                final ImagePicker _picker =
-                                                    ImagePicker();
-                                                final XFile? image =
-                                                    await _picker.pickImage(
-                                                        source: ImageSource
-                                                            .gallery); // Pick an image
-                                                if (image == null)
-                                                  return;
-                                                else {
-                                                  String? str =
-                                                      await Scan.parse(
-                                                          image.path);
-                                                  if (str != null) {
-                                                    setState(() {
-                                                      scannedCodeReceived = str;
-                                                      txtVTNO.text =
-                                                          scannedCodeReceived;
-                                                      _runFilter(
-                                                          scannedCodeReceived);
-                                                    });
-                                                  }
-                                                }
-                                              },
-                                            )
-                                          ]),
-                                          Row(children: [
-                                            SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  4.2,
-                                              child: Text("HAWB No.(Opt)",
-                                                  style: mobileHeaderFontStyle),
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: SizedBox(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    2.25, // hard coding child width
-                                                child: Container(
-                                                  height: 48,
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      2.4,
-                                                  decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                      color: Colors.grey
-                                                          .withOpacity(0.5),
-                                                      width: 1.0,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            4.0),
-                                                  ),
-                                                  // child: TextField(
-                                                  //     onChanged: (value) =>
-                                                  //         _runFilter(value),
-                                                  //     controller: dateInput,
-                                                  //     keyboardType:
-                                                  //     TextInputType
-                                                  //         .text,
-                                                  //     textAlign:
-                                                  //     TextAlign.right,
-                                                  //     textCapitalization:
-                                                  //     TextCapitalization
-                                                  //         .characters,
-                                                  //     decoration:
-                                                  //     InputDecoration(
-                                                  //       border: InputBorder
-                                                  //           .none,
-                                                  //       hintText:
-                                                  //       "Select Date",
-                                                  //       hintStyle: TextStyle(
-                                                  //           color: Colors
-                                                  //               .grey),
-                                                  //       contentPadding:
-                                                  //       EdgeInsets
-                                                  //           .symmetric(
-                                                  //           vertical:
-                                                  //           8,
-                                                  //           horizontal:
-                                                  //           8),
-                                                  //       isDense: true,
-                                                  //     ),
-                                                  //     style:
-                                                  //     mobileTextFontStyle),
-                                                  child:
-                                                      DropdownButtonHideUnderline(
-                                                    child: Container(
-                                                      constraints:
-                                                          BoxConstraints(
-                                                              minHeight: 50),
-                                                      decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                            color: Colors.grey,
-                                                            width: 0.2),
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    5)),
-                                                        color: Colors.white,
-                                                      ),
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal: 10),
-                                                      child: DropdownButton(
-                                                        value: dropdownValue,
-                                                        onChanged:
-                                                            (String? newValue) {
-                                                          setState(() {
-                                                            dropdownValue =
-                                                                newValue!;
-                                                          });
-                                                        },
-                                                        items: [
-                                                          "Select",
-                                                          "Two",
-                                                          "Three"
-                                                        ]
-                                                            .map((String
-                                                                    value) =>
-                                                                DropdownMenuItem(
-                                                                  value: value,
-                                                                  child: Column(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .center,
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .start,
-                                                                    children: [
-                                                                      Text(
-                                                                        value,
-                                                                        style:
-                                                                            TextStyle(
-                                                                          fontSize:
-                                                                              14,
-                                                                          fontWeight:
-                                                                              FontWeight.normal,
-                                                                          color:
-                                                                              Colors.black,
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ))
-                                                            .toList(),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  //     DropdownButtonFormField(
-                                                  //   isDense: true,
-                                                  //   decoration: InputDecoration(
-                                                  //       border:
-                                                  //           InputBorder.none),
-                                                  //   value: dropdownValue,
-                                                  //   onChanged:
-                                                  //       (String? newValue) {
-                                                  //     setState(() {
-                                                  //       dropdownValue =
-                                                  //           newValue!;
-                                                  //     });
-                                                  //   },
-                                                  //   items: <String>[
-                                                  //     'Select',
-                                                  //     'Cat',
-                                                  //     'Tiger',
-                                                  //     'Lion'
-                                                  //   ].map<
-                                                  //           DropdownMenuItem<
-                                                  //               String>>(
-                                                  //       (String value) {
-                                                  //     return DropdownMenuItem<
-                                                  //         String>(
-                                                  //       value: value,
-                                                  //       child: Text(
-                                                  //         value,
-                                                  //         style: TextStyle(
-                                                  //           fontSize: 14,
-                                                  //           fontWeight:
-                                                  //               FontWeight
-                                                  //                   .normal,
-                                                  //           color: Colors.black,
-                                                  //         ),
-                                                  //       ),
-                                                  //     );
-                                                  //   }).toList(),
-                                                  // ),
-                                                ),
-                                              ),
-                                            ),
-                                          ]),
-                                        ],
-                                      )
-                                    : Row(children: [
-                                        SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              4.3,
-                                          child: Text("MAWB No.",
-                                              style: mobileHeaderFontStyle),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 8.0),
-                                          child: SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                7.0, // hard coding child width
-                                            child: Container(
-                                              height: 40,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  2.4,
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.5),
-                                                  width: 1.0,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(4.0),
-                                              ),
-                                              child: TextField(
-                                                  onChanged: (value) =>
-                                                      _runFilter(value),
-                                                  // controller: txtVTNO,
-                                                  keyboardType:
-                                                      TextInputType.text,
-                                                  textCapitalization:
-                                                      TextCapitalization
-                                                          .characters,
-                                                  textAlign: TextAlign.right,
-                                                  decoration: InputDecoration(
-                                                    border: InputBorder.none,
-                                                    hintText: "Prefix",
-                                                    hintStyle: TextStyle(
-                                                        color: Colors.grey),
-                                                    contentPadding:
-                                                        EdgeInsets.symmetric(
-                                                            vertical: 8,
-                                                            horizontal: 8),
-                                                    isDense: true,
-                                                  ),
-                                                  style: mobileTextFontStyle),
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                3.5, // hard coding child width
-                                            child: Container(
-                                              height: 40,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  2.4,
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.5),
-                                                  width: 1.0,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(4.0),
-                                              ),
-                                              child: TextField(
-                                                  onChanged: (value) =>
-                                                      _runFilter(value),
-                                                  controller: txtVTNO,
-                                                  textAlign: TextAlign.right,
-                                                  keyboardType:
-                                                      TextInputType.text,
-                                                  textCapitalization:
-                                                      TextCapitalization
-                                                          .characters,
-                                                  decoration: InputDecoration(
-                                                    border: InputBorder.none,
-                                                    hintText: "MAWB No.",
-                                                    hintStyle: TextStyle(
-                                                        color: Colors.grey),
-                                                    contentPadding:
-                                                        EdgeInsets.symmetric(
-                                                            vertical: 8,
-                                                            horizontal: 8),
-                                                    isDense: true,
-                                                  ),
-                                                  style: mobileTextFontStyle),
-                                            ),
-                                          ),
-                                        ),
-                                        GestureDetector(
-                                            child: ScanContainerButton(),
-                                            onTap: () async {
-                                              var scannedCode =
-                                                  await Navigator.of(context)
-                                                      .push(MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const QRViewExample(),
-                                              ));
-                                              print("code returned from app");
-                                              print(scannedCode);
-                                              if (scannedCode == null)
-                                                setState(() {
-                                                  scannedCodeReceived = "";
-                                                });
-                                              if (scannedCode == "")
-                                                setState(() {
-                                                  scannedCodeReceived = "";
-                                                });
-                                              if (scannedCode != null) {
-                                                if (scannedCode != "") {
-                                                  print(
-                                                      "code returned from app =" +
-                                                          scannedCode);
-                                                  setState(() {
-                                                    scannedCodeReceived =
-                                                        scannedCode;
-                                                    txtVTNO.text =
-                                                        scannedCodeReceived;
-                                                    _runFilter(
-                                                        scannedCodeReceived);
-                                                  });
-                                                  // await getShipmentDetails(scannedCode);
-                                                }
-                                              }
-                                            }),
-                                        SizedBox(width: 5),
-                                        GestureDetector(
-                                          child: GallaryScanContainerButton(),
-                                          onTap: () async {
-                                            final ImagePicker _picker =
-                                                ImagePicker();
-                                            final XFile? image =
-                                                await _picker.pickImage(
-                                                    source: ImageSource
-                                                        .gallery); // Pick an image
-                                            if (image == null)
-                                              return;
-                                            else {
-                                              String? str =
-                                                  await Scan.parse(image.path);
-                                              if (str != null) {
-                                                setState(() {
-                                                  scannedCodeReceived = str;
-                                                  txtVTNO.text =
-                                                      scannedCodeReceived;
-                                                  _runFilter(
-                                                      scannedCodeReceived);
-                                                });
-                                              }
-                                            }
-                                          },
-                                        )
-                                      ])
-                                : trackingType == 1
-                                    ? isImport
-                                        ? Column(
-                                            children: [
-                                              Row(children: [
-                                                SizedBox(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      4.2,
-                                                  child: Text("BoE No.",
-                                                      style:
-                                                          mobileHeaderFontStyle),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: SizedBox(
-                                                    width: MediaQuery.of(
-                                                                context)
-                                                            .size
-                                                            .width /
-                                                        2.4, // hard coding child width
-                                                    child: Container(
-                                                      height: 40,
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.4,
-                                                      decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.5),
-                                                          width: 1.0,
-                                                        ),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(4.0),
-                                                      ),
-                                                      child: TextField(
-                                                          onChanged: (value) =>
-                                                              _runFilter(value),
-                                                          controller: txtVTNO,
-                                                          keyboardType:
-                                                              TextInputType
-                                                                  .text,
-                                                          textAlign:
-                                                              TextAlign.right,
-                                                          textCapitalization:
-                                                              TextCapitalization
-                                                                  .characters,
-                                                          decoration:
-                                                              InputDecoration(
-                                                            border: InputBorder
-                                                                .none,
-                                                            hintText:
-                                                                "Enter BoE No.",
-                                                            hintStyle: TextStyle(
-                                                                color: Colors
-                                                                    .grey),
-                                                            contentPadding:
-                                                                EdgeInsets
-                                                                    .symmetric(
-                                                                        vertical:
-                                                                            8,
-                                                                        horizontal:
-                                                                            8),
-                                                            isDense: true,
-                                                          ),
-                                                          style:
-                                                              mobileTextFontStyle),
-                                                    ),
-                                                  ),
-                                                ),
-                                                GestureDetector(
-                                                    child:
-                                                        ScanContainerButton(),
-                                                    onTap: () async {
-                                                      var scannedCode =
-                                                          await Navigator.of(
-                                                                  context)
-                                                              .push(
-                                                                  MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            const QRViewExample(),
-                                                      ));
-                                                      print(
-                                                          "code returned from app");
-                                                      print(scannedCode);
-                                                      if (scannedCode == null)
-                                                        setState(() {
-                                                          scannedCodeReceived =
-                                                              "";
-                                                        });
-                                                      if (scannedCode == "")
-                                                        setState(() {
-                                                          scannedCodeReceived =
-                                                              "";
-                                                        });
-                                                      if (scannedCode != null) {
-                                                        if (scannedCode != "") {
-                                                          print(
-                                                              "code returned from app =" +
-                                                                  scannedCode);
-                                                          setState(() {
-                                                            scannedCodeReceived =
-                                                                scannedCode;
-                                                            txtVTNO.text =
-                                                                scannedCodeReceived;
-                                                            _runFilter(
-                                                                scannedCodeReceived);
-                                                          });
-                                                          // await getShipmentDetails(scannedCode);
-                                                        }
-                                                      }
-                                                    }),
-                                                SizedBox(width: 5),
-                                                GestureDetector(
-                                                  child:
-                                                      GallaryScanContainerButton(),
-                                                  onTap: () async {
-                                                    final ImagePicker _picker =
-                                                        ImagePicker();
-                                                    final XFile? image =
-                                                        await _picker.pickImage(
-                                                            source: ImageSource
-                                                                .gallery); // Pick an image
-                                                    if (image == null)
-                                                      return;
-                                                    else {
-                                                      String? str =
-                                                          await Scan.parse(
-                                                              image.path);
-                                                      if (str != null) {
-                                                        setState(() {
-                                                          scannedCodeReceived =
-                                                              str;
-                                                          txtVTNO.text =
-                                                              scannedCodeReceived;
-                                                          _runFilter(
-                                                              scannedCodeReceived);
-                                                        });
-                                                      }
-                                                    }
-                                                  },
-                                                )
-                                              ]),
-                                              Row(children: [
-                                                SizedBox(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      4.2,
-                                                  child: Text("Date",
-                                                      style:
-                                                          mobileHeaderFontStyle),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: SizedBox(
-                                                    width: MediaQuery.of(
-                                                                context)
-                                                            .size
-                                                            .width /
-                                                        2.4, // hard coding child width
-                                                    child: Container(
-                                                      height: 40,
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.4,
-                                                      decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.5),
-                                                          width: 1.0,
-                                                        ),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(4.0),
-                                                      ),
-                                                      child: TextField(
-                                                          onChanged: (value) =>
-                                                              _runFilter(value),
-                                                          controller: dateInput,
-                                                          keyboardType:
-                                                              TextInputType
-                                                                  .text,
-                                                          textAlign:
-                                                              TextAlign.right,
-                                                          textCapitalization:
-                                                              TextCapitalization
-                                                                  .characters,
-                                                          decoration:
-                                                              InputDecoration(
-                                                            border: InputBorder
-                                                                .none,
-                                                            hintText:
-                                                                "Select Date",
-                                                            hintStyle: TextStyle(
-                                                                color: Colors
-                                                                    .grey),
-                                                            contentPadding:
-                                                                EdgeInsets
-                                                                    .symmetric(
-                                                                        vertical:
-                                                                            8,
-                                                                        horizontal:
-                                                                            8),
-                                                            isDense: true,
-                                                          ),
-                                                          style:
-                                                              mobileTextFontStyle),
-                                                    ),
-                                                  ),
-                                                ),
-                                                GestureDetector(
-                                                  child:
-                                                      DatePickerContainerButton(),
-                                                  onTap: () async {
-                                                    DateTime? pickedDate =
-                                                        await showDatePicker(
-                                                            context: context,
-                                                            initialDate:
-                                                                DateTime.now(),
-                                                            firstDate:
-                                                                DateTime.now(),
-                                                            lastDate:
-                                                                DateTime(2100),
-                                                            builder: (context,
-                                                                child) {
-                                                              return Theme(
-                                                                data: Theme.of(
-                                                                        context)
-                                                                    .copyWith(
-                                                                  colorScheme:
-                                                                      ColorScheme
-                                                                          .light(
-                                                                    primary: Color(
-                                                                        0xFF1220BC),
-                                                                    // <-- SEE HERE
-                                                                    onPrimary:
-                                                                        Colors
-                                                                            .white,
-                                                                    // <-- SEE HERE
-                                                                    onSurface:
-                                                                        Color(
-                                                                            0xFF3540E8), // <-- SEE HERE
-                                                                  ),
-                                                                  textButtonTheme:
-                                                                      TextButtonThemeData(
-                                                                    style: TextButton
-                                                                        .styleFrom(
-                                                                      foregroundColor:
-                                                                          Color(
-                                                                              0xFF3540E8), // button text color
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                child: child!,
-                                                              );
-                                                            });
-
-                                                    if (pickedDate != null) {
-                                                      print(
-                                                          pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-                                                      String formattedDate =
-                                                          DateFormat(
-                                                                  'yyyy-MM-dd')
-                                                              .format(
-                                                                  pickedDate);
-
-                                                      print(
-                                                          formattedDate); //formatted date output using intl package =>  2021-03-16
-                                                      setState(() {
-                                                        selectedSlotDate =
-                                                            DateFormat(
-                                                                    'dd MMM yyyy')
-                                                                .format(
-                                                                    pickedDate);
-                                                        dateInput.text =
-                                                            formattedDate; //set output date to TextField value.
-
-                                                        // getSlotsList(); // refesh slots
-                                                      });
-                                                    }
-                                                  },
-                                                )
-                                              ]),
-                                            ],
-                                          )
-                                        : Column(
-                                            children: [
-                                              Row(children: [
-                                                SizedBox(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      4.2,
-                                                  child: Text("SB No.",
-                                                      style:
-                                                          mobileHeaderFontStyle),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: SizedBox(
-                                                    width: MediaQuery.of(
-                                                                context)
-                                                            .size
-                                                            .width /
-                                                        2.4, // hard coding child width
-                                                    child: Container(
-                                                      height: 40,
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.4,
-                                                      decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.5),
-                                                          width: 1.0,
-                                                        ),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(4.0),
-                                                      ),
-                                                      child: TextField(
-                                                          onChanged: (value) =>
-                                                              _runFilter(value),
-                                                          controller: txtVTNO,
-                                                          keyboardType:
-                                                              TextInputType
-                                                                  .text,
-                                                          textAlign:
-                                                              TextAlign.right,
-                                                          textCapitalization:
-                                                              TextCapitalization
-                                                                  .characters,
-                                                          decoration:
-                                                              InputDecoration(
-                                                            border: InputBorder
-                                                                .none,
-                                                            hintText:
-                                                                "Enter Shipping Bill No.",
-                                                            hintStyle: TextStyle(
-                                                                color: Colors
-                                                                    .grey),
-                                                            contentPadding:
-                                                                EdgeInsets
-                                                                    .symmetric(
-                                                                        vertical:
-                                                                            8,
-                                                                        horizontal:
-                                                                            8),
-                                                            isDense: true,
-                                                          ),
-                                                          style:
-                                                              mobileTextFontStyle),
-                                                    ),
-                                                  ),
-                                                ),
-                                                GestureDetector(
-                                                    child:
-                                                        ScanContainerButton(),
-                                                    onTap: () async {
-                                                      var scannedCode =
-                                                          await Navigator.of(
-                                                                  context)
-                                                              .push(
-                                                                  MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            const QRViewExample(),
-                                                      ));
-                                                      print(
-                                                          "code returned from app");
-                                                      print(scannedCode);
-                                                      if (scannedCode == null)
-                                                        setState(() {
-                                                          scannedCodeReceived =
-                                                              "";
-                                                        });
-                                                      if (scannedCode == "")
-                                                        setState(() {
-                                                          scannedCodeReceived =
-                                                              "";
-                                                        });
-                                                      if (scannedCode != null) {
-                                                        if (scannedCode != "") {
-                                                          print(
-                                                              "code returned from app =" +
-                                                                  scannedCode);
-                                                          setState(() {
-                                                            scannedCodeReceived =
-                                                                scannedCode;
-                                                            txtVTNO.text =
-                                                                scannedCodeReceived;
-                                                            _runFilter(
-                                                                scannedCodeReceived);
-                                                          });
-                                                          // await getShipmentDetails(scannedCode);
-                                                        }
-                                                      }
-                                                    }),
-                                                SizedBox(width: 5),
-                                                GestureDetector(
-                                                  child:
-                                                      GallaryScanContainerButton(),
-                                                  onTap: () async {
-                                                    final ImagePicker _picker =
-                                                        ImagePicker();
-                                                    final XFile? image =
-                                                        await _picker.pickImage(
-                                                            source: ImageSource
-                                                                .gallery); // Pick an image
-                                                    if (image == null)
-                                                      return;
-                                                    else {
-                                                      String? str =
-                                                          await Scan.parse(
-                                                              image.path);
-                                                      if (str != null) {
-                                                        setState(() {
-                                                          scannedCodeReceived =
-                                                              str;
-                                                          txtVTNO.text =
-                                                              scannedCodeReceived;
-                                                          _runFilter(
-                                                              scannedCodeReceived);
-                                                        });
-                                                      }
-                                                    }
-                                                  },
-                                                )
-                                              ]),
-                                              Row(children: [
-                                                SizedBox(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      4.2,
-                                                  child: Text("Date",
-                                                      style:
-                                                          mobileHeaderFontStyle),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: SizedBox(
-                                                    width: MediaQuery.of(
-                                                                context)
-                                                            .size
-                                                            .width /
-                                                        2.4, // hard coding child width
-                                                    child: Container(
-                                                      height: 40,
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              2.4,
-                                                      decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.5),
-                                                          width: 1.0,
-                                                        ),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(4.0),
-                                                      ),
-                                                      child: TextField(
-                                                          onChanged: (value) =>
-                                                              _runFilter(value),
-                                                          controller: dateInput,
-                                                          keyboardType:
-                                                              TextInputType
-                                                                  .text,
-                                                          textAlign:
-                                                              TextAlign.right,
-                                                          textCapitalization:
-                                                              TextCapitalization
-                                                                  .characters,
-                                                          decoration:
-                                                              InputDecoration(
-                                                            border: InputBorder
-                                                                .none,
-                                                            hintText:
-                                                                "Select Date",
-                                                            hintStyle: TextStyle(
-                                                                color: Colors
-                                                                    .grey),
-                                                            contentPadding:
-                                                                EdgeInsets
-                                                                    .symmetric(
-                                                                        vertical:
-                                                                            8,
-                                                                        horizontal:
-                                                                            8),
-                                                            isDense: true,
-                                                          ),
-                                                          style:
-                                                              mobileTextFontStyle),
-                                                    ),
-                                                  ),
-                                                ),
-                                                GestureDetector(
-                                                  child:
-                                                      DatePickerContainerButton(),
-                                                  onTap: () async {
-                                                    DateTime? pickedDate =
-                                                        await showDatePicker(
-                                                            context: context,
-                                                            initialDate:
-                                                                DateTime.now(),
-                                                            firstDate:
-                                                                DateTime.now(),
-                                                            lastDate:
-                                                                DateTime(2100),
-                                                            builder: (context,
-                                                                child) {
-                                                              return Theme(
-                                                                data: Theme.of(
-                                                                        context)
-                                                                    .copyWith(
-                                                                  colorScheme:
-                                                                      ColorScheme
-                                                                          .light(
-                                                                    primary: Color(
-                                                                        0xFF1220BC),
-                                                                    // <-- SEE HERE
-                                                                    onPrimary:
-                                                                        Colors
-                                                                            .white,
-                                                                    // <-- SEE HERE
-                                                                    onSurface:
-                                                                        Color(
-                                                                            0xFF3540E8), // <-- SEE HERE
-                                                                  ),
-                                                                  textButtonTheme:
-                                                                      TextButtonThemeData(
-                                                                    style: TextButton
-                                                                        .styleFrom(
-                                                                      foregroundColor:
-                                                                          Color(
-                                                                              0xFF3540E8), // button text color
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                child: child!,
-                                                              );
-                                                            });
-
-                                                    if (pickedDate != null) {
-                                                      print(
-                                                          pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-                                                      String formattedDate =
-                                                          DateFormat(
-                                                                  'yyyy-MM-dd')
-                                                              .format(
-                                                                  pickedDate);
-
-                                                      print(
-                                                          formattedDate); //formatted date output using intl package =>  2021-03-16
-                                                      setState(() {
-                                                        selectedSlotDate =
-                                                            DateFormat(
-                                                                    'dd MMM yyyy')
-                                                                .format(
-                                                                    pickedDate);
-                                                        dateInput.text =
-                                                            formattedDate; //set output date to TextField value.
-
-                                                        // getSlotsList(); // refesh slots
-                                                      });
-                                                    }
-                                                  },
-                                                )
-                                              ]),
-                                            ],
-                                          )
-                                    : Row(children: [
-                                        SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              4.3,
-                                          child: Text("MAWB No.",
-                                              style: mobileHeaderFontStyle),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 8.0),
-                                          child: SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                7.0, // hard coding child width
-                                            child: Container(
-                                              height: 40,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  2.4,
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.5),
-                                                  width: 1.0,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(4.0),
-                                              ),
-                                              child: TextField(
-                                                  onChanged: (value) =>
-                                                      _runFilter(value),
-                                                  // controller: txtVTNO,
-                                                  keyboardType:
-                                                      TextInputType.text,
-                                                  textCapitalization:
-                                                      TextCapitalization
-                                                          .characters,
-                                                  textAlign: TextAlign.right,
-                                                  decoration: InputDecoration(
-                                                    border: InputBorder.none,
-                                                    hintText: "Prefix",
-                                                    hintStyle: TextStyle(
-                                                        color: Colors.grey),
-                                                    contentPadding:
-                                                        EdgeInsets.symmetric(
-                                                            vertical: 8,
-                                                            horizontal: 8),
-                                                    isDense: true,
-                                                  ),
-                                                  style: mobileTextFontStyle),
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                3.5, // hard coding child width
-                                            child: Container(
-                                              height: 40,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  2.4,
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.5),
-                                                  width: 1.0,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(4.0),
-                                              ),
-                                              child: TextField(
-                                                  onChanged: (value) =>
-                                                      _runFilter(value),
-                                                  controller: txtVTNO,
-                                                  textAlign: TextAlign.right,
-                                                  keyboardType:
-                                                      TextInputType.text,
-                                                  textCapitalization:
-                                                      TextCapitalization
-                                                          .characters,
-                                                  decoration: InputDecoration(
-                                                    border: InputBorder.none,
-                                                    hintText: "MAWB No.",
-                                                    hintStyle: TextStyle(
-                                                        color: Colors.grey),
-                                                    contentPadding:
-                                                        EdgeInsets.symmetric(
-                                                            vertical: 8,
-                                                            horizontal: 8),
-                                                    isDense: true,
-                                                  ),
-                                                  style: mobileTextFontStyle),
-                                            ),
-                                          ),
-                                        ),
-                                        GestureDetector(
-                                            child: ScanContainerButton(),
-                                            onTap: () async {
-                                              var scannedCode =
-                                                  await Navigator.of(context)
-                                                      .push(MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const QRViewExample(),
-                                              ));
-                                              print("code returned from app");
-                                              print(scannedCode);
-                                              if (scannedCode == null)
-                                                setState(() {
-                                                  scannedCodeReceived = "";
-                                                });
-                                              if (scannedCode == "")
-                                                setState(() {
-                                                  scannedCodeReceived = "";
-                                                });
-                                              if (scannedCode != null) {
-                                                if (scannedCode != "") {
-                                                  print(
-                                                      "code returned from app =" +
-                                                          scannedCode);
-                                                  setState(() {
-                                                    scannedCodeReceived =
-                                                        scannedCode;
-                                                    txtVTNO.text =
-                                                        scannedCodeReceived;
-                                                    _runFilter(
-                                                        scannedCodeReceived);
-                                                  });
-                                                  // await getShipmentDetails(scannedCode);
-                                                }
-                                              }
-                                            }),
-                                        SizedBox(width: 5),
-                                        GestureDetector(
-                                          child: GallaryScanContainerButton(),
-                                          onTap: () async {
-                                            final ImagePicker _picker =
-                                                ImagePicker();
-                                            final XFile? image =
-                                                await _picker.pickImage(
-                                                    source: ImageSource
-                                                        .gallery); // Pick an image
-                                            if (image == null)
-                                              return;
-                                            else {
-                                              String? str =
-                                                  await Scan.parse(image.path);
-                                              if (str != null) {
-                                                setState(() {
-                                                  scannedCodeReceived = str;
-                                                  txtVTNO.text =
-                                                      scannedCodeReceived;
-                                                  _runFilter(
-                                                      scannedCodeReceived);
-                                                });
-                                              }
-                                            }
-                                          },
-                                        )
-                                      ]),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ElevatedButton(
-                                  onPressed: () {
-                                    // if (txtVTNO.text.isEmpty &&
-                                    //     txtVehicleNo.text.isEmpty) {
-                                    //   setState(() {
-                                    //     isValidTextBoxes = false;
-                                    //   });
-                                    // } else {
-                                    //   setState(() {
-                                    //     isSearched = true;
-                                    //   });
-                                    //   if (txtVTNO.text.trim() == "")
-                                    //     getTokenDetailsByVehicleNo();
-                                    //   else
-                                    //     getTokenDetailsByVTNO(1);
-                                    // }
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    elevation: 4.0,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0)), //
-                                    padding: const EdgeInsets.all(0.0),
-                                  ),
-                                  child: Container(
-                                    height: useMobileLayout ? 40 : 70,
-                                    width: useMobileLayout
-                                        ? MediaQuery.of(context).size.width /
-                                            4.4
-                                        : MediaQuery.of(context).size.width / 5,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      gradient: LinearGradient(
-                                        begin: Alignment.topRight,
-                                        end: Alignment.bottomLeft,
-                                        colors: [
-                                          Color(0xFF1220BC),
-                                          Color(0xFF3540E8),
-                                        ],
-                                      ),
-                                    ),
-                                    child: Padding(
-                                      padding: useMobileLayout
-                                          ? const EdgeInsets.only(
-                                              top: 8.0, bottom: 8.0)
-                                          : const EdgeInsets.only(
-                                              top: 8.0, bottom: 8.0),
-                                      child: Align(
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          'Search',
-                                          style: TextStyle(
-                                              fontSize: useMobileLayout
-                                                  ? MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      24
-                                                  : 24,
-                                              fontWeight: FontWeight.normal,
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-
-                                  //Text('CONTAINED BUTTON'),
-                                ),
-                                SizedBox(width: 15),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      // isSearched = false;
-                                      // txtVTNO.text = "";
-                                      // txtVehicleNo.text = "";
-                                      // walkInTokensList = [];
-                                    });
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    elevation: 4.0,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0)), //
-                                    padding: const EdgeInsets.all(0.0),
-                                  ),
-
-                                  child: Container(
-                                    height: useMobileLayout ? 40 : 70,
-                                    width: useMobileLayout
-                                        ? MediaQuery.of(context).size.width /
-                                            4.3
-                                        : MediaQuery.of(context).size.width /
-                                            5.5,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Colors.white,
-                                    ),
-                                    child: Padding(
-                                      padding: useMobileLayout
-                                          ? const EdgeInsets.only(
-                                              top: 8.0, bottom: 8.0)
-                                          : const EdgeInsets.only(
-                                              top: 8.0, bottom: 8.0),
-                                      child: Align(
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          'Clear',
-                                          style: TextStyle(
-                                              fontSize: useMobileLayout
-                                                  ? MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      24
-                                                  : 24,
-                                              fontWeight: FontWeight.normal,
-                                              color: Color(0xFF1220BC)),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  //Text('CONTAINED BUTTON'),
-                                ),
+                              AdvancedSwitch(
+                                activeColor: Color(0xFF11249F),
+                                inactiveColor: Color(0xFF11249F),
+                                activeChild: Text('Import',
+                                    style: mobileTextFontStyleWhite),
+                                inactiveChild: Text('Export',
+                                    style: mobileTextFontStyleWhite),
+                                width: MediaQuery.of(context).size.width / 2.5,
+                                height: 35,
+                                controller: _controllerModeType,
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 20),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: ToggleSwitch(
+                              minWidth: useMobileLayout
+                                  ? MediaQuery.of(context).size.width / 2
+                                  : MediaQuery.of(context).size.width / 4.5,
+                              minHeight: 45.0,
+                              fontSize: 16.0,
+                              // cornerRadius: 20.0,
+                              initialLabelIndex: trackingType,
+                              activeBgColors: [
+                                [Color(0xFF1220BC), Color(0xFF3540E8)],
+                                [Color(0xFF1220BC), Color(0xFF3540E8)],
+                                [Color(0xFF1220BC), Color(0xFF3540E8)],
                               ],
+                              activeFgColor: Colors.white,
+                              inactiveBgColor: Colors.grey,
+                              inactiveFgColor: Colors.white,
+                              totalSwitches: 2,
+                              animate: true,
+                              curve: Curves.bounceInOut,
+                              customTextStyles: [
+                                TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.normal,
+                                  color: Colors.white,
+                                ),
+                                TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.normal,
+                                  color: Colors.white,
+                                ),
+                                TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.normal,
+                                  color: Colors.white,
+                                )
+                              ],
+                              labels: isImport
+                                  ? [' AWB ', ' Vehicle ']
+                                  : [' AWB ', ' Vehicle '],
+                              icons: [
+                                FontAwesomeIcons.box,
+                                FontAwesomeIcons.truckMoving,
+                                FontAwesomeIcons.fileAlt,
+                              ],
+                              onToggle: (index) {
+                                setState(() {
+                                  trackingType = index!;
+                                  print(trackingType);
+                                });
+                              },
                             ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  )
-                : Expanded(
-                    flex: 0,
-                    child: Container(
-                      height: 135,
-                      child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 10.0, bottom: 10.0, left: 16.0),
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                          ),
+                          SizedBox(height: 10),
+                          trackingType == 0
+                              ? isImport
+                                  ? Column(
                                       children: [
-                                        SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              2.45,
-                                          child: Text(
-                                            " Mode",
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.normal,
-                                              color: Color(0xFF11249F),
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: SizedBox(
+                                        Row(children: [
+                                          SizedBox(
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width /
-                                                2.50,
-                                            child: ToggleSwitch(
-                                              minWidth: 146,
-                                              minHeight: 65.0,
-                                              initialLabelIndex: modeSelected,
-                                              cornerRadius: 20.0,
-                                              activeFgColor: Colors.white,
-                                              inactiveBgColor: Colors.grey,
-                                              inactiveFgColor: Colors.white,
-                                              totalSwitches: 2,
-                                              customTextStyles: [
-                                                TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.normal,
-                                                  color: Colors.white,
-                                                ),
-                                                TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.normal,
-                                                  color: Colors.white,
-                                                )
-                                              ],
-                                              labels: ['Exports ', ' Imports'],
-                                              icons: [
-                                                Icons.north,
-                                                Icons.south,
-                                              ],
-                                              iconSize: 22.0,
-                                              activeBgColors: [
-                                                // [Colors.blueAccent, Colors.blue],
-                                                // [Colors.blueAccent, Colors.blue],
-                                                [
-                                                  Color(0xFF1220BC),
-                                                  Color(0xFF3540E8)
-                                                ],
-                                                [
-                                                  Color(0xFF1220BC),
-                                                  Color(0xFF3540E8)
-                                                ],
-                                              ],
-                                              animate: true,
-                                              // with just animate set to true, default curve = Curves.easeIn
-                                              curve: Curves.bounceInOut,
-                                              // animate must be set to true when using custom curve
-                                              onToggle: (index) {
-                                                print('switched to: $index');
-
-                                                setState(() {
-                                                  //selectedText = "";
-                                                  modeSelected = index!;
-                                                  if (index == 1) {
-                                                    getVehicleToeknList(
-                                                        3); //Import
-                                                    vehicleToeknListToBind =
-                                                        vehicleToeknListImport;
-                                                  } else {
-                                                    getVehicleToeknList(
-                                                        4); //Export
-                                                    vehicleToeknListToBind =
-                                                        vehicleToeknListExport;
-                                                  }
-                                                });
-                                              },
-                                            ),
+                                                4.3,
+                                            child: Text("MAWB No.",
+                                                style: mobileHeaderFontStyle),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    //SizedBox(width: 10),
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              3.11,
-                                          child: Text(
-                                            " Search VT No.",
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.normal,
-                                              color: Color(0xFF11249F),
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                3.2, // hard coding child width
-                                            child: Container(
-                                              height: 60,
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 8.0),
+                                            child: SizedBox(
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .width /
-                                                  3.2,
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.5),
-                                                  width: 1.0,
+                                                  7.0, // hard coding child width
+                                              child: Container(
+                                                height: 40,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    2.4,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.5),
+                                                    width: 1.0,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          4.0),
                                                 ),
-                                                borderRadius:
-                                                    BorderRadius.circular(4.0),
+                                                child: TextField(
+                                                    // onChanged: (value) =>
+                                                    //     _runFilter(value),
+                                                    // controller: txtVTNO,
+                                                    keyboardType:
+                                                        TextInputType.number,
+                                                    textCapitalization:
+                                                        TextCapitalization
+                                                            .characters,
+                                                    textAlign: TextAlign.right,
+                                                    decoration: InputDecoration(
+                                                      border: InputBorder.none,
+                                                      hintText: "Prefix",
+                                                      hintStyle: TextStyle(
+                                                          color: Colors.grey),
+                                                      contentPadding:
+                                                          EdgeInsets.symmetric(
+                                                              vertical: 8,
+                                                              horizontal: 8),
+                                                      isDense: true,
+                                                    ),
+                                                    style: mobileTextFontStyle),
                                               ),
-                                              child: TextField(
-                                                onChanged: (value) =>
-                                                    _runFilter(value),
-                                                controller: txtVTNO,
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  3.5, // hard coding child width
+                                              child: Container(
+                                                height: 40,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    2.4,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.5),
+                                                    width: 1.0,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          4.0),
+                                                ),
+                                                child: TextField(
+                                                    // onChanged: (value) =>
+                                                    //     _runFilter(value),
+                                                    // controller: txtVTNO,
+                                                    textAlign: TextAlign.right,
+                                                    keyboardType:
+                                                        TextInputType.number,
+                                                    textCapitalization:
+                                                        TextCapitalization
+                                                            .characters,
+                                                    decoration: InputDecoration(
+                                                      border: InputBorder.none,
+                                                      hintText: "MAWB No.",
+                                                      hintStyle: TextStyle(
+                                                          color: Colors.grey),
+                                                      contentPadding:
+                                                          EdgeInsets.symmetric(
+                                                              vertical: 8,
+                                                              horizontal: 8),
+                                                      isDense: true,
+                                                    ),
+                                                    style: mobileTextFontStyle),
+                                              ),
+                                            ),
+                                          ),
+                                          GestureDetector(
+                                              child: SearchContainerButton(),
+                                              onTap: () async {
+                                                getTrackAndTraceDetails(
+                                                    1); //export
+                                              }),
+                                          SizedBox(width: 5),
+                                          GestureDetector(
+                                            child: DeleteScanContainerButton(),
+                                            onTap: () async {},
+                                          )
+                                        ]),
+                                        Row(children: [
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                4.2,
+                                            child: Text("HAWB No.(Opt)",
+                                                style: mobileHeaderFontStyle),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2.25, // hard coding child width
+                                              child: Container(
+                                                height: 48,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    2.4,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.5),
+                                                    width: 1.0,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          4.0),
+                                                ),
+                                                // child: TextField(
+                                                //     onChanged: (value) =>
+                                                //         _runFilter(value),
+                                                //     controller: dateInput,
+                                                //     keyboardType:
+                                                //     TextInputType
+                                                //         .text,
+                                                //     textAlign:
+                                                //     TextAlign.right,
+                                                //     textCapitalization:
+                                                //     TextCapitalization
+                                                //         .characters,
+                                                //     decoration:
+                                                //     InputDecoration(
+                                                //       border: InputBorder
+                                                //           .none,
+                                                //       hintText:
+                                                //       "Select Date",
+                                                //       hintStyle: TextStyle(
+                                                //           color: Colors
+                                                //               .grey),
+                                                //       contentPadding:
+                                                //       EdgeInsets
+                                                //           .symmetric(
+                                                //           vertical:
+                                                //           8,
+                                                //           horizontal:
+                                                //           8),
+                                                //       isDense: true,
+                                                //     ),
+                                                //     style:
+                                                //     mobileTextFontStyle),
+                                                child:
+                                                    DropdownButtonHideUnderline(
+                                                  child: Container(
+                                                    constraints: BoxConstraints(
+                                                        minHeight: 50),
+                                                    decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          color: Colors.grey,
+                                                          width: 0.2),
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  5)),
+                                                      color: Colors.white,
+                                                    ),
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 10),
+                                                    child: DropdownButton(
+                                                      value: dropdownValue,
+                                                      onChanged:
+                                                          (String? newValue) {
+                                                        setState(() {
+                                                          dropdownValue =
+                                                              newValue!;
+                                                        });
+                                                      },
+                                                      items: [
+                                                        "Select",
+                                                        "Two",
+                                                        "Three"
+                                                      ]
+                                                          .map((String value) =>
+                                                              DropdownMenuItem(
+                                                                value: value,
+                                                                child: Column(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    Text(
+                                                                      value,
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontSize:
+                                                                            14,
+                                                                        fontWeight:
+                                                                            FontWeight.normal,
+                                                                        color: Colors
+                                                                            .black,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ))
+                                                          .toList(),
+                                                    ),
+                                                  ),
+                                                ),
+                                                //     DropdownButtonFormField(
+                                                //   isDense: true,
+                                                //   decoration: InputDecoration(
+                                                //       border:
+                                                //           InputBorder.none),
+                                                //   value: dropdownValue,
+                                                //   onChanged:
+                                                //       (String? newValue) {
+                                                //     setState(() {
+                                                //       dropdownValue =
+                                                //           newValue!;
+                                                //     });
+                                                //   },
+                                                //   items: <String>[
+                                                //     'Select',
+                                                //     'Cat',
+                                                //     'Tiger',
+                                                //     'Lion'
+                                                //   ].map<
+                                                //           DropdownMenuItem<
+                                                //               String>>(
+                                                //       (String value) {
+                                                //     return DropdownMenuItem<
+                                                //         String>(
+                                                //       value: value,
+                                                //       child: Text(
+                                                //         value,
+                                                //         style: TextStyle(
+                                                //           fontSize: 14,
+                                                //           fontWeight:
+                                                //               FontWeight
+                                                //                   .normal,
+                                                //           color: Colors.black,
+                                                //         ),
+                                                //       ),
+                                                //     );
+                                                //   }).toList(),
+                                                // ),
+                                              ),
+                                            ),
+                                          ),
+                                        ]),
+                                      ],
+                                    )
+                                  : Row(children: [
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                4.3,
+                                        child: Text("MAWB No.",
+                                            style: mobileHeaderFontStyle),
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 8.0),
+                                        child: SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              7.0, // hard coding child width
+                                          child: Container(
+                                            height: 40,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                2.4,
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                color: Colors.grey
+                                                    .withOpacity(0.5),
+                                                width: 1.0,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(4.0),
+                                            ),
+                                            child: TextField(
+                                                // onChanged: (value) =>
+                                                //     _runFilter(value),
+                                                // controller: txtVTNO,
                                                 keyboardType:
-                                                    TextInputType.text,
+                                                    TextInputType.number,
                                                 textCapitalization:
                                                     TextCapitalization
                                                         .characters,
+                                                textAlign: TextAlign.right,
                                                 decoration: InputDecoration(
                                                   border: InputBorder.none,
-                                                  hintText: "Search VT No.",
+                                                  hintText: "Prefix",
                                                   hintStyle: TextStyle(
                                                       color: Colors.grey),
                                                   contentPadding:
@@ -2149,547 +633,3679 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                                           horizontal: 8),
                                                   isDense: true,
                                                 ),
+                                                style: mobileTextFontStyle),
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              3.5, // hard coding child width
+                                          child: Container(
+                                            height: 40,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                2.4,
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                color: Colors.grey
+                                                    .withOpacity(0.5),
+                                                width: 1.0,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(4.0),
+                                            ),
+                                            child: TextField(
+                                                // onChanged: (value) =>
+                                                //     _runFilter(value),
+                                                // controller: txtVTNO,
+                                                textAlign: TextAlign.right,
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                textCapitalization:
+                                                    TextCapitalization
+                                                        .characters,
+                                                decoration: InputDecoration(
+                                                  border: InputBorder.none,
+                                                  hintText: "MAWB No.",
+                                                  hintStyle: TextStyle(
+                                                      color: Colors.grey),
+                                                  contentPadding:
+                                                      EdgeInsets.symmetric(
+                                                          vertical: 8,
+                                                          horizontal: 8),
+                                                  isDense: true,
+                                                ),
+                                                style: mobileTextFontStyle),
+                                          ),
+                                        ),
+                                      ),
+                                      GestureDetector(
+                                          child: SearchContainerButton(),
+                                          onTap: () async {
+                                            getTrackAndTraceDetails(1); //export
+                                          }),
+                                      SizedBox(width: 5),
+                                      GestureDetector(
+                                        child: DeleteScanContainerButton(),
+                                        onTap: () async {},
+                                      )
+                                    ])
+                              : trackingType == 1
+                                  ? isImport
+                                      ? Column(
+                                          children: [
+                                            Row(children: [
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    4.2,
+                                                child: Text("BoE No.",
+                                                    style:
+                                                        mobileHeaderFontStyle),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      2.4, // hard coding child width
+                                                  child: Container(
+                                                    height: 40,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            2.4,
+                                                    decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                        color: Colors.grey
+                                                            .withOpacity(0.5),
+                                                        width: 1.0,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              4.0),
+                                                    ),
+                                                    child: TextField(
+                                                        // onChanged: (value) =>
+                                                        //     _runFilter(value),
+                                                        // controller: txtVTNO,
+                                                        keyboardType:
+                                                            TextInputType.text,
+                                                        textAlign:
+                                                            TextAlign.right,
+                                                        textCapitalization:
+                                                            TextCapitalization
+                                                                .characters,
+                                                        decoration:
+                                                            InputDecoration(
+                                                          border:
+                                                              InputBorder.none,
+                                                          hintText:
+                                                              "Enter BoE No.",
+                                                          hintStyle: TextStyle(
+                                                              color:
+                                                                  Colors.grey),
+                                                          contentPadding:
+                                                              EdgeInsets
+                                                                  .symmetric(
+                                                                      vertical:
+                                                                          8,
+                                                                      horizontal:
+                                                                          8),
+                                                          isDense: true,
+                                                        ),
+                                                        style:
+                                                            mobileTextFontStyle),
+                                                  ),
+                                                ),
+                                              ),
+                                              GestureDetector(
+                                                  child:
+                                                      SearchContainerButton(),
+                                                  onTap: () async {
+                                                    getTrackAndTraceDetails(
+                                                        1); //export
+                                                  }),
+                                              SizedBox(width: 5),
+                                              GestureDetector(
+                                                child:
+                                                    DeleteScanContainerButton(),
+                                                onTap: () async {},
+                                              )
+                                            ]),
+                                            Row(children: [
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    4.2,
+                                                child: Text("Date",
+                                                    style:
+                                                        mobileHeaderFontStyle),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      2.4, // hard coding child width
+                                                  child: Container(
+                                                    height: 40,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            2.4,
+                                                    decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                        color: Colors.grey
+                                                            .withOpacity(0.5),
+                                                        width: 1.0,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              4.0),
+                                                    ),
+                                                    child: TextField(
+                                                        // onChanged: (value) =>
+                                                        //     _runFilter(value),
+                                                        controller:
+                                                            dateInputBOE,
+                                                        keyboardType:
+                                                            TextInputType
+                                                                .datetime,
+                                                        textAlign:
+                                                            TextAlign.right,
+                                                        textCapitalization:
+                                                            TextCapitalization
+                                                                .characters,
+                                                        decoration:
+                                                            InputDecoration(
+                                                          border:
+                                                              InputBorder.none,
+                                                          hintText:
+                                                              "Select Date",
+                                                          hintStyle: TextStyle(
+                                                              color:
+                                                                  Colors.grey),
+                                                          contentPadding:
+                                                              EdgeInsets
+                                                                  .symmetric(
+                                                                      vertical:
+                                                                          8,
+                                                                      horizontal:
+                                                                          8),
+                                                          isDense: true,
+                                                        ),
+                                                        style:
+                                                            mobileTextFontStyle),
+                                                  ),
+                                                ),
+                                              ),
+                                              GestureDetector(
+                                                child:
+                                                    DatePickerContainerButton(),
+                                                onTap: () async {
+                                                  DateTime? pickedDate =
+                                                      await showDatePicker(
+                                                          context: context,
+                                                          initialDate:
+                                                              DateTime.now(),
+                                                          firstDate:
+                                                              DateTime.now(),
+                                                          lastDate:
+                                                              DateTime(2100),
+                                                          builder:
+                                                              (context, child) {
+                                                            return Theme(
+                                                              data: Theme.of(
+                                                                      context)
+                                                                  .copyWith(
+                                                                colorScheme:
+                                                                    ColorScheme
+                                                                        .light(
+                                                                  primary: Color(
+                                                                      0xFF1220BC),
+                                                                  // <-- SEE HERE
+                                                                  onPrimary:
+                                                                      Colors
+                                                                          .white,
+                                                                  // <-- SEE HERE
+                                                                  onSurface: Color(
+                                                                      0xFF3540E8), // <-- SEE HERE
+                                                                ),
+                                                                textButtonTheme:
+                                                                    TextButtonThemeData(
+                                                                  style: TextButton
+                                                                      .styleFrom(
+                                                                    foregroundColor:
+                                                                        Color(
+                                                                            0xFF3540E8), // button text color
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              child: child!,
+                                                            );
+                                                          });
+
+                                                  if (pickedDate != null) {
+                                                    print(
+                                                        pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                                                    String formattedDate =
+                                                        DateFormat('yyyy-MM-dd')
+                                                            .format(pickedDate);
+
+                                                    print(
+                                                        formattedDate); //formatted date output using intl package =>  2021-03-16
+                                                    setState(() {
+                                                      selectedSlotDate =
+                                                          DateFormat(
+                                                                  'dd MMM yyyy')
+                                                              .format(
+                                                                  pickedDate);
+                                                      dateInputBOE.text =
+                                                          formattedDate; //set output date to TextField value.
+
+                                                      // getSlotsList(); // refesh slots
+                                                    });
+                                                  }
+                                                },
+                                              )
+                                            ]),
+                                          ],
+                                        )
+                                      : Column(
+                                          children: [
+                                            Row(children: [
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    4.2,
+                                                child: Text("SB No.",
+                                                    style:
+                                                        mobileHeaderFontStyle),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      2.4, // hard coding child width
+                                                  child: Container(
+                                                    height: 40,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            2.4,
+                                                    decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                        color: Colors.grey
+                                                            .withOpacity(0.5),
+                                                        width: 1.0,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              4.0),
+                                                    ),
+                                                    child: TextField(
+                                                        // onChanged: (value) =>
+                                                        //     _runFilter(value),
+                                                        // controller: txtVTNO,
+                                                        keyboardType:
+                                                            TextInputType.text,
+                                                        textAlign:
+                                                            TextAlign.right,
+                                                        textCapitalization:
+                                                            TextCapitalization
+                                                                .characters,
+                                                        decoration:
+                                                            InputDecoration(
+                                                          border:
+                                                              InputBorder.none,
+                                                          hintText:
+                                                              "Enter Shipping Bill No.",
+                                                          hintStyle: TextStyle(
+                                                              color:
+                                                                  Colors.grey),
+                                                          contentPadding:
+                                                              EdgeInsets
+                                                                  .symmetric(
+                                                                      vertical:
+                                                                          8,
+                                                                      horizontal:
+                                                                          8),
+                                                          isDense: true,
+                                                        ),
+                                                        style:
+                                                            mobileTextFontStyle),
+                                                  ),
+                                                ),
+                                              ),
+                                              GestureDetector(
+                                                  child:
+                                                      SearchContainerButton(),
+                                                  onTap: () async {
+                                                    getTrackAndTraceDetails(
+                                                        1); //export
+                                                  }),
+                                              SizedBox(width: 5),
+                                              GestureDetector(
+                                                child:
+                                                    DeleteScanContainerButton(),
+                                                onTap: () async {},
+                                              )
+                                            ]),
+                                            Row(children: [
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    4.2,
+                                                child: Text("Date",
+                                                    style:
+                                                        mobileHeaderFontStyle),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      2.4, // hard coding child width
+                                                  child: Container(
+                                                    height: 40,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            2.4,
+                                                    decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                        color: Colors.grey
+                                                            .withOpacity(0.5),
+                                                        width: 1.0,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              4.0),
+                                                    ),
+                                                    child: TextField(
+                                                        // onChanged: (value) =>
+                                                        //     _runFilter(value),
+                                                        controller: dateInputSB,
+                                                        keyboardType:
+                                                            TextInputType.text,
+                                                        textAlign:
+                                                            TextAlign.right,
+                                                        textCapitalization:
+                                                            TextCapitalization
+                                                                .characters,
+                                                        decoration:
+                                                            InputDecoration(
+                                                          border:
+                                                              InputBorder.none,
+                                                          hintText:
+                                                              "Select Date",
+                                                          hintStyle: TextStyle(
+                                                              color:
+                                                                  Colors.grey),
+                                                          contentPadding:
+                                                              EdgeInsets
+                                                                  .symmetric(
+                                                                      vertical:
+                                                                          8,
+                                                                      horizontal:
+                                                                          8),
+                                                          isDense: true,
+                                                        ),
+                                                        style:
+                                                            mobileTextFontStyle),
+                                                  ),
+                                                ),
+                                              ),
+                                              GestureDetector(
+                                                child:
+                                                    DatePickerContainerButton(),
+                                                onTap: () async {
+                                                  DateTime? pickedDate =
+                                                      await showDatePicker(
+                                                          context: context,
+                                                          initialDate:
+                                                              DateTime.now(),
+                                                          firstDate:
+                                                              DateTime.now(),
+                                                          lastDate:
+                                                              DateTime(2100),
+                                                          builder:
+                                                              (context, child) {
+                                                            return Theme(
+                                                              data: Theme.of(
+                                                                      context)
+                                                                  .copyWith(
+                                                                colorScheme:
+                                                                    ColorScheme
+                                                                        .light(
+                                                                  primary: Color(
+                                                                      0xFF1220BC),
+                                                                  // <-- SEE HERE
+                                                                  onPrimary:
+                                                                      Colors
+                                                                          .white,
+                                                                  // <-- SEE HERE
+                                                                  onSurface: Color(
+                                                                      0xFF3540E8), // <-- SEE HERE
+                                                                ),
+                                                                textButtonTheme:
+                                                                    TextButtonThemeData(
+                                                                  style: TextButton
+                                                                      .styleFrom(
+                                                                    foregroundColor:
+                                                                        Color(
+                                                                            0xFF3540E8), // button text color
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              child: child!,
+                                                            );
+                                                          });
+
+                                                  if (pickedDate != null) {
+                                                    print(
+                                                        pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                                                    String formattedDate =
+                                                        DateFormat('yyyy-MM-dd')
+                                                            .format(pickedDate);
+
+                                                    print(
+                                                        formattedDate); //formatted date output using intl package =>  2021-03-16
+                                                    setState(() {
+                                                      selectedSlotDate =
+                                                          DateFormat(
+                                                                  'dd MMM yyyy')
+                                                              .format(
+                                                                  pickedDate);
+                                                      dateInputSB.text =
+                                                          formattedDate; //set output date to TextField value.
+
+                                                      // getSlotsList(); // refesh slots
+                                                    });
+                                                  }
+                                                },
+                                              )
+                                            ]),
+                                          ],
+                                        )
+                                  : Row(children: [
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                4.3,
+                                        child: Text("MAWB No.",
+                                            style: mobileHeaderFontStyle),
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 8.0),
+                                        child: SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              7.0, // hard coding child width
+                                          child: Container(
+                                            height: 40,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                2.4,
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                color: Colors.grey
+                                                    .withOpacity(0.5),
+                                                width: 1.0,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(4.0),
+                                            ),
+                                            child: TextField(
+                                                // onChanged: (value) =>
+                                                //     _runFilter(value),
+                                                // controller: txtVTNO,
+                                                keyboardType:
+                                                    TextInputType.text,
+                                                textCapitalization:
+                                                    TextCapitalization
+                                                        .characters,
+                                                textAlign: TextAlign.right,
+                                                decoration: InputDecoration(
+                                                  border: InputBorder.none,
+                                                  hintText: "Prefix",
+                                                  hintStyle: TextStyle(
+                                                      color: Colors.grey),
+                                                  contentPadding:
+                                                      EdgeInsets.symmetric(
+                                                          vertical: 8,
+                                                          horizontal: 8),
+                                                  isDense: true,
+                                                ),
+                                                style: mobileTextFontStyle),
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              3.5, // hard coding child width
+                                          child: Container(
+                                            height: 40,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                2.4,
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                color: Colors.grey
+                                                    .withOpacity(0.5),
+                                                width: 1.0,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(4.0),
+                                            ),
+                                            child: TextField(
+                                                // onChanged: (value) =>
+                                                //     _runFilter(value),
+                                                // controller: txtVTNO,
+                                                textAlign: TextAlign.right,
+                                                keyboardType:
+                                                    TextInputType.text,
+                                                textCapitalization:
+                                                    TextCapitalization
+                                                        .characters,
+                                                decoration: InputDecoration(
+                                                  border: InputBorder.none,
+                                                  hintText: "MAWB No.",
+                                                  hintStyle: TextStyle(
+                                                      color: Colors.grey),
+                                                  contentPadding:
+                                                      EdgeInsets.symmetric(
+                                                          vertical: 8,
+                                                          horizontal: 8),
+                                                  isDense: true,
+                                                ),
+                                                style: mobileTextFontStyle),
+                                          ),
+                                        ),
+                                      ),
+                                      GestureDetector(
+                                          child: SearchContainerButton(),
+                                          onTap: () async {
+                                            getTrackAndTraceDetails(1); //export
+                                          }),
+                                      SizedBox(width: 5),
+                                      GestureDetector(
+                                        child: DeleteScanContainerButton(),
+                                        onTap: () async {},
+                                      )
+                                    ]),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.start,
+                          //   crossAxisAlignment: CrossAxisAlignment.start,
+                          //   children: [
+                          //     ElevatedButton(
+                          //       onPressed: () {
+                          //         // if (txtVTNO.text.isEmpty &&
+                          //         //     txtVehicleNo.text.isEmpty) {
+                          //         //   setState(() {
+                          //         //     isValidTextBoxes = false;
+                          //         //   });
+                          //         // } else {
+                          //         //   setState(() {
+                          //         //     isSearched = true;
+                          //         //   });
+                          //         //   if (txtVTNO.text.trim() == "")
+                          //         //     getTokenDetailsByVehicleNo();
+                          //         //   else
+                          //         //     getTokenDetailsByVTNO(1);
+                          //         // }
+                          //       },
+                          //       style: ElevatedButton.styleFrom(
+                          //         elevation: 4.0,
+                          //         shape: RoundedRectangleBorder(
+                          //             borderRadius:
+                          //                 BorderRadius.circular(10.0)), //
+                          //         padding: const EdgeInsets.all(0.0),
+                          //       ),
+                          //       child: Container(
+                          //         height: useMobileLayout ? 40 : 70,
+                          //         width: useMobileLayout
+                          //             ? MediaQuery.of(context).size.width /
+                          //                 4.4
+                          //             : MediaQuery.of(context).size.width / 5,
+                          //         decoration: BoxDecoration(
+                          //           borderRadius: BorderRadius.circular(10),
+                          //           gradient: LinearGradient(
+                          //             begin: Alignment.topRight,
+                          //             end: Alignment.bottomLeft,
+                          //             colors: [
+                          //               Color(0xFF1220BC),
+                          //               Color(0xFF3540E8),
+                          //             ],
+                          //           ),
+                          //         ),
+                          //         child: Padding(
+                          //           padding: useMobileLayout
+                          //               ? const EdgeInsets.only(
+                          //                   top: 8.0, bottom: 8.0)
+                          //               : const EdgeInsets.only(
+                          //                   top: 8.0, bottom: 8.0),
+                          //           child: Align(
+                          //             alignment: Alignment.center,
+                          //             child: Text(
+                          //               'Search',
+                          //               style: TextStyle(
+                          //                   fontSize: useMobileLayout
+                          //                       ? MediaQuery.of(context)
+                          //                               .size
+                          //                               .width /
+                          //                           24
+                          //                       : 24,
+                          //                   fontWeight: FontWeight.normal,
+                          //                   color: Colors.white),
+                          //             ),
+                          //           ),
+                          //         ),
+                          //       ),
+                          //
+                          //       //Text('CONTAINED BUTTON'),
+                          //     ),
+                          //     SizedBox(width: 15),
+                          //     ElevatedButton(
+                          //       onPressed: () {
+                          //         setState(() {
+                          //           // isSearched = false;
+                          //           // txtVTNO.text = "";
+                          //           // txtVehicleNo.text = "";
+                          //           // walkInTokensList = [];
+                          //         });
+                          //       },
+                          //       style: ElevatedButton.styleFrom(
+                          //         elevation: 4.0,
+                          //         shape: RoundedRectangleBorder(
+                          //             borderRadius:
+                          //                 BorderRadius.circular(10.0)), //
+                          //         padding: const EdgeInsets.all(0.0),
+                          //       ),
+                          //
+                          //       child: Container(
+                          //         height: useMobileLayout ? 40 : 70,
+                          //         width: useMobileLayout
+                          //             ? MediaQuery.of(context).size.width /
+                          //                 4.3
+                          //             : MediaQuery.of(context).size.width /
+                          //                 5.5,
+                          //         decoration: BoxDecoration(
+                          //           borderRadius: BorderRadius.circular(10),
+                          //           color: Colors.white,
+                          //         ),
+                          //         child: Padding(
+                          //           padding: useMobileLayout
+                          //               ? const EdgeInsets.only(
+                          //                   top: 8.0, bottom: 8.0)
+                          //               : const EdgeInsets.only(
+                          //                   top: 8.0, bottom: 8.0),
+                          //           child: Align(
+                          //             alignment: Alignment.center,
+                          //             child: Text(
+                          //               'Clear',
+                          //               style: TextStyle(
+                          //                   fontSize: useMobileLayout
+                          //                       ? MediaQuery.of(context)
+                          //                               .size
+                          //                               .width /
+                          //                           24
+                          //                       : 24,
+                          //                   fontWeight: FontWeight.normal,
+                          //                   color: Color(0xFF1220BC)),
+                          //             ),
+                          //           ),
+                          //         ),
+                          //       ),
+                          //       //Text('CONTAINED BUTTON'),
+                          //     ),
+                          //   ],
+                          // ),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+              : Expanded(
+                  flex: 0,
+                  child: Container(
+                    child: Padding(
+                        padding: const EdgeInsets.only(
+                            top: 10.0, bottom: 10.0, left: 16.0),
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2.45,
+                                        child: Text(
+                                          " Mode",
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.normal,
+                                            color: Color(0xFF11249F),
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              2.8,
+                                          child: ToggleSwitch(
+                                            minWidth: 160,
+                                            minHeight: 65.0,
+                                            initialLabelIndex: modeSelected,
+                                            cornerRadius: 20.0,
+                                            activeFgColor: Colors.white,
+                                            inactiveBgColor: Colors.grey,
+                                            inactiveFgColor: Colors.white,
+                                            totalSwitches: 2,
+                                            customTextStyles: [
+                                              TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.normal,
+                                                color: Colors.white,
+                                              ),
+                                              TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.normal,
+                                                color: Colors.white,
+                                              )
+                                            ],
+                                            labels: ['Exports ', ' Imports'],
+                                            icons: [
+                                              Icons.north,
+                                              Icons.south,
+                                            ],
+                                            iconSize: 22.0,
+                                            activeBgColors: [
+                                              // [Colors.blueAccent, Colors.blue],
+                                              // [Colors.blueAccent, Colors.blue],
+                                              [
+                                                Color(0xFF1220BC),
+                                                Color(0xFF3540E8)
+                                              ],
+                                              [
+                                                Color(0xFF1220BC),
+                                                Color(0xFF3540E8)
+                                              ],
+                                            ],
+                                            animate: true,
+                                            // with just animate set to true, default curve = Curves.easeIn
+                                            curve: Curves.bounceInOut,
+                                            // animate must be set to true when using custom curve
+                                            onToggle: (index) {
+                                              print('switched to: $index');
+
+                                              setState(() {
+                                                //selectedText = "";
+                                                modeSelected = index!;
+                                                if (index == 1) {
+                                                  isImport = true;
+                                                  // getVehicleToeknList(
+                                                  //     3); //Import
+                                                  // vehicleToeknListToBind =
+                                                  //     vehicleToeknListImport;
+                                                } else {
+                                                  isImport = false;
+                                                  // getVehicleToeknList(
+                                                  //     4); //Export
+                                                  // vehicleToeknListToBind =
+                                                  //     vehicleToeknListExport;
+                                                }
+                                              });
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2.45,
+                                        child: Text(
+                                          " Tracking Type",
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.normal,
+                                            color: Color(0xFF11249F),
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              2.8,
+                                          child: ToggleSwitch(
+                                            minWidth: 160,
+                                            minHeight: 65.0,
+                                            initialLabelIndex: trackingType,
+                                            cornerRadius: 20.0,
+                                            activeFgColor: Colors.white,
+                                            inactiveBgColor: Colors.grey,
+                                            inactiveFgColor: Colors.white,
+                                            totalSwitches: 2,
+                                            customTextStyles: [
+                                              TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.normal,
+                                                color: Colors.white,
+                                              ),
+                                              TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.normal,
+                                                color: Colors.white,
+                                              )
+                                            ],
+                                            labels: [' AWB ', '  Vehicle'],
+                                            icons: [
+                                              FontAwesomeIcons.box,
+                                              FontAwesomeIcons.truckMoving,
+                                            ],
+                                            iconSize: 22.0,
+                                            activeBgColors: [
+                                              // [Colors.blueAccent, Colors.blue],
+                                              // [Colors.blueAccent, Colors.blue],
+                                              [
+                                                Color(0xFF1220BC),
+                                                Color(0xFF3540E8)
+                                              ],
+                                              [
+                                                Color(0xFF1220BC),
+                                                Color(0xFF3540E8)
+                                              ],
+                                            ],
+                                            animate: true,
+                                            // with just animate set to true, default curve = Curves.easeIn
+                                            curve: Curves.bounceInOut,
+                                            // animate must be set to true when using custom curve
+                                            onToggle: (index) {
+                                              print('switched to: $index');
+
+                                              setState(() {
+                                                //selectedText = "";
+                                                trackingType = index!;
+                                                // if (index == 1) {
+                                                //   getVehicleToeknList(
+                                                //       3); //Import
+                                                //   vehicleToeknListToBind =
+                                                //       vehicleToeknListImport;
+                                                // } else {
+                                                //   getVehicleToeknList(
+                                                //       4); //Export
+                                                //   vehicleToeknListToBind =
+                                                //       vehicleToeknListExport;
+                                                // }
+                                              });
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(width: 8),
+                                ],
+                              ),
+                              trackingType == 0
+                                  ? isImport
+                                      ? Column(
+                                          children: [
+                                            Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      2.45,
+                                                  child: Text(
+                                                    " MAWB No.",
+                                                    style: TextStyle(
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      color: Color(0xFF11249F),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: SizedBox(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width /
+                                                            8.8,
+                                                        // hard coding child width
+                                                        child: Container(
+                                                          height: 60,
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              8.8,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            border: Border.all(
+                                                              color: Colors.grey
+                                                                  .withOpacity(
+                                                                      0.5),
+                                                              width: 1.0,
+                                                            ),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        4.0),
+                                                          ),
+                                                          child: TextField(
+                                                            textAlign:
+                                                                TextAlign.right,
+                                                            keyboardType:
+                                                                TextInputType
+                                                                    .text,
+                                                            textCapitalization:
+                                                                TextCapitalization
+                                                                    .characters,
+                                                            decoration:
+                                                                InputDecoration(
+                                                              border:
+                                                                  InputBorder
+                                                                      .none,
+                                                              hintText:
+                                                                  "Prefix",
+                                                              hintStyle: TextStyle(
+                                                                  color: Colors
+                                                                      .grey),
+                                                              contentPadding:
+                                                                  EdgeInsets.symmetric(
+                                                                      vertical:
+                                                                          8,
+                                                                      horizontal:
+                                                                          8),
+                                                              isDense: true,
+                                                            ),
+                                                            style: TextStyle(
+                                                              fontSize: 24.0,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: SizedBox(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width /
+                                                            4.6,
+                                                        // hard coding child width
+                                                        child: Container(
+                                                          height: 60,
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              4.8,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            border: Border.all(
+                                                              color: Colors.grey
+                                                                  .withOpacity(
+                                                                      0.5),
+                                                              width: 1.0,
+                                                            ),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        4.0),
+                                                          ),
+                                                          child: TextField(
+                                                            textAlign:
+                                                                TextAlign.right,
+                                                            keyboardType:
+                                                                TextInputType
+                                                                    .number,
+                                                            decoration:
+                                                                InputDecoration(
+                                                              border:
+                                                                  InputBorder
+                                                                      .none,
+                                                              hintText:
+                                                                  "MAWB No.",
+                                                              hintStyle: TextStyle(
+                                                                  color: Colors
+                                                                      .grey),
+                                                              contentPadding:
+                                                                  EdgeInsets.symmetric(
+                                                                      vertical:
+                                                                          8,
+                                                                      horizontal:
+                                                                          8),
+                                                              isDense: true,
+                                                            ),
+                                                            style: TextStyle(
+                                                              fontSize: 24.0,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(width: 8),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              bottom: 8.0),
+                                                      child: GestureDetector(
+                                                          child:
+                                                              SearchContainerButtonIpad(),
+                                                          onTap: () async {
+                                                            getTrackAndTraceDetails(
+                                                                1); //export
+                                                          }),
+                                                    ),
+                                                    SizedBox(width: 5),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              bottom: 8.0),
+                                                      child: GestureDetector(
+                                                          child:
+                                                              DeleteScanContainerButtonIpad(),
+                                                          onTap: () async {
+                                                            getTrackAndTraceDetails(
+                                                                1); //export
+                                                          }),
+                                                    )
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                            SizedBox(width: 8),
+                                            Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      2.45,
+                                                  child: Text(
+                                                    " HAWB No. (Opt)",
+                                                    style: TextStyle(
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      color: Color(0xFF11249F),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: SizedBox(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width /
+                                                            2.9, // hard coding child width
+                                                        child: Container(
+                                                          height: 60,
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              2.9,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            border: Border.all(
+                                                              color: Colors.grey
+                                                                  .withOpacity(
+                                                                      0.5),
+                                                              width: 1.0,
+                                                            ),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        4.0),
+                                                          ),
+                                                          child:
+                                                              DropdownButtonHideUnderline(
+                                                            child: Container(
+                                                              constraints:
+                                                                  BoxConstraints(
+                                                                      minHeight:
+                                                                          50),
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                border: Border.all(
+                                                                    color: Colors
+                                                                        .grey,
+                                                                    width: 0.2),
+                                                                borderRadius: BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
+                                                                            5)),
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
+                                                                      horizontal:
+                                                                          10),
+                                                              child:
+                                                                  DropdownButton(
+                                                                value:
+                                                                    dropdownValue,
+                                                                onChanged: (String?
+                                                                    newValue) {
+                                                                  setState(() {
+                                                                    dropdownValue =
+                                                                        newValue!;
+                                                                  });
+                                                                },
+                                                                items: [
+                                                                  "Select",
+                                                                  "Two",
+                                                                  "Three"
+                                                                ]
+                                                                    .map((String
+                                                                            value) =>
+                                                                        DropdownMenuItem(
+                                                                          value:
+                                                                              value,
+                                                                          child:
+                                                                              Column(
+                                                                            mainAxisAlignment:
+                                                                                MainAxisAlignment.center,
+                                                                            crossAxisAlignment:
+                                                                                CrossAxisAlignment.start,
+                                                                            children: [
+                                                                              Text(
+                                                                                value,
+                                                                                style: TextStyle(
+                                                                                  fontSize: 14,
+                                                                                  fontWeight: FontWeight.normal,
+                                                                                  color: Colors.black,
+                                                                                ),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        ))
+                                                                    .toList(),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(width: 8),
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                            SizedBox(width: 8),
+                                          ],
+                                        )
+                                      : Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2.45,
+                                              child: Text(
+                                                " MAWB No.",
                                                 style: TextStyle(
-                                                  fontSize: 24.0,
-                                                  color: Colors.black,
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.normal,
+                                                  color: Color(0xFF11249F),
                                                 ),
                                               ),
                                             ),
-                                          ),
+                                            Row(
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: SizedBox(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            8.8,
+                                                    // hard coding child width
+                                                    child: Container(
+                                                      height: 60,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              8.8,
+                                                      decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                          color: Colors.grey
+                                                              .withOpacity(0.5),
+                                                          width: 1.0,
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(4.0),
+                                                      ),
+                                                      child: TextField(
+                                                        keyboardType:
+                                                            TextInputType.text,
+                                                        textAlign:
+                                                            TextAlign.right,
+                                                        textCapitalization:
+                                                            TextCapitalization
+                                                                .characters,
+                                                        decoration:
+                                                            InputDecoration(
+                                                          border:
+                                                              InputBorder.none,
+                                                          hintText: "Prefix",
+                                                          hintStyle: TextStyle(
+                                                              color:
+                                                                  Colors.grey),
+                                                          contentPadding:
+                                                              EdgeInsets
+                                                                  .symmetric(
+                                                                      vertical:
+                                                                          8,
+                                                                      horizontal:
+                                                                          8),
+                                                          isDense: true,
+                                                        ),
+                                                        style: TextStyle(
+                                                          fontSize: 24.0,
+                                                          color: Colors.black,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: SizedBox(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            4.6,
+                                                    // hard coding child width
+                                                    child: Container(
+                                                      height: 60,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              4.8,
+                                                      decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                          color: Colors.grey
+                                                              .withOpacity(0.5),
+                                                          width: 1.0,
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(4.0),
+                                                      ),
+                                                      child: TextField(
+                                                        keyboardType:
+                                                            TextInputType.text,
+                                                        textCapitalization:
+                                                            TextCapitalization
+                                                                .characters,
+                                                        textAlign:
+                                                            TextAlign.right,
+                                                        decoration:
+                                                            InputDecoration(
+                                                          border:
+                                                              InputBorder.none,
+                                                          hintText: "MAWB No.",
+                                                          hintStyle: TextStyle(
+                                                              color:
+                                                                  Colors.grey),
+                                                          contentPadding:
+                                                              EdgeInsets
+                                                                  .symmetric(
+                                                                      vertical:
+                                                                          8,
+                                                                      horizontal:
+                                                                          8),
+                                                          isDense: true,
+                                                        ),
+                                                        style: TextStyle(
+                                                          fontSize: 24.0,
+                                                          color: Colors.black,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(width: 8),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          bottom: 8.0),
+                                                  child: GestureDetector(
+                                                      child:
+                                                          SearchContainerButtonIpad(),
+                                                      onTap: () async {
+                                                        getTrackAndTraceDetails(
+                                                            1); //export
+                                                      }),
+                                                ),
+                                                SizedBox(width: 5),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          bottom: 8.0),
+                                                  child: GestureDetector(
+                                                      child:
+                                                          DeleteScanContainerButtonIpad(),
+                                                      onTap: () async {
+                                                        getTrackAndTraceDetails(
+                                                            1); //export
+                                                      }),
+                                                )
+                                              ],
+                                            )
+                                          ],
+                                        )
+                                  : trackingType == 1
+                                      ? isImport
+                                          ? Column(
+                                              children: [
+                                                Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.45,
+                                                      child: Text(
+                                                        " BoE No.",
+                                                        style: TextStyle(
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          color:
+                                                              Color(0xFF11249F),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: SizedBox(
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width /
+                                                                2.9,
+                                                            // hard coding child width
+                                                            child: Container(
+                                                              height: 60,
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width /
+                                                                  2.9,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                border:
+                                                                    Border.all(
+                                                                  color: Colors
+                                                                      .grey
+                                                                      .withOpacity(
+                                                                          0.5),
+                                                                  width: 1.0,
+                                                                ),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            4.0),
+                                                              ),
+                                                              child: TextField(
+                                                                keyboardType:
+                                                                    TextInputType
+                                                                        .text,
+                                                                textCapitalization:
+                                                                    TextCapitalization
+                                                                        .characters,
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .right,
+                                                                decoration:
+                                                                    InputDecoration(
+                                                                  border:
+                                                                      InputBorder
+                                                                          .none,
+                                                                  hintText:
+                                                                      "Enter BoE No.",
+                                                                  hintStyle: TextStyle(
+                                                                      color: Colors
+                                                                          .grey),
+                                                                  contentPadding:
+                                                                      EdgeInsets.symmetric(
+                                                                          vertical:
+                                                                              8,
+                                                                          horizontal:
+                                                                              8),
+                                                                  isDense: true,
+                                                                ),
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize:
+                                                                      24.0,
+                                                                  color: Colors
+                                                                      .black,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        SizedBox(width: 8),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  bottom: 8.0),
+                                                          child: GestureDetector(
+                                                              child: SearchContainerButtonIpad(),
+                                                              onTap: () async {
+                                                                getTrackAndTraceDetails(
+                                                                    1); //export
+                                                              }),
+                                                        ),
+                                                        SizedBox(width: 5),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  bottom: 8.0),
+                                                          child: GestureDetector(
+                                                              child: DeleteScanContainerButtonIpad(),
+                                                              onTap: () async {
+                                                                getTrackAndTraceDetails(
+                                                                    1); //export
+                                                              }),
+                                                        )
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                                SizedBox(width: 8),
+                                                Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.45,
+                                                      child: Text(
+                                                        " Date",
+                                                        style: TextStyle(
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          color:
+                                                              Color(0xFF11249F),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: SizedBox(
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width /
+                                                                2.9, // hard coding child width
+                                                            child: Container(
+                                                              height: 60,
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width /
+                                                                  2.9,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                border:
+                                                                    Border.all(
+                                                                  color: Colors
+                                                                      .grey
+                                                                      .withOpacity(
+                                                                          0.5),
+                                                                  width: 1.0,
+                                                                ),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            4.0),
+                                                              ),
+                                                              child: TextField(
+                                                                keyboardType:
+                                                                    TextInputType
+                                                                        .text,
+                                                                textCapitalization:
+                                                                    TextCapitalization
+                                                                        .characters,
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .right,
+                                                                decoration:
+                                                                    InputDecoration(
+                                                                  border:
+                                                                      InputBorder
+                                                                          .none,
+                                                                  hintText:
+                                                                      "Enter Date",
+                                                                  hintStyle: TextStyle(
+                                                                      color: Colors
+                                                                          .grey),
+                                                                  contentPadding:
+                                                                      EdgeInsets.symmetric(
+                                                                          vertical:
+                                                                              8,
+                                                                          horizontal:
+                                                                              8),
+                                                                  isDense: true,
+                                                                ),
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize:
+                                                                      24.0,
+                                                                  color: Colors
+                                                                      .black,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        SizedBox(width: 8),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  bottom: 8.0),
+                                                          child: GestureDetector(
+                                                              child: DatePickerContainerButtonIpad(),
+                                                              onTap: () async {
+                                                                // getTrackAndTraceDetails(
+                                                                //     1); //export
+                                                              }),
+                                                        ),
+                                                        SizedBox(width: 5),
+                                                        // Padding(
+                                                        //   padding:
+                                                        //       const EdgeInsets
+                                                        //               .only(
+                                                        //           bottom: 8.0),
+                                                        //   child: GestureDetector(
+                                                        //       child: DeleteScanContainerButtonIpad(),
+                                                        //       onTap: () async {
+                                                        //         getTrackAndTraceDetails(
+                                                        //             1); //export
+                                                        //       }),
+                                                        // )
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                                SizedBox(width: 8),
+                                              ],
+                                            )
+                                          : Column(
+                                              children: [
+                                                Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.45,
+                                                      child: Text(
+                                                        " SB No.",
+                                                        style: TextStyle(
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          color:
+                                                              Color(0xFF11249F),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: SizedBox(
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width /
+                                                                2.9,
+                                                            // hard coding child width
+                                                            child: Container(
+                                                              height: 60,
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width /
+                                                                  2.9,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                border:
+                                                                    Border.all(
+                                                                  color: Colors
+                                                                      .grey
+                                                                      .withOpacity(
+                                                                          0.5),
+                                                                  width: 1.0,
+                                                                ),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            4.0),
+                                                              ),
+                                                              child: TextField(
+                                                                keyboardType:
+                                                                    TextInputType
+                                                                        .text,
+                                                                textCapitalization:
+                                                                    TextCapitalization
+                                                                        .characters,
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .right,
+                                                                decoration:
+                                                                    InputDecoration(
+                                                                  border:
+                                                                      InputBorder
+                                                                          .none,
+                                                                  hintText:
+                                                                      "Enter Shipping Bill No.",
+                                                                  hintStyle: TextStyle(
+                                                                      color: Colors
+                                                                          .grey),
+                                                                  contentPadding:
+                                                                      EdgeInsets.symmetric(
+                                                                          vertical:
+                                                                              8,
+                                                                          horizontal:
+                                                                              8),
+                                                                  isDense: true,
+                                                                ),
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize:
+                                                                      24.0,
+                                                                  color: Colors
+                                                                      .black,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        SizedBox(width: 8),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  bottom: 8.0),
+                                                          child: GestureDetector(
+                                                              child: SearchContainerButtonIpad(),
+                                                              onTap: () async {
+                                                                getTrackAndTraceDetails(
+                                                                    1); //export
+                                                              }),
+                                                        ),
+                                                        SizedBox(width: 5),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  bottom: 8.0),
+                                                          child: GestureDetector(
+                                                              child: DeleteScanContainerButtonIpad(),
+                                                              onTap: () async {
+                                                                getTrackAndTraceDetails(
+                                                                    1); //export
+                                                              }),
+                                                        )
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                                SizedBox(width: 8),
+                                                Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    SizedBox(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2.45,
+                                                      child: Text(
+                                                        " Date",
+                                                        style: TextStyle(
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          color:
+                                                              Color(0xFF11249F),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: SizedBox(
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width /
+                                                                2.9, // hard coding child width
+                                                            child: Container(
+                                                              height: 60,
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width /
+                                                                  2.9,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                border:
+                                                                    Border.all(
+                                                                  color: Colors
+                                                                      .grey
+                                                                      .withOpacity(
+                                                                          0.5),
+                                                                  width: 1.0,
+                                                                ),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            4.0),
+                                                              ),
+                                                              child: TextField(
+                                                                keyboardType:
+                                                                    TextInputType
+                                                                        .text,
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .right,
+                                                                textCapitalization:
+                                                                    TextCapitalization
+                                                                        .characters,
+                                                                decoration:
+                                                                    InputDecoration(
+                                                                  border:
+                                                                      InputBorder
+                                                                          .none,
+                                                                  hintText:
+                                                                      "Enter Date",
+                                                                  hintStyle: TextStyle(
+                                                                      color: Colors
+                                                                          .grey),
+                                                                  contentPadding:
+                                                                      EdgeInsets.symmetric(
+                                                                          vertical:
+                                                                              8,
+                                                                          horizontal:
+                                                                              8),
+                                                                  isDense: true,
+                                                                ),
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize:
+                                                                      24.0,
+                                                                  color: Colors
+                                                                      .black,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        SizedBox(width: 8),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  bottom: 8.0),
+                                                          child: GestureDetector(
+                                                              child: DatePickerContainerButtonIpad(),
+                                                              onTap: () async {
+                                                                // getTrackAndTraceDetails(
+                                                                //     1); //export
+                                                              }),
+                                                        ),
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                                SizedBox(width: 8),
+                                              ],
+                                            )
+                                      : Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2.45,
+                                              child: Text(
+                                                "  No.",
+                                                style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.normal,
+                                                  color: Color(0xFF11249F),
+                                                ),
+                                              ),
+                                            ),
+                                            Row(
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: SizedBox(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            8.8,
+                                                    // hard coding child width
+                                                    child: Container(
+                                                      height: 60,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              8.8,
+                                                      decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                          color: Colors.grey
+                                                              .withOpacity(0.5),
+                                                          width: 1.0,
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(4.0),
+                                                      ),
+                                                      child: TextField(
+                                                        keyboardType:
+                                                            TextInputType.text,
+                                                        textAlign:
+                                                            TextAlign.right,
+                                                        textCapitalization:
+                                                            TextCapitalization
+                                                                .characters,
+                                                        decoration:
+                                                            InputDecoration(
+                                                          border:
+                                                              InputBorder.none,
+                                                          hintText:
+                                                              "Search VT No.",
+                                                          hintStyle: TextStyle(
+                                                              color:
+                                                                  Colors.grey),
+                                                          contentPadding:
+                                                              EdgeInsets
+                                                                  .symmetric(
+                                                                      vertical:
+                                                                          8,
+                                                                      horizontal:
+                                                                          8),
+                                                          isDense: true,
+                                                        ),
+                                                        style: TextStyle(
+                                                          fontSize: 24.0,
+                                                          color: Colors.black,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: SizedBox(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            4.6,
+                                                    // hard coding child width
+                                                    child: Container(
+                                                      height: 60,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              4.8,
+                                                      decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                          color: Colors.grey
+                                                              .withOpacity(0.5),
+                                                          width: 1.0,
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(4.0),
+                                                      ),
+                                                      child: TextField(
+                                                        keyboardType:
+                                                            TextInputType.text,
+                                                        textAlign:
+                                                            TextAlign.right,
+                                                        textCapitalization:
+                                                            TextCapitalization
+                                                                .characters,
+                                                        decoration:
+                                                            InputDecoration(
+                                                          border:
+                                                              InputBorder.none,
+                                                          hintText:
+                                                              "Search VT No.",
+                                                          hintStyle: TextStyle(
+                                                              color:
+                                                                  Colors.grey),
+                                                          contentPadding:
+                                                              EdgeInsets
+                                                                  .symmetric(
+                                                                      vertical:
+                                                                          8,
+                                                                      horizontal:
+                                                                          8),
+                                                          isDense: true,
+                                                        ),
+                                                        style: TextStyle(
+                                                          fontSize: 24.0,
+                                                          color: Colors.black,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(width: 8),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          bottom: 8.0),
+                                                  child: GestureDetector(
+                                                      child:
+                                                          SearchContainerButtonIpad(),
+                                                      onTap: () async {
+                                                        getTrackAndTraceDetails(
+                                                            1); //export
+                                                      }),
+                                                ),
+                                                SizedBox(width: 5),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          bottom: 8.0),
+                                                  child: GestureDetector(
+                                                      child:
+                                                          DeleteScanContainerButtonIpad(),
+                                                      onTap: () async {
+                                                        getTrackAndTraceDetails(
+                                                            1); //export
+                                                      }),
+                                                )
+                                              ],
+                                            )
+                                          ],
                                         ),
-                                      ],
-                                    ),
-                                    SizedBox(width: 8),
-                                    // Padding(
-                                    //   padding: const EdgeInsets.only(top: 16.0),
-                                    //   child: ElevatedButton(
-                                    //     style: ElevatedButton.styleFrom(
-                                    //       elevation: 4.0,
-                                    //       shape: RoundedRectangleBorder(
-                                    //           borderRadius:
-                                    //               BorderRadius.circular(
-                                    //                   10.0)), //
-                                    //       padding: const EdgeInsets.all(0.0),
-                                    //     ),
-                                    //     child: Container(
-                                    //       height: 65.0,
-                                    //       width: 65.0,
-                                    //       decoration: BoxDecoration(
-                                    //         borderRadius:
-                                    //             BorderRadius.circular(10),
-                                    //         gradient: LinearGradient(
-                                    //           begin: Alignment.topRight,
-                                    //           end: Alignment.bottomLeft,
-                                    //           colors: [
-                                    //             Color(0xFF1220BC),
-                                    //             Color(0xFF3540E8),
-                                    //           ],
-                                    //         ),
-                                    //       ),
-                                    //       child: Icon(
-                                    //         Icons.search,
-                                    //         size: 32,
-                                    //       ),
-                                    //     ),
-                                    //     onPressed: () {
-                                    //       setState(() {
-                                    //         isSearched = true;
-                                    //         _runFilter(txtVTNO.text);
-                                    //       });
-                                    //     },
-                                    //   ),
-                                    // ),
-
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 8.0),
-                                      child: GestureDetector(
-                                          child: ScanContainerButtonIpad(),
-                                          onTap: () async {
-                                            var scannedCode =
-                                                await Navigator.of(context)
-                                                    .push(MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const QRViewExample(),
-                                            ));
-                                            print("code returned from app");
-                                            print(scannedCode);
-                                            if (scannedCode == null)
-                                              setState(() {
-                                                scannedCodeReceived = "";
-                                              });
-                                            if (scannedCode == "")
-                                              setState(() {
-                                                scannedCodeReceived = "";
-                                              });
-                                            if (scannedCode != null) {
-                                              if (scannedCode != "") {
-                                                print(
-                                                    "code returned from app =" +
-                                                        scannedCode);
-                                                setState(() {
-                                                  scannedCodeReceived =
-                                                      scannedCode;
-                                                  txtVTNO.text =
-                                                      scannedCodeReceived;
-                                                  _runFilter(
-                                                      scannedCodeReceived);
-                                                });
-                                                // await getShipmentDetails(scannedCode);
-                                              }
-                                            }
-                                          }),
-                                    ),
-                                    SizedBox(width: 5),
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 8.0),
-                                      child: GestureDetector(
-                                        child: GallaryScanContainerButtonIpad(),
-                                        onTap: () async {
-                                          final ImagePicker _picker =
-                                              ImagePicker();
-                                          final XFile? image =
-                                              await _picker.pickImage(
-                                                  source: ImageSource
-                                                      .gallery); // Pick an image
-                                          if (image == null)
-                                            return;
-                                          else {
-                                            String? str =
-                                                await Scan.parse(image.path);
-                                            if (str != null) {
-                                              setState(() {
-                                                scannedCodeReceived = str;
-                                                txtVTNO.text =
-                                                    scannedCodeReceived;
-                                                _runFilter(scannedCodeReceived);
-                                              });
-                                            }
-                                          }
-                                        },
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(height: 10),
-                              ])),
-                    ),
+                              SizedBox(height: 10),
+                            ])),
                   ),
-
-            isLoading
-                ? Center(
-                    child: Container(
-                        height: 100,
-                        width: 100,
-                        child: CircularProgressIndicator()))
-                : Expanded(
-                    child: SingleChildScrollView(
-                      child: Padding(
-                        padding: useMobileLayout
-                            ? const EdgeInsets.only(top: 2.0, left: 0.0)
-                            : const EdgeInsets.only(
-                                top: 2.0, bottom: 10.0, left: 40.0),
-                        child: SizedBox(
-                            width: useMobileLayout
-                                ? MediaQuery.of(context).size.width / 1.01
-                                : MediaQuery.of(context).size.width / 1.19,
-                            child: ListView.builder(
-                              physics: NeverScrollableScrollPhysics(),
-                              itemBuilder: (BuildContext, index) {
-                                VehicleToken _dockinlist =
-                                    vehicleToeknListToBind.elementAt(index);
-                                return buildDockList(_dockinlist, index);
-                              },
-                              itemCount: vehicleToeknListToBind.length,
-                              shrinkWrap: true,
-                              padding: EdgeInsets.all(2),
-                            )),
+                ),
+          isLoading
+              ? Center(
+                  child: Container(
+                      height: 100,
+                      width: 100,
+                      child: CircularProgressIndicator()))
+              : trackingType == 0
+                  ? Expanded(
+                      child: SingleChildScrollView(
+                      child: Timeline(
+                        children: <Widget>[
+                          Container(
+                            height: 50,
+                            color: Colors.transparent,
+                            child: Padding(
+                              padding: useMobileLayout
+                                  ? const EdgeInsets.only(left: 10.0)
+                                  : const EdgeInsets.only(left: 24.0),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                        " MAWB Creation",
+                                        style: useMobileLayout
+                                            ? mobileTimeLineHeaderFontStyle
+                                            : mobileGroupHeaderFontStyle,
+                                      )),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                          // _bookingDetails.length == 0
+                                          // ? ""
+                                          // : _bookingDetails[0]
+                                          // .CreatedOn
+                                          // .toString()
+                                          // .contains("1900")
+                                          // ? ""
+                                          // : getCustomFormattedDateTime(
+                                          // _bookingDetails[0].CreatedOn,
+                                          // 'dd-MM-yyyy HH:mm')
+                                          "15-01-2024 15:39",
+                                          style: useMobileLayout
+                                              ? TextStyle(fontSize: 15.0)
+                                              : TextStyle(fontSize: 18.0))),
+                                  // : _bookingDetails[0].CreatedOn)),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: 50,
+                            color: Colors.transparent,
+                            child: Padding(
+                              padding: useMobileLayout
+                                  ? const EdgeInsets.only(left: 10.0)
+                                  : const EdgeInsets.only(left: 24.0),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                        " MAWB ASI",
+                                        style: useMobileLayout
+                                            ? mobileTimeLineHeaderFontStyle
+                                            : mobileGroupHeaderFontStyle,
+                                      )),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                          // _bookingDetails.length == 0
+                                          // ? ""
+                                          // : _bookingDetails[0]
+                                          // .GateOutDate
+                                          // .toString()
+                                          // .contains("1900")
+                                          // ? ""
+                                          // : getCustomFormattedDateTime(
+                                          // _bookingDetails[0].GateOutDate,
+                                          // 'dd-MM-yyyy HH:mm')
+                                          "15-01-2024 15:39",
+                                          style: useMobileLayout
+                                              ? TextStyle(fontSize: 15.0)
+                                              : TextStyle(fontSize: 18.0))),
+                                  // : _bookingDetails[0].GateOutDate)),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: 50,
+                            color: Colors.transparent,
+                            child: Padding(
+                              padding: useMobileLayout
+                                  ? const EdgeInsets.only(left: 10.0)
+                                  : const EdgeInsets.only(left: 24.0),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                        " e-AWB Submit",
+                                        style: useMobileLayout
+                                            ? mobileTimeLineHeaderFontStyle
+                                            : mobileGroupHeaderFontStyle,
+                                      )),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                          // _bookingDetails.length == 0
+                                          // ? ""
+                                          // : _bookingDetails[0]
+                                          // .ConfirmedOn
+                                          // .toString()
+                                          // .contains("1900")
+                                          // ? ""
+                                          // : getCustomFormattedDateTime(
+                                          // _bookingDetails[0].ConfirmedOn,
+                                          // 'dd-MM-yyyy HH:mm')
+                                          "15-01-2024 15:39",
+                                          style: useMobileLayout
+                                              ? TextStyle(fontSize: 15.0)
+                                              : TextStyle(fontSize: 18.0))),
+                                  // : _bookingDetails[0].ConfirmedOn)),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: 50,
+                            color: Colors.transparent,
+                            child: Padding(
+                              padding: useMobileLayout
+                                  ? const EdgeInsets.only(left: 10.0)
+                                  : const EdgeInsets.only(left: 24.0),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                        " Assign to Trucking Company",
+                                        style: useMobileLayout
+                                            ? mobileTimeLineHeaderFontStyle
+                                            : mobileGroupHeaderFontStyle,
+                                      )),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                          // _bookingDetails.length == 0
+                                          // ? ""
+                                          // : _bookingDetails[0]
+                                          // .PreGateDate
+                                          // .toString()
+                                          // .contains("1900")
+                                          // ? ""
+                                          // : getCustomFormattedDateTime(
+                                          // _bookingDetails[0].PreGateDate,
+                                          // 'dd-MM-yyyy HH:mm')
+                                          "15-01-2024 15:39",
+                                          style: useMobileLayout
+                                              ? TextStyle(fontSize: 15.0)
+                                              : TextStyle(fontSize: 18.0))),
+                                  // : _bookingDetails[0].ConfirmedOn)),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: 50,
+                            color: Colors.transparent,
+                            child: Padding(
+                              padding: useMobileLayout
+                                  ? const EdgeInsets.only(left: 10.0)
+                                  : const EdgeInsets.only(left: 24.0),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                        " Slot Status",
+                                        style: useMobileLayout
+                                            ? mobileTimeLineHeaderFontStyle
+                                            : mobileGroupHeaderFontStyle,
+                                      )),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                          // _bookingDetails.length == 0
+                                          // ? ""
+                                          // : _bookingDetails[0]
+                                          // .GateInDate
+                                          // .toString()
+                                          // .contains("1900")
+                                          // ? ""
+                                          // : getCustomFormattedDateTime(
+                                          // _bookingDetails[0].GateInDate,
+                                          // 'dd-MM-yyyy HH:mm')
+                                          "15-01-2024 15:39",
+                                          style: useMobileLayout
+                                              ? TextStyle(fontSize: 15.0)
+                                              : TextStyle(fontSize: 18.0))),
+                                  // : _bookingDetails[0].GateInDate)),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: 50,
+                            color: Colors.transparent,
+                            child: Padding(
+                              padding: useMobileLayout
+                                  ? const EdgeInsets.only(left: 10.0)
+                                  : const EdgeInsets.only(left: 24.0),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                        " Yard check-in",
+                                        style: useMobileLayout
+                                            ? mobileTimeLineHeaderFontStyle
+                                            : mobileGroupHeaderFontStyle,
+                                      )),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                          // _bookingDetails.length == 0
+                                          // ? ""
+                                          // : _bookingDetails[0]
+                                          // .ConfirmedOn
+                                          // .toString()
+                                          // .contains("1900")
+                                          // ? ""
+                                          // : getCustomFormattedDateTime(
+                                          // _bookingDetails[0].ConfirmedOn,
+                                          // 'dd-MM-yyyy HH:mm')
+                                          "15-01-2024 15:39",
+                                          style: useMobileLayout
+                                              ? TextStyle(fontSize: 15.0)
+                                              : TextStyle(fontSize: 18.0))),
+                                  // : _bookingDetails[0].ConfirmedOn)),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: 50,
+                            color: Colors.transparent,
+                            child: Padding(
+                              padding: useMobileLayout
+                                  ? const EdgeInsets.only(left: 10.0)
+                                  : const EdgeInsets.only(left: 24.0),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                        " Dock-in",
+                                        style: useMobileLayout
+                                            ? mobileTimeLineHeaderFontStyle
+                                            : mobileGroupHeaderFontStyle,
+                                      )),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                          // _bookingDetails.length == 0
+                                          // ? ""
+                                          // : _bookingDetails[0]
+                                          // .PreGateDate
+                                          // .toString()
+                                          // .contains("1900")
+                                          // ? ""
+                                          // : getCustomFormattedDateTime(
+                                          // _bookingDetails[0].PreGateDate,
+                                          // 'dd-MM-yyyy HH:mm')
+                                          "15-01-2024 15:39",
+                                          style: useMobileLayout
+                                              ? TextStyle(fontSize: 15.0)
+                                              : TextStyle(fontSize: 18.0))),
+                                  // : _bookingDetails[0].ConfirmedOn)),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: 50,
+                            color: Colors.transparent,
+                            child: Padding(
+                              padding: useMobileLayout
+                                  ? const EdgeInsets.only(left: 10.0)
+                                  : const EdgeInsets.only(left: 24.0),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                        " Warehouse \n Acceptance",
+                                        style: useMobileLayout
+                                            ? mobileTimeLineHeaderFontStyle
+                                            : mobileGroupHeaderFontStyle,
+                                      )),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                          // _bookingDetails.length == 0
+                                          // ? ""
+                                          // : _bookingDetails[0]
+                                          // .GateInDate
+                                          // .toString()
+                                          // .contains("1900")
+                                          // ? ""
+                                          // : getCustomFormattedDateTime(
+                                          // _bookingDetails[0].GateInDate,
+                                          // 'dd-MM-yyyy HH:mm')
+                                          "15-01-2024 15:39",
+                                          style: useMobileLayout
+                                              ? TextStyle(fontSize: 15.0)
+                                              : TextStyle(fontSize: 18.0))),
+                                  // : _bookingDetails[0].GateInDate)),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: 50,
+                            color: Colors.transparent,
+                            child: Padding(
+                              padding: useMobileLayout
+                                  ? const EdgeInsets.only(left: 10.0)
+                                  : const EdgeInsets.only(left: 24.0),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                        " Dock-out",
+                                        style: useMobileLayout
+                                            ? mobileTimeLineHeaderFontStyle
+                                            : mobileGroupHeaderFontStyle,
+                                      )),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                          // _bookingDetails.length == 0
+                                          // ? ""
+                                          // : _bookingDetails[0]
+                                          // .GateOutDate
+                                          // .toString()
+                                          // .contains("1900")
+                                          // ? ""
+                                          // : getCustomFormattedDateTime(
+                                          // _bookingDetails[0].GateOutDate,
+                                          // 'dd-MM-yyyy HH:mm')
+                                          "15-01-2024 15:39",
+                                          style: useMobileLayout
+                                              ? TextStyle(fontSize: 15.0)
+                                              : TextStyle(fontSize: 18.0))),
+                                  // : _bookingDetails[0].GateOutDate)),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: 50,
+                            color: Colors.transparent,
+                            child: Padding(
+                              padding: useMobileLayout
+                                  ? const EdgeInsets.only(left: 10.0)
+                                  : const EdgeInsets.only(left: 24.0),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                        " Customs Release",
+                                        style: useMobileLayout
+                                            ? mobileTimeLineHeaderFontStyle
+                                            : mobileGroupHeaderFontStyle,
+                                      )),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                          // _bookingDetails.length == 0
+                                          // ? ""
+                                          // : _bookingDetails[0]
+                                          // .GateOutDate
+                                          // .toString()
+                                          // .contains("1900")
+                                          // ? ""
+                                          // : getCustomFormattedDateTime(
+                                          // _bookingDetails[0].GateOutDate,
+                                          // 'dd-MM-yyyy HH:mm')
+                                          "15-01-2024 15:39",
+                                          style: useMobileLayout
+                                              ? TextStyle(fontSize: 15.0)
+                                              : TextStyle(fontSize: 18.0))),
+                                  // : _bookingDetails[0].GateOutDate)),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: 50,
+                            color: Colors.transparent,
+                            child: Padding(
+                              padding: useMobileLayout
+                                  ? const EdgeInsets.only(left: 10.0)
+                                  : const EdgeInsets.only(left: 24.0),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                        " DOC",
+                                        style: useMobileLayout
+                                            ? mobileTimeLineHeaderFontStyle
+                                            : mobileGroupHeaderFontStyle,
+                                      )),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                          // _bookingDetails.length == 0
+                                          // ? ""
+                                          // : _bookingDetails[0]
+                                          // .GateOutDate
+                                          // .toString()
+                                          // .contains("1900")
+                                          // ? ""
+                                          // : getCustomFormattedDateTime(
+                                          // _bookingDetails[0].GateOutDate,
+                                          // 'dd-MM-yyyy HH:mm')
+                                          "15-01-2024 15:39",
+                                          style: useMobileLayout
+                                              ? TextStyle(fontSize: 15.0)
+                                              : TextStyle(fontSize: 18.0))),
+                                  // : _bookingDetails[0].GateOutDate)),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: 50,
+                            color: Colors.transparent,
+                            child: Padding(
+                              padding: useMobileLayout
+                                  ? const EdgeInsets.only(left: 10.0)
+                                  : const EdgeInsets.only(left: 24.0),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                        " RCS",
+                                        style: useMobileLayout
+                                            ? mobileTimeLineHeaderFontStyle
+                                            : mobileGroupHeaderFontStyle,
+                                      )),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                          // _bookingDetails.length == 0
+                                          // ? ""
+                                          // : _bookingDetails[0]
+                                          // .GateOutDate
+                                          // .toString()
+                                          // .contains("1900")
+                                          // ? ""
+                                          // : getCustomFormattedDateTime(
+                                          // _bookingDetails[0].GateOutDate,
+                                          // 'dd-MM-yyyy HH:mm')
+                                          "15-01-2024 15:39",
+                                          style: useMobileLayout
+                                              ? TextStyle(fontSize: 15.0)
+                                              : TextStyle(fontSize: 18.0))),
+                                  // : _bookingDetails[0].GateOutDate)),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: 50,
+                            color: Colors.transparent,
+                            child: Padding(
+                              padding: useMobileLayout
+                                  ? const EdgeInsets.only(left: 10.0)
+                                  : const EdgeInsets.only(left: 24.0),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                        " SCR",
+                                        style: useMobileLayout
+                                            ? mobileTimeLineHeaderFontStyle
+                                            : mobileGroupHeaderFontStyle,
+                                      )),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                          // _bookingDetails.length == 0
+                                          // ? ""
+                                          // : _bookingDetails[0]
+                                          // .GateOutDate
+                                          // .toString()
+                                          // .contains("1900")
+                                          // ? ""
+                                          // : getCustomFormattedDateTime(
+                                          // _bookingDetails[0].GateOutDate,
+                                          // 'dd-MM-yyyy HH:mm')
+                                          "15-01-2024 15:39",
+                                          style: useMobileLayout
+                                              ? TextStyle(fontSize: 15.0)
+                                              : TextStyle(fontSize: 18.0))),
+                                  // : _bookingDetails[0].GateOutDate)),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: 50,
+                            color: Colors.transparent,
+                            child: Padding(
+                              padding: useMobileLayout
+                                  ? const EdgeInsets.only(left: 10.0)
+                                  : const EdgeInsets.only(left: 24.0),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                        " Flight Dep.",
+                                        style: useMobileLayout
+                                            ? mobileTimeLineHeaderFontStyle
+                                            : mobileGroupHeaderFontStyle,
+                                      )),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                          // _bookingDetails.length == 0
+                                          // ? ""
+                                          // : _bookingDetails[0]
+                                          // .GateOutDate
+                                          // .toString()
+                                          // .contains("1900")
+                                          // ? ""
+                                          // : getCustomFormattedDateTime(
+                                          // _bookingDetails[0].GateOutDate,
+                                          // 'dd-MM-yyyy HH:mm')
+                                          "15-01-2024 15:39",
+                                          style: useMobileLayout
+                                              ? TextStyle(fontSize: 15.0)
+                                              : TextStyle(fontSize: 18.0))),
+                                  // : _bookingDetails[0].GateOutDate)),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: 50,
+                            color: Colors.transparent,
+                            child: Padding(
+                              padding: useMobileLayout
+                                  ? const EdgeInsets.only(left: 10.0)
+                                  : const EdgeInsets.only(left: 24.0),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                        " Export Manifest",
+                                        style: useMobileLayout
+                                            ? mobileTimeLineHeaderFontStyle
+                                            : mobileGroupHeaderFontStyle,
+                                      )),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.6,
+                                      child: Text(
+                                          // _bookingDetails.length == 0
+                                          // ? ""
+                                          // : _bookingDetails[0]
+                                          // .GateOutDate
+                                          // .toString()
+                                          // .contains("1900")
+                                          // ? ""
+                                          // : getCustomFormattedDateTime(
+                                          // _bookingDetails[0].GateOutDate,
+                                          // 'dd-MM-yyyy HH:mm')
+                                          "15-01-2024 15:39",
+                                          style: useMobileLayout
+                                              ? TextStyle(fontSize: 15.0)
+                                              : TextStyle(fontSize: 18.0))),
+                                  // : _bookingDetails[0].GateOutDate)),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                        indicators: <Widget>[
+                          Icon(
+                            // _bookingDetails.length == 0
+                            //     ? Icons.schedule
+                            //     : _bookingDetails[0]
+                            //     .CreatedOn
+                            //     .toString()
+                            //     .contains("1900")
+                            0 == 0
+                                ? Icons.schedule
+                                : Icons.check_circle_outline,
+                            size: useMobileLayout ? 40 : 50,
+                            color:
+                                // _bookingDetails.length == 0
+                                //     ? const Color(0xff3a3a3a)
+                                //     : _bookingDetails[0]
+                                //     .CreatedOn
+                                //     .toString()
+                                //     .contains("1900")
+                                0 == 0
+                                    ? Colors.red.shade200
+                                    : Colors.green.shade200,
+                          ),
+                          Icon(
+                            // _bookingDetails.length == 0
+                            0 == 0
+                                ? Icons.schedule
+                                :
+                                // _bookingDetails[0]
+                                // .ConfirmedOn
+                                // .toString()
+                                // .contains("1900")
+                                0 == 0
+                                    ?
+                                    // _bookingDetails[0].Status == 0
+                                    0 == 0
+                                        ? Icons.highlight_off
+                                        : Icons.schedule
+                                    : Icons.check_circle_outline,
+                            size: useMobileLayout ? 40 : 50,
+                            color:
+                                // _bookingDetails.length == 0
+                                0 == 0
+                                    ? const Color(0xff3a3a3a)
+                                    :
+                                    // _bookingDetails[0]
+                                    //   .ConfirmedOn
+                                    //   .toString()
+                                    //   .contains("1900")
+                                    0 == 0
+                                        ? Colors.red.shade200
+                                        : Colors.green.shade200,
+                          ),
+                          Icon(
+                            // _bookingDetails.length == 0
+                            0 == 0
+                                ? Icons.schedule
+                                :
+                                // _bookingDetails[0]
+                                //                                     .PreGateDate
+                                //                                     .toString()
+                                //                                     .contains("1900")
+                                0 == 0
+                                    ? Icons.schedule
+                                    :
+                                    // _bookingDetails[0].PreGate == 2
+                                    0 == 0
+                                        ? Icons.highlight_off
+                                        : Icons.check_circle_outline,
+                            size: useMobileLayout ? 40 : 50,
+                            color:
+                                // _bookingDetails.length == 0
+                                0 == 0
+                                    ? const Color(0xff3a3a3a)
+                                    :
+                                    // _bookingDetails[0]
+                                    //   .PreGateDate
+                                    //   .toString()
+                                    //   .contains("1900")
+                                    0 == 0
+                                        ? Colors.red.shade200
+                                        :
+                                        // _bookingDetails[0].PreGate == 1
+                                        0 == 0
+                                            ? Colors.green.shade200
+                                            : Colors.red.shade200,
+                          ),
+                          Icon(
+                            //  _bookingDetails.length == 0
+                            0 == 0
+                                ? Icons.schedule
+                                :
+                                // _bookingDetails[0]
+                                //     .GateInDate
+                                //     .toString()
+                                //     .contains("1900")
+                                0 == 0
+                                    ? Icons.schedule
+                                    :
+                                    // _bookingDetails[0].GateIn == 2
+                                    0 == 0
+                                        ? Icons.highlight_off
+                                        : Icons.check_circle_outline,
+                            size: useMobileLayout ? 40 : 50,
+                            color:
+                                // _bookingDetails.length == 0
+                                0 == 0
+                                    ? const Color(0xff3a3a3a)
+                                    :
+                                    // _bookingDetails[0]
+                                    //     .GateInDate
+                                    //     .toString()
+                                    //     .contains("1900")
+                                    0 == 0
+                                        ? Colors.red.shade200
+                                        :
+                                        // _bookingDetails[0].GateIn == 1
+                                        0 == 0
+                                            ? Colors.green.shade200
+                                            : Colors.red.shade200,
+                          ),
+                          Icon(
+                            // _bookingDetails.length == 0
+                            0 == 0
+                                ? Icons.schedule
+                                :
+                                // _bookingDetails[0]
+                                //     .GateOutDate
+                                //     .toString()
+                                //     .contains("1900")
+                                0 == 0
+                                    ? Icons.schedule
+                                    :
+                                    // _bookingDetails[0].GateOut == 2
+                                    0 == 0
+                                        ? Icons.highlight_off
+                                        : Icons.check_circle_outline,
+                            size: useMobileLayout ? 40 : 50,
+                            color:
+                                // _bookingDetails.length == 0
+                                0 == 0
+                                    ? const Color(0xff3a3a3a)
+                                    :
+                                    // _bookingDetails[0]
+                                    //     .GateOutDate
+                                    //     .toString()
+                                    //     .contains("1900")
+                                    0 == 0
+                                        ? Colors.red.shade200
+                                        :
+                                        // _bookingDetails[0].GateOut == 1
+                                        0 == 0
+                                            ? Colors.green.shade200
+                                            : Colors.red.shade200,
+                          ),
+                          Icon(
+                            // _bookingDetails.length == 0
+                            0 == 0
+                                ? Icons.schedule
+                                :
+                                // _bookingDetails[0]
+                                // .ConfirmedOn
+                                // .toString()
+                                // .contains("1900")
+                                0 == 0
+                                    ?
+                                    // _bookingDetails[0].Status == 0
+                                    0 == 0
+                                        ? Icons.highlight_off
+                                        : Icons.schedule
+                                    : Icons.check_circle_outline,
+                            size: useMobileLayout ? 40 : 50,
+                            color:
+                                // _bookingDetails.length == 0
+                                0 == 0
+                                    ? const Color(0xff3a3a3a)
+                                    :
+                                    // _bookingDetails[0]
+                                    //   .ConfirmedOn
+                                    //   .toString()
+                                    //   .contains("1900")
+                                    0 == 0
+                                        ? Colors.red.shade200
+                                        : Colors.green.shade200,
+                          ),
+                          Icon(
+                            // _bookingDetails.length == 0
+                            0 == 0
+                                ? Icons.schedule
+                                :
+                                // _bookingDetails[0]
+                                //                                     .PreGateDate
+                                //                                     .toString()
+                                //                                     .contains("1900")
+                                0 == 0
+                                    ? Icons.schedule
+                                    :
+                                    // _bookingDetails[0].PreGate == 2
+                                    0 == 0
+                                        ? Icons.highlight_off
+                                        : Icons.check_circle_outline,
+                            size: useMobileLayout ? 40 : 50,
+                            color:
+                                // _bookingDetails.length == 0
+                                0 == 0
+                                    ? const Color(0xff3a3a3a)
+                                    :
+                                    // _bookingDetails[0]
+                                    //   .PreGateDate
+                                    //   .toString()
+                                    //   .contains("1900")
+                                    0 == 0
+                                        ? Colors.red.shade200
+                                        :
+                                        // _bookingDetails[0].PreGate == 1
+                                        0 == 0
+                                            ? Colors.green.shade200
+                                            : Colors.red.shade200,
+                          ),
+                          Icon(
+                            //  _bookingDetails.length == 0
+                            0 == 0
+                                ? Icons.schedule
+                                :
+                                // _bookingDetails[0]
+                                //     .GateInDate
+                                //     .toString()
+                                //     .contains("1900")
+                                0 == 0
+                                    ? Icons.schedule
+                                    :
+                                    // _bookingDetails[0].GateIn == 2
+                                    0 == 0
+                                        ? Icons.highlight_off
+                                        : Icons.check_circle_outline,
+                            size: useMobileLayout ? 40 : 50,
+                            color:
+                                // _bookingDetails.length == 0
+                                0 == 0
+                                    ? const Color(0xff3a3a3a)
+                                    :
+                                    // _bookingDetails[0]
+                                    //     .GateInDate
+                                    //     .toString()
+                                    //     .contains("1900")
+                                    0 == 0
+                                        ? Colors.red.shade200
+                                        :
+                                        // _bookingDetails[0].GateIn == 1
+                                        0 == 0
+                                            ? Colors.green.shade200
+                                            : Colors.red.shade200,
+                          ),
+                          Icon(
+                            // _bookingDetails.length == 0
+                            0 == 0
+                                ? Icons.schedule
+                                :
+                                // _bookingDetails[0]
+                                //     .GateOutDate
+                                //     .toString()
+                                //     .contains("1900")
+                                0 == 0
+                                    ? Icons.schedule
+                                    :
+                                    // _bookingDetails[0].GateOut == 2
+                                    0 == 0
+                                        ? Icons.highlight_off
+                                        : Icons.check_circle_outline,
+                            size: useMobileLayout ? 40 : 50,
+                            color:
+                                // _bookingDetails.length == 0
+                                0 == 0
+                                    ? const Color(0xff3a3a3a)
+                                    :
+                                    // _bookingDetails[0]
+                                    //     .GateOutDate
+                                    //     .toString()
+                                    //     .contains("1900")
+                                    0 == 0
+                                        ? Colors.red.shade200
+                                        :
+                                        // _bookingDetails[0].GateOut == 1
+                                        0 == 0
+                                            ? Colors.green.shade200
+                                            : Colors.red.shade200,
+                          ),
+                          Icon(
+                            // _bookingDetails.length == 0
+                            0 == 0
+                                ? Icons.schedule
+                                :
+                                // _bookingDetails[0]
+                                //     .GateOutDate
+                                //     .toString()
+                                //     .contains("1900")
+                                0 == 0
+                                    ? Icons.schedule
+                                    :
+                                    // _bookingDetails[0].GateOut == 2
+                                    0 == 0
+                                        ? Icons.highlight_off
+                                        : Icons.check_circle_outline,
+                            size: useMobileLayout ? 40 : 50,
+                            color:
+                                // _bookingDetails.length == 0
+                                0 == 0
+                                    ? const Color(0xff3a3a3a)
+                                    :
+                                    // _bookingDetails[0]
+                                    //     .GateOutDate
+                                    //     .toString()
+                                    //     .contains("1900")
+                                    0 == 0
+                                        ? Colors.red.shade200
+                                        :
+                                        // _bookingDetails[0].GateOut == 1
+                                        0 == 0
+                                            ? Colors.green.shade200
+                                            : Colors.red.shade200,
+                          ),
+                          Icon(
+                            // _bookingDetails.length == 0
+                            0 == 0
+                                ? Icons.schedule
+                                :
+                                // _bookingDetails[0]
+                                //     .GateOutDate
+                                //     .toString()
+                                //     .contains("1900")
+                                0 == 0
+                                    ? Icons.schedule
+                                    :
+                                    // _bookingDetails[0].GateOut == 2
+                                    0 == 0
+                                        ? Icons.highlight_off
+                                        : Icons.check_circle_outline,
+                            size: useMobileLayout ? 40 : 50,
+                            color:
+                                // _bookingDetails.length == 0
+                                0 == 0
+                                    ? const Color(0xff3a3a3a)
+                                    :
+                                    // _bookingDetails[0]
+                                    //     .GateOutDate
+                                    //     .toString()
+                                    //     .contains("1900")
+                                    0 == 0
+                                        ? Colors.red.shade200
+                                        :
+                                        // _bookingDetails[0].GateOut == 1
+                                        0 == 0
+                                            ? Colors.green.shade200
+                                            : Colors.red.shade200,
+                          ),
+                          Icon(
+                            // _bookingDetails.length == 0
+                            0 == 0
+                                ? Icons.schedule
+                                :
+                                // _bookingDetails[0]
+                                //     .GateOutDate
+                                //     .toString()
+                                //     .contains("1900")
+                                0 == 0
+                                    ? Icons.schedule
+                                    :
+                                    // _bookingDetails[0].GateOut == 2
+                                    0 == 0
+                                        ? Icons.highlight_off
+                                        : Icons.check_circle_outline,
+                            size: useMobileLayout ? 40 : 50,
+                            color:
+                                // _bookingDetails.length == 0
+                                0 == 0
+                                    ? const Color(0xff3a3a3a)
+                                    :
+                                    // _bookingDetails[0]
+                                    //     .GateOutDate
+                                    //     .toString()
+                                    //     .contains("1900")
+                                    0 == 0
+                                        ? Colors.red.shade200
+                                        :
+                                        // _bookingDetails[0].GateOut == 1
+                                        0 == 0
+                                            ? Colors.green.shade200
+                                            : Colors.red.shade200,
+                          ),
+                          Icon(
+                            // _bookingDetails.length == 0
+                            0 == 0
+                                ? Icons.schedule
+                                :
+                                // _bookingDetails[0]
+                                //     .GateOutDate
+                                //     .toString()
+                                //     .contains("1900")
+                                0 == 0
+                                    ? Icons.schedule
+                                    :
+                                    // _bookingDetails[0].GateOut == 2
+                                    0 == 0
+                                        ? Icons.highlight_off
+                                        : Icons.check_circle_outline,
+                            size: useMobileLayout ? 40 : 50,
+                            color:
+                                // _bookingDetails.length == 0
+                                0 == 0
+                                    ? const Color(0xff3a3a3a)
+                                    :
+                                    // _bookingDetails[0]
+                                    //     .GateOutDate
+                                    //     .toString()
+                                    //     .contains("1900")
+                                    0 == 0
+                                        ? Colors.red.shade200
+                                        :
+                                        // _bookingDetails[0].GateOut == 1
+                                        0 == 0
+                                            ? Colors.green.shade200
+                                            : Colors.red.shade200,
+                          ),
+                          Icon(
+                            // _bookingDetails.length == 0
+                            0 == 0
+                                ? Icons.schedule
+                                :
+                                // _bookingDetails[0]
+                                //     .GateOutDate
+                                //     .toString()
+                                //     .contains("1900")
+                                0 == 0
+                                    ? Icons.schedule
+                                    :
+                                    // _bookingDetails[0].GateOut == 2
+                                    0 == 0
+                                        ? Icons.highlight_off
+                                        : Icons.check_circle_outline,
+                            size: useMobileLayout ? 40 : 50,
+                            color:
+                                // _bookingDetails.length == 0
+                                0 == 0
+                                    ? const Color(0xff3a3a3a)
+                                    :
+                                    // _bookingDetails[0]
+                                    //     .GateOutDate
+                                    //     .toString()
+                                    //     .contains("1900")
+                                    0 == 0
+                                        ? Colors.red.shade200
+                                        :
+                                        // _bookingDetails[0].GateOut == 1
+                                        0 == 0
+                                            ? Colors.green.shade200
+                                            : Colors.red.shade200,
+                          ),
+                          Icon(
+                            // _bookingDetails.length == 0
+                            0 == 0
+                                ? Icons.schedule
+                                :
+                                // _bookingDetails[0]
+                                //     .GateOutDate
+                                //     .toString()
+                                //     .contains("1900")
+                                0 == 0
+                                    ? Icons.schedule
+                                    :
+                                    // _bookingDetails[0].GateOut == 2
+                                    0 == 0
+                                        ? Icons.highlight_off
+                                        : Icons.check_circle_outline,
+                            size: useMobileLayout ? 40 : 50,
+                            color:
+                                // _bookingDetails.length == 0
+                                0 == 0
+                                    ? const Color(0xff3a3a3a)
+                                    :
+                                    // _bookingDetails[0]
+                                    //     .GateOutDate
+                                    //     .toString()
+                                    //     .contains("1900")
+                                    0 == 0
+                                        ? Colors.red.shade200
+                                        :
+                                        // _bookingDetails[0].GateOut == 1
+                                        0 == 0
+                                            ? Colors.green.shade200
+                                            : Colors.red.shade200,
+                          ),
+                        ],
                       ),
-                    ),
-                  )
-          ]),
+                    )
+                      // Container(
+                      //   height: isImport
+                      //       ? trackingType == 0 || trackingType == 1
+                      //           ? MediaQuery.of(context).size.height / 1.85
+                      //           : trackingType == 2
+                      //               ? MediaQuery.of(context).size.height / 1.62
+                      //               : MediaQuery.of(context).size.height / 1.85
+                      //       : trackingType == 1
+                      //           ? MediaQuery.of(context).size.height / 1.85
+                      //           : MediaQuery.of(context).size.height / 1.62,
+                      //   width: MediaQuery.of(context).size.width,
+                      //   margin: EdgeInsets.only(right: 8, top: 8),
+                      //   child:,
+                      // ),
+
+                      // SingleChildScrollView(
+                      //   child: Padding(
+                      //     padding: useMobileLayout
+                      //         ? const EdgeInsets.only(top: 2.0, left: 0.0)
+                      //         : const EdgeInsets.only(
+                      //             top: 2.0, bottom: 10.0, left: 40.0),
+                      //     child: SizedBox(
+                      //         width: useMobileLayout
+                      //             ? MediaQuery.of(context).size.width / 1.01
+                      //             : MediaQuery.of(context).size.width / 1.19,
+                      //         child: ListView.builder(
+                      //           physics: NeverScrollableScrollPhysics(),
+                      //           itemBuilder: (BuildContext, index) {
+                      //             VehicleToken _dockinlist =
+                      //                 vehicleToeknListToBind.elementAt(index);
+                      //             return buildDockList(_dockinlist, index);
+                      //           },
+                      //           itemCount: vehicleToeknListToBind.length,
+                      //           shrinkWrap: true,
+                      //           padding: EdgeInsets.all(2),
+                      //         )),
+                      //   ),
+                      // ),
+                      )
+                  : Expanded(
+                      child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Container(
+                            height: useMobileLayout ? 40 : 60,
+                            color: Color(0xFF11249F),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(right: 20, left: 20),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.8,
+                                      child: Text(
+                                        " EVT Number",
+                                        style: useMobileLayout
+                                            ? mobileHeaderFontStyleBold2
+                                            : iPadGroupHeaderFontStyleBold2,
+                                      )),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.4,
+                                      child: Text(
+                                        "Vehicle Number",
+                                        style: useMobileLayout
+                                            ? mobileHeaderFontStyleBold2
+                                            : iPadGroupHeaderFontStyleBold2,
+                                      )),
+                                ],
+                              ),
+                            ),
+                          ),
+                          ListView.builder(
+                            padding: EdgeInsets.zero,
+                            shrinkWrap: true,
+                            itemCount: evtList.length,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (BuildContext context, int index) {
+                              EVTDetails evtListItems =
+                                  evtList.elementAt(index);
+                              return evtListItem(context, evtListItems, index);
+                            },
+                          ),
+                        ],
+                      ),
+                    )
+                      // Container(
+                      //   height: isImport
+                      //       ? trackingType == 0 || trackingType == 1
+                      //           ? MediaQuery.of(context).size.height / 1.85
+                      //           : trackingType == 2
+                      //               ? MediaQuery.of(context).size.height / 1.62
+                      //               : MediaQuery.of(context).size.height / 1.85
+                      //       : trackingType == 1
+                      //           ? MediaQuery.of(context).size.height / 1.85
+                      //           : MediaQuery.of(context).size.height / 1.62,
+                      //   width: MediaQuery.of(context).size.width,
+                      //   margin: EdgeInsets.only(right: 8, top: 8),
+                      //   child:,
+                      // ),
+
+                      // SingleChildScrollView(
+                      //   child: Padding(
+                      //     padding: useMobileLayout
+                      //         ? const EdgeInsets.only(top: 2.0, left: 0.0)
+                      //         : const EdgeInsets.only(
+                      //             top: 2.0, bottom: 10.0, left: 40.0),
+                      //     child: SizedBox(
+                      //         width: useMobileLayout
+                      //             ? MediaQuery.of(context).size.width / 1.01
+                      //             : MediaQuery.of(context).size.width / 1.19,
+                      //         child: ListView.builder(
+                      //           physics: NeverScrollableScrollPhysics(),
+                      //           itemBuilder: (BuildContext, index) {
+                      //             VehicleToken _dockinlist =
+                      //                 vehicleToeknListToBind.elementAt(index);
+                      //             return buildDockList(_dockinlist, index);
+                      //           },
+                      //           itemCount: vehicleToeknListToBind.length,
+                      //           shrinkWrap: true,
+                      //           padding: EdgeInsets.all(2),
+                      //         )),
+                      //   ),
+                      // ),
+                      ),
+        ],
+      ),
     );
   }
 
-  buildDockList(VehicleToken _dl, index) {
-    return index < 12
-        ? GestureDetector(
-            onTap: () async {
-              var returnVal = await Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => TruckYardCheckInDetails(
-                        isExport: isImport ? false : true,
-                        selectedVtDetails: _dl)),
-              );
-              print(returnVal.toString());
-              if (returnVal != null) if (returnVal == true) {
-                if (modeSelected == 1) {
-                  getVehicleToeknList(3); //Import
-                  print("import");
-                } else {
-                  getVehicleToeknList(4); //Export
-                  print("export");
-                }
-              }
-            },
-            child: Card(
-              child: ListTile(
-                leading: Container(
-                  height: useMobileLayout ? 40 : 60,
-                  width: useMobileLayout ? 40 : 60,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                        width: 1,
-                        color: Colors.blue,
-                      ),
-                      shape: BoxShape.circle),
-                  child: Center(
-                    child: Text(_dl.DOCKNAME,
-                        style: mobileGroupHeaderFontStyleBold),
-                  ),
-                ),
-                title: useMobileLayout
-                    ? Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(_dl.VTNo, style: mobileGroupHeaderFontStyleBold),
-                          SizedBox(height: 5),
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.schedule,
-                                size: 16,
-                                color: Color(0xFF11249F),
-                              ),
-                              SizedBox(width: 5),
-                              Text(_dl.SLOTTIME,
-                                  style: VTlistTextFontStyleBold),
-                            ],
-                          ),
-                        ],
-                      )
-                    : Text(_dl.VTNo,
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF11249F))),
-                subtitle: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (!useMobileLayout) SizedBox(height: 10),
-                    if (!useMobileLayout)
-                      Text(
-                        _dl.SLOTTIME,
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black),
-                      ),
-                    SizedBox(height: useMobileLayout ? 5 : 10),
-                    Container(
-                      height: 1,
-                      width: MediaQuery.of(context).size.width / 1.6,
-                      color: Color(0xFF0461AA),
-                    ),
-                    SizedBox(height: useMobileLayout ? 5 : 10),
-                    useMobileLayout
-                        ? Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Icon(
-                                    Icons.person,
-                                    size: 16,
-                                    color: Color(0xFF11249F),
-                                  ),
-                                  SizedBox(width: 5),
-                                  Text(_dl.DRIVERNAME.toUpperCase(),
-                                      style: VTlistTextFontStyle),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Icon(
-                                    Icons.local_shipping,
-                                    size: 16,
-                                    color: Color(0xFF11249F),
-                                  ),
-                                  SizedBox(width: 5),
-                                  Text(_dl.VEHICLENO.toUpperCase(),
-                                      style: VTlistTextFontStyle),
-                                ],
-                              ),
-                            ],
-                          )
-                        : Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Icon(
-                                Icons.person,
-                                size: useMobileLayout ? 16 : 18,
-                                color: Color(0xFF11249F),
-                              ),
-                              SizedBox(width: useMobileLayout ? 5 : 10),
-                              Text(
-                                _dl.DRIVERNAME.toUpperCase(),
-                                style: useMobileLayout
-                                    ? VTlistTextFontStyleBold
-                                    : TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black),
-                              ),
-                              SizedBox(width: useMobileLayout ? 5 : 40),
-                              Icon(
-                                Icons.local_shipping,
-                                size: useMobileLayout ? 16 : 18,
-                                color: Color(0xFF11249F),
-                              ),
-                              SizedBox(width: useMobileLayout ? 5 : 10),
-                              Text(
-                                _dl.VEHICLENO.toUpperCase().toUpperCase(),
-                                style: useMobileLayout
-                                    ? VTlistTextFontStyleBold
-                                    : TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black),
-                              ),
-                            ],
-                          ),
-                    if (!useMobileLayout) SizedBox(height: 10),
-                  ],
-                ),
-                trailing: Icon(
-                  Icons.chevron_right,
-                  size: useMobileLayout ? 28 : 34,
-                  color: Color(0xFF11249F),
-                ),
-              ),
-            ),
-          )
-        : Card(
-            child: ListTile(
-              leading: Container(
-                height: useMobileLayout ? 40 : 60,
-                width: useMobileLayout ? 40 : 60,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(
-                      width: 1,
-                      color: Colors.blue,
-                    ),
-                    shape: BoxShape.circle),
-                child: Center(
+  evtListItem(BuildContext context, EVTDetails evtDetails, index) {
+    return Card(
+      color: Colors.white,
+      elevation: 3.0,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 4.0, right: 4.0, top: 4.0),
+        child: ExpansionTile(
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(
+                  width: MediaQuery.of(context).size.width / 2.2,
                   child: Text(
-                    _dl.DOCKNAME,
+                    " EVT2401190001",
                     style: useMobileLayout
-                        ? mobileGroupHeaderFontStyleBold
-                        : TextStyle(
-                            fontSize: 26,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF11249F),
-                          ),
+                        ? mobileTimeLineHeaderFontStyle
+                        : mobileGroupHeaderFontStyle,
+                  )),
+              SizedBox(
+                  width: MediaQuery.of(context).size.width / 3.1,
+                  child: Text(
+                    " 12341111",
+                    style: useMobileLayout
+                        ? mobileTimeLineHeaderFontStyle
+                        : mobileGroupHeaderFontStyle,
+                  )),
+            ],
+          ),
+          // subtitle: Text(" 1234",style: TextStyle(color: Colors.black87),),
+          children: [
+            Timeline(
+              children: <Widget>[
+                Container(
+                  height: 50,
+                  color: Colors.transparent,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                            width: useMobileLayout
+                                ? MediaQuery.of(context).size.width / 2.6
+                                : MediaQuery.of(context).size.width / 1.9,
+                            child: Padding(
+                              padding: useMobileLayout
+                                  ? const EdgeInsets.only(left: 2.0)
+                                  : const EdgeInsets.only(left: 14.0),
+                              child: Text(
+                                " Parking Area",
+                                style: useMobileLayout
+                                    ? mobileTimeLineHeaderFontStyle
+                                    : mobileGroupHeaderFontStyle,
+                              ),
+                            )),
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width / 2.6,
+                            child: Text(
+                              // _bookingDetails.length == 0
+                              // ? ""
+                              // : _bookingDetails[0]
+                              // .CreatedOn
+                              // .toString()
+                              // .contains("1900")
+                              // ? ""
+                              // : getCustomFormattedDateTime(
+                              // _bookingDetails[0].CreatedOn,
+                              // 'dd-MM-yyyy HH:mm')
+                              "15-01-2024 15:39",
+                              style: useMobileLayout
+                                  ? mobileTimeLineHeaderFontStyle
+                                  : mobileGroupHeaderFontStyle,
+                            )),
+                        // : _bookingDetails[0].CreatedOn)),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-
-              title: useMobileLayout
-                  ? Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                Container(
+                  height: 50,
+                  color: Colors.transparent,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: Row(
                       children: [
-                        Text(_dl.VTNo, style: mobileGroupHeaderFontStyleBold),
-                        SizedBox(height: 5),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.schedule,
-                              size: 16,
-                              color: Color(0xFF11249F),
-                            ),
-                            SizedBox(width: 5),
-                            Text(_dl.SLOTTIME, style: VTlistTextFontStyleBold),
-                          ],
-                        ),
+                        SizedBox(
+                            width: useMobileLayout
+                                ? MediaQuery.of(context).size.width / 2.6
+                                : MediaQuery.of(context).size.width / 1.9,
+                            child: Padding(
+                              padding: useMobileLayout
+                                  ? const EdgeInsets.only(left: 2.0)
+                                  : const EdgeInsets.only(left: 14.0),
+                              child: Text(
+                                " Dock-IN",
+                                style: useMobileLayout
+                                    ? mobileTimeLineHeaderFontStyle
+                                    : mobileGroupHeaderFontStyle,
+                              ),
+                            )),
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width / 2.6,
+                            child: Text(
+                              // _bookingDetails.length == 0
+                              // ? ""
+                              // : _bookingDetails[0]
+                              // .GateOutDate
+                              // .toString()
+                              // .contains("1900")
+                              // ? ""
+                              // : getCustomFormattedDateTime(
+                              // _bookingDetails[0].GateOutDate,
+                              // 'dd-MM-yyyy HH:mm')
+                              "15-01-2024 15:39",
+                              style: useMobileLayout
+                                  ? mobileTextFontStyle
+                                  : iPadTextFontStyle,
+                            )),
+                        // : _bookingDetails[0].GateOutDate)),
                       ],
-                    )
-                  : Text(_dl.VTNo,
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF11249F))),
-              // Padding(
-              //   padding: const EdgeInsets.only(bottom: 10.0),
-              //   child: Text('IVT2207050027',
-              //       style: TextStyle(
-              //         fontSize:  useMobileLayout ? 18:20,
-              //           fontWeight: FontWeight.bold,
-              //           color: Color(0xFF11249F))),
-              // ),
-              subtitle: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (!useMobileLayout) SizedBox(height: 10),
-                  if (!useMobileLayout)
-                    Text(
-                      _dl.SLOTTIME,
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black),
                     ),
-                  SizedBox(height: useMobileLayout ? 5 : 10),
-                  Container(
-                    height: 1,
-                    width: MediaQuery.of(context).size.width / 1.6,
-                    color: Color(0xFF0461AA),
                   ),
-                  SizedBox(height: useMobileLayout ? 5 : 10),
-                  useMobileLayout
-                      ? Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Icon(
-                                  Icons.person,
-                                  size: 16,
-                                  color: Color(0xFF11249F),
-                                ),
-                                SizedBox(width: 5),
-                                Text(_dl.DRIVERNAME.toUpperCase(),
-                                    style: VTlistTextFontStyle),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Icon(
-                                  Icons.local_shipping,
-                                  size: 16,
-                                  color: Color(0xFF11249F),
-                                ),
-                                SizedBox(width: 5),
-                                Text(_dl.VEHICLENO.toUpperCase(),
-                                    style: VTlistTextFontStyle),
-                              ],
-                            ),
-                          ],
-                        )
-                      : Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Icon(
-                              Icons.person,
-                              size: 18,
-                              color: Color(0xFF11249F),
-                            ),
-                            SizedBox(width: 10),
-                            Text(
-                              _dl.DRIVERNAME.toUpperCase(),
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black),
-                            ),
-                            SizedBox(width: 20),
-                            Icon(
-                              Icons.local_shipping,
-                              size: 18,
-                              color: Color(0xFF11249F),
-                            ),
-                            SizedBox(width: 10),
-                            Text(
-                              _dl.VEHICLENO.toUpperCase(),
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black),
-                            ),
-                          ],
-                        ),
-                ],
-              ),
-              trailing: Icon(
-                Icons.chevron_right,
-                size: useMobileLayout ? 28 : 34,
-                color: Color(0xFF11249F),
-              ),
+                ),
+                Container(
+                  height: 50,
+                  color: Colors.transparent,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                            width: useMobileLayout
+                                ? MediaQuery.of(context).size.width / 2.6
+                                : MediaQuery.of(context).size.width / 1.9,
+                            child: Padding(
+                              padding: useMobileLayout
+                                  ? const EdgeInsets.only(left: 2.0)
+                                  : const EdgeInsets.only(left: 14.0),
+                              child: Text(
+                                " Dock-OUT",
+                                style: useMobileLayout
+                                    ? mobileTextFontStyle
+                                    : mobileGroupHeaderFontStyle,
+                              ),
+                            )),
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width / 2.6,
+                            child: Text(
+                              // _bookingDetails.length == 0
+                              // ? ""
+                              // : _bookingDetails[0]
+                              // .ConfirmedOn
+                              // .toString()
+                              // .contains("1900")
+                              // ? ""
+                              // : getCustomFormattedDateTime(
+                              // _bookingDetails[0].ConfirmedOn,
+                              // 'dd-MM-yyyy HH:mm')
+                              "15-01-2024 15:39",
+                              style: useMobileLayout
+                                  ? mobileTextFontStyle
+                                  : iPadTextFontStyle,
+                            )),
+                        // : _bookingDetails[0].ConfirmedOn)),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+              indicators: <Widget>[
+                Icon(
+                  // _bookingDetails.length == 0
+                  //     ? Icons.schedule
+                  //     : _bookingDetails[0]
+                  //     .CreatedOn
+                  //     .toString()
+                  //     .contains("1900")
+                  0 == 0 ? Icons.schedule : Icons.check_circle_outline,
+                  size: useMobileLayout ? 40 : 50,
+                  color:
+                      // _bookingDetails.length == 0
+                      //     ? const Color(0xff3a3a3a)
+                      //     : _bookingDetails[0]
+                      //     .CreatedOn
+                      //     .toString()
+                      //     .contains("1900")
+                      0 == 0 ? Colors.red.shade200 : Colors.green.shade200,
+                ),
+                Icon(
+                  // _bookingDetails.length == 0
+                  0 == 0
+                      ? Icons.schedule
+                      :
+                      // _bookingDetails[0]
+                      // .ConfirmedOn
+                      // .toString()
+                      // .contains("1900")
+                      0 == 0
+                          ?
+                          // _bookingDetails[0].Status == 0
+                          0 == 0
+                              ? Icons.highlight_off
+                              : Icons.schedule
+                          : Icons.check_circle_outline,
+                  size: useMobileLayout ? 40 : 50,
+                  color:
+                      // _bookingDetails.length == 0
+                      0 == 0
+                          ? const Color(0xff3a3a3a)
+                          :
+                          // _bookingDetails[0]
+                          //   .ConfirmedOn
+                          //   .toString()
+                          //   .contains("1900")
+                          0 == 0
+                              ? Colors.red.shade200
+                              : Colors.green.shade200,
+                ),
+                Icon(
+                  // _bookingDetails.length == 0
+                  0 == 0
+                      ? Icons.schedule
+                      :
+                      // _bookingDetails[0]
+                      //                                     .PreGateDate
+                      //                                     .toString()
+                      //                                     .contains("1900")
+                      0 == 0
+                          ? Icons.schedule
+                          :
+                          // _bookingDetails[0].PreGate == 2
+                          0 == 0
+                              ? Icons.highlight_off
+                              : Icons.check_circle_outline,
+                  size: useMobileLayout ? 40 : 50,
+                  color:
+                      // _bookingDetails.length == 0
+                      0 == 0
+                          ? const Color(0xff3a3a3a)
+                          :
+                          // _bookingDetails[0]
+                          //   .PreGateDate
+                          //   .toString()
+                          //   .contains("1900")
+                          0 == 0
+                              ? Colors.red.shade200
+                              :
+                              // _bookingDetails[0].PreGate == 1
+                              0 == 0
+                                  ? Colors.green.shade200
+                                  : Colors.red.shade200,
+                ),
+              ],
             ),
-          );
+          ],
+        ),
+      ),
+    );
   }
+}
 
-// This function is called whenever the text field changes
-  void _runFilter(String enteredKeyword) {
-    print("modeSelected == " + modeSelected.toString());
-    List<VehicleToken> results = [];
-    if (enteredKeyword.isEmpty) {
-      results =
-          modeSelected == 0 ? vehicleToeknListExport : vehicleToeknListImport;
-      setState(() {
-        vehicleToeknListToBind = results;
-        isSearched = false;
-      });
-    } else {
-      if (enteredKeyword.length < 3) return;
+class EVTDetails {
+  final String EVTno;
+  final String VehicleNo;
+  final String PendingArea;
+  final String DockIn;
+  final String DockOut;
 
-      if (enteredKeyword.isEmpty) {
-        results =
-            modeSelected == 0 ? vehicleToeknListExport : vehicleToeknListImport;
-      } else {
-        print("enteredKeyword == " + enteredKeyword.toLowerCase());
-        print("modeSelected == " + modeSelected.toString());
-        print("isSearched == " + isSearched.toString());
-
-        modeSelected == 0
-            ? results.addAll(vehicleToeknListExport)
-            : results.addAll(vehicleToeknListImport);
-        if (isSearched) {
-          setState(() {
-            // print("results.length == ");
-            vehicleToeknListToBind = vehicleToeknListtRandom;
-          });
-        } else {
-          print("results.length == " + results.length.toString());
-
-          results.retainWhere((VehicleToken element) =>
-              element.VTNo.toLowerCase()
-                  .contains(enteredKeyword.toLowerCase()));
-
-          print("results.length after filter == " + results.length.toString());
-
-          setState(() {
-            // print("results.length == ");
-            vehicleToeknListToBind = results;
-          });
-        }
-      }
-    }
-    // Refresh the UI
-  }
+  EVTDetails({
+    required this.EVTno,
+    required this.VehicleNo,
+    required this.PendingArea,
+    required this.DockIn,
+    required this.DockOut,
+  });
 }

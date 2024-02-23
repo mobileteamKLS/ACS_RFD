@@ -50,10 +50,9 @@ dependencies:
   http: ^0.13.0
   shared_preferences: ^2.0.5
   geolocator: ^8.0.5
-  qr_code_scanner:
-    git:
-      url: https://github.com/X-SLAYER/qr_code_scanner.git
-      ref: flutter-beta
+  timeline_tile: ^2.0.0
+  file_picker: ^6.1.1
+  qr_code_scanner: ^1.0.1
 
 
   # The following adds the Cupertino Icons font to your application.

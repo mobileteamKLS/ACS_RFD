@@ -219,12 +219,14 @@ class _SplashScreenState extends State<SplashScreen> {
         print("isGHA  =  " + isGHA.toString());
         print("isTPS  =  " + isTPS.toString());
         print("isTruckerFF  =  " + isTruckerFF.toString());
-        await getUserLocation();
-        await getTerminalsList();
-        await getUserBranchList();
-        await getVehicleTypesList();
-        await getVehicleNoList();
-        await getDriversList();
+        if (isTrucker || isTruckerFF || isGHA || isTPS) {
+          await getUserLocation();
+          await getTerminalsList();
+          await getUserBranchList();
+          await getVehicleTypesList();
+          await getVehicleNoList();
+          await getDriversList();
+        }
         if (isGHA) {
           await getDamageTypeList();
           await getAcceptanceResonList();
