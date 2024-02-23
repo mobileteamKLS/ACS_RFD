@@ -730,7 +730,10 @@ class _DashboardsState extends State<Dashboards> {
               ),
             ]),
             SizedBox(height: useMobileLayout ? 0 : 24),
+            if (isCB)
+
             useMobileLayout
+
                 ? Expanded(
               flex: 0,
               child: Container(
@@ -930,6 +933,7 @@ class _DashboardsState extends State<Dashboards> {
                       "In",
                       DockIn(),
                       useMobileLayout),
+
                 if (isGHA)
                   DashboardBlocks(
                       Color(0xFFa8c0ff),
@@ -1082,8 +1086,8 @@ class _DashboardsState extends State<Dashboards> {
                       useMobileLayout),
                 if (isCB)
                   DashboardBlocks(
-                      Color(0xFFff9472),
-                      Color(0xFFf2709c),
+                      Color(0xff5175e7),
+                      Color(0xfff55b5b),
                       Icons.local_shipping,
                       "",
                       "e-Docket",

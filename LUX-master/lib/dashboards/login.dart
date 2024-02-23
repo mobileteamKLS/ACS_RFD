@@ -851,18 +851,20 @@ class _LoginPageState extends State<LoginPage> {
               resp1.map((e1) => e1["OrganizationTypeId"]).toSet().toList();
           print(namesList1.length);
 
-          if (namesList1.contains(10)) isGHA = true;
-
-          if (namesList1.contains(3) && namesList1.contains(5))
+          if (namesList1.contains(10)) {
+            isGHA = true;
+            const String ACSServiceURL = 'https://acstsmdemo.kalelogistics.com/RFDSRV/srvMobile.asmx';
+          }if (namesList1.contains(3) && namesList1.contains(5))
             isCB = true;
 
           if (namesList1.contains(3)) isCB = true;
 
-          if (namesList1.contains(25)) isTPS = true;
+          // if (namesList1.contains(25)) isTPS = true;
 
-          if (namesList1.contains(5) && !namesList1.contains(3))
+          if (namesList1.contains(5) && !namesList1.contains(3)) {
             isTrucker = true;
-
+            const String ACSServiceURL = 'https://acstsmdemo.kalelogistics.com/RFDSRV/srvMobile.asmx';
+          }
           if (namesList1.contains(4)) isAirline = true;
 
           var organizationTypes = namesList1.join(', ');

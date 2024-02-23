@@ -289,9 +289,14 @@ class Settings {
   //     "https://acsdemoservice.kalelogistics.com/srvMobile.asmx";
 
 //GMR UAT  12-01-2024
-  static const String ACSServiceURL = 'https://acsdemo.upliftindia.com/ACS_GMR_UAT_HHT_Services/srvMobile.asmx';
-  static const String ACSServiceImageURL = 'https://acsdemo.upliftindia.com/ACS_GMR_UAT_HHT_Services/';
-  static const String loginUrl = "https://acsdemo.upliftindia.com/ACS_GMR_UAT_HHT_Services/srvMobile.asmx";
+//   static const String ACSServiceURL = 'https://acsdemo.upliftindia.com/ACS_GMR_UAT_HHT_Services/srvMobile.asmx';
+//   static const String ACSServiceImageURL = 'https://acsdemo.upliftindia.com/ACS_GMR_UAT_HHT_Services/';
+//   static const String loginUrl = "https://acsdemo.upliftindia.com/ACS_GMR_UAT_HHT_Services/srvMobile.asmx";
+
+  // RFD link 20-02-2024
+  static const String ACSServiceURL = 'https://acstsmdemo.kalelogistics.com/ACS_TSM_RFD_HHT_Services/srvMobile.asmx';
+  static const String ACSServiceImageURL = 'https://acstsmdemo.kalelogistics.com/ACS_TSM_RFD_HHT_Services/';
+  static const String loginUrl = "https://acstsmdemo.kalelogistics.com/ACS_TSM_RFD_HHT_Services/srvMobile.asmx";
 
   //YVRA UAT LINK PROVIDED ON 31-OCT-2022 -  this is for YVRA UAT
 
