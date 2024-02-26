@@ -15,6 +15,9 @@ bool isTrucker = false;
 bool isTruckerFF = false;
 bool isGHA = false;
 bool isTPS = false;
+// bool isCB = false;
+// bool isAirline = false;
+
 int currUserId = 0;
 int orgId = 0;
 UserDetails loggedinUser = new UserDetails(
@@ -118,7 +121,6 @@ class Global {
         return Post.fromJson(response.body, statusCode);
       });
     }
-
     //return http.get(Uri.parse('http://113.193.225.56:8080/POCMobile/api/DOAPILogin'));
   }
 

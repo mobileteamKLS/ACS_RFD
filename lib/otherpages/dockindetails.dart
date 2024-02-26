@@ -372,7 +372,6 @@ class _DockInDetailsState extends State<DockInDetails> {
                                                       ),
                                                     ],
                                                   ),
-
                                                   Row(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment

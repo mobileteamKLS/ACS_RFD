@@ -28,3 +28,25 @@ git push origin prasad_21Dec
 
 * Create a new pull request from your branch (Click the `New Pull Request` button located at the top of your repo)
 * Wait for your PR review and approval from the maintainer.
+  
+### To get latest code from remote `master` branch
+* First checkout to your local `master` branch  
+
+```markdown
+git checkout master
+```
+* Pull changes from remote `master` branch  
+
+```markdown
+git pull origin master
+```
+* Now switch back to your local branch(`prasad_21Dec`)  
+
+```markdown
+git checkout prasad_21Dec
+```
+* Now merge changes from your `master` branch to your local branch(`prasad_21Dec`)  
+
+```markdown
+git merge master
+```

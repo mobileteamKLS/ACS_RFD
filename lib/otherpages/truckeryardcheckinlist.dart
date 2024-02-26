@@ -569,7 +569,7 @@ class _TruckYardCheckInListState extends State<TruckYardCheckInList> {
                                   }),
                               SizedBox(width: 5),
                               GestureDetector(
-                                child: GallaryScanContainerButton(),
+                                child: GalleryScanContainerButton(),
                                 onTap: () async {
                                   final ImagePicker _picker = ImagePicker();
                                   final XFile? image = await _picker.pickImage(

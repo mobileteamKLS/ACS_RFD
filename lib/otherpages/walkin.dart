@@ -179,10 +179,10 @@ class _WalkInCustomerState extends State<WalkInCustomer> {
                               [Color(0xFF1220BC), Color(0xFF3540E8)],
                               [Color(0xFF1220BC), Color(0xFF3540E8)],
                             ],
-                            animate:
-                                true, // with just animate set to true, default curve = Curves.easeIn
-                            curve: Curves
-                                .bounceInOut, // animate must be set to true when using custom curve
+                            animate: true,
+                            // with just animate set to true, default curve = Curves.easeIn
+                            curve: Curves.bounceInOut,
+                            // animate must be set to true when using custom curve
                             onToggle: (index) {
                               print('switched to: $index');
 
@@ -297,8 +297,8 @@ class _WalkInCustomerState extends State<WalkInCustomer> {
                                       items: vehicletypesList.map((vehicle) {
                                         return DropdownMenuItem(
                                           child: Text(vehicle.TruckTypeName,
-                                              style:
-                                                  iPadTextFontStyle), //label of item
+                                              style: iPadTextFontStyle),
+                                          //label of item
                                           value: vehicle
                                               .TruckTypeId, //value of item
                                         );
@@ -668,8 +668,8 @@ class _WalkInCustomerState extends State<WalkInCustomer> {
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
                                           counterText: "",
-                                          hintText:
-                                              "Enter 13 Digit STA Code", //"Enter driver name",
+                                          hintText: "Enter 13 Digit STA Code",
+                                          //"Enter driver name",
                                           hintStyle:
                                               TextStyle(color: Colors.grey),
                                           contentPadding: EdgeInsets.symmetric(

@@ -478,7 +478,7 @@ class _DockInState extends State<DockIn> {
                                   }),
                               SizedBox(width: 5),
                               GestureDetector(
-                                child: GallaryScanContainerButton(),
+                                child: GalleryScanContainerButton(),
                                 onTap: () async {
                                   final ImagePicker _picker = ImagePicker();
                                   final XFile? image = await _picker.pickImage(
@@ -530,7 +530,7 @@ class _DockInState extends State<DockIn> {
                                                   .size
                                                   .width /
                                               2.45,
-                                          child: Text(" Mode",
+                                          child: Text("Mode",
                                               style: iPadGroupHeaderFontStyle),
                                         ),
                                         Padding(
@@ -539,7 +539,7 @@ class _DockInState extends State<DockIn> {
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width /
-                                                2.60,
+                                                3.05,
                                             child: ToggleSwitch(
                                               minWidth: 146,
                                               minHeight: 65.0,

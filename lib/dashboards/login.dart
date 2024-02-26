@@ -3,6 +3,7 @@ import 'package:luxair/datastructure/slotbooking.dart';
 import 'package:luxair/otherpages/trackshipment.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 // import 'package:shared_preferences/shared_preferences.dart';
 import 'package:luxair/dashboards/dashboard.dart';
 import 'package:luxair/dashboards/homescreen.dart';
@@ -29,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
   bool showPassword = false;
   bool useMobileLayout = false;
   static List<UserDetails> userDetails = [];
-  static final userCred = {'pUserID': "", "pPassword": ""};
+  static final userCred = {'pUserID': "", "pPassword": "","pDeviceNumber":""};
   static List<UserOrganizationDetails> userOrganizationsList = [];
   static List<WarehouseTerminals> userTerminallist = [];
   static List<LableDisplay> lblDisplay = [];
@@ -94,7 +95,8 @@ class _LoginPageState extends State<LoginPage> {
                     ],
                   ),
                 ),
-                height: MediaQuery.of(context).size.height / 3, //180,
+                height: MediaQuery.of(context).size.height / 3,
+                //180,
                 alignment: Alignment.center,
 
                 child: Container(
@@ -454,7 +456,7 @@ class _LoginPageState extends State<LoginPage> {
                                                   'assets/images/warn.gif',
                                               isMobile: useMobileLayout),
                                     );
-                                  } else if (!useMobileLayout && !isGHA) {
+                                  } else if (!useMobileLayout && !isTrucker) {
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext context) =>
@@ -474,12 +476,17 @@ class _LoginPageState extends State<LoginPage> {
                                     print("isTPS  =  " + isTPS.toString());
                                     print("isTruckerFF  =  " +
                                         isTruckerFF.toString());
-                                    await getUserLocation();
-                                    await getTerminalsList();
-                                    await getUserBranchList();
-                                    await getVehicleTypesList();
-                                    await getVehicleNoList();
-                                    await getDriversList();
+                                    if (isTrucker ||
+                                        isTruckerFF ||
+                                        isGHA ||
+                                        isTPS) {
+                                      await getUserLocation();
+                                      await getTerminalsList();
+                                      await getUserBranchList();
+                                      await getVehicleTypesList();
+                                      await getVehicleNoList();
+                                      await getDriversList();
+                                    }
 
                                     if (isGHA) {
                                       await getDamageTypeList();
@@ -748,7 +755,7 @@ class _LoginPageState extends State<LoginPage> {
                 imagepath: 'assets/images/warn.gif',
                 isMobile: useMobileLayout),
           );
-        } else if (!useMobileLayout && !isGHA) {
+        } else if (!useMobileLayout && !isTrucker) {
           showDialog(
             context: context,
             builder: (BuildContext context) => customAlertMessageDialog(
@@ -763,12 +770,14 @@ class _LoginPageState extends State<LoginPage> {
           print("isGHA  =  " + isGHA.toString());
           print("isTPS  =  " + isTPS.toString());
           print("isTruckerFF  =  " + isTruckerFF.toString());
-          await getUserLocation();
-          await getTerminalsList();
-          await getUserBranchList();
-          await getVehicleTypesList();
-          await getVehicleNoList();
-          await getDriversList();
+          if (isTrucker || isTruckerFF || isGHA || isTPS) {
+            await getUserLocation();
+            await getTerminalsList();
+            await getUserBranchList();
+            await getVehicleTypesList();
+            await getVehicleNoList();
+            await getDriversList();
+          }
           if (isGHA) {
             await getDamageTypeList();
             await getAcceptanceResonList();
@@ -793,7 +802,7 @@ class _LoginPageState extends State<LoginPage> {
       print("This is new function");
       userCred['pUserID'] = userNameController.text;
       userCred['pPassword'] = passWordController.text;
-
+      userCred['pDeviceNumber'] = "";
       setState(() {
         isLoading = true;
       });
@@ -821,6 +830,8 @@ class _LoginPageState extends State<LoginPage> {
           isTrucker = false;
           isTruckerFF = false;
           isTPS = false;
+          // isCB = false;
+          // isAirline = false;
 
           showLoadingDialog(context, true);
           // print(json.decode(response.body)['d']);
@@ -858,6 +869,8 @@ class _LoginPageState extends State<LoginPage> {
 
           if (namesList1.contains(5) && !namesList1.contains(3))
             isTrucker = true;
+
+          // if (namesList1.contains(4)) isAirline = true;
 
           var organizationTypes = namesList1.join(', ');
           print(organizationTypes.toString());
@@ -898,6 +911,9 @@ class _LoginPageState extends State<LoginPage> {
                     OrganizationtypeIdString: organizationTypes);
 
                 setPreferences(userDetails[0]);
+              }
+              if(isTruckerFF||isTrucker||isGHA){
+                Settings.ACSServiceURL="https://acsdemoservice.kalelogistics.com/srvMobile.asmx";
               }
             });
           isValid = true;
@@ -987,7 +1003,8 @@ class _LoginPageState extends State<LoginPage> {
           .map<WarehouseTerminals>((json) => WarehouseTerminals.fromJson(json))
           .toList();
 
-      WarehouseTerminals wt = new WarehouseTerminals(custudian: 0, custodianName: "Select");
+      WarehouseTerminals wt =
+          new WarehouseTerminals(custudian: 0, custodianName: "Select");
       terminalsList.add(wt);
       terminalsList.sort((a, b) => a.custudian.compareTo(b.custudian));
 
@@ -1229,8 +1246,8 @@ class _LoginPageState extends State<LoginPage> {
           .map<Vehicletypes>((json) => Vehicletypes.fromJson(json))
           .toList();
 
-          
-      Vehicletypes vt = new Vehicletypes(TruckTypeId: 0, TruckTypeName: "Select");
+      Vehicletypes vt =
+          new Vehicletypes(TruckTypeId: 0, TruckTypeName: "Select");
       vehicletypesList.add(vt);
       vehicletypesList.sort((a, b) => a.TruckTypeId.compareTo(b.TruckTypeId));
 
@@ -1338,41 +1355,42 @@ class _LoginPageState extends State<LoginPage> {
 
     prefs.setInt("UserId_WFS_LUX", _userDets.CreatedByUserId);
     prefs.setInt("OrganizationId_WFS_LUX", _userDets.OrganizationId);
-    prefs.setInt("OrganizationBranchId_WFS_LUX", _userDets.OrganizationBranchId);
+    prefs.setInt(
+        "OrganizationBranchId_WFS_LUX", _userDets.OrganizationBranchId);
     prefs.setInt("OrganizationTypeId_WFS_LUX", _userDets.OrganizationTypeId);
   }
 
-  // showAlertDialog(context, buttonText, titleText, msgText) {
-  //   // set up the button
-  //   Widget okButton = TextButton(
-  //     child: Text(buttonText),
-  //     onPressed: () {
-  //       Navigator.of(context).pop();
-  //     },
-  //   );
+// showAlertDialog(context, buttonText, titleText, msgText) {
+//   // set up the button
+//   Widget okButton = TextButton(
+//     child: Text(buttonText),
+//     onPressed: () {
+//       Navigator.of(context).pop();
+//     },
+//   );
 
-  //   // set up the AlertDialog
-  //   AlertDialog alert = AlertDialog(
-  //     title: Text(
-  //       titleText,
-  //       style: TextStyle(
-  //           fontFamily: 'Roboto', fontSize: 16, color: Colors.red.shade800),
-  //     ),
-  //     content: Text(
-  //       msgText,
-  //       style: TextStyle(fontFamily: 'Roboto', fontSize: 12),
-  //     ),
-  //     actions: [
-  //       okButton,
-  //     ],
-  //   );
+//   // set up the AlertDialog
+//   AlertDialog alert = AlertDialog(
+//     title: Text(
+//       titleText,
+//       style: TextStyle(
+//           fontFamily: 'Roboto', fontSize: 16, color: Colors.red.shade800),
+//     ),
+//     content: Text(
+//       msgText,
+//       style: TextStyle(fontFamily: 'Roboto', fontSize: 12),
+//     ),
+//     actions: [
+//       okButton,
+//     ],
+//   );
 
-  //   // show the dialog
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return alert;
-  //     },
-  //   );
-  // }
+//   // show the dialog
+//   showDialog(
+//     context: context,
+//     builder: (BuildContext context) {
+//       return alert;
+//     },
+//   );
+// }
 }
