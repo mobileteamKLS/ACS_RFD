@@ -50,7 +50,7 @@ android {
         release {
             keyAlias 'upload'
             keyPassword 'Kale@123'
-            storeFile file('D:\\Flutter\\YVR_31Jan\\LUX\\android\\upload-keystore.jks')
+            storeFile file('E:\\ACS_MobileApp\\FlutterRFDNewApp\\ACS_LUX\\android\\upload-keystore.jks')
             storePassword 'Kale@123'
         }
    }

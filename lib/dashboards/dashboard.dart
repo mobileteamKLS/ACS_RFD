@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:luxair/otherpages/bookedslotslist.dart';
 import 'package:luxair/otherpages/importServiceFee.dart';
+import 'package:luxair/otherpages/asiListing.dart';
 import 'package:luxair/otherpages/slotlist.dart';
 import 'package:luxair/otherpages/viewslotbooking.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
@@ -65,6 +66,8 @@ class _DashboardsState extends State<Dashboards> {
       ),
     ],
   );
+
+  var index = 0;
   @override
   void initState() {
     printDate = DateFormat('dd-MMM-yyyy hh:mm').format(DateTime.now());
@@ -721,13 +724,15 @@ class _DashboardsState extends State<Dashboards> {
               ),
             ]),
             SizedBox(height: useMobileLayout ? 0 : 24),
+            if (isFF)
             AnimatedToggle(
-              values: ['Import', 'Export'],
+              values: ['Export', 'Import'],
               textColor:lightMode.textColor,
               backgroundColor: lightMode.toggleBackgroundColor,
               buttonColor: lightMode.toggleButtonColor,
               shadows: lightMode.shadow,
               onToggleCallback: (index) {
+                print(index);
                 // isDarkMode = !isDarkMode;
                 // setState(() {});
                 // changeThemeMode();
@@ -813,7 +818,15 @@ class _DashboardsState extends State<Dashboards> {
                       "Movement Tracking",
                       VehicleMovementTrackingList(),
                       useMobileLayout),
-
+                if (isTrucker || isGHA)
+                DashboardBlocks(
+                    Color(0xFF9CECFB),
+                    Color(0xFF0052D4),
+                    Icons.reviews_outlined,
+                    "",
+                    "Feedback",
+                    AppFeedback(),
+                    useMobileLayout),
                 if (isTrucker || isTruckerFF)
                   DashboardBlocks(
                       Color(0xFFff9472),
@@ -834,59 +847,6 @@ class _DashboardsState extends State<Dashboards> {
                       BookedSlotsList(),
                       useMobileLayout),
 
-                if (isTrucker || isTruckerFF)
-                  DashboardBlocks(
-                      Color(0xFFa8c0ff),
-                      Color(0xFF4364F7),
-                      Icons.not_listed_location_outlined,
-                      "Track &",
-                      "Trace",
-                      TrackAndTrace(),
-                      useMobileLayout),
-
-                if (isTrucker || isTruckerFF)
-                  DashboardBlocks(
-                      Color(0xFFa8c0ff),
-                      Color(0xFF4364F7),
-                      // FontAwesomeIcons.fileUpload,
-                      Icons.file_upload_rounded,
-                      "Document",
-                      "Upload",
-                      DocumentUpload(),
-                      useMobileLayout),
-
-                if (isTrucker || isTruckerFF)
-                  DashboardBlocks(
-                      Color(0xFFa8c0ff),
-                      Color(0xFF4364F7),
-                      // FontAwesomeIcons.fileUpload,
-                      Icons.assignment,
-                      "Submit",
-                      "ITN",
-                      SubmitITN(),
-                      useMobileLayout),
-
-                if (isTrucker || isTruckerFF)
-                  DashboardBlocks(
-                      Color(0xFFa8c0ff),
-                      Color(0xFF4364F7),
-                      // FontAwesomeIcons.fileUpload,
-                      Icons.assignment,
-                      "Assign Trucking",
-                      "Company ",
-                      AssignTruckingCompany(),
-                      useMobileLayout),
-
-                if (isTrucker || isTruckerFF)
-                  DashboardBlocks(
-                      Color(0xFFa8c0ff),
-                      Color(0xFF4364F7),
-                      // FontAwesomeIcons.fileUpload,
-                      Icons.assignment,
-                      "Import Service",
-                      "Fee ",
-                      ImportServiceFee(),
-                      useMobileLayout),
 
                 if (isTPS)
                   DashboardBlocks(
@@ -915,95 +875,98 @@ class _DashboardsState extends State<Dashboards> {
                 //     "Help",
                 //     Help(),
                 //     useMobileLayout),
-                // if (isCB)
-                //   DashboardBlocks(
-                //       Color(0xFFff9472),
-                //       Color(0xFFf2709c),
-                //       Icons.local_shipping,
-                //       "Create",
-                //       "Shipment",
-                //       TrackAndTrace(),
-                //       useMobileLayout),
-                // if (isCB)
-                //   DashboardBlocks(
-                //       Color(0xFFff9472),
-                //       Color(0xFFf2709c),
-                //       Icons.local_shipping,
-                //       "",
-                //       "Tacking",
-                //       TrackAndTrace(),
-                //       useMobileLayout),
-                // if (isCB)
-                //   DashboardBlocks(
-                //       Color(0xFFa8c0ff),
-                //       Color(0xFF4364F7),
-                //       Icons.maps_home_work,
-                //       "VIEW",
-                //       "SB",
-                //       TrackAndTrace(),
-                //       useMobileLayout),
-                // if (isCB)
-                //   DashboardBlocks(
-                //       Color(0xFFa8c0ff),
-                //       Color(0xFF4364F7),
-                //       Icons.receipt_long,
-                //       "SB",
-                //       "ASI",
-                //       TrackAndTrace(),
-                //       useMobileLayout),
-                // if (isCB)
-                //   DashboardBlocks(
-                //       Color(0xFFff9472),
-                //       Color(0xFFf2709c),
-                //       Icons.local_shipping,
-                //       "Upload",
-                //       "Document",
-                //       DockOut(),
-                //       useMobileLayout),
-                // if (isCB)
-                //   DashboardBlocks(
-                //       Color(0xFFff9472),
-                //       Color(0xFFf2709c),
-                //       Icons.live_tv,
-                //       "Pay",
-                //       "TSP",
-                //       LiveDockStatus(),
-                //       useMobileLayout),
-                // if (isCB)
-                //   DashboardBlocks(
-                //       Color(0xFFa8c0ff),
-                //       Color(0xFF4364F7),
-                //       Icons.live_tv,
-                //       "Generate &",
-                //       "View VT",
-                //       LiveDockStatus(),
-                //       useMobileLayout),
-                // if (isAirline)
-                //   DashboardBlocks(
-                //       Color(0xFFa8c0ff),
-                //       Color(0xFF4364F7),
-                //       Icons.live_tv,
-                //       "",
-                //       "Carting Order",
-                //       LiveDockStatus(),
-                //       useMobileLayout),
-                // if (isAirline)
-                //   DashboardBlocks(
-                //       Color(0xFFa8c0ff),
-                //       Color(0xFF4364F7),
-                //       Icons.live_tv,
-                //       "",
-                //       "Delivery Order",
-                //       LiveDockStatus(),
-                //       useMobileLayout),
-                DashboardBlocks(
-                    Color(0xFF9CECFB),
-                    Color(0xFF0052D4),
-                    Icons.reviews_outlined,
-                    "",
-                    "Feedback",
-                    AppFeedback(),
-                    useMobileLayout),
+                if (isFF)
+                  DashboardBlocks(
+                      Color(0xFFff9472),
+                      Color(0xFFf2709c),
+                      Icons.local_shipping,
+                      "Create",
+                      "Shipment",
+                      ASIListing(),
+                      useMobileLayout),
+                if (isFF)
+                  DashboardBlocks(
+                      Color(0xFFa8c0ff),
+                      Color(0xFF4364F7),
+                      Icons.not_listed_location_outlined,
+                      "",
+                      "ASI",
+                      ASIListing(),
+                      useMobileLayout),
+                if (isFF)
+                  DashboardBlocks(
+                      Color(0xFFa8c0ff),
+                      Color(0xFF4364F7),
+                      // FontAwesomeIcons.fileUpload,
+                      Icons.assignment,
+                      "Submit",
+                      "ITN",
+                      SubmitITN(),
+                      useMobileLayout),
+                if (isFF)
+                  DashboardBlocks(
+                      Color(0xFFa8c0ff),
+                      Color(0xFF4364F7),
+                      // FontAwesomeIcons.fileUpload,
+                      Icons.file_upload_rounded,
+                      "Document",
+                      "Upload",
+                      DocumentUpload(),
+                      useMobileLayout),
+
+
+
+                if (isFF)
+                  DashboardBlocks(
+                      Color(0xFFa8c0ff),
+                      Color(0xFF4364F7),
+                      // FontAwesomeIcons.fileUpload,
+                      Icons.assignment,
+                      "Assign Trucking",
+                      "Company ",
+                      AssignTruckingCompany(),
+                      useMobileLayout),
+
+                if (isFF )
+                  DashboardBlocks(
+                      Color(0xFFa8c0ff),
+                      Color(0xFF4364F7),
+                      // FontAwesomeIcons.fileUpload,
+                      Icons.assignment,
+                      "Import Service",
+                      "Fee ",
+                      ImportServiceFee(),
+                      useMobileLayout),
+                if (isFF)
+                  DashboardBlocks(
+                      Color(0xFFa8c0ff),
+                      Color(0xFF4364F7),
+                      Icons.not_listed_location_outlined,
+                      "Track &",
+                      "Trace",
+                      TrackAndTrace(),
+                      useMobileLayout),
+
+
+                if (isAirline)
+                  DashboardBlocks(
+                      Color(0xFFa8c0ff),
+                      Color(0xFF4364F7),
+                      Icons.live_tv,
+                      "",
+                      "Carting Order",
+                      LiveDockStatus(),
+                      useMobileLayout),
+                if (isAirline)
+                  DashboardBlocks(
+                      Color(0xFFa8c0ff),
+                      Color(0xFF4364F7),
+                      Icons.live_tv,
+                      "",
+                      "Delivery Order",
+                      LiveDockStatus(),
+                      useMobileLayout),
+
                 // Padding(
                 //   padding: const EdgeInsets.only(
                 //       left: 40.0, right: 10.0, top: 32),
