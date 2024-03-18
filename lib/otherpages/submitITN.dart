@@ -49,10 +49,6 @@ class _SubmitITNState extends State<SubmitITN> {
   TextEditingController txtVTNO = new TextEditingController();
   final _controllerModeType = ValueNotifier<bool>(false);
 
-  // List<VehicleToken> vehicleToeknListToBind = [];
-  // List<VehicleToken> vehicleToeknListImport = [];
-  // List<VehicleToken> vehicleToeknListExport = [];
-  // List<VehicleToken> vehicleToeknListtRandom = [];
   List<DocUploadDetails> searchedList = [];
   List<DocUploadDetails> docUploadList = [
     DocUploadDetails(

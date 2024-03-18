@@ -647,6 +647,8 @@ class _ImportServiceFeeState extends State<ImportServiceFee> {
     );
   }
 
+
+
   void onSearchTextChanged() {
     String prefix = mawbPrefixController.text.trim();
     String suffix = mawbNoController.text.trim();
