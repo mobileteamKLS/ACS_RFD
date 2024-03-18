@@ -105,9 +105,9 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
                   shadows:[
                     BoxShadow(
                       color:Colors.black,
-                      spreadRadius: 0.15,
-                      blurRadius: 0.15,
-                      offset: Offset(0, 1),
+                      spreadRadius: 1,
+                      blurRadius: 3.5,
+                      // offset: Offset(0, 1),
                     ),
                   ],
                   gradient: LinearGradient(

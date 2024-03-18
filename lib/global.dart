@@ -15,8 +15,8 @@ bool isTrucker = false;
 bool isTruckerFF = false;
 bool isGHA = false;
 bool isTPS = false;
-// bool isCB = false;
-// bool isAirline = false;
+bool isFF = false;
+bool isAirline = false;
 
 int currUserId = 0;
 int orgId = 0;
