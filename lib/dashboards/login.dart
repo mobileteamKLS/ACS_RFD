@@ -817,7 +817,7 @@ class _LoginPageState extends State<LoginPage> {
           isLoading = false;
         });
         //  showLoadingDialog(context, false);
-        // print(response);
+        print(response);
         var inValidMsg = "Please enter valid credentials.";
         if (json.decode(response.body)['d'].toString().toLowerCase() ==
             inValidMsg.toLowerCase()) {
@@ -830,8 +830,8 @@ class _LoginPageState extends State<LoginPage> {
           isTrucker = false;
           isTruckerFF = false;
           isTPS = false;
-          // isCB = false;
-          // isAirline = false;
+          isFF = false;
+          isAirline = false;
 
           showLoadingDialog(context, true);
           // print(json.decode(response.body)['d']);
@@ -863,14 +863,14 @@ class _LoginPageState extends State<LoginPage> {
           if (namesList1.contains(3) && namesList1.contains(5))
             isTruckerFF = true;
 
-          if (namesList1.contains(3)) isTruckerFF = true;
+          if (namesList1.contains(3)) isFF = true;
 
           if (namesList1.contains(25)) isTPS = true;
 
           if (namesList1.contains(5) && !namesList1.contains(3))
             isTrucker = true;
 
-          // if (namesList1.contains(4)) isAirline = true;
+          if (namesList1.contains(4)) isAirline = true;
 
           var organizationTypes = namesList1.join(', ');
           print(organizationTypes.toString());
