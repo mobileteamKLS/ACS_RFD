@@ -1889,7 +1889,7 @@ class _SubmitITNDetailsState extends State<SubmitITNDetails> {
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width /
-                                                4.8,
+                                                3.8,
                                             height: 48,
                                             child: Center(
                                               child: const Text(
@@ -1949,7 +1949,7 @@ class _SubmitITNDetailsState extends State<SubmitITNDetails> {
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width /
-                                                4.8,
+                                                3.8,
                                             height: 48,
                                             child: Center(
                                               child: const Text(

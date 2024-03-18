@@ -913,7 +913,7 @@ class _LoginPageState extends State<LoginPage> {
                 setPreferences(userDetails[0]);
               }
               if(isTruckerFF||isTrucker||isGHA){
-                Settings.ACSServiceURL="https://acsdemoservice.kalelogistics.com/srvMobile.asmx";
+                // Settings.ACSServiceURL="https://acsdemoservice.kalelogistics.com/srvMobile.asmx";
               }
             });
           isValid = true;

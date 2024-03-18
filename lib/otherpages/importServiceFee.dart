@@ -315,7 +315,7 @@ class _ImportServiceFeeState extends State<ImportServiceFee> {
                                 padding: const EdgeInsets.only(left: 8.0),
                                 child: SizedBox(
                                   width: MediaQuery.of(context).size.width /
-                                      7.0, // hard coding child width
+                                      6.5, // hard coding child width
                                   child: Container(
                                     height: 40,
                                     width:
@@ -357,7 +357,7 @@ class _ImportServiceFeeState extends State<ImportServiceFee> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: SizedBox(
                                   width: MediaQuery.of(context).size.width /
-                                      3.5, // hard coding child width
+                                      2.8, // hard coding child width
                                   child: Container(
                                     height: 40,
                                     width:
@@ -373,7 +373,7 @@ class _ImportServiceFeeState extends State<ImportServiceFee> {
                                       controller: mawbNoController,
                                       focusNode: mawbNoFocusNode,
                                       textAlign: TextAlign.right,
-                                      keyboardType: TextInputType.text,
+                                      keyboardType: TextInputType.number,
                                       textCapitalization:
                                           TextCapitalization.characters,
                                       decoration: InputDecoration(
@@ -397,12 +397,12 @@ class _ImportServiceFeeState extends State<ImportServiceFee> {
                                   ),
                                 ),
                               ),
-                              GestureDetector(
-                                  child: SearchContainerButton(),
-                                  onTap: () async {
-                                    //export
-                                  }),
-                              SizedBox(width: 5),
+                              // GestureDetector(
+                              //     child: SearchContainerButton(),
+                              //     onTap: () async {
+                              //       //export
+                              //     }),
+                              // SizedBox(width: 5),
                               GestureDetector(
                                 child: DeleteScanContainerButton(),
                                 onTap: () async {},
@@ -458,7 +458,7 @@ class _ImportServiceFeeState extends State<ImportServiceFee> {
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .width /
-                                                  8.8,
+                                                  6.5,
                                               // hard coding child width
                                               child: Container(
                                                 height: 60,
@@ -521,7 +521,7 @@ class _ImportServiceFeeState extends State<ImportServiceFee> {
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .width /
-                                                  4.6,
+                                                  2.8,
                                               // hard coding child width
                                               child: Container(
                                                 height: 60,
@@ -572,18 +572,18 @@ class _ImportServiceFeeState extends State<ImportServiceFee> {
                                             ),
                                           ),
                                           SizedBox(width: 8),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                bottom: 8.0),
-                                            child: GestureDetector(
-                                                child:
-                                                    SearchContainerButtonIpad(),
-                                                onTap: () async {
-                                                  // getTrackAndTraceDetails(
-                                                  //     1); //export
-                                                }),
-                                          ),
-                                          SizedBox(width: 5),
+                                          // Padding(
+                                          //   padding: const EdgeInsets.only(
+                                          //       bottom: 8.0),
+                                          //   child: GestureDetector(
+                                          //       child:
+                                          //           SearchContainerButtonIpad(),
+                                          //       onTap: () async {
+                                          //         // getTrackAndTraceDetails(
+                                          //         //     1); //export
+                                          //       }),
+                                          // ),
+                                          // SizedBox(width: 5),
                                           Padding(
                                             padding: const EdgeInsets.only(
                                                 bottom: 8.0),
@@ -656,10 +656,33 @@ class _ImportServiceFeeState extends State<ImportServiceFee> {
       });
       return;
     }
-    String searchText = prefix.isEmpty ? suffix : "$prefix-$suffix";
+    // String searchText = prefix.isEmpty
+    //     ? suffix
+    //     : suffix.isEmpty
+    //         ? prefix
+    //         : prefix.isNotEmpty && suffix.isNotEmpty
+    //             ? "$prefix-$suffix"
+    //             : "";
+    //
+    // print(searchText);
+    // setState(() {
+    //   searchedList = docUploadList
+    //       .where((item) => item.MAWBNo.contains(searchText))
+    //       .toList();
+    // });
+
     setState(() {
       searchedList = docUploadList
-          .where((item) => item.MAWBNo.contains(searchText))
+          .where((item) {
+        return prefix.isEmpty
+            ? item.MAWBNo.contains(suffix)
+            : suffix.isEmpty
+            ? item.MAWBNo.contains(prefix)
+            : prefix.isNotEmpty && suffix.isNotEmpty
+            ? item.MAWBNo.contains(suffix) &&
+            item.MAWBNo.contains(prefix)
+            : false;
+      })
           .toList();
     });
   }

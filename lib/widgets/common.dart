@@ -488,12 +488,12 @@ Future<String> determinePosition() async {
   return locationMsg;
 }
 
-void showSnackBar(BuildContext context,msg,screenWidth) {
+void showSnackBar(BuildContext context,msg) {
   final snackBar = SnackBar(
     content: Text(msg),
     backgroundColor: Color(0xFF1220BC),
-    behavior: SnackBarBehavior.floating,
-    width: screenWidth,
+   duration: Duration(milliseconds: 500),
+
     action: SnackBarAction(
       label: 'Dismiss',
       disabledTextColor:Colors.white,

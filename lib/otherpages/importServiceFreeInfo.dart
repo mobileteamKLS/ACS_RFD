@@ -2168,7 +2168,7 @@ class _ImportServiceFeeDetailsState extends State<ImportServiceFeeDetails> {
                                     padding: EdgeInsets.all(10.0),
                                     child: Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                                      MainAxisAlignment.center,
                                       crossAxisAlignment:
                                       CrossAxisAlignment.start,
                                       children: [
@@ -2197,11 +2197,8 @@ class _ImportServiceFeeDetailsState extends State<ImportServiceFeeDetails> {
                                             width: MediaQuery.of(context)
                                                 .size
                                                 .width /
-                                                2.8,
-                                            height: MediaQuery.of(context)
-                                                .size
-                                                .width /
-                                                16.8,
+                                                3.8,
+                                            height: 48,
                                             child: Center(
                                               child: const Text(
                                                 "Back",
@@ -2234,6 +2231,7 @@ class _ImportServiceFeeDetailsState extends State<ImportServiceFeeDetails> {
                                         //     child: Text('Save'),
                                         //   ),
                                         // ),
+                                        SizedBox(width: 14,),
                                         ElevatedButton(
                                           onPressed: () {},
                                           style: ButtonStyle(
@@ -2257,11 +2255,12 @@ class _ImportServiceFeeDetailsState extends State<ImportServiceFeeDetails> {
                                             width: MediaQuery.of(context)
                                                 .size
                                                 .width /
-                                                2.8,
-                                            height: MediaQuery.of(context)
-                                                .size
-                                                .width /
-                                                16.8,
+                                                3.8,
+                                            height: 48,
+                                            // MediaQuery.of(context)
+                                            //     .size
+                                            //     .width /
+                                            //     16.8,
                                             child: Center(
                                               child: const Text(
                                                 "Pay Now",

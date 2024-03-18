@@ -238,7 +238,6 @@ class _SlotsListState extends State<SlotsList> {
                   selectedGHA = "";
                   selectedGHAID = 0;
                 }
-
                 filterListByGHA();
               });
             },
