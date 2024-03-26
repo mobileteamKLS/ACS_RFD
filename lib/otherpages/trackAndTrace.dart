@@ -18,7 +18,8 @@ import '../global.dart';
 import '../widgets/timeline.dart';
 
 class TrackAndTrace extends StatefulWidget {
-  const TrackAndTrace({Key? key}) : super(key: key);
+  final bool isExport;
+  const TrackAndTrace(this.isExport,{Key? key}) : super(key: key);
 
   @override
   State<TrackAndTrace> createState() => _TrackAndTraceState();
@@ -213,26 +214,26 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width / 4,
-                                child:
-                                    Text("Mode", style: mobileHeaderFontStyle),
-                              ),
-                              AdvancedSwitch(
-                                activeColor: Color(0xFF11249F),
-                                inactiveColor: Color(0xFF11249F),
-                                activeChild: Text('Import',
-                                    style: mobileTextFontStyleWhite),
-                                inactiveChild: Text('Export',
-                                    style: mobileTextFontStyleWhite),
-                                width: MediaQuery.of(context).size.width / 2.5,
-                                height: 35,
-                                controller: _controllerModeType,
-                              ),
-                            ],
-                          ),
+                          // Row(
+                          //   children: [
+                          //     SizedBox(
+                          //       width: MediaQuery.of(context).size.width / 4,
+                          //       child:
+                          //           Text("Mode", style: mobileHeaderFontStyle),
+                          //     ),
+                          //     AdvancedSwitch(
+                          //       activeColor: Color(0xFF11249F),
+                          //       inactiveColor: Color(0xFF11249F),
+                          //       activeChild: Text('Import',
+                          //           style: mobileTextFontStyleWhite),
+                          //       inactiveChild: Text('Export',
+                          //           style: mobileTextFontStyleWhite),
+                          //       width: MediaQuery.of(context).size.width / 2.5,
+                          //       height: 35,
+                          //       controller: _controllerModeType,
+                          //     ),
+                          //   ],
+                          // ),
                           SizedBox(height: 20),
                           Padding(
                             padding: const EdgeInsets.only(left: 8.0),

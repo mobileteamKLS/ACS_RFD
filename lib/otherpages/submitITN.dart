@@ -320,7 +320,7 @@ class _SubmitITNState extends State<SubmitITN> {
                                 padding: const EdgeInsets.only(left: 8.0),
                                 child: SizedBox(
                                   width: MediaQuery.of(context).size.width /
-                                      7.0, // hard coding child width
+                                      6.5, // hard coding child width
                                   child: Container(
                                     height: 40,
                                     width:
@@ -348,7 +348,7 @@ class _SubmitITNState extends State<SubmitITN> {
                                       ),
                                       style: mobileTextFontStyle,
                                       onChanged: (value) {
-                                        onSearchTextChanged(value);
+                                        onSearchTextChanged();
                                         if (value.length == 3) {
                                           mawbPrefixFocusNode.unfocus();
                                           mawbNoFocusNode.requestFocus();
@@ -362,7 +362,7 @@ class _SubmitITNState extends State<SubmitITN> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: SizedBox(
                                   width: MediaQuery.of(context).size.width /
-                                      3.5, // hard coding child width
+                                      2.8, // hard coding child width
                                   child: Container(
                                     height: 40,
                                     width:
@@ -378,7 +378,7 @@ class _SubmitITNState extends State<SubmitITN> {
                                       controller: mawbNoController,
                                       focusNode: mawbNoFocusNode,
                                       textAlign: TextAlign.right,
-                                      keyboardType: TextInputType.text,
+                                      keyboardType: TextInputType.number,
                                       textCapitalization:
                                           TextCapitalization.characters,
                                       decoration: InputDecoration(
@@ -392,21 +392,18 @@ class _SubmitITNState extends State<SubmitITN> {
                                       ),
                                       style: mobileTextFontStyle,
                                       onChanged: (value) {
-                                        onSearchTextChanged(value);
-                                        if (value.length == 3) {
-                                          // mawbPrefixFocusNode.unfocus();
-                                          // mawbNoFocusNode.requestFocus();
-                                        }
+                                        onSearchTextChanged();
+
                                       },
                                     ),
                                   ),
                                 ),
                               ),
-                              GestureDetector(
-                                  child: SearchContainerButton(),
-                                  onTap: () async {
-                                    //export
-                                  }),
+                              // GestureDetector(
+                              //     child: SearchContainerButton(),
+                              //     onTap: () async {
+                              //       //export
+                              //     }),
                               SizedBox(width: 5),
                               GestureDetector(
                                 child: DeleteScanContainerButton(),
@@ -463,7 +460,7 @@ class _SubmitITNState extends State<SubmitITN> {
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .width /
-                                                  8.8,
+                                                  6.5,
                                               // hard coding child width
                                               child: Container(
                                                 height: 60,
@@ -508,7 +505,7 @@ class _SubmitITNState extends State<SubmitITN> {
                                                     color: Colors.black,
                                                   ),
                                                   onChanged: (value) {
-                                                    onSearchTextChanged(value);
+                                                    onSearchTextChanged();
                                                     if (value.length == 3) {
                                                       mawbPrefixFocusNode
                                                           .unfocus();
@@ -526,7 +523,7 @@ class _SubmitITNState extends State<SubmitITN> {
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .width /
-                                                  4.6,
+                                                  2.8,
                                               // hard coding child width
                                               child: Container(
                                                 height: 60,
@@ -566,29 +563,26 @@ class _SubmitITNState extends State<SubmitITN> {
                                                     color: Colors.black,
                                                   ),
                                                   onChanged: (value) {
-                                                    onSearchTextChanged(value);
-                                                    if (value.length == 3) {
-                                                      // mawbPrefixFocusNode.unfocus();
-                                                      // mawbNoFocusNode.requestFocus();
-                                                    }
+                                                    onSearchTextChanged();
+
                                                   },
                                                 ),
                                               ),
                                             ),
                                           ),
                                           SizedBox(width: 8),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                bottom: 8.0),
-                                            child: GestureDetector(
-                                                child:
-                                                    SearchContainerButtonIpad(),
-                                                onTap: () async {
-                                                  // getTrackAndTraceDetails(
-                                                  //     1); //export
-                                                }),
-                                          ),
-                                          SizedBox(width: 5),
+                                          // Padding(
+                                          //   padding: const EdgeInsets.only(
+                                          //       bottom: 8.0),
+                                          //   child: GestureDetector(
+                                          //       child:
+                                          //           SearchContainerButtonIpad(),
+                                          //       onTap: () async {
+                                          //         // getTrackAndTraceDetails(
+                                          //         //     1); //export
+                                          //       }),
+                                          // ),
+                                          // SizedBox(width: 5),
                                           Padding(
                                             padding: const EdgeInsets.only(
                                                 bottom: 8.0),
@@ -651,20 +645,58 @@ class _SubmitITNState extends State<SubmitITN> {
           ]),
     );
   }
-
-  onSearchTextChanged(String text) async {
-    searchedList.clear();
-    if (text.isEmpty) {
-      setState(() {});
+  void onSearchTextChanged() {
+    String prefix = mawbPrefixController.text.trim();
+    String suffix = mawbNoController.text.trim();
+    if (prefix.isEmpty && suffix.isEmpty) {
+      setState(() {
+        searchedList.clear();
+      });
       return;
     }
-    for (var item in docUploadList) {
-      if (item.MAWBNo.contains(text.toLowerCase())) {
-        searchedList.add(item);
-      }
-    }
-    setState(() {});
+    // String searchText = prefix.isEmpty
+    //     ? suffix
+    //     : suffix.isEmpty
+    //         ? prefix
+    //         : prefix.isNotEmpty && suffix.isNotEmpty
+    //             ? "$prefix-$suffix"
+    //             : "";
+    //
+    // print(searchText);
+    // setState(() {
+    //   searchedList = docUploadList
+    //       .where((item) => item.MAWBNo.contains(searchText))
+    //       .toList();
+    // });
+
+    setState(() {
+      searchedList = docUploadList
+          .where((item) {
+        return prefix.isEmpty
+            ? item.MAWBNo.contains(suffix)
+            : suffix.isEmpty
+            ? item.MAWBNo.contains(prefix)
+            : prefix.isNotEmpty && suffix.isNotEmpty
+            ? item.MAWBNo.contains(suffix) &&
+            item.MAWBNo.contains(prefix)
+            : false;
+      })
+          .toList();
+    });
   }
+  // onSearchTextChanged(String text) async {
+  //   searchedList.clear();
+  //   if (text.isEmpty) {
+  //     setState(() {});
+  //     return;
+  //   }
+  //   for (var item in docUploadList) {
+  //     if (item.MAWBNo.contains(text.toLowerCase())) {
+  //       searchedList.add(item);
+  //     }
+  //   }
+  //   setState(() {});
+  // }
 
   mawbListItem(BuildContext context, DocUploadDetails docUploadDetails, index) {
     return Card(

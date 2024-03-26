@@ -2,29 +2,16 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_advanced_switch/flutter_advanced_switch.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:luxair/otherpages/submitITNDetails.dart';
-
-import 'package:scan/scan.dart';
 import 'package:toggle_switch/toggle_switch.dart';
-import 'package:luxair/datastructure/vehicletoken.dart';
-import 'package:luxair/otherpages/truckeryardcheckindetails.dart';
 import 'package:luxair/widgets/common.dart';
 import 'package:luxair/widgets/headerclipper.dart';
-import 'package:luxair/widgets/qrscan.dart';
-import 'package:luxair/widgets/speech_recognition.dart';
-import 'package:intl/intl.dart';
 import '../constants.dart';
+import '../datastructure/trucker.dart';
 import '../global.dart';
-import '../widgets/animated_toggle_switch.dart';
-import '../widgets/timeline.dart';
-import 'documentUploadChild.dart';
-import 'documentupload.dart';
 
 class AssignTruckingCompany extends StatefulWidget {
-  const AssignTruckingCompany({Key? key}) : super(key: key);
+  final bool isExport;
+  const AssignTruckingCompany(this.isExport,{Key? key}) : super(key: key);
 
   @override
   State<AssignTruckingCompany> createState() => _AssignTruckingCompanyState();
@@ -34,134 +21,85 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
   TextEditingController dateInput = TextEditingController();
   String scannedCodeReceived = "", selectedSlotDate = "";
   bool useMobileLayout = false;
-  int modeSelected = 0;
-  int trackingSelected = 0; //, modeSelected1 = 0;
-  int trackingType = 0;
+  int truckingAssigned = 0;
   String dropdownValue = 'Select';
   TextEditingController mawbPrefixController = TextEditingController();
   TextEditingController mawbNoController = TextEditingController();
   FocusNode mawbPrefixFocusNode = FocusNode();
   FocusNode mawbNoFocusNode = FocusNode();
-
-  //  List<CodexPass> passList = [];
-  // List<FilterArray> _filterArray = [];
   bool isLoading = false;
-  bool isSearched = false;
-  bool isImport = false;
   TextEditingController txtVTNO = new TextEditingController();
-  final _controllerModeType = ValueNotifier<bool>(false);
+  Set<int> _selectedIndices = {};
+  List<ListingDetails> searchedList = [];
+  List<ListingDetails> assignTruckList = [];
 
-  // List<VehicleToken> vehicleToeknListToBind = [];
-  // List<VehicleToken> vehicleToeknListImport = [];
-  // List<VehicleToken> vehicleToeknListExport = [];
-  // List<VehicleToken> vehicleToeknListtRandom = [];
-
-  List<AssignTruckingDetails> searchedList = [];
-  List<AssignTruckingDetails> assignTruckList = [
-    AssignTruckingDetails(
-        MAWBNo: "999-56565670",
-        ITNNo: "X20240212456565",
-        ITNDate: "17-Jan-24",
-        TruckingCompany: "APGTransport"),
-    AssignTruckingDetails(
-        MAWBNo: "125-56565671",
-        ITNNo: "X20240212456566",
-        ITNDate: "18-Jan-24",
-        TruckingCompany: "APGTransport"),
-    AssignTruckingDetails(
-        MAWBNo: "999-56565672",
-        ITNNo: "X20240212456567",
-        ITNDate: "19-Jan-24",
-        TruckingCompany: "APGTransport"),
-    AssignTruckingDetails(
-        MAWBNo: "125-56565673",
-        ITNNo: "X20240212456568",
-        ITNDate: "20-Jan-24",
-        TruckingCompany: "APGTransport"),
-    AssignTruckingDetails(
-        MAWBNo: "999-56565674",
-        ITNNo: "X20240212456569",
-        ITNDate: "21-Jan-24",
-        TruckingCompany: "APGTransport"),
-    AssignTruckingDetails(
-        MAWBNo: "125-56565675",
-        ITNNo: "X20240212456570",
-        ITNDate: "22-Jan-24",
-        TruckingCompany: "APGTransport"),
-    AssignTruckingDetails(
-        MAWBNo: "999-56565676",
-        ITNNo: "X20240212456571",
-        ITNDate: "23-Jan-24",
-        TruckingCompany: "APGTransport"),
-  ];
-  List<bool> isSelected = [true, false, false];
+  // List<bool> isSelected = [true, false, false];
 
   @override
   void initState() {
     dateInput.text = "";
-    // if (modeSelected == 0) vehicleToeknListToBind = vehicleToeknListExport;
-    // if (modeSelected == 1) vehicleToeknListToBind = vehicleToeknListImport;
-    // if (vehicleToeknListExport.isNotEmpty)
-    //   vehicleToeknListToBind = vehicleToeknListExport;
-    //
-    _controllerModeType.addListener(() {
-      setState(() {
-        // //scannedCodeReceived = "";
-        //
-        // print("value chnaged heere");
-        // txtVTNO.text = "";
-        if (_controllerModeType.value) {
-          print("_controllerModeType.value chnaged to import");
-
-          isImport = true;
-          // getVehicleToeknList(3); //Import
-          // modeSelected = 1;
-          // vehicleToeknListToBind = vehicleToeknListImport;
-        } else {
-          print("_controllerModeType.value chnaged to export");
-          isImport = false;
-          // modeSelected = 0;
-          // getVehicleToeknList(4); //Export
-          // vehicleToeknListToBind = vehicleToeknListExport;
-        }
-      });
-    });
-    //
-    // if (modeSelected == 1) {
-    //   getVehicleToeknList(3); //Import
-    //   print("import");
-    // } else {
-    //   getVehicleToeknList(4); //Export
-    //   print("export");
-    // }
+    if (truckingAssigned == 0) {
+      getAssignedNotAssignedList(4); //AssignTrucker
+      print("AssignTrucker");
+    } else {
+      getAssignedNotAssignedList(5); //UnassignTrucker
+      print("UnassignTrucker");
+    }
     super.initState();
   }
 
   @override
   void dispose() {
-    _controllerModeType.dispose();
-
     super.dispose();
   }
 
-  // ThemeColor darkMode = ThemeColor(
-  //   gradient: [
-  //     const Color(0xFF8983F7),
-  //     const Color(0xFFA3DAFB),
-  //   ],
-  //   backgroundColor: const Color(0xFF26242e),
-  //   textColor: const Color(0xFFFFFFFF),
-  //   toggleButtonColor: const Color(0xFf34323d),
-  //   toggleBackgroundColor: const Color(0xFF222029),
-  //   shadow: const <BoxShadow>[
-  //     BoxShadow(
-  //       color: const Color(0x66000000),
-  //       spreadRadius: 5,
-  //       blurRadius: 10,
-  //       offset: Offset(0, 5),
-  //     ),
-  //   ],
-  // );
+  getAssignedNotAssignedList(operationType) async {
+    if (isLoading) return;
+    assignTruckList = [];
+    searchedList = [];
+    _selectedIndices = {};
+    setState(() {
+      isLoading = true;
+    });
+    var queryParams = {
+      "OperationType": operationType.toString(), // "",
+      "AirlinePrefix": "0",
+      "AwbNumber": "0",
+      "HawbNumber": "",
+      "CreatedByUserId": "22617",
+      "OrganizationBranchId": "22642",
+      "OrganizationId": "22597",
+      "AWBID": 0,
+      "SBID": 0
+    };
+    await Global()
+        .postData(
+      Settings.SERVICES['ListingPageExport'],
+      queryParams,
+    )
+        .then((response) {
+      print("data received ");
+      print(json.decode(response.body)['d']);
+
+      var msg = json.decode(response.body)['d'];
+      var resp = json.decode(msg).cast<Map<String, dynamic>>();
+      assignTruckList = resp
+          .map<ListingDetails>((json) => ListingDetails.fromJson(json))
+          .toList();
+
+      print("length dockInOutVTListExport = " +
+          assignTruckList.length.toString());
+      setState(() {
+        isLoading = false;
+      });
+    }).catchError((onError) {
+      setState(() {
+        isLoading = false;
+      });
+      print(onError);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var smallestDimension = MediaQuery.of(context).size.shortestSide;
@@ -169,99 +107,99 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
     print("useMobileLayout");
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          var returnVal = await showModalBottomSheet<String>(
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(20),
-                ),
-              ),
-              context: context,
-              isDismissible: false,
-              builder: (context) {
-                return SpeechRecognition();
-              });
-
-          if (returnVal == null) return;
-          if (returnVal == "") return;
-          print("returnVal = " + returnVal);
-
-          if ((returnVal.toLowerCase().contains("search")) ||
-              (returnVal.toLowerCase().contains("look")) ||
-              (returnVal.toLowerCase().contains("find")) ||
-              (returnVal.toLowerCase().contains("get"))) {
-            returnVal = returnVal.toLowerCase().replaceAll('search', "");
-            returnVal = returnVal.toLowerCase().replaceAll('look', "");
-            returnVal = returnVal.toLowerCase().replaceAll('for', "");
-            returnVal = returnVal.toLowerCase().replaceAll('find', "");
-            returnVal = returnVal.toLowerCase().replaceAll('get', "");
-            print("returnVal after replace " + returnVal);
-            setState(() {
-              scannedCodeReceived = returnVal.toString().trim();
-              mawbPrefixController.text = scannedCodeReceived.substring(0, 3);
-              mawbNoController.text = scannedCodeReceived.substring(3, 11);
-            });
-          } else if (returnVal.toLowerCase().contains("scan")) {
-            if (returnVal.toLowerCase().contains("document")) {
-              var scannedCode =
-                  await Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const QRViewExample(),
-              ));
-              print("code returned from app");
-              print(scannedCode);
-              if (scannedCode == null)
-                setState(() {
-                  scannedCodeReceived = "";
-                });
-              if (scannedCode == "")
-                setState(() {
-                  scannedCodeReceived = "";
-                });
-              if (scannedCode != null) {
-                if (scannedCode != "") {
-                  print("code returned from app =" + scannedCode);
-                  setState(() {
-                    scannedCodeReceived = scannedCode;
-                    txtVTNO.text = scannedCodeReceived;
-                  });
-                  // await getShipmentDetails(scannedCode);
-                }
-              }
-            }
-
-            if (returnVal.toLowerCase().contains("gallery")) {
-              final ImagePicker _picker = ImagePicker();
-              final XFile? image = await _picker.pickImage(
-                  source: ImageSource.gallery); // Pick an image
-              if (image == null)
-                return;
-              else {
-                String? str = await Scan.parse(image.path);
-                if (str != null) {
-                  setState(() {
-                    scannedCodeReceived = str;
-                    txtVTNO.text = scannedCodeReceived;
-                  });
-                }
-              }
-            }
-
-            // returnVal = returnVal.toLowerCase().replaceAll('search', "");
-            // print("returnVal after replace " + returnVal);
-
-            // setState(() {
-            //   scannedCodeReceived = returnVal.toString().trim();
-            //   txtVTNO.text = scannedCodeReceived;
-            //   _runFilter(scannedCodeReceived);
-            // });
-          } else {
-            print("returnVal after replace " + returnVal);
-          }
-        },
-        backgroundColor: Color(0xFF11249F), //Colors.green,
-        child: const Icon(Icons.record_voice_over_sharp),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () async {
+      //     var returnVal = await showModalBottomSheet<String>(
+      //         shape: const RoundedRectangleBorder(
+      //           borderRadius: BorderRadius.vertical(
+      //             top: Radius.circular(20),
+      //           ),
+      //         ),
+      //         context: context,
+      //         isDismissible: false,
+      //         builder: (context) {
+      //           return SpeechRecognition();
+      //         });
+      //
+      //     if (returnVal == null) return;
+      //     if (returnVal == "") return;
+      //     print("returnVal = " + returnVal);
+      //
+      //     if ((returnVal.toLowerCase().contains("search")) ||
+      //         (returnVal.toLowerCase().contains("look")) ||
+      //         (returnVal.toLowerCase().contains("find")) ||
+      //         (returnVal.toLowerCase().contains("get"))) {
+      //       returnVal = returnVal.toLowerCase().replaceAll('search', "");
+      //       returnVal = returnVal.toLowerCase().replaceAll('look', "");
+      //       returnVal = returnVal.toLowerCase().replaceAll('for', "");
+      //       returnVal = returnVal.toLowerCase().replaceAll('find', "");
+      //       returnVal = returnVal.toLowerCase().replaceAll('get', "");
+      //       print("returnVal after replace " + returnVal);
+      //       setState(() {
+      //         scannedCodeReceived = returnVal.toString().trim();
+      //         mawbPrefixController.text = scannedCodeReceived.substring(0, 3);
+      //         mawbNoController.text = scannedCodeReceived.substring(3, 11);
+      //       });
+      //     } else if (returnVal.toLowerCase().contains("scan")) {
+      //       if (returnVal.toLowerCase().contains("document")) {
+      //         var scannedCode =
+      //             await Navigator.of(context).push(MaterialPageRoute(
+      //           builder: (context) => const QRViewExample(),
+      //         ));
+      //         print("code returned from app");
+      //         print(scannedCode);
+      //         if (scannedCode == null)
+      //           setState(() {
+      //             scannedCodeReceived = "";
+      //           });
+      //         if (scannedCode == "")
+      //           setState(() {
+      //             scannedCodeReceived = "";
+      //           });
+      //         if (scannedCode != null) {
+      //           if (scannedCode != "") {
+      //             print("code returned from app =" + scannedCode);
+      //             setState(() {
+      //               scannedCodeReceived = scannedCode;
+      //               txtVTNO.text = scannedCodeReceived;
+      //             });
+      //             // await getShipmentDetails(scannedCode);
+      //           }
+      //         }
+      //       }
+      //
+      //       if (returnVal.toLowerCase().contains("gallery")) {
+      //         final ImagePicker _picker = ImagePicker();
+      //         final XFile? image = await _picker.pickImage(
+      //             source: ImageSource.gallery); // Pick an image
+      //         if (image == null)
+      //           return;
+      //         else {
+      //           String? str = await Scan.parse(image.path);
+      //           if (str != null) {
+      //             setState(() {
+      //               scannedCodeReceived = str;
+      //               txtVTNO.text = scannedCodeReceived;
+      //             });
+      //           }
+      //         }
+      //       }
+      //
+      //       // returnVal = returnVal.toLowerCase().replaceAll('search', "");
+      //       // print("returnVal after replace " + returnVal);
+      //
+      //       // setState(() {
+      //       //   scannedCodeReceived = returnVal.toString().trim();
+      //       //   txtVTNO.text = scannedCodeReceived;
+      //       //   _runFilter(scannedCodeReceived);
+      //       // });
+      //     } else {
+      //       print("returnVal after replace " + returnVal);
+      //     }
+      //   },
+      //   backgroundColor: Color(0xFF11249F), //Colors.green,
+      //   child: const Icon(Icons.record_voice_over_sharp),
+      // ),
       body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -290,7 +228,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                                 minHeight: 45.0,
                                 fontSize: 16.0,
                                 // cornerRadius: 20.0,
-                                initialLabelIndex: trackingType,
+                                initialLabelIndex: truckingAssigned,
                                 activeBgColors: [
                                   [Color(0xFF1220BC), Color(0xFF3540E8)],
                                   [Color(0xFF1220BC), Color(0xFF3540E8)],
@@ -319,12 +257,23 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                                     color: Colors.white,
                                   )
                                 ],
-                                labels: [' Assign Truck ', ' Unassign Truck '],
+                                labels: [
+                                  ' Assign Trucker ',
+                                  ' Unassign Trucker '
+                                ],
 
                                 onToggle: (index) {
                                   setState(() {
-                                    trackingType = index!;
-                                    print(trackingType);
+                                    truckingAssigned = index!;
+                                    if (truckingAssigned == 0) {
+                                      getAssignedNotAssignedList(
+                                          4); //AssignTrucker
+                                      print("AssignTrucker");
+                                    } else {
+                                      getAssignedNotAssignedList(
+                                          5); //UnassignTrucker
+                                      print("UnassignTrucker");
+                                    }
                                   });
                                 },
                               ),
@@ -342,7 +291,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                                 padding: const EdgeInsets.only(left: 8.0),
                                 child: SizedBox(
                                   width: MediaQuery.of(context).size.width /
-                                      7.0, // hard coding child width
+                                      6.5, // hard coding child width
                                   child: Container(
                                     height: 40,
                                     width:
@@ -387,7 +336,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: SizedBox(
                                   width: MediaQuery.of(context).size.width /
-                                      3.5, // hard coding child width
+                                      2.8, // hard coding child width
                                   child: Container(
                                     height: 40,
                                     width:
@@ -430,15 +379,18 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                                   ),
                                 ),
                               ),
-                              GestureDetector(
-                                  child: SearchContainerButton(),
-                                  onTap: () async {
-                                    //export
-                                  }),
-                              SizedBox(width: 5),
+                              // GestureDetector(
+                              //     child: SearchContainerButton(),
+                              //     onTap: () async {
+                              //       //export
+                              //     }),
+                              // SizedBox(width: 5),
                               GestureDetector(
                                 child: DeleteScanContainerButton(),
-                                onTap: () async {},
+                                onTap: () async {
+                                  mawbPrefixController.text = "";
+                                  mawbNoController.text = "";
+                                },
                               )
                             ]),
                             SizedBox(
@@ -479,7 +431,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                                           child: ToggleSwitch(
                                             minWidth: 160,
                                             minHeight: 65.0,
-                                            initialLabelIndex: modeSelected,
+                                            initialLabelIndex: truckingAssigned,
                                             cornerRadius: 20.0,
                                             activeFgColor: Colors.white,
                                             inactiveBgColor: Colors.grey,
@@ -521,7 +473,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
 
                                               setState(() {
                                                 //selectedText = "";
-                                                modeSelected = index!;
+                                                truckingAssigned = index!;
                                               });
                                             },
                                           ),
@@ -548,7 +500,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .width /
-                                                  8.8,
+                                                  6.5,
                                               // hard coding child width
                                               child: Container(
                                                 height: 60,
@@ -611,7 +563,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .width /
-                                                  4.6,
+                                                  2.8,
                                               // hard coding child width
                                               child: Container(
                                                 height: 60,
@@ -667,18 +619,6 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                                                 bottom: 8.0),
                                             child: GestureDetector(
                                                 child:
-                                                    SearchContainerButtonIpad(),
-                                                onTap: () async {
-                                                  // getTrackAndTraceDetails(
-                                                  //     1); //export
-                                                }),
-                                          ),
-                                          SizedBox(width: 5),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                bottom: 8.0),
-                                            child: GestureDetector(
-                                                child:
                                                     DeleteScanContainerButtonIpad(),
                                                 onTap: () async {
                                                   // getTrackAndTraceDetails(
@@ -704,56 +644,62 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                         child: CircularProgressIndicator()))
                 : Expanded(
                     child: Stack(
-                      children: [
-                        Container(
-                          child: SingleChildScrollView(
-                            // padding: EdgeInsets.only(bottom: 64),
-                            child: Column(
-                              children: [
-                                searchedList.isNotEmpty &&
-                                    (mawbPrefixController.text.isNotEmpty ||
-                                        mawbPrefixController.text.isNotEmpty)
-                                    ? Padding(
+                    children: [
+                      Container(
+                        child: SingleChildScrollView(
+                          // padding: EdgeInsets.only(bottom: 64),
+                          child: Column(
+                            children: [
+                              searchedList.isNotEmpty ||
+                                      (mawbPrefixController.text.isNotEmpty ||
+                                          mawbPrefixController.text.isNotEmpty)
+                                  ? Padding(
                                       padding: useMobileLayout
                                           ? const EdgeInsets.only(bottom: 60.0)
                                           : const EdgeInsets.only(bottom: 80.0),
                                       child: ListView.builder(
-                                  padding: EdgeInsets.zero,
-                                  shrinkWrap: true,
-                                  itemCount: searchedList.length,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemBuilder:
-                                        (BuildContext context, int index) {
-                                      AssignTruckingDetails docListItem =
-                                      searchedList.elementAt(index);
-                                      return mawbListItem(
-                                          context, docListItem, index);
-                                  },
-                                ),
+                                        padding: EdgeInsets.zero,
+                                        shrinkWrap: true,
+                                        itemCount: searchedList.length,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          ListingDetails docListItem =
+                                              searchedList.elementAt(index);
+                                          final isSelected =
+                                              _selectedIndices.contains(index);
+                                          return mawbListItem(context,
+                                              docListItem, index, isSelected);
+                                        },
+                                      ),
                                     )
-                                    : Padding(
-                                      padding: useMobileLayout?const EdgeInsets.only(bottom: 60.0):const EdgeInsets.only(bottom: 80.0),
+                                  : Padding(
+                                      padding: useMobileLayout
+                                          ? const EdgeInsets.only(bottom: 60.0)
+                                          : const EdgeInsets.only(bottom: 80.0),
                                       child: ListView.builder(
-                                  padding: EdgeInsets.zero,
-                                  shrinkWrap: true,
-                                  itemCount: assignTruckList.length,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemBuilder:
-                                        (BuildContext context, int index) {
-                                      AssignTruckingDetails docListItem =
-                                      assignTruckList.elementAt(index);
-                                      return mawbListItem(
-                                          context, docListItem, index);
-                                  },
-                                ),
+                                        padding: EdgeInsets.zero,
+                                        shrinkWrap: true,
+                                        itemCount: assignTruckList.length,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          ListingDetails docListItem =
+                                              assignTruckList.elementAt(index);
+                                          final isSelected =
+                                              _selectedIndices.contains(index);
+                                          return mawbListItem(context,
+                                              docListItem, index, isSelected);
+                                        },
+                                      ),
                                     ),
-                              ],
-                            ),
+                            ],
                           ),
                         ),
+                      ),
                       Positioned(
                         bottom: 10,
-                        left: 75,
+                        left: useMobileLayout ? 20 : 180,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -776,9 +722,9 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                               ),
                               child: SizedBox(
                                 width: useMobileLayout
-                                    ? MediaQuery.of(context).size.width / 4.8
-                                    : MediaQuery.of(context).size.width / 2.8,
-                                height: useMobileLayout ? 38 : 58,
+                                    ? MediaQuery.of(context).size.width / 2.8
+                                    : MediaQuery.of(context).size.width / 3.8,
+                                height: useMobileLayout ? 38 : 48,
                                 child: Center(
                                   child: const Text(
                                     "Back",
@@ -806,9 +752,9 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                               ),
                               child: SizedBox(
                                 width: useMobileLayout
-                                    ? MediaQuery.of(context).size.width / 4.8
-                                    : MediaQuery.of(context).size.width / 2.8,
-                                height: useMobileLayout ? 38 : 58,
+                                    ? MediaQuery.of(context).size.width / 2.8
+                                    : MediaQuery.of(context).size.width / 3.8,
+                                height: useMobileLayout ? 38 : 48,
                                 child: Center(
                                   child: const Text(
                                     "Save",
@@ -821,26 +767,20 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                         ),
                       ),
                     ],
-                    )
-                  ),
+                  )),
           ]),
     );
   }
 
-  // onSearchTextChanged(String text) async {
-  //   searchedList.clear();
-  //   if (mawbPrefixController.text.isEmpty && mawbNoController.text.isEmpty) {
-  //     setState(() {});
-  //     return;
-  //   }
-  //   for (var item in assignTruckList) {
-  //     var searchText="${mawbPrefixController.text.trim()}-${mawbNoController.text.trim()}";
-  //     if (item.MAWBNo.contains(searchText)) {
-  //       searchedList.add(item);
-  //     }
-  //   }
-  //   setState(() {});
-  // }
+  void _onItemTap(int index) {
+    setState(() {
+      if (_selectedIndices.contains(index)) {
+        _selectedIndices.remove(index);
+      } else {
+        _selectedIndices.add(index);
+      }
+    });
+  }
 
   void onSearchTextChanged() {
     String prefix = mawbPrefixController.text.trim();
@@ -851,22 +791,49 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
       });
       return;
     }
-    String searchText = prefix.isEmpty ? suffix : "$prefix-$suffix";
     setState(() {
-      searchedList = assignTruckList
-          .where((item) => item.MAWBNo.contains(searchText))
-          .toList();
+      searchedList = assignTruckList.where((item) {
+        return prefix.isEmpty
+            ? item.mawbNumber.contains(suffix)
+            : suffix.isEmpty
+                ? item.mawbNumber.contains(prefix)
+                : prefix.isNotEmpty && suffix.isNotEmpty
+                    ? item.mawbNumber.contains(suffix) &&
+                        item.mawbNumber.contains(prefix)
+                    : false;
+      }).toList();
     });
   }
 
-  mawbListItem(
-      BuildContext context, AssignTruckingDetails assignTruckDetails, index) {
+  // void onSearchTextChanged() {
+  //   String prefix = mawbPrefixController.text.trim();
+  //   String suffix = mawbNoController.text.trim();
+  //
+  //   setState(() {
+  //     if (prefix.isEmpty && suffix.isEmpty) {
+  //       searchedList.clear();
+  //     } else {
+  //       searchedList = assignTruckList.where((item) {
+  //         List parts = item.mawbNumber.split('-');
+  //         bool prefixMatches = prefix.isEmpty ||
+  //             (parts.length > 0 &&
+  //                 parts[0].contains(
+  //                     prefix)); // Check if item prefix contains search prefix
+  //         bool suffixMatches = suffix.isEmpty ||
+  //             (parts.length > 1 &&
+  //                 parts[1].contains(
+  //                     suffix)); // Check if item suffix contains search suffix
+  //         print("----${parts[0]}-${parts[1]}----");
+  //         return prefixMatches && suffixMatches;
+  //       }).toList();
+  //     }
+  //   });
+  // }
+
+  mawbListItem(BuildContext context, ListingDetails assignTruckDetails, index,
+      isSelected) {
     return GestureDetector(
-      onLongPress: () {
-        setState(() {
-          assignTruckDetails.isSelected = !assignTruckDetails.isSelected!;
-        });
-      },
+      onLongPress: () => _onItemTap(index),
       child: Card(
         elevation: 3,
         margin: useMobileLayout
@@ -876,9 +843,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(4.0),
           side: BorderSide(
-            color: assignTruckDetails.isSelected ?? false
-                ? Color(0xFF11249F)
-                : Colors.transparent,
+            color: isSelected ?? false ? Color(0xFF11249F) : Colors.transparent,
             width: 2.0,
           ),
         ),
@@ -897,7 +862,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                     // height: 70,
                     // color: Colors.red,
                     child: Text(
-                      assignTruckDetails.MAWBNo,
+                      assignTruckDetails.mawbNumber,
                       style: useMobileLayout
                           ? mobileGroupHeaderFontStyleBold
                           : iPadGroupHeaderFontStyleBold,
@@ -907,7 +872,6 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
               ),
               // SizedBox(height: 2),
               SizedBox(height: useMobileLayout ? 6 : 18),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -921,14 +885,14 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          " ${assignTruckDetails.ITNNo}",
+                          " ${assignTruckDetails.sbNumber}",
                           style: useMobileLayout
                               ? VTlistTextFontStyle
                               : iPadcompletedBlackText,
                         ),
 
                         Text(
-                          " ${assignTruckDetails.TruckingCompany}",
+                          " ${assignTruckDetails.truckerName}",
                           style: useMobileLayout
                               ? VTlistTextFontStyle
                               : iPadcompletedBlackText,
@@ -962,7 +926,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                     padding: const EdgeInsets.only(left: 8.0),
                     child: SizedBox(
                       width: useMobileLayout
-                          ? MediaQuery.of(context).size.width / 4.2
+                          ? MediaQuery.of(context).size.width / 3.5
                           : MediaQuery.of(context).size.width / 4.6,
                       // height: 70,
                       // color: Colors.white,
@@ -981,7 +945,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                               ),
                               //              SizedBox(width: 10),
                               Text(
-                                " ${assignTruckDetails.ITNDate}",
+                                " ${assignTruckDetails.flightDate}",
                                 style: useMobileLayout
                                     ? VTlistTextFontStyle
                                     : iPadcompletedBlackText,
@@ -1019,19 +983,4 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
       ),
     );
   }
-}
-
-class AssignTruckingDetails {
-  final String MAWBNo;
-  final String ITNNo;
-  final String ITNDate;
-  final String TruckingCompany;
-  bool? isSelected;
-
-  AssignTruckingDetails(
-      {required this.MAWBNo,
-      required this.ITNNo,
-      required this.ITNDate,
-      required this.TruckingCompany,
-      this.isSelected = false});
 }

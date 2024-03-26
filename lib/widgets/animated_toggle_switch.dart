@@ -39,7 +39,7 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
     double height = MediaQuery.of(context).size.height;
     return Container(
       width: useMobileLayout ? width * 0.65 : width / 1.78,
-      height: useMobileLayout ? width * 0.13:width / 12.0,
+      height: useMobileLayout ? width * 0.13:width / 13.5,
       margin: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
       child: Container(
         // color: Colors.red,
@@ -106,7 +106,7 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
                     BoxShadow(
                       color:Colors.black,
                       spreadRadius: 1,
-                      blurRadius: 3.5,
+                      blurRadius:3.5,
                       // offset: Offset(0, 1),
                     ),
                   ],

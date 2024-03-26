@@ -426,9 +426,7 @@ class Settings {
         "/GetBookedSlotList", // get list of booked slots export
     "BookedSlotsListImport":
         "/GetImportBookedSlotList", // get list of booked slots import
-    "TrackAndTrace":
-    "/ACS_Exp_TrackandTrace",
-    "ASIList":
+    "ListingPageExport":
     "/ACS_Exp_ListingPage",
   };
 }

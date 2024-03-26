@@ -19,7 +19,8 @@ import '../widgets/timeline.dart';
 import 'documentUploadChild.dart';
 
 class DocumentUpload extends StatefulWidget {
-  const DocumentUpload({Key? key}) : super(key: key);
+  final bool isExport;
+  const DocumentUpload( this.isExport, {Key? key}) : super(key: key);
 
   @override
   State<DocumentUpload> createState() => _DocumentUploadState();
@@ -44,10 +45,6 @@ class _DocumentUploadState extends State<DocumentUpload> {
   TextEditingController txtVTNO = new TextEditingController();
   final _controllerModeType = ValueNotifier<bool>(false);
 
-  // List<VehicleToken> vehicleToeknListToBind = [];
-  // List<VehicleToken> vehicleToeknListImport = [];
-  // List<VehicleToken> vehicleToeknListExport = [];
-  // List<VehicleToken> vehicleToeknListtRandom = [];
   List<DocUploadDetails> searchedList = [];
   List<DocUploadDetails> docUploadList = [
     DocUploadDetails(
@@ -321,7 +318,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
                                 padding: const EdgeInsets.only(left: 8.0),
                                 child: SizedBox(
                                   width: MediaQuery.of(context).size.width /
-                                      7.0, // hard coding child width
+                                      6.5, // hard coding child width
                                   child: Container(
                                     height: 40,
                                     width:
@@ -363,7 +360,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: SizedBox(
                                   width: MediaQuery.of(context).size.width /
-                                      3.5, // hard coding child width
+                                      2.8, // hard coding child width
                                   child: Container(
                                     height: 40,
                                     width:
@@ -403,12 +400,12 @@ class _DocumentUploadState extends State<DocumentUpload> {
                                   ),
                                 ),
                               ),
-                              GestureDetector(
-                                  child: SearchContainerButton(),
-                                  onTap: () async {
-                                    //export
-                                  }),
-                              SizedBox(width: 5),
+                              // GestureDetector(
+                              //     child: SearchContainerButton(),
+                              //     onTap: () async {
+                              //       //export
+                              //     }),
+                              // SizedBox(width: 3),
                               GestureDetector(
                                 child: DeleteScanContainerButton(),
                                 onTap: () async {},
@@ -464,7 +461,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .width /
-                                                  8.8,
+                                                 6.5,
                                               // hard coding child width
                                               child: Container(
                                                 height: 60,
@@ -527,7 +524,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .width /
-                                                  4.6,
+                                                  2.8,
                                               // hard coding child width
                                               child: Container(
                                                 height: 60,
@@ -578,21 +575,21 @@ class _DocumentUploadState extends State<DocumentUpload> {
                                             ),
                                           ),
                                           SizedBox(width: 8),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                bottom: 8.0),
-                                            child: GestureDetector(
-                                                child:
-                                                    SearchContainerButtonIpad(),
-                                                onTap: () async {
-                                                  // getTrackAndTraceDetails(
-                                                  //     1); //export
-                                                }),
-                                          ),
+                                          // Padding(
+                                          //   padding: const EdgeInsets.only(
+                                          //       bottom: 8.0),
+                                          //   child: GestureDetector(
+                                          //       child:
+                                          //           SearchContainerButtonIpad(),
+                                          //       onTap: () async {
+                                          //         // getTrackAndTraceDetails(
+                                          //         //     1); //export
+                                          //       }),
+                                          // ),
                                           SizedBox(width: 5),
                                           Padding(
                                             padding: const EdgeInsets.only(
-                                                bottom: 8.0),
+                                                 bottom: 8.0),
                                             child: GestureDetector(
                                                 child:
                                                     DeleteScanContainerButtonIpad(),
@@ -656,19 +653,61 @@ class _DocumentUploadState extends State<DocumentUpload> {
   void onSearchTextChanged() {
     String prefix = mawbPrefixController.text.trim();
     String suffix = mawbNoController.text.trim();
-    if (prefix.isEmpty && suffix.isEmpty) {
-      setState(() {
-        searchedList.clear();
-      });
-      return;
-    }
-    String searchText = prefix.isEmpty ? suffix : "$prefix-$suffix";
+
     setState(() {
-      searchedList = docUploadList
-          .where((item) => item.MAWBNo.contains(searchText))
-          .toList();
+      if (prefix.isEmpty && suffix.isEmpty) {
+        searchedList.clear();
+      } else {
+        searchedList = docUploadList.where((item) {
+
+          List parts = item.MAWBNo.split('-');
+          bool prefixMatches = prefix.isEmpty || (parts.length > 0 && parts[0].contains(prefix)); // Check if item prefix contains search prefix
+          bool suffixMatches = suffix.isEmpty || (parts.length > 1 && parts[1].contains(suffix)); // Check if item suffix contains search suffix
+          return prefixMatches && suffixMatches;
+        }).toList();
+      }
     });
   }
+
+  // void onSearchTextChanged() {
+  //   String prefix = mawbPrefixController.text.trim();
+  //   String suffix = mawbNoController.text.trim();
+  //   if (prefix.isEmpty && suffix.isEmpty) {
+  //     setState(() {
+  //       searchedList.clear();
+  //     });
+  //     return;
+  //   }
+  //   String searchText = prefix.isEmpty
+  //       ? suffix
+  //       : suffix.isEmpty
+  //           ? prefix
+  //           : prefix.isNotEmpty && suffix.isNotEmpty
+  //               ? "$prefix-$suffix"
+  //               : "";
+  //
+  //   print(searchText);
+  //   setState(() {
+  //     searchedList = docUploadList
+  //         .where((item) => item.MAWBNo.contains(searchText))
+  //         .toList();
+  //   });
+  //
+  //  // setState(() {
+  //  //   searchedList = docUploadList
+  //  //       .where((item) {
+  //  //     return prefix.isEmpty
+  //  //         ? item.MAWBNo.contains(searchText)
+  //  //         : suffix.isEmpty
+  //  //         ? item.MAWBNo.contains(searchText)
+  //  //         : prefix.isNotEmpty && suffix.isNotEmpty
+  //  //         ? item.MAWBNo.contains(searchText) &&
+  //  //         item.MAWBNo.contains(searchText)
+  //  //         : false;
+  //  //   })
+  //  //       .toList();
+  //  // });
+  // }
 
   mawbListItem(BuildContext context, DocUploadDetails docUploadDetails, index) {
     return Card(
