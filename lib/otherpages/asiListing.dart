@@ -2,26 +2,17 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_advanced_switch/flutter_advanced_switch.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:luxair/otherpages/submitITNDetails.dart';
-import 'package:luxair/datastructure/ASIListing.dart';
 import 'package:scan/scan.dart';
 import 'package:toggle_switch/toggle_switch.dart';
-import 'package:luxair/datastructure/vehicletoken.dart';
-import 'package:luxair/otherpages/truckeryardcheckindetails.dart';
 import 'package:luxair/widgets/common.dart';
 import 'package:luxair/widgets/headerclipper.dart';
 import 'package:luxair/widgets/qrscan.dart';
 import 'package:luxair/widgets/speech_recognition.dart';
-import 'package:intl/intl.dart';
 import '../constants.dart';
+import '../datastructure/trucker.dart';
 import '../global.dart';
-import '../widgets/animated_toggle_switch.dart';
-import '../widgets/timeline.dart';
-import 'documentUploadChild.dart';
-import 'documentupload.dart';
 
 class ASIListing extends StatefulWidget {
   const ASIListing({Key? key}) : super(key: key);
@@ -42,45 +33,22 @@ class _ASIListingState extends State<ASIListing> {
   TextEditingController mawbNoController = TextEditingController();
   FocusNode mawbPrefixFocusNode = FocusNode();
   FocusNode mawbNoFocusNode = FocusNode();
-
-  //  List<CodexPass> passList = [];
-  // List<FilterArray> _filterArray = [];
   bool isLoading = false;
   bool isSearched = false;
   bool isImport = false;
   TextEditingController txtVTNO = new TextEditingController();
   final _controllerModeType = ValueNotifier<bool>(false);
-
-  // List<VehicleToken> vehicleToeknListToBind = [];
-  // List<VehicleToken> vehicleToeknListImport = [];
-  // List<VehicleToken> vehicleToeknListExport = [];
-  // List<VehicleToken> vehicleToeknListtRandom = [];
-
-  List<ASIDetails> searchedList = [];
-  List<ASIDetails> ASIMawbListExport = [];
+  List<ListingDetails> searchedList = [];
+  List<ListingDetails> ASIMawbListExport = [];
   List<bool> isSelected = [true, false, false];
 
   @override
   void initState() {
     getASIList();
     dateInput.text = "";
-    // if (modeSelected == 0) vehicleToeknListToBind = vehicleToeknListExport;
-    // if (modeSelected == 1) vehicleToeknListToBind = vehicleToeknListImport;
-    // if (vehicleToeknListExport.isNotEmpty)
-    //   vehicleToeknListToBind = vehicleToeknListExport;
-    //
     _controllerModeType.addListener(() {
-      setState(() {
-      });
+      setState(() {});
     });
-    //
-    // if (modeSelected == 1) {
-    //   getVehicleToeknList(3); //Import
-    //   print("import");
-    // } else {
-    //   getVehicleToeknList(4); //Export
-    //   print("export");
-    // }
     super.initState();
   }
 
@@ -90,25 +58,6 @@ class _ASIListingState extends State<ASIListing> {
 
     super.dispose();
   }
-
-  // ThemeColor darkMode = ThemeColor(
-  //   gradient: [
-  //     const Color(0xFF8983F7),
-  //     const Color(0xFFA3DAFB),
-  //   ],
-  //   backgroundColor: const Color(0xFF26242e),
-  //   textColor: const Color(0xFFFFFFFF),
-  //   toggleButtonColor: const Color(0xFf34323d),
-  //   toggleBackgroundColor: const Color(0xFF222029),
-  //   shadow: const <BoxShadow>[
-  //     BoxShadow(
-  //       color: const Color(0x66000000),
-  //       spreadRadius: 5,
-  //       blurRadius: 10,
-  //       offset: Offset(0, 5),
-  //     ),
-  //   ],
-  // );
 
   getASIList() async {
     print("in ASI list");
@@ -121,19 +70,20 @@ class _ASIListingState extends State<ASIListing> {
     });
 
     var queryParams = {
-      "OperationType":"1",
-        "AirlinePrefix":"0",
-      "AwbNumber":"0",
-      "HawbNumber":"",
-      "CreatedByUserId":"22438",
-      "OrganizationBranchId":selectedTerminalID, // loggedinUser.OrganizationBranchId,
-      "OrganizationId":"22426",
-      "AWBID":0,
-      "SBID":0
+      "OperationType": "1",
+      "AirlinePrefix": "0",
+      "AwbNumber": "0",
+      "HawbNumber": "",
+      "CreatedByUserId": "22438",
+      "OrganizationBranchId": selectedTerminalID,
+      // loggedinUser.OrganizationBranchId,
+      "OrganizationId": "22426",
+      "AWBID": 0,
+      "SBID": 0
     };
     await Global()
         .postData(
-      Settings.SERVICES['ASIList'],
+      Settings.SERVICES['ListingPageExport'],
       queryParams,
     )
         .then((response) {
@@ -143,16 +93,15 @@ class _ASIListingState extends State<ASIListing> {
       var msg = json.decode(response.body)['d'];
       var resp = json.decode(msg).cast<Map<String, dynamic>>();
 
-        ASIMawbListExport = resp
-            .map<ASIDetails>((json) => ASIDetails.fromJson(json))
-            .toList();
+      ASIMawbListExport = resp
+          .map<ListingDetails>((json) => ListingDetails.fromJson(json))
+          .toList();
 
-      print("length ASIMawbListExport = " +
-          ASIMawbListExport.length.toString());
+      print(
+          "length ASIMawbListExport = " + ASIMawbListExport.length.toString());
       setState(() {
         isLoading = false;
       });
-
     }).catchError((onError) {
       setState(() {
         isLoading = false;
@@ -160,7 +109,6 @@ class _ASIListingState extends State<ASIListing> {
       print(onError);
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -205,7 +153,7 @@ class _ASIListingState extends State<ASIListing> {
           } else if (returnVal.toLowerCase().contains("scan")) {
             if (returnVal.toLowerCase().contains("document")) {
               var scannedCode =
-              await Navigator.of(context).push(MaterialPageRoute(
+                  await Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => const QRViewExample(),
               ));
               print("code returned from app");
@@ -272,460 +220,445 @@ class _ASIListingState extends State<ASIListing> {
                 headerText: "ASI"),
             useMobileLayout
                 ? Expanded(
-              flex: 0,
-              child: Container(
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      top: 0.0, bottom: 10.0, left: 10.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Row(children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 4.3,
-                          child: Text("MAWB No.",
-                              style: mobileHeaderFontStyle),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width /
-                                7.0, // hard coding child width
-                            child: Container(
-                              height: 40,
-                              width:
-                              MediaQuery.of(context).size.width / 2.4,
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  width: 1.0,
-                                ),
-                                borderRadius: BorderRadius.circular(4.0),
-                              ),
-                              child: TextField(
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  LengthLimitingTextInputFormatter(3)
-                                ],
-                                controller: mawbPrefixController,
-                                focusNode: mawbPrefixFocusNode,
-                                textAlign: TextAlign.right,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: "Prefix",
-                                  hintStyle:
-                                  TextStyle(color: Colors.grey),
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: 8, horizontal: 8),
-                                  isDense: true,
-                                ),
-                                style: mobileTextFontStyle,
-                                onChanged: (value) {
-                                  onSearchTextChanged();
-                                  if (value.length == 3) {
-                                    mawbPrefixFocusNode.unfocus();
-                                    mawbNoFocusNode.requestFocus();
-                                  }
-                                },
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width /
-                                3.5, // hard coding child width
-                            child: Container(
-                              height: 40,
-                              width:
-                              MediaQuery.of(context).size.width / 2.4,
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  width: 1.0,
-                                ),
-                                borderRadius: BorderRadius.circular(4.0),
-                              ),
-                              child: TextField(
-                                controller: mawbNoController,
-                                focusNode: mawbNoFocusNode,
-                                textAlign: TextAlign.right,
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  LengthLimitingTextInputFormatter(9)
-                                ],
-                                textCapitalization:
-                                TextCapitalization.characters,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: "MAWB No.",
-                                  hintStyle:
-                                  TextStyle(color: Colors.grey),
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: 8, horizontal: 8),
-                                  isDense: true,
-                                ),
-                                style: mobileTextFontStyle,
-                                onChanged: (value) {
-                                  onSearchTextChanged();
-                                  if (value.length == 3) {
-                                    // mawbPrefixFocusNode.unfocus();
-                                    // mawbNoFocusNode.requestFocus();
-                                  }
-                                },
-                              ),
-                            ),
-                          ),
-                        ),
-                        GestureDetector(
-                            child: SearchContainerButton(),
-                            onTap: () async {
-                              //export
-                            }),
-                        SizedBox(width: 5),
-                        GestureDetector(
-                          child: DeleteScanContainerButton(),
-                          onTap: () async {},
-                        )
-                      ]),
-                      SizedBox(
-                        height: 5,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            )
-                : Expanded(
-              flex: 0,
-              child: Container(
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      top: 10.0, bottom: 10.0, left: 16.0),
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
+                    flex: 0,
+                    child: Container(
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            top: 0.0, bottom: 10.0, left: 10.0),
+                        child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            //SizedBox(width: 10),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: SizedBox(
-                                    width: MediaQuery.of(context)
-                                        .size
-                                        .width /
-                                        2.8,
-                                    child: ToggleSwitch(
-                                      minWidth: 160,
-                                      minHeight: 65.0,
-                                      initialLabelIndex: modeSelected,
-                                      cornerRadius: 20.0,
-                                      activeFgColor: Colors.white,
-                                      inactiveBgColor: Colors.grey,
-                                      inactiveFgColor: Colors.white,
-                                      totalSwitches: 2,
-                                      customTextStyles: [
-                                        TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.normal,
-                                          color: Colors.white,
-                                        ),
-                                        TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.normal,
-                                          color: Colors.white,
-                                        )
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Row(children: [
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width / 4.3,
+                                child: Text("MAWB No.",
+                                    style: mobileHeaderFontStyle),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: SizedBox(
+                                  width: MediaQuery.of(context).size.width /
+                                      7.0, // hard coding child width
+                                  child: Container(
+                                    height: 40,
+                                    width:
+                                        MediaQuery.of(context).size.width / 2.4,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        width: 1.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(4.0),
+                                    ),
+                                    child: TextField(
+                                      keyboardType: TextInputType.number,
+                                      inputFormatters: [
+                                        LengthLimitingTextInputFormatter(3)
                                       ],
-                                      labels: ['Assign ', ' Unassign'],
-
-                                      iconSize: 22.0,
-                                      activeBgColors: [
-                                        // [Colors.blueAccent, Colors.blue],
-                                        // [Colors.blueAccent, Colors.blue],
-                                        [
-                                          Color(0xFF1220BC),
-                                          Color(0xFF3540E8)
-                                        ],
-                                        [
-                                          Color(0xFF1220BC),
-                                          Color(0xFF3540E8)
-                                        ],
-                                      ],
-                                      animate: true,
-                                      // with just animate set to true, default curve = Curves.easeIn
-                                      curve: Curves.bounceInOut,
-                                      // animate must be set to true when using custom curve
-                                      onToggle: (index) {
-                                        print('switched to: $index');
-
-                                        setState(() {
-                                          //selectedText = "";
-                                          modeSelected = index!;
-                                        });
+                                      controller: mawbPrefixController,
+                                      focusNode: mawbPrefixFocusNode,
+                                      textAlign: TextAlign.right,
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: "Prefix",
+                                        hintStyle:
+                                            TextStyle(color: Colors.grey),
+                                        contentPadding: EdgeInsets.symmetric(
+                                            vertical: 8, horizontal: 8),
+                                        isDense: true,
+                                      ),
+                                      style: mobileTextFontStyle,
+                                      onChanged: (value) {
+                                        onSearchTextChanged();
+                                        if (value.length == 3) {
+                                          mawbPrefixFocusNode.unfocus();
+                                          mawbNoFocusNode.requestFocus();
+                                        }
                                       },
                                     ),
                                   ),
                                 ),
-                                SizedBox(
-                                  width:
-                                  MediaQuery.of(context).size.width /
-                                      2.45,
-                                  child: Text(
-                                    " MAWB No.",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.normal,
-                                      color: Color(0xFF11249F),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SizedBox(
+                                  width: MediaQuery.of(context).size.width /
+                                      3.5, // hard coding child width
+                                  child: Container(
+                                    height: 40,
+                                    width:
+                                        MediaQuery.of(context).size.width / 2.4,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        width: 1.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(4.0),
+                                    ),
+                                    child: TextField(
+                                      controller: mawbNoController,
+                                      focusNode: mawbNoFocusNode,
+                                      textAlign: TextAlign.right,
+                                      keyboardType: TextInputType.number,
+                                      inputFormatters: [
+                                        LengthLimitingTextInputFormatter(9)
+                                      ],
+                                      textCapitalization:
+                                          TextCapitalization.characters,
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: "MAWB No.",
+                                        hintStyle:
+                                            TextStyle(color: Colors.grey),
+                                        contentPadding: EdgeInsets.symmetric(
+                                            vertical: 8, horizontal: 8),
+                                        isDense: true,
+                                      ),
+                                      style: mobileTextFontStyle,
+                                      onChanged: (value) {
+                                        onSearchTextChanged();
+                                        if (value.length == 3) {
+                                          // mawbPrefixFocusNode.unfocus();
+                                          // mawbNoFocusNode.requestFocus();
+                                        }
+                                      },
                                     ),
                                   ),
                                 ),
-                                Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: SizedBox(
-                                        width: MediaQuery.of(context)
-                                            .size
-                                            .width /
-                                            8.8,
-                                        // hard coding child width
-                                        child: Container(
-                                          height: 60,
-                                          width: MediaQuery.of(context)
-                                              .size
-                                              .width /
-                                              8.8,
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                              color: Colors.grey
-                                                  .withOpacity(0.5),
-                                              width: 1.0,
-                                            ),
-                                            borderRadius:
-                                            BorderRadius.circular(
-                                                4.0),
-                                          ),
-                                          child: TextField(
-                                            controller:
-                                            mawbPrefixController,
-                                            focusNode:
-                                            mawbPrefixFocusNode,
-                                            textAlign: TextAlign.right,
-                                            keyboardType:
-                                            TextInputType.text,
-                                            textCapitalization:
-                                            TextCapitalization
-                                                .characters,
-                                            decoration: InputDecoration(
-                                              border: InputBorder.none,
-                                              hintText: "Prefix",
-                                              hintStyle: TextStyle(
-                                                  color: Colors.grey),
-                                              contentPadding:
-                                              EdgeInsets.symmetric(
-                                                  vertical: 8,
-                                                  horizontal: 8),
-                                              isDense: true,
-                                            ),
-                                            style: TextStyle(
-                                              fontSize: 24.0,
-                                              color: Colors.black,
-                                            ),
-                                            onChanged: (value) {
-                                              onSearchTextChanged();
-                                              if (value.length == 3) {
-                                                mawbPrefixFocusNode
-                                                    .unfocus();
-                                                mawbNoFocusNode
-                                                    .requestFocus();
-                                              }
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: SizedBox(
-                                        width: MediaQuery.of(context)
-                                            .size
-                                            .width /
-                                            4.6,
-                                        // hard coding child width
-                                        child: Container(
-                                          height: 60,
-                                          width: MediaQuery.of(context)
-                                              .size
-                                              .width /
-                                              4.8,
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                              color: Colors.grey
-                                                  .withOpacity(0.5),
-                                              width: 1.0,
-                                            ),
-                                            borderRadius:
-                                            BorderRadius.circular(
-                                                4.0),
-                                          ),
-                                          child: TextField(
-                                            controller: mawbNoController,
-                                            focusNode: mawbNoFocusNode,
-                                            textAlign: TextAlign.right,
-                                            keyboardType:
-                                            TextInputType.number,
-                                            decoration: InputDecoration(
-                                              border: InputBorder.none,
-                                              hintText: "MAWB No.",
-                                              hintStyle: TextStyle(
-                                                  color: Colors.grey),
-                                              contentPadding:
-                                              EdgeInsets.symmetric(
-                                                  vertical: 8,
-                                                  horizontal: 8),
-                                              isDense: true,
-                                            ),
-                                            style: TextStyle(
-                                              fontSize: 24.0,
-                                              color: Colors.black,
-                                            ),
-                                            onChanged: (value) {
-                                              onSearchTextChanged();
-                                              if (value.length == 3) {
-                                                // mawbPrefixFocusNode.unfocus();
-                                                // mawbNoFocusNode.requestFocus();
-                                              }
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(width: 8),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          bottom: 8.0),
-                                      child: GestureDetector(
-                                          child:
-                                          SearchContainerButtonIpad(),
-                                          onTap: () async {
-                                            // getTrackAndTraceDetails(
-                                            //     1); //export
-                                          }),
-                                    ),
-                                    SizedBox(width: 5),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          bottom: 8.0),
-                                      child: GestureDetector(
-                                          child:
-                                          DeleteScanContainerButtonIpad(),
-                                          onTap: () async {
-                                            // getTrackAndTraceDetails(
-                                            //     1); //export
-                                          }),
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 10),
-                      ]),
-                ),
-              ),
-            ),
-            isLoading
-                ? Center(
-                child: Container(
-                    height: 100,
-                    width: 100,
-                    child: CircularProgressIndicator()))
-                : Expanded(
-                child: Stack(
-                  children: [
-                    Container(
-                      child: SingleChildScrollView(
-                        // padding: EdgeInsets.only(bottom: 64),
-                        child: Column(
-                          children: [
-                            searchedList.isNotEmpty &&
-                                (mawbPrefixController.text.isNotEmpty ||
-                                    mawbPrefixController.text.isNotEmpty)
-                                ? Padding(
-                              padding: useMobileLayout
-                                  ? const EdgeInsets.only(bottom: 60.0)
-                                  : const EdgeInsets.only(bottom: 80.0),
-                              child: ListView.builder(
-                                padding: EdgeInsets.zero,
-                                shrinkWrap: true,
-                                itemCount: searchedList.length,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemBuilder:
-                                    (BuildContext context, int index) {
-                                      ASIDetails ListItem =
-                                      ASIMawbListExport.elementAt(index);
-                                  return mawbListItem(
-                                      context, ListItem, index);
-                                },
                               ),
-                            )
-                                : Padding(
-                              padding: useMobileLayout?const EdgeInsets.only(bottom: 60.0):const EdgeInsets.only(bottom: 80.0),
-                              child: ListView.builder(
-                                padding: EdgeInsets.zero,
-                                shrinkWrap: true,
-                                itemCount: ASIMawbListExport.length,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemBuilder:
-                                    (BuildContext context, int index) {
-                                      ASIDetails ListItem =
-                                      ASIMawbListExport.elementAt(index);
-                                  return mawbListItem(
-                                      context, ListItem, index);
-                                },
-                              ),
+                              GestureDetector(
+                                  child: SearchContainerButton(),
+                                  onTap: () async {
+                                    //export
+                                  }),
+                              SizedBox(width: 5),
+                              GestureDetector(
+                                child: DeleteScanContainerButton(),
+                                onTap: () async {},
+                              )
+                            ]),
+                            SizedBox(
+                              height: 5,
                             ),
                           ],
                         ),
                       ),
                     ),
+                  )
+                : Expanded(
+                    flex: 0,
+                    child: Container(
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            top: 10.0, bottom: 10.0, left: 16.0),
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  //SizedBox(width: 10),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              2.8,
+                                          child: ToggleSwitch(
+                                            minWidth: 160,
+                                            minHeight: 65.0,
+                                            initialLabelIndex: modeSelected,
+                                            cornerRadius: 20.0,
+                                            activeFgColor: Colors.white,
+                                            inactiveBgColor: Colors.grey,
+                                            inactiveFgColor: Colors.white,
+                                            totalSwitches: 2,
+                                            customTextStyles: [
+                                              TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.normal,
+                                                color: Colors.white,
+                                              ),
+                                              TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.normal,
+                                                color: Colors.white,
+                                              )
+                                            ],
+                                            labels: ['Assign ', ' Unassign'],
 
-                  ],
-                )
-            ),
+                                            iconSize: 22.0,
+                                            activeBgColors: [
+                                              // [Colors.blueAccent, Colors.blue],
+                                              // [Colors.blueAccent, Colors.blue],
+                                              [
+                                                Color(0xFF1220BC),
+                                                Color(0xFF3540E8)
+                                              ],
+                                              [
+                                                Color(0xFF1220BC),
+                                                Color(0xFF3540E8)
+                                              ],
+                                            ],
+                                            animate: true,
+                                            // with just animate set to true, default curve = Curves.easeIn
+                                            curve: Curves.bounceInOut,
+                                            // animate must be set to true when using custom curve
+                                            onToggle: (index) {
+                                              print('switched to: $index');
+
+                                              setState(() {
+                                                //selectedText = "";
+                                                modeSelected = index!;
+                                              });
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2.45,
+                                        child: Text(
+                                          " MAWB No.",
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.normal,
+                                            color: Color(0xFF11249F),
+                                          ),
+                                        ),
+                                      ),
+                                      Row(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  8.8,
+                                              // hard coding child width
+                                              child: Container(
+                                                height: 60,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    8.8,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.5),
+                                                    width: 1.0,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          4.0),
+                                                ),
+                                                child: TextField(
+                                                  controller:
+                                                      mawbPrefixController,
+                                                  focusNode:
+                                                      mawbPrefixFocusNode,
+                                                  textAlign: TextAlign.right,
+                                                  keyboardType:
+                                                      TextInputType.text,
+                                                  textCapitalization:
+                                                      TextCapitalization
+                                                          .characters,
+                                                  decoration: InputDecoration(
+                                                    border: InputBorder.none,
+                                                    hintText: "Prefix",
+                                                    hintStyle: TextStyle(
+                                                        color: Colors.grey),
+                                                    contentPadding:
+                                                        EdgeInsets.symmetric(
+                                                            vertical: 8,
+                                                            horizontal: 8),
+                                                    isDense: true,
+                                                  ),
+                                                  style: TextStyle(
+                                                    fontSize: 24.0,
+                                                    color: Colors.black,
+                                                  ),
+                                                  onChanged: (value) {
+                                                    onSearchTextChanged();
+                                                    if (value.length == 3) {
+                                                      mawbPrefixFocusNode
+                                                          .unfocus();
+                                                      mawbNoFocusNode
+                                                          .requestFocus();
+                                                    }
+                                                  },
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  4.6,
+                                              // hard coding child width
+                                              child: Container(
+                                                height: 60,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    4.8,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.5),
+                                                    width: 1.0,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          4.0),
+                                                ),
+                                                child: TextField(
+                                                  controller: mawbNoController,
+                                                  focusNode: mawbNoFocusNode,
+                                                  textAlign: TextAlign.right,
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  decoration: InputDecoration(
+                                                    border: InputBorder.none,
+                                                    hintText: "MAWB No.",
+                                                    hintStyle: TextStyle(
+                                                        color: Colors.grey),
+                                                    contentPadding:
+                                                        EdgeInsets.symmetric(
+                                                            vertical: 8,
+                                                            horizontal: 8),
+                                                    isDense: true,
+                                                  ),
+                                                  style: TextStyle(
+                                                    fontSize: 24.0,
+                                                    color: Colors.black,
+                                                  ),
+                                                  onChanged: (value) {
+                                                    onSearchTextChanged();
+                                                    if (value.length == 3) {
+                                                      // mawbPrefixFocusNode.unfocus();
+                                                      // mawbNoFocusNode.requestFocus();
+                                                    }
+                                                  },
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(width: 8),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 8.0),
+                                            child: GestureDetector(
+                                                child:
+                                                    SearchContainerButtonIpad(),
+                                                onTap: () async {
+                                                  // getTrackAndTraceDetails(
+                                                  //     1); //export
+                                                }),
+                                          ),
+                                          SizedBox(width: 5),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 8.0),
+                                            child: GestureDetector(
+                                                child:
+                                                    DeleteScanContainerButtonIpad(),
+                                                onTap: () async {
+                                                  // getTrackAndTraceDetails(
+                                                  //     1); //export
+                                                }),
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 10),
+                            ]),
+                      ),
+                    ),
+                  ),
+            isLoading
+                ? Center(
+                    child: Container(
+                        height: 100,
+                        width: 100,
+                        child: CircularProgressIndicator()))
+                : Expanded(
+                    child: Stack(
+                    children: [
+                      Container(
+                        child: SingleChildScrollView(
+                          // padding: EdgeInsets.only(bottom: 64),
+                          child: Column(
+                            children: [
+                              searchedList.isNotEmpty ||
+                                      (mawbPrefixController.text.isNotEmpty ||
+                                          mawbPrefixController.text.isNotEmpty)
+                                  ? Padding(
+                                      padding: useMobileLayout
+                                          ? const EdgeInsets.only(bottom: 60.0)
+                                          : const EdgeInsets.only(bottom: 80.0),
+                                      child: ListView.builder(
+                                        padding: EdgeInsets.zero,
+                                        shrinkWrap: true,
+                                        itemCount: searchedList.length,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          ListingDetails ListItem =
+                                              searchedList.elementAt(index);
+                                          return mawbListItem(
+                                              context, ListItem, index);
+                                        },
+                                      ),
+                                    )
+                                  : Padding(
+                                      padding: useMobileLayout
+                                          ? const EdgeInsets.only(bottom: 60.0)
+                                          : const EdgeInsets.only(bottom: 80.0),
+                                      child: ListView.builder(
+                                        padding: EdgeInsets.zero,
+                                        shrinkWrap: true,
+                                        itemCount: ASIMawbListExport.length,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          ListingDetails ListItem =
+                                              ASIMawbListExport.elementAt(
+                                                  index);
+                                          return mawbListItem(
+                                              context, ListItem, index);
+                                        },
+                                      ),
+                                    ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  )),
           ]),
     );
   }
-
-  // onSearchTextChanged(String text) async {
-  //   searchedList.clear();
-  //   if (mawbPrefixController.text.isEmpty && mawbNoController.text.isEmpty) {
-  //     setState(() {});
-  //     return;
-  //   }
-  //   for (var item in assignTruckList) {
-  //     var searchText="${mawbPrefixController.text.trim()}-${mawbNoController.text.trim()}";
-  //     if (item.MAWBNo.contains(searchText)) {
-  //       searchedList.add(item);
-  //     }
-  //   }
-  //   setState(() {});
-  // }
 
   void onSearchTextChanged() {
     String prefix = mawbPrefixController.text.trim();
@@ -736,177 +669,55 @@ class _ASIListingState extends State<ASIListing> {
       });
       return;
     }
-    String searchText = prefix.isEmpty ? suffix : "$prefix-$suffix";
+    // String searchText = prefix.isEmpty
+    //     ? suffix
+    //     : suffix.isEmpty
+    //         ? prefix
+    //         : prefix.isNotEmpty && suffix.isNotEmpty
+    //             ? "$prefix-$suffix"
+    //             : "";
+    //
+    // print(searchText);
+    // setState(() {
+    //   searchedList = docUploadList
+    //       .where((item) => item.MAWBNo.contains(searchText))
+    //       .toList();
+    // });
+
     setState(() {
-      searchedList = ASIMawbListExport
-          .where((item) => item.MAWBNumber.contains(searchText))
-          .toList();
+      searchedList = ASIMawbListExport.where((item) {
+        return prefix.isEmpty
+            ? item.mawbNumber.contains(suffix)
+            : suffix.isEmpty
+                ? item.mawbNumber.contains(prefix)
+                : prefix.isNotEmpty && suffix.isNotEmpty
+                    ? item.mawbNumber.contains(suffix) &&
+                        item.mawbNumber.contains(prefix)
+                    : false;
+      }).toList();
     });
   }
 
-  // mawbListItem(
-  //     BuildContext context, ASIDetails asiDetails, index) {
-  //   print("in Mawb ASI list");
-  //   return GestureDetector(
-  //     onLongPress: () {
-  //       setState(() {
-  //         asiDetails.isSelected = !asiDetails.isSelected!;
-  //       });
-  //     },
-  //     child: Card(
-  //       elevation: 3,
-  //       margin: useMobileLayout
-  //           ? EdgeInsets.all(8)
-  //           : EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-  //       // color: asiDetails.isSelected!?Colors.blue:Colors.white,
-  //       shape: RoundedRectangleBorder(
-  //         borderRadius: BorderRadius.circular(4.0),
-  //         side: BorderSide(
-  //           color: asiDetails.isSelected ?? false
-  //               ? Color(0xFF11249F)
-  //               : Colors.transparent,
-  //           width: 2.0,
-  //         ),
-  //       ),
-  //       child: Padding(
-  //         padding: const EdgeInsets.all(8.0),
-  //         child: Column(
-  //           mainAxisAlignment: MainAxisAlignment.start,
-  //           crossAxisAlignment: CrossAxisAlignment.start,
-  //           children: [
-  //             Row(
-  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //               crossAxisAlignment: CrossAxisAlignment.start,
-  //               children: [
-  //                 SizedBox(
-  //                   width: MediaQuery.of(context).size.width / 2.0,
-  //                   // height: 70,
-  //                   // color: Colors.red,
-  //                   child: Text(
-  //                     asiDetails.MAWBNumber,
-  //                     style: useMobileLayout
-  //                         ? mobileGroupHeaderFontStyleBold
-  //                         : iPadGroupHeaderFontStyleBold,
-  //                   ),
-  //                 ),
-  //               ],
-  //             ),
-  //             // SizedBox(height: 2),
-  //             SizedBox(height: useMobileLayout ? 6 : 18),
+  // void onSearchTextChanged() {
+  //   String prefix = mawbPrefixController.text.trim();
+  //   String suffix = mawbNoController.text.trim();
   //
-  //             Row(
-  //               mainAxisAlignment: MainAxisAlignment.start,
-  //               crossAxisAlignment: CrossAxisAlignment.start,
-  //               children: [
-  //                 SizedBox(
-  //                   width: useMobileLayout
-  //                       ? MediaQuery.of(context).size.width / 1.7
-  //                       : MediaQuery.of(context).size.width / 1.5,
-  //                   child: Column(
-  //                     mainAxisAlignment: MainAxisAlignment.start,
-  //                     crossAxisAlignment: CrossAxisAlignment.start,
-  //                     children: [
-  //                       Text(
-  //                         " ${asiDetails.MAWBNumber}",
-  //                         style: useMobileLayout
-  //                             ? VTlistTextFontStyle
-  //                             : iPadcompletedBlackText,
-  //                       ),
+  //   setState(() {
+  //     if (prefix.isEmpty && suffix.isEmpty) {
+  //       searchedList.clear();
+  //     } else {
+  //       searchedList = ASIMawbListExport.where((item) {
   //
-  //                       Text(
-  //                         " ${asiDetails.MAWBNumber}",
-  //                         style: useMobileLayout
-  //                             ? VTlistTextFontStyle
-  //                             : iPadcompletedBlackText,
-  //                         textAlign: TextAlign.left,
-  //                         // softWrap: true,
-  //                         // maxLines: 3,
-  //                       ),
-  //
-  //                       // SizedBox(
-  //                       //   width: MediaQuery.of(context).size.width / 1.2,
-  //                       //   // height: 70,
-  //                       //   // color: Colors.white,
-  //                       //   child: Padding(
-  //                       //     padding: const EdgeInsets.only(top: 8.0),
-  //                       //     child: Text(
-  //                       //       bawbd.FreightForwarder,
-  //                       //       style: mobileDetailsGridView,
-  //                       //       textAlign: TextAlign.left,
-  //                       //     ),
-  //                       //   ),
-  //                       // ),
-  //                     ],
-  //                   ),
-  //                 ),
-  //                 Container(
-  //                   height: useMobileLayout ? 40 : 50,
-  //                   width: 3,
-  //                   color: Color(0xFF0461AA),
-  //                 ),
-  //                 Padding(
-  //                   padding: const EdgeInsets.only(left: 8.0),
-  //                   child: SizedBox(
-  //                     width: useMobileLayout
-  //                         ? MediaQuery.of(context).size.width / 4.2
-  //                         : MediaQuery.of(context).size.width / 4.6,
-  //                     // height: 70,
-  //                     // color: Colors.white,
-  //                     child: Column(
-  //                       mainAxisAlignment: MainAxisAlignment.start,
-  //                       crossAxisAlignment: CrossAxisAlignment.start,
-  //                       children: [
-  //                         Row(
-  //                           mainAxisAlignment: MainAxisAlignment.start,
-  //                           crossAxisAlignment: CrossAxisAlignment.start,
-  //                           children: [
-  //                             Icon(
-  //                               Icons.calendar_month,
-  //                               size: useMobileLayout ? 16 : 28,
-  //                               color: Color(0xFF11249F),
-  //                             ),
-  //                             //              SizedBox(width: 10),
-  //                             Text(
-  //                               " ${asiDetails.MAWBNumber}",
-  //                               style: useMobileLayout
-  //                                   ? VTlistTextFontStyle
-  //                                   : iPadcompletedBlackText,
-  //                             ),
-  //                           ],
-  //                         ),
-  //                       ],
-  //                     ),
-  //                   ),
-  //                 ),
-  //               ],
-  //             ),
-  //             // Row(
-  //             //   mainAxisAlignment: MainAxisAlignment.start,
-  //             //   crossAxisAlignment: CrossAxisAlignment.start,
-  //             //   children: [
-  //             //     SizedBox(
-  //             //       width: MediaQuery.of(context).size.width / 1.2,
-  //             //       // height: 70,
-  //             //       // color: Colors.white,
-  //             //       child: Padding(
-  //             //         padding: const EdgeInsets.only(top: 8.0),
-  //             //         child: Text(
-  //             //           bawbd.FreightForwarder,
-  //             //           style: mobileDetailsGridView,
-  //             //           textAlign: TextAlign.left,
-  //             //         ),
-  //             //       ),
-  //             //     ),
-  //             //   ],
-  //             // ),
-  //           ],
-  //         ),
-  //       ),
-  //     ),
-  //   );
+  //         List parts = item.mawbNumber.split('-');
+  //         bool prefixMatches = prefix.isEmpty || (parts.length > 0 && parts[0].contains(prefix)); // Check if item prefix contains search prefix
+  //         bool suffixMatches = suffix.isEmpty || (parts.length > 1 && parts[1].contains(suffix)); // Check if item suffix contains search suffix
+  //         return prefixMatches && suffixMatches;
+  //       }).toList();
+  //     }
+  //   });
   // }
 
-  mawbListItem(BuildContext context, ASIDetails asiDetails, index) {
+  mawbListItem(BuildContext context, ListingDetails listDetails, index) {
     return Card(
       elevation: 3,
       margin: useMobileLayout
@@ -928,7 +739,7 @@ class _ASIListingState extends State<ASIListing> {
                   // height: 70,
                   // color: Colors.white,
                   child: Text(
-                    asiDetails.MAWBNumber,
+                    listDetails.mawbNumber,
                     style: useMobileLayout
                         ? mobileGroupHeaderFontStyleBold
                         : iPadGroupHeaderFontStyleBold,
@@ -987,14 +798,14 @@ class _ASIListingState extends State<ASIListing> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Trucking Company Name",
+                        listDetails.truckerName,
                         style: useMobileLayout
                             ? VTlistTextFontStyle
                             : iPadcompletedBlackText,
                       ),
 
                       Text(
-                        "Origin",
+                        listDetails.origin,
                         style: useMobileLayout
                             ? VTlistTextFontStyle
                             : iPadcompletedBlackText,
@@ -1003,7 +814,7 @@ class _ASIListingState extends State<ASIListing> {
                         // maxLines: 3,
                       ),
                       Text(
-                        "Destination",
+                        listDetails.destination,
                         style: useMobileLayout
                             ? VTlistTextFontStyle
                             : iPadcompletedBlackText,
@@ -1034,7 +845,7 @@ class _ASIListingState extends State<ASIListing> {
                   padding: const EdgeInsets.only(left: 8.0),
                   child: SizedBox(
                     width: useMobileLayout
-                        ? MediaQuery.of(context).size.width / 4.2
+                        ? MediaQuery.of(context).size.width / 3.5
                         : MediaQuery.of(context).size.width / 4.6,
                     // height: 70,
                     // color: Colors.white,
@@ -1053,7 +864,7 @@ class _ASIListingState extends State<ASIListing> {
                             ),
                             //              SizedBox(width: 10),
                             Text(
-                              " ${asiDetails.MAWBNumber}",
+                              listDetails.flightDate,
                               style: useMobileLayout
                                   ? VTlistTextFontStyle
                                   : iPadcompletedBlackText,
@@ -1061,15 +872,13 @@ class _ASIListingState extends State<ASIListing> {
                           ],
                         ),
                         Text(
-                          "${asiDetails.MAWBNumber}" + " PCS",
+                          "${listDetails.piecesCount}" + " PCS",
                           style: useMobileLayout
                               ? VTlistTextFontStyle
                               : iPadcompletedBlackText,
                         ),
                         Text(
-                          "${asiDetails.MAWBNumber}" +
-                              " " +
-                              "${asiDetails.MAWBNumber}",
+                          "${listDetails.weight}" + " " + "${listDetails.unit}",
                           style: useMobileLayout
                               ? VTlistTextFontStyle
                               : iPadcompletedBlackText,

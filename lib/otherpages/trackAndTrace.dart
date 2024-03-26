@@ -18,7 +18,8 @@ import '../global.dart';
 import '../widgets/timeline.dart';
 
 class TrackAndTrace extends StatefulWidget {
-  const TrackAndTrace({Key? key}) : super(key: key);
+  final bool isExport;
+  const TrackAndTrace(this.isExport,{Key? key}) : super(key: key);
 
   @override
   State<TrackAndTrace> createState() => _TrackAndTraceState();

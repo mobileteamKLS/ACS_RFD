@@ -47,7 +47,7 @@ class _DashboardsState extends State<Dashboards> {
   var printDate = ""; //DateFormat('dd-MMM-yyyy hh:mm').format(DateTime.now());
   bool useMobileLayout = false;
   late Timer _timer;
-
+  bool isExport=true;
   ThemeColor lightMode = ThemeColor(
     gradient: [
       const Color(0xDDFF0080),
@@ -733,10 +733,11 @@ class _DashboardsState extends State<Dashboards> {
               shadows: lightMode.shadow,
               onToggleCallback: (index) {
                 print(index);
-                // isDarkMode = !isDarkMode;
-                // setState(() {});
-                // changeThemeMode();
-              },
+                  setState(() {
+                    isExport=!isExport;
+                    print(isExport);
+                  });
+                },
             ),
             SizedBox(height: useMobileLayout ? 0 : 24),
             Wrap(
@@ -884,7 +885,7 @@ class _DashboardsState extends State<Dashboards> {
                       "Shipment",
                       ASIListing(),
                       useMobileLayout),
-                if (isFF)
+                if (isFF && isExport)
                   DashboardBlocks(
                       Color(0xFFa8c0ff),
                       Color(0xFF4364F7),
@@ -893,7 +894,7 @@ class _DashboardsState extends State<Dashboards> {
                       "ASI",
                       ASIListing(),
                       useMobileLayout),
-                if (isFF)
+                if (isFF && isExport)
                   DashboardBlocks(
                       Color(0xFFa8c0ff),
                       Color(0xFF4364F7),
@@ -911,10 +912,8 @@ class _DashboardsState extends State<Dashboards> {
                       Icons.file_upload_rounded,
                       "Document",
                       "Upload",
-                      DocumentUpload(),
+                      DocumentUpload(isExport),
                       useMobileLayout),
-
-
 
                 if (isFF)
                   DashboardBlocks(
@@ -924,10 +923,10 @@ class _DashboardsState extends State<Dashboards> {
                       Icons.assignment,
                       "Assign Trucking",
                       "Company ",
-                      AssignTruckingCompany(),
+                      AssignTruckingCompany(isExport),
                       useMobileLayout),
 
-                if (isFF )
+                if (isFF && !isExport)
                   DashboardBlocks(
                       Color(0xFFa8c0ff),
                       Color(0xFF4364F7),
@@ -944,7 +943,7 @@ class _DashboardsState extends State<Dashboards> {
                       Icons.not_listed_location_outlined,
                       "Track &",
                       "Trace",
-                      TrackAndTrace(),
+                      TrackAndTrace(isExport),
                       useMobileLayout),
 
 

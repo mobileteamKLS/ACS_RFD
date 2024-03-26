@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:luxair/datastructure/slotbooking.dart';
 import 'package:luxair/otherpages/newslotbooking.dart';
 import 'package:luxair/widgets/headerclipper.dart';
@@ -26,10 +25,8 @@ class _SlotsListState extends State<SlotsList> {
   String selectedGHA = "";
   int selectedGHAID = 0;
   int totalSelect = 0;
-
   List<AWBDetail> shipmentList = [];
   List<AWBDetail> shipmentListMain = [];
-
   List<AWBDetailImport> shipmentListImport = [];
   List<AWBDetailImport> shipmentListMainImport = [];
 

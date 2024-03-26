@@ -19,7 +19,8 @@ import '../widgets/timeline.dart';
 import 'documentUploadChild.dart';
 
 class DocumentUpload extends StatefulWidget {
-  const DocumentUpload({Key? key}) : super(key: key);
+  final bool isExport;
+  const DocumentUpload( this.isExport, {Key? key}) : super(key: key);
 
   @override
   State<DocumentUpload> createState() => _DocumentUploadState();

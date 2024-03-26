@@ -10,7 +10,8 @@ import '../datastructure/trucker.dart';
 import '../global.dart';
 
 class AssignTruckingCompany extends StatefulWidget {
-  const AssignTruckingCompany({Key? key}) : super(key: key);
+  final bool isExport;
+  const AssignTruckingCompany(this.isExport,{Key? key}) : super(key: key);
 
   @override
   State<AssignTruckingCompany> createState() => _AssignTruckingCompanyState();
@@ -65,9 +66,9 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
       "AirlinePrefix": "0",
       "AwbNumber": "0",
       "HawbNumber": "",
-      "CreatedByUserId": "22438",
-      "OrganizationBranchId": "22462",
-      "OrganizationId": "22426",
+      "CreatedByUserId": "22617",
+      "OrganizationBranchId": "22642",
+      "OrganizationId": "22597",
       "AWBID": 0,
       "SBID": 0
     };
@@ -387,8 +388,8 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                               GestureDetector(
                                 child: DeleteScanContainerButton(),
                                 onTap: () async {
-                                  mawbPrefixController.text="";
-                                  mawbNoController.text="";
+                                  mawbPrefixController.text = "";
+                                  mawbNoController.text = "";
                                 },
                               )
                             ]),
@@ -649,7 +650,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                           // padding: EdgeInsets.only(bottom: 64),
                           child: Column(
                             children: [
-                              searchedList.isNotEmpty &&
+                              searchedList.isNotEmpty ||
                                       (mawbPrefixController.text.isNotEmpty ||
                                           mawbPrefixController.text.isNotEmpty)
                                   ? Padding(
@@ -780,29 +781,54 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
       }
     });
   }
+
   void onSearchTextChanged() {
     String prefix = mawbPrefixController.text.trim();
     String suffix = mawbNoController.text.trim();
-
-    setState(() {
-      if (prefix.isEmpty && suffix.isEmpty) {
+    if (prefix.isEmpty && suffix.isEmpty) {
+      setState(() {
         searchedList.clear();
-      } else {
-        searchedList = assignTruckList.where((item) {
-          List parts = item.mawbNumber.split('-');
-          bool prefixMatches = prefix.isEmpty ||
-              (parts.length > 0 &&
-                  parts[0].contains(
-                      prefix)); // Check if item prefix contains search prefix
-          bool suffixMatches = suffix.isEmpty ||
-              (parts.length > 1 &&
-                  parts[1].contains(
-                      suffix)); // Check if item suffix contains search suffix
-          return prefixMatches && suffixMatches;
-        }).toList();
-      }
+      });
+      return;
+    }
+    setState(() {
+      searchedList = assignTruckList.where((item) {
+        return prefix.isEmpty
+            ? item.mawbNumber.contains(suffix)
+            : suffix.isEmpty
+                ? item.mawbNumber.contains(prefix)
+                : prefix.isNotEmpty && suffix.isNotEmpty
+                    ? item.mawbNumber.contains(suffix) &&
+                        item.mawbNumber.contains(prefix)
+                    : false;
+      }).toList();
     });
   }
+
+  // void onSearchTextChanged() {
+  //   String prefix = mawbPrefixController.text.trim();
+  //   String suffix = mawbNoController.text.trim();
+  //
+  //   setState(() {
+  //     if (prefix.isEmpty && suffix.isEmpty) {
+  //       searchedList.clear();
+  //     } else {
+  //       searchedList = assignTruckList.where((item) {
+  //         List parts = item.mawbNumber.split('-');
+  //         bool prefixMatches = prefix.isEmpty ||
+  //             (parts.length > 0 &&
+  //                 parts[0].contains(
+  //                     prefix)); // Check if item prefix contains search prefix
+  //         bool suffixMatches = suffix.isEmpty ||
+  //             (parts.length > 1 &&
+  //                 parts[1].contains(
+  //                     suffix)); // Check if item suffix contains search suffix
+  //         print("----${parts[0]}-${parts[1]}----");
+  //         return prefixMatches && suffixMatches;
+  //       }).toList();
+  //     }
+  //   });
+  // }
 
   mawbListItem(BuildContext context, ListingDetails assignTruckDetails, index,
       isSelected) {
