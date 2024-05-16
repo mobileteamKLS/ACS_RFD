@@ -19,7 +19,8 @@ import '../widgets/timeline.dart';
 
 class TrackAndTrace extends StatefulWidget {
   final bool isExport;
-  const TrackAndTrace(this.isExport,{Key? key}) : super(key: key);
+
+  const TrackAndTrace(this.isExport, {Key? key}) : super(key: key);
 
   @override
   State<TrackAndTrace> createState() => _TrackAndTraceState();
@@ -90,15 +91,15 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
     super.initState();
     dateInputSB.text = "";
     dateInputBOE.text = "";
-    _controllerModeType.addListener(() {
-      setState(() {
-        if (_controllerModeType.value) {
-          isImport = true;
-        } else {
-          isImport = false;
-        }
-      });
-    });
+    // _controllerModeType.addListener(() {
+    //   setState(() {
+    //     if (_controllerModeType.value) {
+    //       isImport = true;
+    //     } else {
+    //       isImport = false;
+    //     }
+    //   });
+    // });
   }
 
   getTrackAndTraceDetails(modeType) async {
@@ -291,7 +292,7 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                           ),
                           SizedBox(height: 10),
                           trackingType == 0
-                              ? isImport
+                              ? !widget.isExport
                                   ? Column(
                                       children: [
                                         Row(children: [
@@ -697,7 +698,7 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                       )
                                     ])
                               : trackingType == 1
-                                  ? isImport
+                                  ? !widget.isExport
                                       ? Column(
                                           children: [
                                             Row(children: [
@@ -1605,7 +1606,7 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                 ],
                               ),
                               trackingType == 0
-                                  ? isImport
+                                  ? !widget.isExport
                                       ? Column(
                                           children: [
                                             Column(
@@ -2097,7 +2098,7 @@ class _TrackAndTraceState extends State<TrackAndTrace> {
                                           ],
                                         )
                                   : trackingType == 1
-                                      ? isImport
+                                      ? !widget.isExport
                                           ? Column(
                                               children: [
                                                 Column(

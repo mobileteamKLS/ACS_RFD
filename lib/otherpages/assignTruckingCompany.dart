@@ -13,7 +13,8 @@ import '../global.dart';
 
 class AssignTruckingCompany extends StatefulWidget {
   final bool isExport;
-  const AssignTruckingCompany(this.isExport,{Key? key}) : super(key: key);
+
+  const AssignTruckingCompany(this.isExport, {Key? key}) : super(key: key);
 
   @override
   State<AssignTruckingCompany> createState() => _AssignTruckingCompanyState();
@@ -47,6 +48,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
       print("AssignTrucker");
     } else {
       getAssignedNotAssignedList(2); //UnassignTrucker
+
       print("UnassignTrucker");
     }
     super.initState();
@@ -99,6 +101,56 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
       });
       print(onError);
     });
+  }
+
+  void selectTruckerDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        String? selectedItem = 'Option 1';
+        List<String> items = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
+        return AlertDialog(
+          title: Text('Select an option'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              DropdownButton<String>(
+                value: selectedItem,
+                items: items.map((String item) {
+                  return DropdownMenuItem<String>(
+                    value: item,
+                    child: Text(item),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  if (newValue != null) {
+                    selectedItem = newValue;
+                  }
+                },
+              ),
+            ],
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                // Handle the selected item here
+                if (selectedItem != null) {
+                  print('Selected item: $selectedItem');
+                }
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -268,11 +320,13 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                                     truckingAssigned = index!;
                                     if (truckingAssigned == 0) {
                                       getAssignedNotAssignedList(
+
                                           1); //AssignTrucker
                                       print("AssignTrucker");
                                     } else {
                                       getAssignedNotAssignedList(
                                           2); //UnassignTrucker
+
                                       print("UnassignTrucker");
                                     }
                                   });
@@ -395,8 +449,98 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                               )
                             ]),
                             SizedBox(
-                              height: 5,
+                              height: 2,
                             ),
+                            truckingAssigned == 0
+                                ? Row(children: [
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          3.4,
+                                      child: Text("Assign Trucker",
+                                          style: mobileHeaderFontStyle),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                1.7, // hard coding child width
+                                        child: Container(
+                                          height: 40,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              2.4,
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color:
+                                                  Colors.grey.withOpacity(0.5),
+                                              width: 1.0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(4.0),
+                                          ),
+                                          child: DropdownButtonHideUnderline(
+                                            child: Container(
+                                              constraints:
+                                                  BoxConstraints(minHeight: 50),
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    color: Colors.grey,
+                                                    width: 0.2),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(5)),
+                                                color: Colors.white,
+                                              ),
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 10),
+                                              child: DropdownButton(
+                                                value: dropdownValue,
+                                                onChanged: (String? newValue) {
+                                                  setState(() {
+                                                    dropdownValue = newValue!;
+                                                  });
+                                                },
+                                                items: [
+                                                  "Select",
+                                                  "Two",
+                                                  "Three",
+                                                ]
+                                                    .map((String value) =>
+                                                        DropdownMenuItem(
+                                                          value: value,
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Text(
+                                                                value,
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: 14,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                  color: Colors
+                                                                      .black,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ))
+                                                    .toList(),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ])
+                                : SizedBox(),
                           ],
                         ),
                       ),
@@ -744,7 +888,12 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                               width: 16,
                             ),
                             ElevatedButton(
-                              onPressed: () async {
+
+//                               onPressed: () {
+//                                 selectTruckerDialog(context);
+//                               },
+
+                             onPressed: () async {
                                 // showSuccessMessage();
                                 var submitAssign = await UnassignTrucker();
                                 if (submitAssign == true) {
