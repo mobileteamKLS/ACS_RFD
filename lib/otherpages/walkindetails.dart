@@ -2936,7 +2936,6 @@ class _WalkInAwbDetailsState extends State<WalkInAwbDetails> {
       ),
     );
   }
-
   saveData() async {
     try {
       // return true;

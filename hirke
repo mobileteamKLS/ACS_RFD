@@ -1,0 +1,159 @@
+[33mcommit 6a45a1da2fb064debbf40f2432c981b2579d958b[m[33m ([m[1;36mHEAD -> [m[1;32mPriyanka_18March[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmaster[m[33m)[m
+Merge: 45136ea fa1958c
+Author: mobileteamKLS <154430239+mobileteamKLS@users.noreply.github.com>
+Date:   Tue Mar 26 14:18:22 2024 +0530
+
+    Merge pull request #5 from mobileteamKLS/prasad_19FEB
+    
+    PR for adding AST and MAWB ASI
+
+[33mcommit fa1958cfd2a1cfbae873c9dfa717975a9363ff44[m
+Author: mobileteamKLS <154430239+mobileteamKLS@users.noreply.github.com>
+Date:   Tue Mar 26 14:12:26 2024 +0530
+
+    MAWB ASI and ATC api consumed
+
+[33mcommit d7398b02f75a0eba473b55bac920d6d746f6b205[m
+Merge: 37eb261 2618354
+Author: mobileteamKLS <154430239+mobileteamKLS@users.noreply.github.com>
+Date:   Mon Mar 18 15:42:29 2024 +0530
+
+    merged priyanka's branch
+
+[33mcommit 26183546650ae381a3e1b4be1205945618b31c3d[m
+Merge: 6c3340e 45136ea
+Author: mobileteamKLS <154430239+mobileteamKLS@users.noreply.github.com>
+Date:   Mon Mar 18 15:33:02 2024 +0530
+
+    Merge branch 'master' of https://github.com/mobileteamKLS/ACS_LUX
+
+[33mcommit 45136eae9d414eac0bd7ce4d5a2911f09cde40b9[m
+Merge: e1689b7 3112423
+Author: mobileteamKLS <154430239+mobileteamKLS@users.noreply.github.com>
+Date:   Mon Mar 18 15:32:33 2024 +0530
+
+    Merge pull request #4 from mobileteamKLS/Priyanka_18March
+    
+    Priyanka 18 march
+
+[33mcommit 37eb2619f01b46d0dae3986fef379e9783eaba33[m
+Author: mobileteamKLS <154430239+mobileteamKLS@users.noreply.github.com>
+Date:   Mon Mar 18 14:21:05 2024 +0530
+
+    Assign Trucker API consumed
+
+[33mcommit 311242370d3fb96eaf0e4b31e27f11a403d17d15[m[33m ([m[1;31morigin/Priyanka_18March[m[33m)[m
+Author: PriyankaRaje <priyanka.rajeshirke@kalelogistics.com>
+Date:   Mon Mar 18 11:30:47 2024 +0530
+
+    added ASI
+
+[33mcommit 3c894b6e6af491943a21b9b03c395ac04c4f7182[m
+Author: PriyankaRaje <priyanka.rajeshirke@kalelogistics.com>
+Date:   Mon Mar 18 11:26:29 2024 +0530
+
+    added ASI list
+
+[33mcommit 6c3340e3969407f4d5900c71c13b18edc49efb0f[m
+Merge: c72764e e1689b7
+Author: mobileteamKLS <154430239+mobileteamKLS@users.noreply.github.com>
+Date:   Mon Feb 26 12:09:13 2024 +0530
+
+    Merge branch 'master' of https://github.com/mobileteamKLS/ACS_LUX
+
+[33mcommit e1689b708a7ea4f3354edb473b8456162feedb40[m
+Merge: 3806a60 232755c
+Author: mobileteamKLS <154430239+mobileteamKLS@users.noreply.github.com>
+Date:   Fri Feb 23 12:12:41 2024 +0530
+
+    Merge pull request #3 from mobileteamKLS/prasad_19FEB
+    
+    Prasad 19 feb
+
+[33mcommit 232755cde09eb3f93ae51434e44b6989e4cbbdb2[m[33m ([m[1;31morigin/prasad_19FEB[m[33m)[m
+Author: mobileteamKLS <154430239+mobileteamKLS@users.noreply.github.com>
+Date:   Fri Feb 23 11:14:11 2024 +0530
+
+    added stack widget on assign trucking screen
+
+[33mcommit 72840dfe03c2a7c974c2db07316e314c54f0bf3e[m
+Author: mobileteamKLS <154430239+mobileteamKLS@users.noreply.github.com>
+Date:   Tue Feb 20 11:05:31 2024 +0530
+
+    added new API and configured for GHA and Trucker
+
+[33mcommit 95fd7ed1ee32b34bae3dd8227a3118bb51ad7e90[m
+Author: mobileteamKLS <154430239+mobileteamKLS@users.noreply.github.com>
+Date:   Mon Feb 19 15:39:09 2024 +0530
+
+    COD 19FEB
+
+[33mcommit ce3b6ad6fec382484eb2d31bbf12c7edc0fa9be7[m[33m ([m[1;31morigin/prasad_21Dec23[m[33m)[m
+Author: mobileteamKLS <154430239+mobileteamKLS@users.noreply.github.com>
+Date:   Fri Feb 2 17:04:57 2024 +0530
+
+    improved ipad screen
+
+[33mcommit 3806a608d73b7b17567205933e95bd2c0531bc23[m
+Author: mobileteamKLS <154430239+mobileteamKLS@users.noreply.github.com>
+Date:   Wed Jan 24 15:12:20 2024 +0530
+
+    Update README.md
+
+[33mcommit f47676431157e05eab6d195c013d3ecd95ef4ff5[m
+Author: PrasadMore1 <prasad.more@kalelogistics.com>
+Date:   Wed Jan 17 12:09:23 2024 +0530
+
+    added timeline and cleaned the UI
+
+[33mcommit c6b921cd91982e41ceb2ce213a1896ca827ffff4[m
+Merge: d04c721 2f0084c
+Author: mobileteamKLS <154430239+mobileteamKLS@users.noreply.github.com>
+Date:   Fri Jan 12 15:37:52 2024 +0530
+
+    Merge pull request #1 from mobileteamKLS/prasad_21Dec23
+    
+    Pull Request for Adding Track & Trace screen
+
+[33mcommit 2f0084c31c7d77e29da239d0cc321d7e2c2cbded[m
+Author: PrasadMore1 <prasad.more@kalelogistics.com>
+Date:   Fri Jan 12 15:33:43 2024 +0530
+
+    added CB and Airline login
+
+[33mcommit 0556673a266e9cf754fdca1e78f9e540c53be751[m
+Author: PrasadMore1 <prasad.more@Kalelogistics.com>
+Date:   Fri Dec 22 10:28:03 2023 +0530
+
+    Track And Trace screen was added
+
+[33mcommit c72764ec44de45512e7d3b02ed174597293f3f5e[m
+Merge: f53a934 d04c721
+Author: PrasadMore1 <prasad.more@Kalelogistics.com>
+Date:   Thu Dec 21 14:34:44 2023 +0530
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit d04c7212424a544cc1e6a2550b5cc398bb639932[m
+Author: mobileteamKLS <154430239+mobileteamKLS@users.noreply.github.com>
+Date:   Thu Dec 21 14:32:31 2023 +0530
+
+    Update README.md
+
+[33mcommit f53a934a2f7ea10204cfff39ebb54afa8a25851c[m
+Author: PrasadMore1 <prasad.more@Kalelogistics.com>
+Date:   Thu Dec 21 14:11:48 2023 +0530
+
+    21_Dec modified pubspeclock file
+
+[33mcommit e4292ae60a27d341f8ce665893c9600bc3459bd3[m
+Author: PrasadMore1 <Prasad.More@Kalelogistics.com>
+Date:   Thu Dec 14 11:21:42 2023 +0530
+
+    camera package was updated
+
+[33mcommit c6924ee43b779a165d726eadf12fcf4bc6e83125[m
+Author: prasad-more-12 <prsadmore012@gmail.com>
+Date:   Tue Dec 12 18:06:17 2023 +0530
+
+    First commit of LUX project
