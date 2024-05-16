@@ -298,7 +298,8 @@ const iPadToggleTextFontStyleWhite = TextStyle(
 class Settings {
   //19 FEB
   static  String ACSServiceURL =
-      "https://acstsmdemo.kalelogistics.com/ACS_TSM_RFD_HHT_Services/srvMobile.asmx";
+      // "https://acstsmdemo.kalelogistics.com/ACS_TSM_RFD_HHT_Services/srvMobile.asmx";
+         "https://acstsmdemo.kalelogistics.com/ACS_TSM_PHLINT_HHT_Services/srvMobile.asmx";
 
   static const String ACSServiceImageURL =
       'https://acsdemoservice.kalelogistics.com/';
@@ -428,5 +429,7 @@ class Settings {
         "/GetImportBookedSlotList", // get list of booked slots import
     "ListingPageExport":
     "/ACS_Exp_ListingPage",
+    "GetAssignTruckerAWBList":"/GetAssignTruckerAWBList",
+    "SaveAssignUnAssignTrucker":"/SaveAssignUnAssignTrucker",
   };
 }

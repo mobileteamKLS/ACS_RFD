@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:luxair/widgets/common.dart';
+import 'package:luxair/widgets/customdialogue.dart';
 import 'package:luxair/widgets/headerclipper.dart';
 import '../constants.dart';
 import '../datastructure/trucker.dart';
+import 'package:luxair/dashboards/dashboard.dart';
 import '../global.dart';
 
 class AssignTruckingCompany extends StatefulWidget {
@@ -23,16 +25,18 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
   String scannedCodeReceived = "", selectedSlotDate = "";
   bool useMobileLayout = false;
   int truckingAssigned = 0;
+
   String dropdownValue = 'Select';
   TextEditingController mawbPrefixController = TextEditingController();
   TextEditingController mawbNoController = TextEditingController();
   FocusNode mawbPrefixFocusNode = FocusNode();
   FocusNode mawbNoFocusNode = FocusNode();
+  bool isSavingData = false;
   bool isLoading = false;
   TextEditingController txtVTNO = new TextEditingController();
   Set<int> _selectedIndices = {};
-  List<ListingDetails> searchedList = [];
-  List<ListingDetails> assignTruckList = [];
+  List<ListingAssignTruckingDetails> searchedList = [];
+  List<ListingAssignTruckingDetails> assignTruckList = [];
 
   // List<bool> isSelected = [true, false, false];
 
@@ -40,10 +44,11 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
   void initState() {
     dateInput.text = "";
     if (truckingAssigned == 0) {
-      getAssignedNotAssignedList(5); //AssignTrucker
+      getAssignedNotAssignedList(1); //AssignTrucker
       print("AssignTrucker");
     } else {
-      getAssignedNotAssignedList(4); //UnassignTrucker
+      getAssignedNotAssignedList(2); //UnassignTrucker
+
       print("UnassignTrucker");
     }
     super.initState();
@@ -63,19 +68,16 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
       isLoading = true;
     });
     var queryParams = {
-      "OperationType": operationType.toString(), // "",
-      "AirlinePrefix": "0",
-      "AwbNumber": "0",
-      "HawbNumber": "",
-      "CreatedByUserId": "22617",
-      "OrganizationBranchId": "22642",
-      "OrganizationId": "22597",
-      "AWBID": 0,
-      "SBID": 0
+      "OperationType": operationType.toString(),
+      "Mode":"E",
+      "CreatedByUserId": "82851",
+      "OrganizationBranchId": "72830",
+      "OrganizationId": "72783",
+
     };
     await Global()
         .postData(
-      Settings.SERVICES['ListingPageExport'],
+      Settings.SERVICES['GetAssignTruckerAWBList'],
       queryParams,
     )
         .then((response) {
@@ -85,7 +87,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
       var msg = json.decode(response.body)['d'];
       var resp = json.decode(msg).cast<Map<String, dynamic>>();
       assignTruckList = resp
-          .map<ListingDetails>((json) => ListingDetails.fromJson(json))
+          .map<ListingAssignTruckingDetails>((json) => ListingAssignTruckingDetails.fromJson(json))
           .toList();
 
       print("length dockInOutVTListExport = " +
@@ -318,11 +320,13 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                                     truckingAssigned = index!;
                                     if (truckingAssigned == 0) {
                                       getAssignedNotAssignedList(
-                                          5); //AssignTrucker
+
+                                          1); //AssignTrucker
                                       print("AssignTrucker");
                                     } else {
                                       getAssignedNotAssignedList(
-                                          4); //UnassignTrucker
+                                          2); //UnassignTrucker
+
                                       print("UnassignTrucker");
                                     }
                                   });
@@ -805,7 +809,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                                         physics: NeverScrollableScrollPhysics(),
                                         itemBuilder:
                                             (BuildContext context, int index) {
-                                          ListingDetails docListItem =
+                                              ListingAssignTruckingDetails docListItem =
                                               searchedList.elementAt(index);
                                           final isSelected =
                                               _selectedIndices.contains(index);
@@ -825,7 +829,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                                         physics: NeverScrollableScrollPhysics(),
                                         itemBuilder:
                                             (BuildContext context, int index) {
-                                          ListingDetails docListItem =
+                                              ListingAssignTruckingDetails docListItem =
                                               assignTruckList.elementAt(index);
                                           final isSelected =
                                               _selectedIndices.contains(index);
@@ -846,7 +850,13 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Dashboards()),
+                                );
+                              },
                               style: ButtonStyle(
                                 foregroundColor: MaterialStateProperty.all(
                                     const Color.fromARGB(255, 1, 36, 159)),
@@ -863,7 +873,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                               ),
                               child: SizedBox(
                                 width: useMobileLayout
-                                    ? MediaQuery.of(context).size.width / 2.8
+                                    ? MediaQuery.of(context).size.width / 3.2
                                     : MediaQuery.of(context).size.width / 3.8,
                                 height: useMobileLayout ? 38 : 48,
                                 child: Center(
@@ -878,9 +888,35 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                               width: 16,
                             ),
                             ElevatedButton(
-                              onPressed: () {
-                                selectTruckerDialog(context);
+
+//                               onPressed: () {
+//                                 selectTruckerDialog(context);
+//                               },
+
+                             onPressed: () async {
+                                // showSuccessMessage();
+                                var submitAssign = await UnassignTrucker();
+                                if (submitAssign == true) {
+                                  var dlgstatus = await showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        CustomDialog(
+                                          title: "Message",
+                                          description: "Shipment assigned successfully",
+                                          buttonText: "Okay",
+                                          imagepath: 'assets/images/successchk.gif',
+                                          isMobile: useMobileLayout,
+                                        ),
+                                  );
+
+
+                                  if (dlgstatus == true) {
+                                    Navigator.of(context)
+                                        .pop(true); // To close the form
+                                  }
+                                }
                               },
+
                               style: ButtonStyle(
                                 foregroundColor: MaterialStateProperty.all(
                                     const Color.fromARGB(255, 255, 255, 255)),
@@ -895,12 +931,12 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                               ),
                               child: SizedBox(
                                 width: useMobileLayout
-                                    ? MediaQuery.of(context).size.width / 2.8
+                                    ? MediaQuery.of(context).size.width / 3.2
                                     : MediaQuery.of(context).size.width / 3.8,
                                 height: useMobileLayout ? 38 : 48,
                                 child: Center(
                                   child: const Text(
-                                    "Save",
+                                    "Assign Trucker",
                                     style: TextStyle(fontSize: 18),
                                   ),
                                 ),
@@ -973,7 +1009,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
   //   });
   // }
 
-  mawbListItem(BuildContext context, ListingDetails assignTruckDetails, index,
+  mawbListItem(BuildContext context, ListingAssignTruckingDetails assignTruckDetails, index,
       isSelected) {
     return GestureDetector(
       onLongPress: () => _onItemTap(index),
@@ -1005,7 +1041,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                     // height: 70,
                     // color: Colors.red,
                     child: Text(
-                      assignTruckDetails.mawbNumber,
+                      assignTruckDetails.prefix + "-" + assignTruckDetails.mawbNumber,
                       style: useMobileLayout
                           ? mobileGroupHeaderFontStyleBold
                           : iPadGroupHeaderFontStyleBold,
@@ -1028,14 +1064,14 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          " ${assignTruckDetails.sbNumber}",
+                          " ${assignTruckDetails.ITNNo}",
                           style: useMobileLayout
                               ? VTlistTextFontStyle
                               : iPadcompletedBlackText,
                         ),
 
                         Text(
-                          " ${assignTruckDetails.truckerName}",
+                          " ${assignTruckDetails.truckingCompany}",
                           style: useMobileLayout
                               ? VTlistTextFontStyle
                               : iPadcompletedBlackText,
@@ -1088,7 +1124,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                               ),
                               //              SizedBox(width: 10),
                               Text(
-                                " ${assignTruckDetails.flightDate}",
+                                " ${assignTruckDetails.ITNDate}",
                                 style: useMobileLayout
                                     ? VTlistTextFontStyle
                                     : iPadcompletedBlackText,
@@ -1109,7 +1145,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
               //       width: MediaQuery.of(context).size.width / 1.2,
               //       // height: 70,
               //       // color: Colors.white,
-              //       child: Padding(
+              //       child: Padding(F
               //         padding: const EdgeInsets.only(top: 8.0),
               //         child: Text(
               //           bawbd.FreightForwarder,
@@ -1125,5 +1161,84 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
         ),
       ),
     );
+  }
+}
+
+//
+Future<bool> UnassignTrucker() async {
+  try {
+    bool isValid = false;
+
+    // setState(() {
+    //   isSavingData = true;
+    // });
+
+    var queryParams = {
+      "OperationType": "3",
+      "Mode":"E",
+      "CreatedByUserId": loggedinUser.CreatedByUserId,
+      "OrganizationBranchId": loggedinUser.OrganizationBranchId,
+      "OrganizationId": loggedinUser.OrganizationId,
+      "TruckerData":[{"AWBID": 175951  ,"ParentId": "72830", "ChildId": "0", "CreatedById": 82851},{"AWBID": 175950  ,"ParentId": "72830", "ChildId": "0", "CreatedById": 82851}]
+    };
+
+
+    await Global()
+        .postData(
+      Settings.SERVICES['UpdateVT'],
+      queryParams,
+    )
+        .then((response) {
+      print("data received ");
+      print(json.decode(response.body)['d']);
+      // isValid = true;
+
+      if (json.decode(response.body)['d'] == null) {
+        isValid = true;
+      } else {
+        if (json.decode(response.body)['d'] == "null") {
+          isValid = true;
+        } else {
+          if (json.decode(response.body)['d'] == "") {
+            isValid = true;
+          } else {
+            var responseText = json.decode(response.body)['d'].toString();
+
+            if (responseText.toLowerCase().contains("errormsg")) {
+              // responseTextUpdated =
+              //     responseText.toString().replaceAll("ErrorMSG", "");
+              // responseTextUpdated =
+              //     responseTextUpdated.toString().replaceAll(":", "");
+              // responseTextUpdated =
+              //     responseTextUpdated.toString().replaceAll("\"", "");
+              // responseTextUpdated =
+              //     responseTextUpdated.toString().replaceAll("{", "");
+              // responseTextUpdated =
+              //     responseTextUpdated.toString().replaceAll("}", "");
+              // print(responseTextUpdated.toString());
+            }
+            // print(responseText.toString().replaceAll("ErrorMSG", ""));
+            // print(responseText.toString().replaceAll(":", ""));
+            // print(responseText.toString().replaceAll("\"", ""));
+
+            isValid = false;
+          }
+        }
+      }
+
+      // setState(() {
+      //   isSavingData = false;
+      //
+      // });
+    }).catchError((onError) {
+      // setState(() {
+      //   isSavingData = false;
+      // });
+      print(onError);
+    });
+    return isValid;
+  } catch (Exc) {
+    print(Exc);
+    return false;
   }
 }
