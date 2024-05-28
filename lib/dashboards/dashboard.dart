@@ -46,8 +46,8 @@ class Dashboards extends StatefulWidget {
 class _DashboardsState extends State<Dashboards> {
   var printDate = ""; //DateFormat('dd-MMM-yyyy hh:mm').format(DateTime.now());
   bool useMobileLayout = false;
+  bool isExport = true;
   late Timer _timer;
-  bool isExport=true;
   ThemeColor lightMode = ThemeColor(
     gradient: [
       const Color(0xDDFF0080),

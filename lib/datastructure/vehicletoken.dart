@@ -720,3 +720,27 @@ class LableDisplay {
     return map;
   }
 }
+
+class AssignTrucker {
+  final int branchId;
+  final String name;
+
+  AssignTrucker({
+    required this.branchId,
+    required this.name,
+  });
+
+  factory AssignTrucker.fromJson(Map<String, dynamic> json) {
+    return AssignTrucker(
+      branchId: json['OrganizationBranchId'] == null ? "" : json['OrganizationBranchId'],
+      name: json['Name'] == null ? 0 : json['Name'],
+    );
+  }
+
+  Map toMap() {
+    var map = new Map<String, dynamic>();
+    map["OrganizationBranchId"] = branchId;
+    map["Name"] = name;
+    return map;
+  }
+}
