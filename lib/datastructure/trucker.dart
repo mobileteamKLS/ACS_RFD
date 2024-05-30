@@ -85,11 +85,11 @@ class ListingDetails {
 class ListingAssignTruckingDetails {
   String mawbNumber;
   String prefix;
-  int nop;
-  double grwt;
-  String unit;
-  String ffName;
-  String hawbNo;
+  // int nop;
+  // double grwt;
+  // String unit;
+  // String ffName;
+  // String hawbNo;
   String truckingCompany;
   String ITNNo;
   String ITNDate;
@@ -103,11 +103,11 @@ class ListingAssignTruckingDetails {
   ListingAssignTruckingDetails({
     required this.mawbNumber,
     required this.prefix,
-    required this.nop,
-    required this.grwt,
-    required this.unit,
-    required this.ffName,
-    required this.hawbNo,
+    // required this.nop,
+    // required this.grwt,
+    // required this.unit,
+    // required this.ffName,
+    // required this.hawbNo,
     required this.truckingCompany,
     required this.ITNNo,
     required this.ITNDate,
@@ -122,11 +122,11 @@ class ListingAssignTruckingDetails {
     return ListingAssignTruckingDetails(
       mawbNumber: json["MAWBNumber"]== null ? "" :json["MAWBNumber"],
       prefix: json["AirlinePrefix"]== null ? "" :json["AirlinePrefix"],
-      nop: json["SBNOP"]== null ? "" :json["SBNOP"],
-      grwt: json["SBNGrWt"]== null ? "" :json["SBNGrWt"],
-      unit: json["SBUnit"]== null ? "" :json["SBUnit"],
-      ffName: json["FFName"]== null ? "" :json["FFName"],
-      hawbNo: json["HAWBNo"]== null ? "" :json["HAWBNo"],
+      // nop: json["SBNOP"]== null ? "" :json["SBNOP"],
+      // grwt: json["SBNGrWt"]== null ? "" :json["SBNGrWt"],
+      // unit: json["SBUnit"]== null ? "" :json["SBUnit"],
+      // ffName: json["FFName"]== null ? "" :json["FFName"],
+      // hawbNo: json["HAWBNo"]== null ? "" :json["HAWBNo"],
       truckingCompany: json["TruckingCompany"]== "" ? "" :json["TruckingCompany"],
       ITNNo: json["ITN No"]== null ? "" :json["ITN No"],
       ITNDate: json["ITN Date"]== null ? "" :json["ITN Date"],
@@ -142,11 +142,11 @@ class ListingAssignTruckingDetails {
   Map<String, dynamic> toMap() => {
     "MAWBNumber": mawbNumber,
     "AirlinePrefix" : prefix,
-    "SBNOP": nop,
-    "SBNGrWt" : grwt,
-    "SBUnit": unit,
-    "FFName" : ffName,
-    "HAWBNo": hawbNo,
+    // "SBNOP": nop,
+    // "SBNGrWt" : grwt,
+    // "SBUnit": unit,
+    // "FFName" : ffName,
+    // "HAWBNo": hawbNo,
     "TruckingCompany": truckingCompany,
     "ITN No" : ITNNo,
     "ITN Date" : ITNDate,

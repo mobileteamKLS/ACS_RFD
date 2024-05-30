@@ -432,5 +432,7 @@ class Settings {
     "GetAssignTruckerAWBList":"/GetAssignTruckerAWBList",
     "GetTruckerList":"/GetTruckerList",
     "SaveAssignUnAssignTrucker":"/SaveAssignUnAssignTrucker",
+    "GET_ITNDetailsByAWBID" : "/GET_ITNDetailsByAWBID",
+    "SaveITNDetails" : "/SaveITNDetails"
   };
 }

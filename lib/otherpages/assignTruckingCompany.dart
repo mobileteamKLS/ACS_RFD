@@ -105,7 +105,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
           .map<ListingAssignTruckingDetails>((json) => ListingAssignTruckingDetails.fromJson(json))
           .toList();
 
-      print("length dockInOutVTListExport = " +
+      print("length assignTruckList = " +
           assignTruckList.length.toString());
       setState(() {
         isLoading = false;
