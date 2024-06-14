@@ -12,7 +12,9 @@ import 'package:luxair/widgets/qrscan.dart';
 import 'package:luxair/widgets/speech_recognition.dart';
 import '../constants.dart';
 import '../datastructure/trucker.dart';
+import '../datastructure/ASIListing.dart';
 import '../global.dart';
+import '../widgets/customdialogue.dart';
 
 class ASIListing extends StatefulWidget {
   const ASIListing({Key? key}) : super(key: key);
@@ -70,20 +72,18 @@ class _ASIListingState extends State<ASIListing> {
     });
 
     var queryParams = {
-      "OperationType": "1",
-      "AirlinePrefix": "0",
-      "AwbNumber": "0",
-      "HawbNumber": "",
-      "CreatedByUserId": "22438",
-      "OrganizationBranchId": selectedTerminalID,
-      // loggedinUser.OrganizationBranchId,
-      "OrganizationId": "22426",
-      "AWBID": 0,
-      "SBID": 0
+      "OperationType": "2",
+      "Mode": "E",
+      "CreatedByUserId": loggedinUser.CreatedByUserId,
+      "OrganizationBranchId": loggedinUser.OrganizationBranchId,
+      "OrganizationId": loggedinUser.OrganizationId,
+      "MAWBNUMBER":"",
+      "HAWBNUMBER":""
     };
+
     await Global()
         .postData(
-      Settings.SERVICES['ListingPageExport'],
+      Settings.SERVICES['SendMAWBASI'],
       queryParams,
     )
         .then((response) {
@@ -747,13 +747,33 @@ class _ASIListingState extends State<ASIListing> {
                 ),
                 SizedBox(
                   child: ElevatedButton(
-                    onPressed: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //       builder: (context) =>
-                      //           DocumentUploadChild(asiDetails)),
-                      // );
+                    onPressed: () async {
+                      ListingDetails ListItem =
+                      ASIMawbListExport.elementAt(
+                          index);
+                      var submitASI;
+                      submitASI = await ASIsubmit(ListItem,1,"E"); //AssignTrucker
+
+                      if (submitASI == true) {
+                        var dlgstatus = await showDialog(
+                          context: context,
+                          builder: (BuildContext context) =>
+                              CustomDialog(
+                                title: "Message",
+                                description: "ASI submitted successfully",
+                                buttonText: "Okay",
+                                imagepath: 'assets/images/successchk.gif',
+                                isMobile: useMobileLayout,
+                              ),
+                        );
+
+
+                        if (dlgstatus == true) {
+                          Navigator.of(context)
+                              .pop(true); // To close the form
+                        }
+                      }
+
                     },
                     child: Icon(
                       FontAwesomeIcons.chevronRight,
@@ -798,14 +818,14 @@ class _ASIListingState extends State<ASIListing> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        listDetails.truckerName,
+                        "${listDetails.truckerName}",
                         style: useMobileLayout
                             ? VTlistTextFontStyle
                             : iPadcompletedBlackText,
                       ),
 
                       Text(
-                        listDetails.origin,
+                        listDetails.originairportcode,
                         style: useMobileLayout
                             ? VTlistTextFontStyle
                             : iPadcompletedBlackText,
@@ -814,7 +834,7 @@ class _ASIListingState extends State<ASIListing> {
                         // maxLines: 3,
                       ),
                       Text(
-                        listDetails.destination,
+                        listDetails.destinationairportcode,
                         style: useMobileLayout
                             ? VTlistTextFontStyle
                             : iPadcompletedBlackText,
@@ -864,7 +884,7 @@ class _ASIListingState extends State<ASIListing> {
                             ),
                             //              SizedBox(width: 10),
                             Text(
-                              listDetails.flightDate,
+                              "${listDetails.flightDate}",
                               style: useMobileLayout
                                   ? VTlistTextFontStyle
                                   : iPadcompletedBlackText,
@@ -878,7 +898,7 @@ class _ASIListingState extends State<ASIListing> {
                               : iPadcompletedBlackText,
                         ),
                         Text(
-                          "${listDetails.weight}" + " " + "${listDetails.unit}",
+                          "${listDetails.weight.toStringAsFixed(2)}" + " " + "${listDetails.weightUnitId}",
                           style: useMobileLayout
                               ? VTlistTextFontStyle
                               : iPadcompletedBlackText,
@@ -912,5 +932,86 @@ class _ASIListingState extends State<ASIListing> {
         ),
       ),
     );
+  }
+
+  Future<bool> ASIsubmit(ListingDetails listDetails,op, mode) async {
+    List parts =  listDetails.mawbNumber.split('-');
+    var mawbNo = parts[0]+parts[1];
+
+    try {
+      bool isValid = false;
+
+      // setState(() {
+      //   isSavingData = true;
+      // });
+
+      var queryParams = {
+        "OperationType": op,
+        "Mode": mode,
+        "CreatedByUserId": loggedinUser.CreatedByUserId,
+        "OrganizationBranchId": loggedinUser.OrganizationBranchId,
+        "OrganizationId": loggedinUser.OrganizationId,
+        "MAWBNUMBER":mawbNo,
+        "HAWBNUMBER":""
+      };
+
+      await Global()
+          .postData(
+        Settings.SERVICES['SendMAWBASI'],
+        queryParams,
+      )
+          .then((response) {
+        print("data received ");
+        print(json.decode(response.body)['d']);
+        // isValid = true;
+
+        if (json.decode(response.body)['d'] == null) {
+          isValid = true;
+        } else {
+          if (json.decode(response.body)['d'] == "null") {
+            isValid = true;
+          } else {
+            if (json.decode(response.body)['d'] == "") {
+              isValid = true;
+            } else {
+              var responseText = json.decode(response.body)['d'].toString();
+
+              if (responseText.toLowerCase().contains("Msg")) {
+                // responseTextUpdated =
+                //     responseText.toString().replaceAll("ErrorMSG", "");
+                // responseTextUpdated =
+                //     responseTextUpdated.toString().replaceAll(":", "");
+                // responseTextUpdated =
+                //     responseTextUpdated.toString().replaceAll("\"", "");
+                // responseTextUpdated =
+                //     responseTextUpdated.toString().replaceAll("{", "");
+                // responseTextUpdated =
+                //     responseTextUpdated.toString().replaceAll("}", "");
+                // print(responseTextUpdated.toString());
+              }
+              // print(responseText.toString().replaceAll("ErrorMSG", ""));
+              // print(responseText.toString().replaceAll(":", ""));
+              // print(responseText.toString().replaceAll("\"", ""));
+
+              isValid = false;
+            }
+          }
+        }
+
+        // setState(() {
+        //   isSavingData = false;
+        //
+        // });
+      }).catchError((onError) {
+        // setState(() {
+        //   isSavingData = false;
+        // });
+        print(onError);
+      });
+      return isValid;
+    } catch (Exc) {
+      print(Exc);
+      return false;
+    }
   }
 }

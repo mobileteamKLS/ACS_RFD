@@ -428,11 +428,12 @@ class Settings {
     "BookedSlotsListImport":
         "/GetImportBookedSlotList", // get list of booked slots import
     "ListingPageExport":
-    "/ACS_Exp_ListingPage",
+    "/ACS_Exp_ListingPage", // Add ITN AWB list
     "GetAssignTruckerAWBList":"/GetAssignTruckerAWBList",
     "GetTruckerList":"/GetTruckerList",
     "SaveAssignUnAssignTrucker":"/SaveAssignUnAssignTrucker",
     "GET_ITNDetailsByAWBID" : "/GET_ITNDetailsByAWBID",
-    "SaveITNDetails" : "/SaveITNDetails"
+    "SaveITNDetails" : "/SaveITNDetails",
+    "SendMAWBASI" : "/SendMAWBASI"
   };
 }
