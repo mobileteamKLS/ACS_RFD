@@ -86,10 +86,13 @@ class _SubmitITNDetailsState extends State<SubmitITNDetails> {
   @override
   Widget build(BuildContext context) {
     var smallestDimension = MediaQuery.of(context).size.shortestSide;
+    bool keyboardIsOpened = MediaQuery.of(context).viewInsets.bottom != 0.0;
     useMobileLayout = smallestDimension < 600;
     print("useMobileLayout");
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
+
+      floatingActionButton:keyboardIsOpened ?
+      null : FloatingActionButton(
         onPressed: () async {
           var returnVal = await showModalBottomSheet<String>(
               shape: const RoundedRectangleBorder(
@@ -865,7 +868,10 @@ class _SubmitITNDetailsState extends State<SubmitITNDetails> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         ElevatedButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            Navigator.of(context)
+                                                .pop(true);
+                                          },
                                           style: ButtonStyle(
                                             foregroundColor:
                                                 MaterialStateProperty.all(
@@ -889,11 +895,8 @@ class _SubmitITNDetailsState extends State<SubmitITNDetails> {
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width /
-                                                2.8,
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                10.8,
+                                                3.2,
+                                            height: 38,
                                             child: Center(
                                               child: const Text(
                                                 "Back",
@@ -926,30 +929,19 @@ class _SubmitITNDetailsState extends State<SubmitITNDetails> {
                                         //     child: Text('Save'),
                                         //   ),
                                         // ),
+                                        SizedBox(
+                                          width: 16,
+                                        ),
                                         ElevatedButton(
                                           onPressed: () async {
-                                            var submitITN;
-                                            submitITN = await ITNSave(1,"E"); //AssignTrucker
+                                           if( validateAndSubmit()){
+                                             var submitITN;
+                                             submitITN = await ITNSave(1,"E");
+                                           }
 
-                                            if (submitITN == true) {
-                                              var dlgstatus = await showDialog(
-                                                context: context,
-                                                builder: (BuildContext context) =>
-                                                    CustomDialog(
-                                                      title: "Message",
-                                                      description: "ITN saved successfully",
-                                                      buttonText: "Okay",
-                                                      imagepath: 'assets/images/successchk.gif',
-                                                      isMobile: useMobileLayout,
-                                                    ),
-                                              );
+                                             //AssignTrucker
 
 
-                                              if (dlgstatus == true) {
-                                                Navigator.of(context)
-                                                    .pop(true); // To close the form
-                                              }
-                                            }
                                           },
                                           style: ButtonStyle(
                                             foregroundColor:
@@ -972,11 +964,8 @@ class _SubmitITNDetailsState extends State<SubmitITNDetails> {
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width /
-                                                2.8,
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                10.8,
+                                                3.2,
+                                            height: 38,
                                             child: Center(
                                               child: const Text(
                                                 "Save",
@@ -2345,7 +2334,7 @@ class _SubmitITNDetailsState extends State<SubmitITNDetails> {
         "\"ExporterName\":\"${exporterName.text}\"," +
         "\"CHAID\": \"${0}\"," +
         "\"WeightUnitID\":\"${1}\"," +
-        "\"ChargeableWeight\":\"${chwt.text.toString()}\"," +
+          "\"ChargeableWeight\":\"${chwt.text.toString()}\"," +
         "\"VolumetricWeight\":\"${0}\"," +
         "\"SBDimensions\": \"${""}\"}";
 
@@ -2376,7 +2365,7 @@ class _SubmitITNDetailsState extends State<SubmitITNDetails> {
         Settings.SERVICES['SaveITNDetails'],
         queryParams,
       )
-          .then((response) {
+          .then((response) async {
         print("data received ");
         print(json.decode(response.body)['d']);
         // isValid = true;
@@ -2391,23 +2380,50 @@ class _SubmitITNDetailsState extends State<SubmitITNDetails> {
               isValid = true;
             } else {
               var responseText = json.decode(response.body)['d'].toString();
+              var msg = json.decode(response.body)['d'];
+              var resp = json.decode(msg).cast<Map<String, dynamic>>();
+              isValid = true;
 
-              if (responseText.toLowerCase().contains("Msg")) {
-                // responseTextUpdated =
-                //     responseText.toString().replaceAll("ErrorMSG", "");
-                // responseTextUpdated =
-                //     responseTextUpdated.toString().replaceAll(":", "");
-                // responseTextUpdated =
-                //     responseTextUpdated.toString().replaceAll("\"", "");
-                // responseTextUpdated =
-                //     responseTextUpdated.toString().replaceAll("{", "");
-                // responseTextUpdated =
-                //     responseTextUpdated.toString().replaceAll("}", "");
-                // print(responseTextUpdated.toString());
+              List<ResponseObject> rspMsg = [];
+              rspMsg = resp
+                  .map<ResponseObject>((json) => ResponseObject.fromJson(json))
+                  .toList();
+              if (rspMsg.isNotEmpty) {
+                if (rspMsg[0].Status.toString() == "S") {
+                  var dlgstatus = await showDialog(
+                    context: context,
+                    builder: (BuildContext context) =>
+                        CustomDialog(
+                          title: "Message",
+                          description: rspMsg[0].StrMessage.toString(),
+                          buttonText: "Okay",
+                          imagepath: 'assets/images/successchk.gif',
+                          isMobile: useMobileLayout,
+                        ),
+                  );
+                  if (dlgstatus == true) {
+                    Navigator.of(context)
+                        .pop(true);
+                  }
+                }
+                else {
+                  var dlgstatus = await showDialog(
+                    context: context,
+                    builder: (BuildContext context) =>
+                        CustomDialog(
+                          title: "Message",
+                          description: rspMsg[0].StrMessage.toString(),
+                          buttonText: "Okay",
+                          imagepath: 'assets/images/warn.gif',
+                          isMobile: useMobileLayout,
+                        ),
+                  );
+                  // if (dlgstatus == true) {
+                  //   getASIList();
+                  // }
+
+                }
               }
-              // print(responseText.toString().replaceAll("ErrorMSG", ""));
-              // print(responseText.toString().replaceAll(":", ""));
-              // print(responseText.toString().replaceAll("\"", ""));
 
               isValid = false;
             }
@@ -2429,6 +2445,53 @@ class _SubmitITNDetailsState extends State<SubmitITNDetails> {
       print(Exc);
       return false;
     }
+  }
+
+  bool validateAndSubmit() {
+    if (ITNNO.text.isEmpty) {
+      showAlertDialog(
+          context, "Ok", "Alert", "ITN No is required.");
+      return false;
+    } else if (!_isValidItnNo(ITNNO.text)) {
+      showAlertDialog(
+          context, "Ok", "Alert", "Please enter a valid ITN No.");
+      return false;
+    }
+    //
+    if (dateInput.text.isEmpty) {
+      showAlertDialog(
+          context, "Ok", "Alert", "Date is required");
+      return false;
+    }
+
+    if (nop.text.isEmpty) {
+      showAlertDialog(
+          context, "Ok", "Alert", "NOP is required");
+      return false;
+    }
+
+    if (grwt.text.isEmpty) {
+      showAlertDialog(
+          context, "Ok", "Alert", "Gr. Wt. is required");
+      return false;
+    }
+
+    if (chwt.text.isEmpty) {
+      showAlertDialog(
+          context, "Ok", "Alert", "Ch. Wt. is required");
+      return false;
+    }
+    if (exporterName.text.isEmpty) {
+      showAlertDialog(
+          context, "Ok", "Alert", "Exporter Name is required.");
+      return false;
+    }
+    return true;
+  }
+
+  bool _isValidItnNo(String itnno) {
+    final regex = RegExp(r'^X\d{14}$');
+    return regex.hasMatch(itnno);
   }
 }
 

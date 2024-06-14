@@ -74,5 +74,29 @@ class ITNDetails {
   };
 }
 
+class ResponseObject {
+  final String Status;
+  final String StrMessage;
+
+  ResponseObject({
+    required this.Status,
+    required this.StrMessage,
+  });
+
+  factory ResponseObject.fromJson(Map<String, dynamic> json) {
+    return ResponseObject(
+      Status: json['Status'] == null ? "" : json['Status'],
+      StrMessage: json['Msg'] == null ? "" : json['Msg'],
+    );
+  }
+
+  Map toMap() {
+    var map = new Map<String, dynamic>();
+    map["Status"] = Status;
+    map["Msg"] = StrMessage;
+    return map;
+  }
+}
+
 
 
