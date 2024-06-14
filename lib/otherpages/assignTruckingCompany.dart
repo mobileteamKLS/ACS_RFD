@@ -15,7 +15,8 @@ import '../global.dart';
 
 class AssignTruckingCompany extends StatefulWidget {
   final bool isExport;
-  const AssignTruckingCompany(this.isExport,{Key? key}) : super(key: key);
+
+  const AssignTruckingCompany(this.isExport, {Key? key}) : super(key: key);
 
   @override
   State<AssignTruckingCompany> createState() => _AssignTruckingCompanyState();
@@ -58,11 +59,13 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
       }
       print("AssignTrucker");
     } else {
+
       if(widget.isExport){
         getAssignedNotAssignedList(2, "E");
       }else{
         getAssignedNotAssignedList(2, "I"); //UnassignTrucker
       }
+
       print("UnassignTrucker");
     }
     filteredList.clear();
@@ -116,6 +119,56 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
       });
       print(onError);
     });
+  }
+
+  void selectTruckerDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        String? selectedItem = 'Option 1';
+        List<String> items = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
+        return AlertDialog(
+          title: Text('Select an option'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              DropdownButton<String>(
+                value: selectedItem,
+                items: items.map((String item) {
+                  return DropdownMenuItem<String>(
+                    value: item,
+                    child: Text(item),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  if (newValue != null) {
+                    selectedItem = newValue;
+                  }
+                },
+              ),
+            ],
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                // Handle the selected item here
+                if (selectedItem != null) {
+                  print('Selected item: $selectedItem');
+                }
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -286,6 +339,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                                     _selectedIndices = {};
                                     truckingAssigned = index!;
                                     if (truckingAssigned == 0) {
+
                                       if(widget.isExport){
                                         getAssignedNotAssignedList(1, "E");
                                       }else{
@@ -298,6 +352,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                                       }else{
                                         getAssignedNotAssignedList(2, "I"); //UnassignTrucker
                                       }
+
                                       print("UnassignTrucker");
                                     }
                                   });
@@ -420,7 +475,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                               )
                             ]),
                             SizedBox(
-                              height: 5,
+                              height: 2,
                             ),
 
                             truckingAssigned == 0
@@ -493,6 +548,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                                 ),
                               ),
                             ])
+
                                 : SizedBox(),
                           ],
                         ),
@@ -841,6 +897,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                               width: 16,
                             ),
                             ElevatedButton(
+
                               onPressed: () async {
                                 var submitAssign;
                                 var submitUnAssign;

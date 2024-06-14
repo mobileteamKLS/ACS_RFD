@@ -74,10 +74,9 @@ class _ASIListingState extends State<ASIListing> {
       "AirlinePrefix": "0",
       "AwbNumber": "0",
       "HawbNumber": "",
-      "CreatedByUserId": "22438",
-      "OrganizationBranchId": selectedTerminalID,
-      // loggedinUser.OrganizationBranchId,
-      "OrganizationId": "22426",
+      "CreatedByUserId": "22617",
+      "OrganizationBranchId": "22642",
+      "OrganizationId": "22597",
       "AWBID": 0,
       "SBID": 0
     };

@@ -1,4 +1,4 @@
-# ACS LUX
+# ACS RFD
 
 ## :label: Getting Started
 
@@ -8,7 +8,7 @@
 * Clone a repo
 
 ```markdown
-git clone https://github.com/mobileteamKLS/ACS_LUX.git 
+git clone https://github.com/mobileteamKLS/ACS_RFD.git 
 ```
 
 * First Create a new branch with your Name and Date
