@@ -430,6 +430,9 @@ class Settings {
     "ListingPageExport":
     "/ACS_Exp_ListingPage",
     "GetAssignTruckerAWBList":"/GetAssignTruckerAWBList",
+    "GetTruckerList":"/GetTruckerList",
     "SaveAssignUnAssignTrucker":"/SaveAssignUnAssignTrucker",
+    "GET_ITNDetailsByAWBID" : "/GET_ITNDetailsByAWBID",
+    "SaveITNDetails" : "/SaveITNDetails"
   };
 }

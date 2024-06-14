@@ -8,8 +8,10 @@ import 'package:luxair/widgets/customdialogue.dart';
 import 'package:luxair/widgets/headerclipper.dart';
 import '../constants.dart';
 import '../datastructure/trucker.dart';
+import 'package:luxair/datastructure/vehicletoken.dart';
 import 'package:luxair/dashboards/dashboard.dart';
 import '../global.dart';
+
 
 class AssignTruckingCompany extends StatefulWidget {
   final bool isExport;
@@ -22,10 +24,15 @@ class AssignTruckingCompany extends StatefulWidget {
 
 class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
   TextEditingController dateInput = TextEditingController();
+  String finalTruckerString = "";
+      String truckerTableString = "";
   String scannedCodeReceived = "", selectedSlotDate = "";
   bool useMobileLayout = false;
   int truckingAssigned = 0;
 
+  int selectedID = 0; //, modeSelected1 = 0;
+
+  String selectedText = "";
   String dropdownValue = 'Select';
   TextEditingController mawbPrefixController = TextEditingController();
   TextEditingController mawbNoController = TextEditingController();
@@ -37,20 +44,32 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
   Set<int> _selectedIndices = {};
   List<ListingAssignTruckingDetails> searchedList = [];
   List<ListingAssignTruckingDetails> assignTruckList = [];
-
+  List<ListingAssignTruckingDetails> filteredList =[];
   // List<bool> isSelected = [true, false, false];
 
   @override
   void initState() {
     dateInput.text = "";
+    print(widget.isExport);
     if (truckingAssigned == 0) {
-      getAssignedNotAssignedList(1); //AssignTrucker
+      if(widget.isExport){
+        getAssignedNotAssignedList(1, "E");
+      }else{
+        getAssignedNotAssignedList(1, "I"); //AssignTrucker
+      }
       print("AssignTrucker");
     } else {
-      getAssignedNotAssignedList(2); //UnassignTrucker
+
+      if(widget.isExport){
+        getAssignedNotAssignedList(2, "E");
+      }else{
+        getAssignedNotAssignedList(2, "I"); //UnassignTrucker
+      }
 
       print("UnassignTrucker");
     }
+    filteredList.clear();
+    _selectedIndices = {};
     super.initState();
   }
 
@@ -59,7 +78,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
     super.dispose();
   }
 
-  getAssignedNotAssignedList(operationType) async {
+  getAssignedNotAssignedList(operationType, mode) async {
     if (isLoading) return;
     assignTruckList = [];
     searchedList = [];
@@ -69,11 +88,10 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
     });
     var queryParams = {
       "OperationType": operationType.toString(),
-      "Mode":"E",
-      "CreatedByUserId": "82851",
-      "OrganizationBranchId": "72830",
-      "OrganizationId": "72783",
-
+      "Mode":mode,
+      "CreatedByUserId": loggedinUser.CreatedByUserId,
+      "OrganizationBranchId": loggedinUser.OrganizationBranchId,
+      "OrganizationId": loggedinUser.OrganizationId,
     };
     await Global()
         .postData(
@@ -90,7 +108,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
           .map<ListingAssignTruckingDetails>((json) => ListingAssignTruckingDetails.fromJson(json))
           .toList();
 
-      print("length dockInOutVTListExport = " +
+      print("length assignTruckList = " +
           assignTruckList.length.toString());
       setState(() {
         isLoading = false;
@@ -317,15 +335,23 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
 
                                 onToggle: (index) {
                                   setState(() {
+                                    filteredList.clear();
+                                    _selectedIndices = {};
                                     truckingAssigned = index!;
                                     if (truckingAssigned == 0) {
-                                      getAssignedNotAssignedList(
 
-                                          1); //AssignTrucker
+                                      if(widget.isExport){
+                                        getAssignedNotAssignedList(1, "E");
+                                      }else{
+                                        getAssignedNotAssignedList(1, "I"); //AssignTrucker
+                                      }
                                       print("AssignTrucker");
                                     } else {
-                                      getAssignedNotAssignedList(
-                                          2); //UnassignTrucker
+                                      if(widget.isExport){
+                                        getAssignedNotAssignedList(2, "E");
+                                      }else{
+                                        getAssignedNotAssignedList(2, "I"); //UnassignTrucker
+                                      }
 
                                       print("UnassignTrucker");
                                     }
@@ -451,95 +477,78 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                             SizedBox(
                               height: 2,
                             ),
+
                             truckingAssigned == 0
                                 ? Row(children: [
-                                    SizedBox(
-                                      width: MediaQuery.of(context).size.width /
-                                          3.4,
-                                      child: Text("Assign Trucker",
-                                          style: mobileHeaderFontStyle),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width /
+                                    3.4,
+                                child: Text("Assign Trucker",
+                                    style: mobileHeaderFontStyle),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SizedBox(
+                                  width:
+                                  MediaQuery.of(context).size.width /
+                                      1.7, // hard coding child width
+                                  child: Container(
+                                    height: 40,
+                                    width: MediaQuery.of(context)
+                                        .size
+                                        .width /
+                                        2.4,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color:
+                                        Colors.grey.withOpacity(0.5),
+                                        width: 1.0,
+                                      ),
+                                      borderRadius:
+                                      BorderRadius.circular(4.0),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                1.7, // hard coding child width
-                                        child: Container(
-                                          height: 40,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              2.4,
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                              color:
-                                                  Colors.grey.withOpacity(0.5),
-                                              width: 1.0,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(4.0),
-                                          ),
-                                          child: DropdownButtonHideUnderline(
-                                            child: Container(
-                                              constraints:
-                                                  BoxConstraints(minHeight: 50),
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                    color: Colors.grey,
-                                                    width: 0.2),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(5)),
-                                                color: Colors.white,
-                                              ),
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 10),
-                                              child: DropdownButton(
-                                                value: dropdownValue,
-                                                onChanged: (String? newValue) {
-                                                  setState(() {
-                                                    dropdownValue = newValue!;
-                                                  });
-                                                },
-                                                items: [
-                                                  "Select",
-                                                  "Two",
-                                                  "Three",
-                                                ]
-                                                    .map((String value) =>
-                                                        DropdownMenuItem(
-                                                          value: value,
-                                                          child: Column(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Text(
-                                                                value,
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize: 14,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .normal,
-                                                                  color: Colors
-                                                                      .black,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ))
-                                                    .toList(),
-                                              ),
-                                            ),
-                                          ),
+                                    child: DropdownButtonHideUnderline(
+                                      child: Container(
+                                        constraints:
+                                        BoxConstraints(minHeight: 50),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: Colors.grey,
+                                              width: 0.2),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5)),
+                                          color: Colors.white,
+                                        ),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 10),
+                                        child: DropdownButton(
+                                          items: trucker.map((list) {
+                                            return DropdownMenuItem(
+                                              child: Text(list.name,
+                                                  style: iPadTextFontStyle),
+                                              //label of item
+                                              value: list
+                                                  .branchId, //value of item
+                                            );
+                                          }).toList(),
+                                          value: selectedID,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              selectedText =
+                                                  value.toString();
+                                              selectedID =
+                                                  int.parse(value.toString());
+                                            });
+                                          },
+
                                         ),
                                       ),
                                     ),
-                                  ])
+                                  ),
+                                ),
+                              ),
+                            ])
+
                                 : SizedBox(),
                           ],
                         ),
@@ -889,13 +898,26 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                             ),
                             ElevatedButton(
 
-//                               onPressed: () {
-//                                 selectTruckerDialog(context);
-//                               },
-
-                             onPressed: () async {
+                              onPressed: () async {
+                                var submitAssign;
+                                var submitUnAssign;
                                 // showSuccessMessage();
-                                var submitAssign = await UnassignTrucker();
+                                if (truckingAssigned == 0) {
+                                  if(widget.isExport){
+                                    submitAssign = await UnassignTruckerSave(3,"E"); //AssignTrucker
+                                  }else{
+                                    submitAssign = await UnassignTruckerSave(4,"I"); //AssignTrucker
+                                  }
+
+                                  print("AssignTrucker");
+                                } else {
+                                  if(widget.isExport){
+                                    submitUnAssign = await UnassignTruckerSave(5,"E"); //UnassignTrucker
+                                  }else{
+                                    submitUnAssign = await UnassignTruckerSave(5,"I"); //UnassignTrucker
+                                  }
+                                  print("UnassignTrucker");
+                                }
                                 if (submitAssign == true) {
                                   var dlgstatus = await showDialog(
                                     context: context,
@@ -914,6 +936,18 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                                     Navigator.of(context)
                                         .pop(true); // To close the form
                                   }
+                                }else{
+                                  var dlgstatus = await showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        CustomDialog(
+                                          title: "Message",
+                                          description: "Shipment unassigned successfully",
+                                          buttonText: "Okay",
+                                          imagepath: 'assets/images/successchk.gif',
+                                          isMobile: useMobileLayout,
+                                        ),
+                                  );
                                 }
                               },
 
@@ -929,11 +963,13 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                                   ),
                                 ),
                               ),
+
                               child: SizedBox(
                                 width: useMobileLayout
                                     ? MediaQuery.of(context).size.width / 3.2
                                     : MediaQuery.of(context).size.width / 3.8,
                                 height: useMobileLayout ? 38 : 48,
+
                                 child: Center(
                                   child: const Text(
                                     "Assign Trucker",
@@ -955,10 +991,17 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
     setState(() {
       if (_selectedIndices.contains(index)) {
         _selectedIndices.remove(index);
+        filteredList.remove(assignTruckList[index]);
       } else {
         _selectedIndices.add(index);
+        filteredList.add(assignTruckList[index]);
       }
+
     });
+
+
+
+
   }
 
   void onSearchTextChanged() {
@@ -1011,6 +1054,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
 
   mawbListItem(BuildContext context, ListingAssignTruckingDetails assignTruckDetails, index,
       isSelected) {
+
     return GestureDetector(
       onLongPress: () => _onItemTap(index),
       child: Card(
@@ -1162,83 +1206,154 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
       ),
     );
   }
-}
 
-//
-Future<bool> UnassignTrucker() async {
-  try {
-    bool isValid = false;
+  Future<bool> UnassignTruckerSave(op, mode) async {
+    String type;
+    if (truckingAssigned == 0) {
+     type = "\"Type\": \"A\"";
+    } else {
+      type = "\"Type\": \"U\"";
+    }
+    print(type);
+    print(_selectedIndices);
+    if (truckingAssigned == 0) {
+    if (selectedID == 0) {
+      var dlgstatus = await showDialog(
+        context: context,
+        builder: (BuildContext context) =>
+            CustomDialog(
+              title: "Message",
+              description: "Please select trucker",
+              buttonText: "Okay",
+              imagepath: 'assets/images/question.gif',
+              isMobile: useMobileLayout,
+            ),
+      );
+    }
+    }
 
-    // setState(() {
-    //   isSavingData = true;
-    // });
+    if (_selectedIndices.length == 0) {
+      var dlgstatus = await showDialog(
+        context: context,
+        builder: (BuildContext context) =>
+            CustomDialog(
+              title: "Message",
+              description: "Please select shipment",
+              buttonText: "Okay",
+              imagepath: 'assets/images/question.gif',
+              isMobile: useMobileLayout,
+            ),
+      );
+    }
 
-    var queryParams = {
-      "OperationType": "3",
-      "Mode":"E",
-      "CreatedByUserId": loggedinUser.CreatedByUserId,
-      "OrganizationBranchId": loggedinUser.OrganizationBranchId,
-      "OrganizationId": loggedinUser.OrganizationId,
-      "TruckerData":[{"AWBID": 175951  ,"ParentId": "72830", "ChildId": "0", "CreatedById": 82851},{"AWBID": 175950  ,"ParentId": "72830", "ChildId": "0", "CreatedById": 82851}]
-    };
+    int i = 0;
+    String a;
+    for (ListingAssignTruckingDetails u in filteredList) {
+      if(widget.isExport){
+        a = "{\"AWBID\": \"${u.awbId}\"," +
+            "\"ParentId\":\"${u.OrganizationBranchID}\"," +
+            "\"ChildId\":\"${selectedID}\"," +
+            "\"CreatedById\":\"${u.CreatedBy}\"}";
+      }else{
+        a = "{\"AWBID\": \"${u.awbId}\"," +
+            "\"HAWBID\":\"${u.hawbID}\"," +
+            "\"ParentId\":\"${u.OrganizationBranchID}\"," +
+            "\"ChildId\":\"${selectedID}\"," +
+            "\"CreatedById\":\"${u.CreatedBy}\"}";
+      }
+     // print("json a");
+      print(a);
+      //print(json.decode(a));
+      //print(json.encode(a));
+      if (i == 0)
+        truckerTableString = truckerTableString + a;
+      else
+        truckerTableString = truckerTableString + "," + a;
 
+      i++;
+    }
+   // truckerTableString + "," + type;
+    finalTruckerString = "[" + truckerTableString + "]," + type;
+    print(json.decode(finalTruckerString));
+    var ab = json.decode(finalTruckerString);
+    try {
+      bool isValid = false;
 
-    await Global()
-        .postData(
-      Settings.SERVICES['UpdateVT'],
-      queryParams,
-    )
-        .then((response) {
-      print("data received ");
-      print(json.decode(response.body)['d']);
-      // isValid = true;
+      // setState(() {
+      //   isSavingData = true;
+      // });
 
-      if (json.decode(response.body)['d'] == null) {
-        isValid = true;
-      } else {
-        if (json.decode(response.body)['d'] == "null") {
+      var queryParams = {
+        "OperationType": op,
+        "Mode":mode,
+        "CreatedByUserId": loggedinUser.CreatedByUserId,
+        "OrganizationBranchId": loggedinUser.OrganizationBranchId,
+        "OrganizationId": loggedinUser.OrganizationId,
+        "TruckerData":ab,
+      };
+      await Global()
+          .postData(
+        Settings.SERVICES['SaveAssignUnAssignTrucker'],
+        queryParams,
+      )
+          .then((response) {
+        print("data received ");
+        print(json.decode(response.body)['d']);
+        // isValid = true;
+
+        if (json.decode(response.body)['d'] == null) {
           isValid = true;
         } else {
-          if (json.decode(response.body)['d'] == "") {
+          if (json.decode(response.body)['d'] == "null") {
             isValid = true;
           } else {
-            var responseText = json.decode(response.body)['d'].toString();
+            if (json.decode(response.body)['d'] == "") {
+              isValid = true;
+            } else {
+              var responseText = json.decode(response.body)['d'].toString();
 
-            if (responseText.toLowerCase().contains("errormsg")) {
-              // responseTextUpdated =
-              //     responseText.toString().replaceAll("ErrorMSG", "");
-              // responseTextUpdated =
-              //     responseTextUpdated.toString().replaceAll(":", "");
-              // responseTextUpdated =
-              //     responseTextUpdated.toString().replaceAll("\"", "");
-              // responseTextUpdated =
-              //     responseTextUpdated.toString().replaceAll("{", "");
-              // responseTextUpdated =
-              //     responseTextUpdated.toString().replaceAll("}", "");
-              // print(responseTextUpdated.toString());
+              if (responseText.toLowerCase().contains("errormsg")) {
+                // responseTextUpdated =
+                //     responseText.toString().replaceAll("ErrorMSG", "");
+                // responseTextUpdated =
+                //     responseTextUpdated.toString().replaceAll(":", "");
+                // responseTextUpdated =
+                //     responseTextUpdated.toString().replaceAll("\"", "");
+                // responseTextUpdated =
+                //     responseTextUpdated.toString().replaceAll("{", "");
+                // responseTextUpdated =
+                //     responseTextUpdated.toString().replaceAll("}", "");
+                // print(responseTextUpdated.toString());
+              }
+              // print(responseText.toString().replaceAll("ErrorMSG", ""));
+              // print(responseText.toString().replaceAll(":", ""));
+              // print(responseText.toString().replaceAll("\"", ""));
+
+              isValid = false;
             }
-            // print(responseText.toString().replaceAll("ErrorMSG", ""));
-            // print(responseText.toString().replaceAll(":", ""));
-            // print(responseText.toString().replaceAll("\"", ""));
-
-            isValid = false;
           }
         }
-      }
 
-      // setState(() {
-      //   isSavingData = false;
-      //
-      // });
-    }).catchError((onError) {
-      // setState(() {
-      //   isSavingData = false;
-      // });
-      print(onError);
-    });
-    return isValid;
-  } catch (Exc) {
-    print(Exc);
-    return false;
+        // setState(() {
+        //   isSavingData = false;
+        //
+        // });
+      }).catchError((onError) {
+        // setState(() {
+        //   isSavingData = false;
+        // });
+        print(onError);
+      });
+      return isValid;
+    } catch (Exc) {
+      print(Exc);
+      return false;
+    }
   }
+
+
 }
+
+
+
+//

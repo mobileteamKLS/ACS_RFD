@@ -17,6 +17,7 @@ bool isGHA = false;
 bool isTPS = false;
 bool isFF = false;
 bool isAirline = false;
+bool isExport = true;
 
 int currUserId = 0;
 int orgId = 0;
@@ -50,6 +51,7 @@ List<LocationDetails> locationDetailsSaved = [];
 
 List<VehicleNos> vehicleNosList = [];
 List<DriverDetails> driverNamesList = [];
+List<AssignTrucker> trucker = [];
 
 double latitude = 0, longitude = 0;
 

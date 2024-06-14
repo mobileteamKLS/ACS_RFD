@@ -495,6 +495,9 @@ class _LoginPageState extends State<LoginPage> {
                                       if (vehicletypesList.isEmpty)
                                         await getVehicleTypesList();
                                     }
+                                    if(isFF){
+                                      await getTruckerList();
+                                    }
 
                                     Navigator.push(
                                       context,
@@ -784,7 +787,9 @@ class _LoginPageState extends State<LoginPage> {
             await getRejectionReasonList();
             if (vehicletypesList.isEmpty) await getVehicleTypesList();
           }
-
+          if(isFF) {
+            await getTruckerList();
+          }
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => Dashboards()),
@@ -1345,6 +1350,52 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
+  getTruckerList() async {
+
+    if (isLoading) return;
+    setState(() {
+      isLoading = true;
+    });
+    var queryParams = {
+      "OperationType": "6",
+      "CreatedByUserId": loggedinUser.CreatedByUserId,
+      "OrganizationBranchId": loggedinUser.OrganizationBranchId,
+      "OrganizationId": loggedinUser.OrganizationId,
+    };
+    await Global()
+        .postData(
+      Settings.SERVICES['GetTruckerList'],
+      queryParams,
+    )
+        .then((response) {
+      print("data received ");
+      print(json.decode(response.body)['d']);
+
+      var msg = json.decode(response.body)['d'];
+      var resp = json.decode(msg).cast<Map<String, dynamic>>();
+
+      trucker = resp
+          .map<AssignTrucker>((json) => AssignTrucker.fromJson(json))
+          .toList();
+
+      // AssignTrucker as =
+      // new AssignTrucker(branchId: 0, name: "Select");
+      // trucker.add(as);
+      trucker.sort((a, b) => a.branchId.compareTo(b.branchId));
+
+
+
+      print("length terminalsList = " + trucker.length.toString());
+
+      isLoading = false;
+
+    }).catchError((onError) {
+      setState(() {
+        isLoading = false;
+      });
+      print(onError);
+    });
+  }
   void setPreferences(UserDetails _userDets) async {
     //print(_userDets);
     print(" *******  saving user details");

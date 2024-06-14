@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:scan/scan.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:luxair/datastructure/vehicletoken.dart';
+import 'package:luxair/datastructure/submitITN.dart';
 import 'package:luxair/otherpages/truckeryardcheckindetails.dart';
 import 'package:luxair/widgets/common.dart';
 import 'package:luxair/widgets/headerclipper.dart';
@@ -17,13 +18,14 @@ import 'package:luxair/widgets/speech_recognition.dart';
 import 'package:intl/intl.dart';
 import '../constants.dart';
 import '../global.dart';
+import '../widgets/customdialogue.dart';
 import '../widgets/timeline.dart';
 import 'documentupload.dart';
 
 class SubmitITNDetails extends StatefulWidget {
-  final DocUploadDetails docUploadDetails;
+  final ITNDetails Details;
 
-  const SubmitITNDetails(this.docUploadDetails, {Key? key}) : super(key: key);
+  const SubmitITNDetails(this.Details, {Key? key}) : super(key: key);
 
   @override
   State<SubmitITNDetails> createState() => _SubmitITNDetailsState();
@@ -33,15 +35,22 @@ class _SubmitITNDetailsState extends State<SubmitITNDetails> {
   String scannedCodeReceived = "", selectedSlotDate = "";
   bool useMobileLayout = false;
   int modeSelected = 0;
-  late List<EdocDetails> docsDetailsList;
-  TextEditingController dateInput = TextEditingController();
-
+  String finalList = "";
+  List<ITNDetails> ITNData = [];
   //  List<CodexPass> passList = [];
   // List<FilterArray> _filterArray = [];
   bool isLoading = false;
   bool isSearched = false;
   bool isImport = false;
+
   TextEditingController txtVTNO = new TextEditingController();
+  TextEditingController ITNNO = new TextEditingController();
+  TextEditingController dateInput = TextEditingController();
+  TextEditingController nop = new TextEditingController();
+  TextEditingController grwt = new TextEditingController();
+  TextEditingController chwt = new TextEditingController();
+  TextEditingController exporterName = new TextEditingController();
+
   final _controllerModeType = ValueNotifier<bool>(false);
 
   // List<VehicleToken> vehicleToeknListToBind = [];
@@ -66,7 +75,6 @@ class _SubmitITNDetailsState extends State<SubmitITNDetails> {
       });
     });
     super.initState();
-    docsDetailsList = EdocDetails.getCargo();
   }
 
   @override
@@ -325,7 +333,7 @@ class _SubmitITNDetailsState extends State<SubmitITNDetails> {
                                           color: Colors.yellow.shade100,
                                           child: Center(
                                             child: Text(
-                                                "${widget.docUploadDetails.MAWBNo}",
+                                                "${widget.Details.mawbNumber}",
                                                 style: mobileDetailsYellowBold),
                                           ),
                                         ),
@@ -339,7 +347,7 @@ class _SubmitITNDetailsState extends State<SubmitITNDetails> {
                                           color: Colors.yellow.shade100,
                                           child: Center(
                                             child: Text(
-                                                "${widget.docUploadDetails.PCS}",
+                                                "${widget.Details.piecesCount}",
                                                 // widget
                                                 //     .selectedVtDetails
                                                 //     .DRIVERNAME
@@ -400,7 +408,8 @@ class _SubmitITNDetailsState extends State<SubmitITNDetails> {
                                           height: 30,
                                           color: Colors.yellow.shade100,
                                           child: Center(
-                                            child: Text("128.00",
+                                            child: Text(
+                                                "${(widget.Details.weight).toStringAsFixed(2)}",
                                                 style: mobileDetailsYellowBold),
                                           ),
                                         ),
@@ -413,7 +422,8 @@ class _SubmitITNDetailsState extends State<SubmitITNDetails> {
                                           height: 30,
                                           color: Colors.yellow.shade100,
                                           child: Center(
-                                            child: Text("128.00",
+                                            child: Text(
+                                                "${(widget.Details.weight).toStringAsFixed(2)}",
                                                 // widget
                                                 //     .selectedVtDetails
                                                 //     .DRIVERNAME
@@ -472,7 +482,7 @@ class _SubmitITNDetailsState extends State<SubmitITNDetails> {
                                                           4.0),
                                                 ),
                                                 child: TextField(
-                                                    controller: txtVTNO,
+                                                    controller: ITNNO,
                                                     textAlign: TextAlign.right,
                                                     keyboardType:
                                                         TextInputType.text,
@@ -649,7 +659,7 @@ class _SubmitITNDetailsState extends State<SubmitITNDetails> {
                                                           4.0),
                                                 ),
                                                 child: TextField(
-                                                    controller: txtVTNO,
+                                                    controller: nop,
                                                     textAlign: TextAlign.right,
                                                     keyboardType:
                                                         TextInputType.text,
@@ -705,7 +715,7 @@ class _SubmitITNDetailsState extends State<SubmitITNDetails> {
                                                           4.0),
                                                 ),
                                                 child: TextField(
-                                                    controller: txtVTNO,
+                                                    controller: grwt,
                                                     textAlign: TextAlign.right,
                                                     keyboardType:
                                                         TextInputType.text,
@@ -761,7 +771,7 @@ class _SubmitITNDetailsState extends State<SubmitITNDetails> {
                                                           4.0),
                                                 ),
                                                 child: TextField(
-                                                    controller: txtVTNO,
+                                                    controller: chwt,
                                                     textAlign: TextAlign.right,
                                                     keyboardType:
                                                         TextInputType.text,
@@ -817,7 +827,7 @@ class _SubmitITNDetailsState extends State<SubmitITNDetails> {
                                                           4.0),
                                                 ),
                                                 child: TextField(
-                                                    controller: txtVTNO,
+                                                    controller: exporterName,
                                                     textAlign: TextAlign.right,
                                                     keyboardType:
                                                         TextInputType.text,
@@ -917,7 +927,30 @@ class _SubmitITNDetailsState extends State<SubmitITNDetails> {
                                         //   ),
                                         // ),
                                         ElevatedButton(
-                                          onPressed: () {},
+                                          onPressed: () async {
+                                            var submitITN;
+                                            submitITN = await ITNSave(1,"E"); //AssignTrucker
+
+                                            if (submitITN == true) {
+                                              var dlgstatus = await showDialog(
+                                                context: context,
+                                                builder: (BuildContext context) =>
+                                                    CustomDialog(
+                                                      title: "Message",
+                                                      description: "ITN saved successfully",
+                                                      buttonText: "Okay",
+                                                      imagepath: 'assets/images/successchk.gif',
+                                                      isMobile: useMobileLayout,
+                                                    ),
+                                              );
+
+
+                                              if (dlgstatus == true) {
+                                                Navigator.of(context)
+                                                    .pop(true); // To close the form
+                                              }
+                                            }
+                                          },
                                           style: ButtonStyle(
                                             foregroundColor:
                                                 MaterialStateProperty.all(
@@ -1324,7 +1357,7 @@ class _SubmitITNDetailsState extends State<SubmitITNDetails> {
                                           color: Colors.yellow.shade100,
                                           child: Center(
                                             child: Text(
-                                                "${widget.docUploadDetails.MAWBNo}",
+                                                "${widget.Details.mawbNumber}",
                                                 style:
                                                     iPadYellowTextFontStyleBold),
                                           ),
@@ -1339,7 +1372,7 @@ class _SubmitITNDetailsState extends State<SubmitITNDetails> {
                                           color: Colors.yellow.shade100,
                                           child: Center(
                                             child: Text(
-                                                "${widget.docUploadDetails.PCS}",
+                                                "${widget.Details.piecesCount}",
                                                 // widget
                                                 //     .selectedVtDetails
                                                 //     .DRIVERNAME
@@ -1401,7 +1434,8 @@ class _SubmitITNDetailsState extends State<SubmitITNDetails> {
                                           height: 50,
                                           color: Colors.yellow.shade100,
                                           child: Center(
-                                            child: Text("128.00",
+                                            child: Text(
+                                                "${(widget.Details.weight).toStringAsFixed(2)}",
                                                 style:
                                                     iPadYellowTextFontStyleBold),
                                           ),
@@ -1415,7 +1449,8 @@ class _SubmitITNDetailsState extends State<SubmitITNDetails> {
                                           height: 50,
                                           color: Colors.yellow.shade100,
                                           child: Center(
-                                            child: Text("128.00",
+                                            child: Text(
+                                                "${(widget.Details.weight).toStringAsFixed(2)}",
                                                 // widget
                                                 //     .selectedVtDetails
                                                 //     .DRIVERNAME
@@ -1476,7 +1511,7 @@ class _SubmitITNDetailsState extends State<SubmitITNDetails> {
                                                           4.0),
                                                 ),
                                                 child: TextField(
-                                                    controller: txtVTNO,
+                                                    controller: ITNNO,
                                                     textAlign: TextAlign.right,
                                                     keyboardType:
                                                         TextInputType.text,
@@ -1656,7 +1691,7 @@ class _SubmitITNDetailsState extends State<SubmitITNDetails> {
                                                           4.0),
                                                 ),
                                                 child: TextField(
-                                                    controller: txtVTNO,
+                                                    controller: nop,
                                                     textAlign: TextAlign.right,
                                                     keyboardType:
                                                         TextInputType.text,
@@ -1713,7 +1748,7 @@ class _SubmitITNDetailsState extends State<SubmitITNDetails> {
                                                           4.0),
                                                 ),
                                                 child: TextField(
-                                                    controller: txtVTNO,
+                                                    controller: grwt,
                                                     textAlign: TextAlign.right,
                                                     keyboardType:
                                                         TextInputType.text,
@@ -1770,7 +1805,7 @@ class _SubmitITNDetailsState extends State<SubmitITNDetails> {
                                                           4.0),
                                                 ),
                                                 child: TextField(
-                                                    controller: txtVTNO,
+                                                    controller: chwt,
                                                     textAlign: TextAlign.right,
                                                     keyboardType:
                                                         TextInputType.text,
@@ -1827,7 +1862,7 @@ class _SubmitITNDetailsState extends State<SubmitITNDetails> {
                                                           4.0),
                                                 ),
                                                 child: TextField(
-                                                    controller: txtVTNO,
+                                                    controller: exporterName,
                                                     textAlign: TextAlign.right,
                                                     keyboardType:
                                                         TextInputType.text,
@@ -1927,7 +1962,30 @@ class _SubmitITNDetailsState extends State<SubmitITNDetails> {
                                           width: 40,
                                         ),
                                         ElevatedButton(
-                                          onPressed: () {},
+                                          onPressed: () async {
+                                            var submitITN;
+                                            submitITN = await ITNSave(1,"E"); //AssignTrucker
+
+                                            if (submitITN == true) {
+                                              var dlgstatus = await showDialog(
+                                                context: context,
+                                                builder: (BuildContext context) =>
+                                                    CustomDialog(
+                                                      title: "Message",
+                                                      description: "ITN saved successfully",
+                                                      buttonText: "Okay",
+                                                      imagepath: 'assets/images/successchk.gif',
+                                                      isMobile: useMobileLayout,
+                                                    ),
+                                              );
+
+
+                                              if (dlgstatus == true) {
+                                                Navigator.of(context)
+                                                    .pop(true); // To close the form
+                                              }
+                                            }
+                                          },
                                           style: ButtonStyle(
                                             foregroundColor:
                                                 MaterialStateProperty.all(
@@ -2272,37 +2330,106 @@ class _SubmitITNDetailsState extends State<SubmitITNDetails> {
       ),
     );
   }
-}
+  Future<bool> ITNSave(op, mode) async {
 
-class EdocDetails {
-  EdocDetails(this.docName, this.docStatus, this.docRemark);
+    String a;
 
-  final String docName;
-  final int docStatus;
-  final String docRemark;
+    a = "{\"AWBid\": \"${widget.Details.awbid}\"," +
+        "\"SBNumber\":\"${ITNNO.text}\"," +
+        "\"SBType\":\"${1}\"," +
+        "\"SBDate\":\"${dateInput.text}\"," +
+        "\"NOP\":\"${nop.text.toString()}\"," +
+        "\"GrossWeight\":\"${grwt.text.toString()}\"," +
+        "\"CHACode\":\"${"456"}\"," +
+        "\"FOBValue\": \"${""}\"," +
+        "\"ExporterName\":\"${exporterName.text}\"," +
+        "\"CHAID\": \"${0}\"," +
+        "\"WeightUnitID\":\"${1}\"," +
+        "\"ChargeableWeight\":\"${chwt.text.toString()}\"," +
+        "\"VolumetricWeight\":\"${0}\"," +
+        "\"SBDimensions\": \"${""}\"}";
 
-  static List<EdocDetails> getCargo() {
-    return <EdocDetails>[
-      EdocDetails(
-        "MAWB_99956565670",
-        20,
-        "ABCD12345678",
-      ),
-      EdocDetails(
-        "MAWB_99956565670",
-        20,
-        "ABCD12345678",
-      ),
-      EdocDetails(
-        "MAWB_99956565670",
-        20,
-        "ABCD12345678",
-      ),
-      EdocDetails(
-        "MAWB_99956565670",
-        20,
-        "ABCD12345678",
-      ),
-    ];
+    // print("json a");
+    print(a);
+    var finalList = "[" + a + "]";
+    print((finalList));
+    //print(json.decode(a));
+    //print(json.encode(a));
+
+    try {
+      bool isValid = false;
+
+      // setState(() {
+      //   isSavingData = true;
+      // });
+
+      var queryParams = {
+        "OperationType": op,
+        "Mode":mode,
+        "CreatedByUserId": loggedinUser.CreatedByUserId,
+        "OrganizationBranchId": loggedinUser.OrganizationBranchId,
+        "OrganizationId": loggedinUser.OrganizationId,
+        "Data":json.decode(finalList),
+      };
+      await Global()
+          .postData(
+        Settings.SERVICES['SaveITNDetails'],
+        queryParams,
+      )
+          .then((response) {
+        print("data received ");
+        print(json.decode(response.body)['d']);
+        // isValid = true;
+
+        if (json.decode(response.body)['d'] == null) {
+          isValid = true;
+        } else {
+          if (json.decode(response.body)['d'] == "null") {
+            isValid = true;
+          } else {
+            if (json.decode(response.body)['d'] == "") {
+              isValid = true;
+            } else {
+              var responseText = json.decode(response.body)['d'].toString();
+
+              if (responseText.toLowerCase().contains("Msg")) {
+                // responseTextUpdated =
+                //     responseText.toString().replaceAll("ErrorMSG", "");
+                // responseTextUpdated =
+                //     responseTextUpdated.toString().replaceAll(":", "");
+                // responseTextUpdated =
+                //     responseTextUpdated.toString().replaceAll("\"", "");
+                // responseTextUpdated =
+                //     responseTextUpdated.toString().replaceAll("{", "");
+                // responseTextUpdated =
+                //     responseTextUpdated.toString().replaceAll("}", "");
+                // print(responseTextUpdated.toString());
+              }
+              // print(responseText.toString().replaceAll("ErrorMSG", ""));
+              // print(responseText.toString().replaceAll(":", ""));
+              // print(responseText.toString().replaceAll("\"", ""));
+
+              isValid = false;
+            }
+          }
+        }
+
+        // setState(() {
+        //   isSavingData = false;
+        //
+        // });
+      }).catchError((onError) {
+        // setState(() {
+        //   isSavingData = false;
+        // });
+        print(onError);
+      });
+      return isValid;
+    } catch (Exc) {
+      print(Exc);
+      return false;
+    }
   }
 }
+
+

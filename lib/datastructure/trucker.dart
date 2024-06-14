@@ -85,28 +85,36 @@ class ListingDetails {
 class ListingAssignTruckingDetails {
   String mawbNumber;
   String prefix;
-  int nop;
-  double grwt;
-  String unit;
-  String ffName;
-  String hawbNo;
+  // int nop;
+  // double grwt;
+  // String unit;
+  // String ffName;
+  // String hawbNo;
   String truckingCompany;
   String ITNNo;
   String ITNDate;
+  int awbId;
+  int hawbID;
+  int OrganizationBranchID;
+  int CreatedBy;
 
   bool? isSelected;
 
   ListingAssignTruckingDetails({
     required this.mawbNumber,
     required this.prefix,
-    required this.nop,
-    required this.grwt,
-    required this.unit,
-    required this.ffName,
-    required this.hawbNo,
+    // required this.nop,
+    // required this.grwt,
+    // required this.unit,
+    // required this.ffName,
+    // required this.hawbNo,
     required this.truckingCompany,
     required this.ITNNo,
     required this.ITNDate,
+    required this.awbId,
+    required this.hawbID,
+    required this.OrganizationBranchID,
+    required this.CreatedBy,
     this.isSelected = false});
 
 
@@ -114,15 +122,18 @@ class ListingAssignTruckingDetails {
     return ListingAssignTruckingDetails(
       mawbNumber: json["MAWBNumber"]== null ? "" :json["MAWBNumber"],
       prefix: json["AirlinePrefix"]== null ? "" :json["AirlinePrefix"],
-      nop: json["SBNOP"]== null ? "" :json["SBNOP"],
-      grwt: json["SBNGrWt"]== null ? "" :json["SBNGrWt"],
-      unit: json["SBUnit"]== null ? "" :json["SBUnit"],
-      ffName: json["FFName"]== null ? "" :json["FFName"],
-      hawbNo: json["HAWBNo"]== null ? "" :json["HAWBNo"],
+      // nop: json["SBNOP"]== null ? "" :json["SBNOP"],
+      // grwt: json["SBNGrWt"]== null ? "" :json["SBNGrWt"],
+      // unit: json["SBUnit"]== null ? "" :json["SBUnit"],
+      // ffName: json["FFName"]== null ? "" :json["FFName"],
+      // hawbNo: json["HAWBNo"]== null ? "" :json["HAWBNo"],
       truckingCompany: json["TruckingCompany"]== "" ? "" :json["TruckingCompany"],
       ITNNo: json["ITN No"]== null ? "" :json["ITN No"],
       ITNDate: json["ITN Date"]== null ? "" :json["ITN Date"],
-
+      awbId: json["AWBID"]== "" ? "" :json["AWBID"],
+      hawbID: json["HAWBID"]== "" ? "" :json["HAWBID"],
+      OrganizationBranchID: json["OrganizationBranchID"]== null ? "" :json["OrganizationBranchID"],
+      CreatedBy: json["CreatedBy"]== null ? "" :json["CreatedBy"],
 
 
     );
@@ -131,18 +142,21 @@ class ListingAssignTruckingDetails {
   Map<String, dynamic> toMap() => {
     "MAWBNumber": mawbNumber,
     "AirlinePrefix" : prefix,
-    "SBNOP": nop,
-    "SBNGrWt" : grwt,
-    "SBUnit": unit,
-    "FFName" : ffName,
-    "HAWBNo": hawbNo,
+    // "SBNOP": nop,
+    // "SBNGrWt" : grwt,
+    // "SBUnit": unit,
+    // "FFName" : ffName,
+    // "HAWBNo": hawbNo,
     "TruckingCompany": truckingCompany,
     "ITN No" : ITNNo,
     "ITN Date" : ITNDate,
+    "AWBID": awbId,
+    "HAWBID":hawbID,
+    "OrganizationBranchID" : OrganizationBranchID,
+    "CreatedBy" : CreatedBy,
 
 
   };
 }
 
 
-// [{\"row_num\":1,\"AWBID\":175990,\"SBID\":771757,\"AirlinePrefix\":\"999\",\"MAWBNumber\":\"90036951\",\"SBNOP\":10,\"SBNGrWt\":10.000,\"SBUnit\":\"Kgs\",\"CHAID\":82851,\"CreatedBy\":82851,\"CreatedDate\":\"2024-05-08T06:02:17.943\",\"OrganizationID\":72783,\"OrganizationBranchID\":72830,\"TSPReceiptNo\":\"IHYDE2303210004\",\"TSPReceiptDt\":\"21 Mar 2023\",\"CustodianID\":22645,\"CustodianName\":\"KALEGHA3\",\"FFName\":\"AWForwarderCB\",\"CHANo\":\"456\",\"SBNo\":\"x20240508123412\",\"SBDate\":\"08 May 2024\",\"SBPcs\":10,\"SBGrWt\":10.000,\"HAWBNo\":null,\"SBNChgWt\":10.000,\"SBChgUnit\":\"Kgs\",\"TruckingCompany1\":\"ACS Trucker\",\"MAWBHAWBCreatedDate\":\"08 May 2024\",\"TruckingCompany\":\"\",\"TruckerBranchID\":0,\"AWBGUID\":\"EAB24050800006\",\"CTO\":22645}
