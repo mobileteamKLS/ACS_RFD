@@ -79,6 +79,7 @@ class _ASIListingState extends State<ASIListing> {
       "OrganizationId": loggedinUser.OrganizationId,
       "MAWBNUMBER":"",
       "HAWBNUMBER":""
+
     };
 
     await Global()
