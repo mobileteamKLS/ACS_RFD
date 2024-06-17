@@ -1106,7 +1106,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                 children: [
                   SizedBox(
                     width: useMobileLayout
-                        ? MediaQuery.of(context).size.width / 1.7
+                        ? MediaQuery.of(context).size.width / 1.9
                         : MediaQuery.of(context).size.width / 1.5,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,

@@ -812,7 +812,7 @@ class _SubmitITNState extends State<SubmitITN> {
                         ? MediaQuery
                         .of(context)
                         .size
-                        .width / 1.7
+                        .width / 1.9
                         : MediaQuery
                         .of(context)
                         .size
