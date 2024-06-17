@@ -289,7 +289,7 @@ class _ASIListingState extends State<ASIListing> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: SizedBox(
                                   width: MediaQuery.of(context).size.width /
-                                      3.5, // hard coding child width
+                                      2.8, // hard coding child width
                                   child: Container(
                                     height: 40,
                                     width:
@@ -332,15 +332,19 @@ class _ASIListingState extends State<ASIListing> {
                                   ),
                                 ),
                               ),
-                              GestureDetector(
-                                  child: SearchContainerButton(),
-                                  onTap: () async {
-                                    //export
-                                  }),
-                              SizedBox(width: 5),
+                              // GestureDetector(
+                              //     child: SearchContainerButton(),
+                              //     onTap: () async {
+                              //       //export
+                              //     }),
+                              // SizedBox(width: 5),
                               GestureDetector(
                                 child: DeleteScanContainerButton(),
-                                onTap: () async {},
+                                onTap: () async {
+                                  mawbPrefixController.text = "";
+                                  mawbNoController.text = "";
+                                  onSearchTextChanged();
+                                },
                               )
                             ]),
                             SizedBox(

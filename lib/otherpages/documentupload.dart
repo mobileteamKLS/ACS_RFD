@@ -408,7 +408,11 @@ class _DocumentUploadState extends State<DocumentUpload> {
                               // SizedBox(width: 3),
                               GestureDetector(
                                 child: DeleteScanContainerButton(),
-                                onTap: () async {},
+                                onTap: () async {
+                                  mawbPrefixController.text = "";
+                                  mawbNoController.text = "";
+                                  onSearchTextChanged();
+                                },
                               )
                             ]),
                             SizedBox(

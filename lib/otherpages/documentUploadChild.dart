@@ -1551,7 +1551,7 @@ class _DocumentUploadChildState extends State<DocumentUploadChild> {
                                             .of(context)
                                             .size
                                             .width /
-                                            2.8,
+                                            3.2,
                                         child: Center(
                                           child: const Text(
                                             "Clear",
@@ -1596,7 +1596,7 @@ class _DocumentUploadChildState extends State<DocumentUploadChild> {
                                             .of(context)
                                             .size
                                             .width /
-                                            2.8,
+                                            3.2,
                                         child: Center(
                                           child: const Text(
                                             "Upload",
