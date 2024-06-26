@@ -744,3 +744,91 @@ class AssignTrucker {
     return map;
   }
 }
+
+class EDocUploadDetails {
+  int recordNumber1;
+  int speedAwbid;
+  String weightUnitId;
+  int awbid;
+  String hawbNumber;
+  String mawbNumber;
+  String airlinePrefix;
+  String flightDate;
+  int piecesCount;
+  double weight;
+  double grossWeight;
+  String originairportname;
+  String destinationairportname;
+  String truckerId;
+  String truckerName;
+  String trucker2Id;
+  String trucker2Name;
+  String awbNumber;
+  String isDocUploaded;
+
+  EDocUploadDetails({
+    required this.recordNumber1,
+    required this.speedAwbid,
+    required this.weightUnitId,
+    required this.awbid,
+    required this.hawbNumber,
+    required this.mawbNumber,
+    required this.airlinePrefix,
+    required this.flightDate,
+    required this.piecesCount,
+    required this.weight,
+    required this.grossWeight,
+    required this.originairportname,
+    required this.destinationairportname,
+    required this.truckerId,
+    required this.truckerName,
+    required this.trucker2Id,
+    required this.trucker2Name,
+    required this.awbNumber,
+    required this.isDocUploaded,
+  });
+
+  factory EDocUploadDetails.fromJson(Map<String, dynamic> json) => EDocUploadDetails(
+    recordNumber1: json["RecordNumber1"]== null ? 0 : json['RecordNumber1'],
+    speedAwbid: json["SpeedAWBID"]== null ? 0 : json['SpeedAWBID'],
+    weightUnitId: json["WeightUnitID"]== null ? "" : json['WeightUnitID'],
+    awbid: json["AWBID"]== null ? 0 : json['RecordNumber1'],
+    hawbNumber: json["HAWBNumber"]== null ? "" : json['HAWBNumber'],
+    mawbNumber: json["MAWBNumber"]== null ? "" : json['MAWBNumber'],
+    airlinePrefix: json["AirlinePrefix"]== null ? "" : json['AirlinePrefix'],
+    flightDate: json["FlightDate"]== null ? "" : json['FlightDate'],
+    piecesCount: json["PiecesCount"]== null ? 0 : json['PiecesCount'],
+    weight: json["Weight"]== null ? 0 : json['Weight'],
+    grossWeight: json["GrossWeight"]== null ? 0 : json['GrossWeight'],
+    originairportname: json["ORIGINAIRPORTNAME"]== null ? "" : json['ORIGINAIRPORTNAME'],
+    destinationairportname: json["DESTINATIONAIRPORTNAME"]== null ? "" : json['DESTINATIONAIRPORTNAME'],
+    truckerId: json["TruckerID"]== null ? "" : json['TruckerID'],
+    truckerName: json["truckerName"]== null ? "" : json['truckerName'],
+    trucker2Id: json["Trucker2ID"]== null ? "" : json['Trucker2ID'],
+    trucker2Name: json["Trucker2Name"]== null ? "" : json['Trucker2Name'],
+    awbNumber: json["AWBNumber"]== null ? "" : json['AWBNumber'],
+    isDocUploaded: json["IsDocUploaded"]== null ? "" : json['IsDocUploaded'],
+  );
+
+  Map<String, dynamic> toMap() => {
+    "RecordNumber1": recordNumber1,
+    "SpeedAWBID": speedAwbid,
+    "WeightUnitID": weightUnitId,
+    "AWBID": awbid,
+    "HAWBNumber": hawbNumber,
+    "MAWBNumber": mawbNumber,
+    "AirlinePrefix": airlinePrefix,
+    "FlightDate": flightDate,
+    "PiecesCount": piecesCount,
+    "Weight": weight,
+    "GrossWeight": grossWeight,
+    "ORIGINAIRPORTNAME": originairportname,
+    "DESTINATIONAIRPORTNAME": destinationairportname,
+    "TruckerID": truckerId,
+    "truckerName": truckerName,
+    "Trucker2ID": trucker2Id,
+    "Trucker2Name": trucker2Name,
+    "AWBNumber": awbNumber,
+    "IsDocUploaded": isDocUploaded,
+  };
+}

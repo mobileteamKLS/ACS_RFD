@@ -21,7 +21,7 @@ import '../widgets/timeline.dart';
 import 'documentupload.dart';
 
 class DocumentUploadChild extends StatefulWidget {
-  final DocUploadDetails docUploadDetails;
+  final EDocUploadDetails docUploadDetails;
 
   const DocumentUploadChild(this.docUploadDetails, {Key? key})
       : super(key: key);
@@ -562,7 +562,7 @@ class _DocumentUploadChildState extends State<DocumentUploadChild> {
                                         child: Center(
                                           child: Text(
                                               "${widget.docUploadDetails
-                                                  .MAWBNo}",
+                                                  .mawbNumber}",
                                               style:
                                               mobileDetailsYellowBold),
                                         ),
@@ -579,7 +579,7 @@ class _DocumentUploadChildState extends State<DocumentUploadChild> {
                                         color: Colors.yellow.shade100,
                                         child: Center(
                                           child: Text(
-                                              "${widget.docUploadDetails.Date}",
+                                              "${widget.docUploadDetails.flightDate}",
                                               // widget
                                               //     .selectedVtDetails
                                               //     .DRIVERNAME
@@ -2195,7 +2195,7 @@ class _DocumentUploadChildState extends State<DocumentUploadChild> {
                                         child: Center(
                                           child: Text(
                                               "${widget.docUploadDetails
-                                                  .MAWBNo}",
+                                                  .awbNumber}",
                                               style:
                                               iPadYellowTextFontStyleBold),
                                         ),
@@ -2212,7 +2212,7 @@ class _DocumentUploadChildState extends State<DocumentUploadChild> {
                                         color: Colors.yellow.shade100,
                                         child: Center(
                                           child: Text(
-                                              "${widget.docUploadDetails.Date}",
+                                              "${widget.docUploadDetails.flightDate}",
                                               // widget
                                               //     .selectedVtDetails
                                               //     .DRIVERNAME

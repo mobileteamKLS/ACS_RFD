@@ -526,7 +526,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                                           items: trucker.map((list) {
                                             return DropdownMenuItem(
                                               child: Text(list.name,
-                                                  style: iPadTextFontStyle),
+                                                  style: mobileTextFontStyle),
                                               //label of item
                                               value: list
                                                   .branchId, //value of item

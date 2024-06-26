@@ -45,50 +45,70 @@ class _DocumentUploadState extends State<DocumentUpload> {
   TextEditingController txtVTNO = new TextEditingController();
   final _controllerModeType = ValueNotifier<bool>(false);
 
-  List<DocUploadDetails> searchedList = [];
-  List<DocUploadDetails> docUploadList = [
-    DocUploadDetails(
-        MAWBNo: '999-56565670',
-        Date: '17-Jan-24',
-        PCS: '20',
-        Weight: '55.00',
-        Unit: 'kgs'),
-    DocUploadDetails(
-        MAWBNo: '125-56565671',
-        Date: '18-Jan-24',
-        PCS: '20',
-        Weight: '96.00',
-        Unit: 'kgs'),
-    DocUploadDetails(
-        MAWBNo: '125-56565672',
-        Date: '19-Jan-24',
-        PCS: '20',
-        Weight: '71.00',
-        Unit: 'kgs'),
-    DocUploadDetails(
-        MAWBNo: '999-56565673',
-        Date: '20-Jan-24',
-        PCS: '20',
-        Weight: '45.00',
-        Unit: 'kgs'),
-    DocUploadDetails(
-        MAWBNo: '999-56565674',
-        Date: '21-Jan-24',
-        PCS: '20',
-        Weight: '80.00',
-        Unit: 'kgs'),
-    DocUploadDetails(
-        MAWBNo: '165-56565675',
-        Date: '22-Jan-24',
-        PCS: '20',
-        Weight: '60.00',
-        Unit: 'kgs'),
+  List<EDocUploadDetails> searchedList = [];
+  List<EDocUploadDetails> docUploadList = [
+
   ];
-  List<bool> isSelected = [true, false, false];
+
+  getEDOCKETList(operationType,mode) async {
+    print("in ASI list");
+    if (isLoading) return;
+    txtVTNO.text = "";
+    docUploadList = [];
+
+    setState(() {
+      isLoading = true;
+    });
+
+    var queryParams = {
+      "OperationType": operationType.toString(),
+      "AirlinePrefix": "0",
+      "AwbNumber": "0",
+      "HawbNumber": "",
+      "CreatedByUserId": loggedinUser.CreatedByUserId,
+      "OrganizationBranchId": loggedinUser.OrganizationBranchId,
+      "OrganizationId": loggedinUser.OrganizationId,
+      "AWBID": 0,
+      "SBID": 0
+    };
+
+    await Global()
+        .postData(
+      Settings.SERVICES['ListingPageExport'],
+      queryParams,
+    )
+        .then((response) {
+      print("data received ");
+      print(json.decode(response.body)['d']);
+
+      var msg = json.decode(response.body)['d'];
+      var resp = json.decode(msg).cast<Map<String, dynamic>>();
+
+      docUploadList = resp
+          .map<EDocUploadDetails>((json) => EDocUploadDetails.fromJson(json))
+          .toList();
+
+      print(
+          "length getEDOCKETList = " + docUploadList.length.toString());
+      setState(() {
+        isLoading = false;
+      });
+    }).catchError((onError) {
+      setState(() {
+        isLoading = false;
+      });
+      print(onError);
+    });
+  }
 
   @override
   void initState() {
     dateInput.text = "";
+    if(widget.isExport){
+      getEDOCKETList(7, "E");
+    }else{
+      getEDOCKETList(8, "I"); //AssignTrucker
+    }
     // if (modeSelected == 0) vehicleToeknListToBind = vehicleToeknListExport;
     // if (modeSelected == 1) vehicleToeknListToBind = vehicleToeknListImport;
 
@@ -630,7 +650,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
                               itemCount: searchedList.length,
                               physics: NeverScrollableScrollPhysics(),
                               itemBuilder: (BuildContext context, int index) {
-                                DocUploadDetails docListItem =
+                                EDocUploadDetails docListItem =
                                     searchedList.elementAt(index);
                                 return mawbListItem(
                                     context, docListItem, index);
@@ -642,7 +662,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
                               itemCount: docUploadList.length,
                               physics: NeverScrollableScrollPhysics(),
                               itemBuilder: (BuildContext context, int index) {
-                                DocUploadDetails docListItem =
+                                EDocUploadDetails docListItem =
                                     docUploadList.elementAt(index);
                                 return mawbListItem(
                                     context, docListItem, index);
@@ -664,7 +684,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
       } else {
         searchedList = docUploadList.where((item) {
 
-          List parts = item.MAWBNo.split('-');
+          List parts = item.awbNumber.split('-');
           bool prefixMatches = prefix.isEmpty || (parts.length > 0 && parts[0].contains(prefix)); // Check if item prefix contains search prefix
           bool suffixMatches = suffix.isEmpty || (parts.length > 1 && parts[1].contains(suffix)); // Check if item suffix contains search suffix
           return prefixMatches && suffixMatches;
@@ -713,7 +733,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
   //  // });
   // }
 
-  mawbListItem(BuildContext context, DocUploadDetails docUploadDetails, index) {
+  mawbListItem(BuildContext context, EDocUploadDetails docUploadDetails, index) {
     return Card(
       elevation: 3,
       margin: useMobileLayout
@@ -735,7 +755,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
                   // height: 70,
                   // color: Colors.white,
                   child: Text(
-                    docUploadDetails.MAWBNo,
+                    docUploadDetails.awbNumber,
                     style: useMobileLayout
                         ? mobileGroupHeaderFontStyleBold
                         : iPadGroupHeaderFontStyleBold,
@@ -787,21 +807,21 @@ class _DocumentUploadState extends State<DocumentUpload> {
               children: [
                 SizedBox(
                   width: useMobileLayout
-                      ? MediaQuery.of(context).size.width / 1.7
+                      ? MediaQuery.of(context).size.width / 1.9
                       : MediaQuery.of(context).size.width / 1.5,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Trucking Company Name",
+                        "${docUploadDetails.trucker2Name}",
                         style: useMobileLayout
                             ? VTlistTextFontStyle
                             : iPadcompletedBlackText,
                       ),
 
                       Text(
-                        "Origin",
+                        "${docUploadDetails.originairportname}",
                         style: useMobileLayout
                             ? VTlistTextFontStyle
                             : iPadcompletedBlackText,
@@ -810,7 +830,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
                         // maxLines: 3,
                       ),
                       Text(
-                        "Destination",
+                        "${docUploadDetails.destinationairportname}",
                         style: useMobileLayout
                             ? VTlistTextFontStyle
                             : iPadcompletedBlackText,
@@ -841,7 +861,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
                   padding: const EdgeInsets.only(left: 8.0),
                   child: SizedBox(
                     width: useMobileLayout
-                        ? MediaQuery.of(context).size.width / 4.2
+                        ? MediaQuery.of(context).size.width / 3.5
                         : MediaQuery.of(context).size.width / 4.6,
                     // height: 70,
                     // color: Colors.white,
@@ -860,7 +880,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
                             ),
                             //              SizedBox(width: 10),
                             Text(
-                              " ${docUploadDetails.Date}",
+                              " ${docUploadDetails.flightDate}",
                               style: useMobileLayout
                                   ? VTlistTextFontStyle
                                   : iPadcompletedBlackText,
@@ -868,15 +888,15 @@ class _DocumentUploadState extends State<DocumentUpload> {
                           ],
                         ),
                         Text(
-                          "${docUploadDetails.PCS}" + " PCS",
+                          "${docUploadDetails.piecesCount}" + " PCS",
                           style: useMobileLayout
                               ? VTlistTextFontStyle
                               : iPadcompletedBlackText,
                         ),
                         Text(
-                          "${docUploadDetails.Weight}" +
+                          "${docUploadDetails.weight}" +
                               " " +
-                              "${docUploadDetails.Unit}",
+                              "${docUploadDetails.weightUnitId}",
                           style: useMobileLayout
                               ? VTlistTextFontStyle
                               : iPadcompletedBlackText,
