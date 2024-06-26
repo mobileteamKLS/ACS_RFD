@@ -11,6 +11,7 @@ import 'package:luxair/widgets/headerclipper.dart';
 import 'package:luxair/widgets/qrscan.dart';
 import 'package:luxair/widgets/speech_recognition.dart';
 import '../constants.dart';
+import '../datastructure/submitITN.dart';
 import '../datastructure/trucker.dart';
 import '../datastructure/ASIListing.dart';
 import '../global.dart';
@@ -288,7 +289,7 @@ class _ASIListingState extends State<ASIListing> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: SizedBox(
                                   width: MediaQuery.of(context).size.width /
-                                      3.5, // hard coding child width
+                                      2.8, // hard coding child width
                                   child: Container(
                                     height: 40,
                                     width:
@@ -331,15 +332,19 @@ class _ASIListingState extends State<ASIListing> {
                                   ),
                                 ),
                               ),
-                              GestureDetector(
-                                  child: SearchContainerButton(),
-                                  onTap: () async {
-                                    //export
-                                  }),
-                              SizedBox(width: 5),
+                              // GestureDetector(
+                              //     child: SearchContainerButton(),
+                              //     onTap: () async {
+                              //       //export
+                              //     }),
+                              // SizedBox(width: 5),
                               GestureDetector(
                                 child: DeleteScanContainerButton(),
-                                onTap: () async {},
+                                onTap: () async {
+                                  mawbPrefixController.text = "";
+                                  mawbNoController.text = "";
+                                  onSearchTextChanged();
+                                },
                               )
                             ]),
                             SizedBox(
@@ -754,30 +759,14 @@ class _ASIListingState extends State<ASIListing> {
                           index);
                       var submitASI;
                       submitASI = await ASIsubmit(ListItem,1,"E"); //AssignTrucker
-
+                      print(submitASI);
                       if (submitASI == true) {
-                        var dlgstatus = await showDialog(
-                          context: context,
-                          builder: (BuildContext context) =>
-                              CustomDialog(
-                                title: "Message",
-                                description: "ASI submitted successfully",
-                                buttonText: "Okay",
-                                imagepath: 'assets/images/successchk.gif',
-                                isMobile: useMobileLayout,
-                              ),
-                        );
 
-
-                        if (dlgstatus == true) {
-                          Navigator.of(context)
-                              .pop(true); // To close the form
-                        }
                       }
 
                     },
                     child: Icon(
-                      FontAwesomeIcons.chevronRight,
+                      FontAwesomeIcons.save,
                       color: Colors.white,
                       size: useMobileLayout ? 24 : 34,
                     ),
@@ -961,7 +950,7 @@ class _ASIListingState extends State<ASIListing> {
         Settings.SERVICES['SendMAWBASI'],
         queryParams,
       )
-          .then((response) {
+          .then((response) async {
         print("data received ");
         print(json.decode(response.body)['d']);
         // isValid = true;
@@ -976,23 +965,51 @@ class _ASIListingState extends State<ASIListing> {
               isValid = true;
             } else {
               var responseText = json.decode(response.body)['d'].toString();
+              var msg = json.decode(response.body)['d'];
+              var resp = json.decode(msg).cast<Map<String, dynamic>>();
+              isValid = true;
 
-              if (responseText.toLowerCase().contains("Msg")) {
-                // responseTextUpdated =
-                //     responseText.toString().replaceAll("ErrorMSG", "");
-                // responseTextUpdated =
-                //     responseTextUpdated.toString().replaceAll(":", "");
-                // responseTextUpdated =
-                //     responseTextUpdated.toString().replaceAll("\"", "");
-                // responseTextUpdated =
-                //     responseTextUpdated.toString().replaceAll("{", "");
-                // responseTextUpdated =
-                //     responseTextUpdated.toString().replaceAll("}", "");
-                // print(responseTextUpdated.toString());
+              List<ResponseObject> rspMsg = [];
+              rspMsg = resp
+                  .map<ResponseObject>((json) => ResponseObject.fromJson(json))
+                  .toList();
+              if (rspMsg.isNotEmpty){
+                if(rspMsg[0].Status.toString()=="S"){
+                  var dlgstatus = await showDialog(
+                    context: context,
+                    builder: (BuildContext context) =>
+                        CustomDialog(
+                          title: "Message",
+                          description: rspMsg[0].StrMessage.toString(),
+                          buttonText: "Okay",
+                          imagepath: 'assets/images/successchk.gif',
+                          isMobile: useMobileLayout,
+                        ),
+                  );
+                  if (dlgstatus == true) {
+                    getASIList();
+                  }
+                }
+                else{
+                  var dlgstatus = await showDialog(
+                    context: context,
+                    builder: (BuildContext context) =>
+                        CustomDialog(
+                          title: "Message",
+                          description: rspMsg[0].StrMessage.toString(),
+                          buttonText: "Okay",
+                          imagepath: 'assets/images/warn.gif',
+                          isMobile: useMobileLayout,
+                        ),
+                  );
+                  // if (dlgstatus == true) {
+                  //   getASIList();
+                  // }
+
+                }
+
               }
-              // print(responseText.toString().replaceAll("ErrorMSG", ""));
-              // print(responseText.toString().replaceAll(":", ""));
-              // print(responseText.toString().replaceAll("\"", ""));
+
 
               isValid = false;
             }

@@ -413,7 +413,11 @@ class _SubmitITNState extends State<SubmitITN> {
                         SizedBox(width: 5),
                         GestureDetector(
                           child: DeleteScanContainerButton(),
-                          onTap: () async {},
+                          onTap: () async {
+                            mawbPrefixController.text = "";
+                            mawbNoController.text = "";
+                            onSearchTextChanged();
+                          },
                         )
                       ]),
                       SizedBox(
@@ -660,50 +664,73 @@ class _SubmitITNState extends State<SubmitITN> {
       });
       return;
     }
-    // String searchText = prefix.isEmpty
-    //     ? suffix
-    //     : suffix.isEmpty
-    //         ? prefix
-    //         : prefix.isNotEmpty && suffix.isNotEmpty
-    //             ? "$prefix-$suffix"
-    //             : "";
-    //
-    // print(searchText);
-    // setState(() {
-    //   searchedList = ITNList
-    //       .where((item) => item.MAWBNo.contains(searchText))
-    //       .toList();
-    // });
-
-    //   setState(() {
-    //     searchedList = ITNList
-    //         .where((item) {
-    //       return prefix.isEmpty
-    //           ? item.MAWBNo.contains(suffix)
-    //           : suffix.isEmpty
-    //           ? item.MAWBNo.contains(prefix)
-    //           : prefix.isNotEmpty && suffix.isNotEmpty
-    //           ? item.MAWBNo.contains(suffix) &&
-    //           item.MAWBNo.contains(prefix)
-    //           : false;
-    //     })
-    //         .toList();
-    //   });
-    // }
-    // onSearchTextChanged(String text) async {
-    //   searchedList.clear();
-    //   if (text.isEmpty) {
-    //     setState(() {});
-    //     return;
-    //   }
-    //   for (var item in ITNList) {
-    //     if (item.MAWBNo.contains(text.toLowerCase())) {
-    //       searchedList.add(item);
-    //     }
-    //   }
-    //   setState(() {});
-    // }
+    setState(() {
+      searchedList = ITNList.where((item) {
+        return prefix.isEmpty
+            ? item.mawbNumber.contains(suffix)
+            : suffix.isEmpty
+            ? item.mawbNumber.contains(prefix)
+            : prefix.isNotEmpty && suffix.isNotEmpty
+            ? item.mawbNumber.contains(suffix) &&
+            item.mawbNumber.contains(prefix)
+            : false;
+      }).toList();
+    });
   }
+
+  // void onSearchTextChanged() {
+  //   String prefix = mawbPrefixController.text.trim();
+  //   String suffix = mawbNoController.text.trim();
+  //   if (prefix.isEmpty && suffix.isEmpty) {
+  //     setState(() {
+  //       searchedList.clear();
+  //     });
+  //     return;
+  //   }
+  //   // String searchText = prefix.isEmpty
+  //   //     ? suffix
+  //   //     : suffix.isEmpty
+  //   //         ? prefix
+  //   //         : prefix.isNotEmpty && suffix.isNotEmpty
+  //   //             ? "$prefix-$suffix"
+  //   //             : "";
+  //   //
+  //   // print(searchText);
+  //   // setState(() {
+  //   //   searchedList = ITNList
+  //   //       .where((item) => item.MAWBNo.contains(searchText))
+  //   //       .toList();
+  //   // });
+  //
+  //   //   setState(() {
+  //   //     searchedList = ITNList
+  //   //         .where((item) {
+  //   //       return prefix.isEmpty
+  //   //           ? item.MAWBNo.contains(suffix)
+  //   //           : suffix.isEmpty
+  //   //           ? item.MAWBNo.contains(prefix)
+  //   //           : prefix.isNotEmpty && suffix.isNotEmpty
+  //   //           ? item.MAWBNo.contains(suffix) &&
+  //   //           item.MAWBNo.contains(prefix)
+  //   //           : false;
+  //   //     })
+  //   //         .toList();
+  //   //   });
+  //   // }
+  //   // onSearchTextChanged(String text) async {
+  //   //   searchedList.clear();
+  //   //   if (text.isEmpty) {
+  //   //     setState(() {});
+  //   //     return;
+  //   //   }
+  //   //   for (var item in ITNList) {
+  //   //     if (item.MAWBNo.contains(text.toLowerCase())) {
+  //   //       searchedList.add(item);
+  //   //     }
+  //   //   }
+  //   //   setState(() {});
+  //   // }
+  // }
 
     mawbListItem(BuildContext context, ITNDetails Details, index) {
       return Card(
@@ -785,7 +812,7 @@ class _SubmitITNState extends State<SubmitITN> {
                         ? MediaQuery
                         .of(context)
                         .size
-                        .width / 1.7
+                        .width / 1.9
                         : MediaQuery
                         .of(context)
                         .size

@@ -13,7 +13,7 @@
         </intent>
     </queries>
    <application
-        android:label="ACS-LUX"
+        android:label="ACS-RFD"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

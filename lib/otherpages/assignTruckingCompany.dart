@@ -25,7 +25,7 @@ class AssignTruckingCompany extends StatefulWidget {
 class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
   TextEditingController dateInput = TextEditingController();
   String finalTruckerString = "";
-      String truckerTableString = "";
+
   String scannedCodeReceived = "", selectedSlotDate = "";
   bool useMobileLayout = false;
   int truckingAssigned = 0;
@@ -471,6 +471,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                                 onTap: () async {
                                   mawbPrefixController.text = "";
                                   mawbNoController.text = "";
+                                  onSearchTextChanged();
                                 },
                               )
                             ]),
@@ -525,7 +526,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                                           items: trucker.map((list) {
                                             return DropdownMenuItem(
                                               child: Text(list.name,
-                                                  style: iPadTextFontStyle),
+                                                  style: mobileTextFontStyle),
                                               //label of item
                                               value: list
                                                   .branchId, //value of item
@@ -853,7 +854,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                       ),
                       Positioned(
                         bottom: 10,
-                        left: useMobileLayout ? 20 : 180,
+                        left: useMobileLayout ? 4 : 180,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -882,7 +883,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                               ),
                               child: SizedBox(
                                 width: useMobileLayout
-                                    ? MediaQuery.of(context).size.width / 3.2
+                                    ? MediaQuery.of(context).size.width / 2.8
                                     : MediaQuery.of(context).size.width / 3.8,
                                 height: useMobileLayout ? 38 : 48,
                                 child: Center(
@@ -936,7 +937,8 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                                     Navigator.of(context)
                                         .pop(true); // To close the form
                                   }
-                                }else{
+                                }
+                                else{
                                   var dlgstatus = await showDialog(
                                     context: context,
                                     builder: (BuildContext context) =>
@@ -966,13 +968,16 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
 
                               child: SizedBox(
                                 width: useMobileLayout
-                                    ? MediaQuery.of(context).size.width / 3.2
+                                    ? MediaQuery.of(context).size.width /2.8
                                     : MediaQuery.of(context).size.width / 3.8,
                                 height: useMobileLayout ? 38 : 48,
 
                                 child: Center(
-                                  child: const Text(
+                                  child:truckingAssigned==0 ? const Text(
                                     "Assign Trucker",
+                                    style: TextStyle(fontSize: 18),
+                                  ):const Text(
+                                    "UnAssign Trucker",
                                     style: TextStyle(fontSize: 18),
                                   ),
                                 ),
@@ -1101,7 +1106,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                 children: [
                   SizedBox(
                     width: useMobileLayout
-                        ? MediaQuery.of(context).size.width / 1.7
+                        ? MediaQuery.of(context).size.width / 1.9
                         : MediaQuery.of(context).size.width / 1.5,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -1210,9 +1215,9 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
   Future<bool> UnassignTruckerSave(op, mode) async {
     String type;
     if (truckingAssigned == 0) {
-     type = "\"Type\": \"A\"";
+     type = "A";
     } else {
-      type = "\"Type\": \"U\"";
+      type = "U";
     }
     print(type);
     print(_selectedIndices);
@@ -1229,6 +1234,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
               isMobile: useMobileLayout,
             ),
       );
+      return false;
     }
     }
 
@@ -1244,27 +1250,61 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
               isMobile: useMobileLayout,
             ),
       );
+      return false;
     }
 
+   //  int i = 0;
+   //  String a;
+   //  String truckerTableString = "";
+   //  print("filteredList ${filteredList.length}");
+   //  for (ListingAssignTruckingDetails u in filteredList) {
+   //    if(widget.isExport){
+   //      a = "{\"AWBID\": \"${u.awbId}\"," +
+   //          "\"ParentId\":\"${u.OrganizationBranchID}\"," +
+   //          "\"ChildId\":\"${selectedID}\"," +
+   //          "\"CreatedById\":\"${u.CreatedBy}\"}";
+   //    }else{
+   //      a = "{\"AWBID\": \"${u.awbId}\"," +
+   //          "\"HAWBID\":\"${u.hawbID}\"," +
+   //          "\"ParentId\":\"${u.OrganizationBranchID}\"," +
+   //          "\"ChildId\":\"${selectedID}\"," +
+   //          "\"CreatedById\":\"${u.CreatedBy}\"}";
+   //    }
+   //   // print("json a");
+   //    print(a);
+   //    //print(json.decode(a));
+   //    //print(json.encode(a));
+   //    if (i == 0)
+   //      truckerTableString = truckerTableString + a;
+   //    else
+   //      truckerTableString = truckerTableString + "," + a;
+   //
+   //    i++;
+   //  }
+   //  print(type);
+   // // truckerTableString + "," + type;
+   //  finalTruckerString = "[" + truckerTableString + "]," + type;
+   //  print(truckerTableString);
+   //  print(json.decode(finalTruckerString));
+   //  var ab = json.decode(finalTruckerString);
     int i = 0;
     String a;
+    String truckerTableString = "";
+    print("filteredList ${filteredList.length}");
     for (ListingAssignTruckingDetails u in filteredList) {
-      if(widget.isExport){
+      if (widget.isExport) {
         a = "{\"AWBID\": \"${u.awbId}\"," +
             "\"ParentId\":\"${u.OrganizationBranchID}\"," +
             "\"ChildId\":\"${selectedID}\"," +
             "\"CreatedById\":\"${u.CreatedBy}\"}";
-      }else{
+      } else {
         a = "{\"AWBID\": \"${u.awbId}\"," +
             "\"HAWBID\":\"${u.hawbID}\"," +
             "\"ParentId\":\"${u.OrganizationBranchID}\"," +
             "\"ChildId\":\"${selectedID}\"," +
             "\"CreatedById\":\"${u.CreatedBy}\"}";
       }
-     // print("json a");
       print(a);
-      //print(json.decode(a));
-      //print(json.encode(a));
       if (i == 0)
         truckerTableString = truckerTableString + a;
       else
@@ -1272,10 +1312,20 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
 
       i++;
     }
-   // truckerTableString + "," + type;
-    finalTruckerString = "[" + truckerTableString + "]," + type;
-    print(json.decode(finalTruckerString));
-    var ab = json.decode(finalTruckerString);
+    print(type);
+    finalTruckerString = "[${truckerTableString}]";
+
+    print(truckerTableString);
+    print(finalTruckerString);
+    var ab;
+    try {
+       ab = json.decode(finalTruckerString);
+      print(ab);
+    } catch (e) {
+      print('Error decoding JSON: $e');
+    }
+
+
     try {
       bool isValid = false;
 
@@ -1290,6 +1340,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
         "OrganizationBranchId": loggedinUser.OrganizationBranchId,
         "OrganizationId": loggedinUser.OrganizationId,
         "TruckerData":ab,
+        "Type":type,
       };
       await Global()
           .postData(
