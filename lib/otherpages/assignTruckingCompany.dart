@@ -854,7 +854,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                       ),
                       Positioned(
                         bottom: 10,
-                        left: useMobileLayout ? 4 : 180,
+                        left: useMobileLayout ? 16 : 180,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -883,7 +883,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                               ),
                               child: SizedBox(
                                 width: useMobileLayout
-                                    ? MediaQuery.of(context).size.width / 2.8
+                                    ? MediaQuery.of(context).size.width / 3.2
                                     : MediaQuery.of(context).size.width / 3.8,
                                 height: useMobileLayout ? 38 : 48,
                                 child: Center(
@@ -968,16 +968,16 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
 
                               child: SizedBox(
                                 width: useMobileLayout
-                                    ? MediaQuery.of(context).size.width /2.8
+                                    ? MediaQuery.of(context).size.width /3.2
                                     : MediaQuery.of(context).size.width / 3.8,
                                 height: useMobileLayout ? 38 : 48,
 
                                 child: Center(
                                   child:truckingAssigned==0 ? const Text(
-                                    "Assign Trucker",
+                                    "Assign",
                                     style: TextStyle(fontSize: 18),
                                   ):const Text(
-                                    "UnAssign Trucker",
+                                    "UnAssign",
                                     style: TextStyle(fontSize: 18),
                                   ),
                                 ),
@@ -1154,7 +1154,7 @@ class _AssignTruckingCompanyState extends State<AssignTruckingCompany> {
                     padding: const EdgeInsets.only(left: 8.0),
                     child: SizedBox(
                       width: useMobileLayout
-                          ? MediaQuery.of(context).size.width / 3.5
+                          ? MediaQuery.of(context).size.width / 3.1
                           : MediaQuery.of(context).size.width / 4.6,
                       // height: 70,
                       // color: Colors.white,

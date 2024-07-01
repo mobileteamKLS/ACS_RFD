@@ -801,7 +801,7 @@ class _ASIListingState extends State<ASIListing> {
               children: [
                 SizedBox(
                   width: useMobileLayout
-                      ? MediaQuery.of(context).size.width / 1.7
+                      ? MediaQuery.of(context).size.width / 1.9
                       : MediaQuery.of(context).size.width / 1.5,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -855,7 +855,7 @@ class _ASIListingState extends State<ASIListing> {
                   padding: const EdgeInsets.only(left: 8.0),
                   child: SizedBox(
                     width: useMobileLayout
-                        ? MediaQuery.of(context).size.width / 3.5
+                        ? MediaQuery.of(context).size.width / 3.1
                         : MediaQuery.of(context).size.width / 4.6,
                     // height: 70,
                     // color: Colors.white,
